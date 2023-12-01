@@ -1,0 +1,25 @@
+{
+  "R": {
+    "Version": "3.5.2",
+    "Repositories": [
+      {
+        "Name": "PPM",
+        "URL": "https://packagemanager.posit.co/cran/2019-02-01"
+      }
+    ]
+  },
+  "Packages": {
+    "renv": {
+      "Package": "renv",
+      "Version": "1.0.3",
+      "Source": "URL",
+      "Repository": "CRAN",
+      "RemoteType": "url",
+      "RemoteUrl": "https://cran.r-project.org/src/contrib/renv_1.0.3.tar.gz",
+      "Requirements": [
+        "utils"
+      ],
+      "Hash": "5016aa4fb831e2d4d8a40ea4fc36768a"
+    }
+  }
+}
