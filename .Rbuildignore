@@ -1,5 +1,6 @@
+^data-raw$
+^LICENSE\.md$
 ^renv$
 ^renv\.lock$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\ignore\*
