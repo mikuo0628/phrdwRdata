@@ -6,11 +6,11 @@ explore <- function(
     level     = NULL
 ) {
 
-  # if (!is.OlapConnection(olapCnn)) {
-  #
-  #   stop('olapCnn must be class of "OLAP_Conn".')
-  #
-  # }
+  if (!is.OlapConnection(olapCnn)) {
+
+    stop('olapCnn must be class of "OLAP_Conn".')
+
+  }
 
   checks <-
     list(
@@ -62,36 +62,41 @@ explore <- function(
 
         if (checks$level) {
 
-          result <-
+          return(
             .Call('olapRExploreMembers', olapCnn$cnn,
-                  cube, dimension, hierarchy, level)
+                  cube, dimension, hierarchy, level,
+                  PACKAGE = 'olap')
+
+          )
 
         }
 
-        result <-
+        return(
           .Call('olapRExploreLevels', olapCnn$cnn,
-                cube, dimension, hierarchy)
+                cube, dimension, hierarchy,
+                PACKAGE = 'olap')
+        )
 
       }
 
-      result <-
+      return(
         .Call('olapRExploreHierarchies', olapCnn$cnn,
-              cube, dimension)
+              cube, dimension,
+              PACKAGE = 'olap')
+      )
 
     }
 
-    result <-
+    return(
       .Call('olapRExploreDimensions', olapCnn$cnn,
-            cube)
+            cube, PACKAGE = 'olap')
+    )
 
   } else {
 
-    result <-
-      .Call('olapRExploreCubes', olapCnn$cnn)
+    return(.Call('olapRExploreCubes', olapCnn$cnn, PACKAGE = 'olap'))
 
   }
-
-  return(result)
 
 }
 
