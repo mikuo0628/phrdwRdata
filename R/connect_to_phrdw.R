@@ -142,7 +142,7 @@ connect_to_phrdw <- function(
       server$olap %>%
       # use `filter_at` for backward compatibility with R 3.5
       dplyr::filter_at(
-        dplyr::vars(tidyselect::matches('catalog|mart')),
+        dplyr::vars(tidyselect::matches('mart')),
         dplyr::any_vars(. %in% lookup_marts)
       ) %>%
       {
@@ -156,6 +156,11 @@ connect_to_phrdw <- function(
 
           dplyr::filter(., .data$type == server_params$type)
 
+        } else if (nrow(.) > 1) {
+
+          # choose prod by default
+          dplyr::filter(., .data$type == 'prod')
+
         } else {
 
           stop('Please specified mart type in `server_params`.')
@@ -166,7 +171,7 @@ connect_to_phrdw <- function(
 
     conn <-
       server %>%
-      dplyr::select(-c(.data$mart, .data$type)) %>%
+      dplyr::select(-matches('mart|type')) %>%
       purrr::pmap(
         function(initial_catalog, data_source, provider, packet_size) {
 
