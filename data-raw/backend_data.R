@@ -33,16 +33,16 @@ servers <-
     olap =
       tidyr::crossing(
         dplyr::tribble(
-          ~ mart,           ~ initial_catalog,            ~ type,
-          'CDI',            "CDI",                        'prod',
-          'Enteric',        "PHRDW_Enteric_Panorama",     'prod',
-          'Enteric',        "SU_PHRDW_Enteric_Panorama",  'su',
-          'Respiratory',    "PHRDW_Respiratory",          'prod',
-          'STIBBI',         "PHRDW_STIBBI",               'prod',
-          'STIBBI',         "SU_PHRDW_STIBBI",            'su',
-          'STIBBI',         "SA_PHRDW_STIBBI",            'sa',
-          'VPD',            "PHRDW_VPD",                  'prod',
-          'VPD',            "SU_PHRDW_VPD",               'su'
+          ~ mart,        ~ phrdw_datamart, ~ initial_catalog,           ~ type,
+          'CDI',         'CDI',            "CDI",                       'prod',
+          'Enteric',     'Enteric',        "PHRDW_Enteric_Panorama",    'prod',
+          'Enteric',     'Enteric SU',     "SU_PHRDW_Enteric_Panorama", 'su',
+          'Respiratory', 'Respiratory',    "PHRDW_Respiratory",         'prod',
+          'STIBBI',      'STIBBI',         "PHRDW_STIBBI",              'prod',
+          'STIBBI',      'STIBBI SU',      "SU_PHRDW_STIBBI",           'su',
+          'STIBBI',      'STIBBI SA',      "SA_PHRDW_STIBBI",           'sa',
+          'VPD',         'VPD',            "PHRDW_VPD",                 'prod',
+          'VPD',         'VPD SU',         "SU_PHRDW_VPD",              'su'
         ),
         data_source = 'SPRSASBI001.phsabc.ehcnet.ca\\PRISASBIM',
         provider    = 'MSOLAP',
