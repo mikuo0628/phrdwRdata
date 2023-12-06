@@ -45,7 +45,7 @@
 #' executed with appropriate queries to retrieve views.
 #' @export
 #'
-#' @examples connect_to_phrdw(phrdw_datamart = 'CD', type = 'prod')
+#' @examples
 connect_to_phrdw <- function(
     phrdw_datamart = NULL,
     server_params  = list(mart = NULL, type = NULL)
