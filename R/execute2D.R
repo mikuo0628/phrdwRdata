@@ -17,7 +17,7 @@ execute2D <- function(olapCnn, mdx_qry) {
   } else { mdx <- mdx_qry }
 
   result <- .Call('olapRExecute2D', olapCnn$cnn, mdx,
-                  PACKAGE = 'olap')
+                  PACKAGE = 'phrdwRdata')
 
   if (!is.data.frame(result)) {
 

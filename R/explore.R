@@ -65,7 +65,7 @@ explore <- function(
           return(
             .Call('olapRExploreMembers', olapCnn$cnn,
                   cube, dimension, hierarchy, level,
-                  PACKAGE = 'olap')
+                  PACKAGE = 'phrdwRdata')
 
           )
 
@@ -74,7 +74,7 @@ explore <- function(
         return(
           .Call('olapRExploreLevels', olapCnn$cnn,
                 cube, dimension, hierarchy,
-                PACKAGE = 'olap')
+                PACKAGE = 'phrdwRdata')
         )
 
       }
@@ -82,19 +82,19 @@ explore <- function(
       return(
         .Call('olapRExploreHierarchies', olapCnn$cnn,
               cube, dimension,
-              PACKAGE = 'olap')
+              PACKAGE = 'phrdwRdata')
       )
 
     }
 
     return(
       .Call('olapRExploreDimensions', olapCnn$cnn,
-            cube, PACKAGE = 'olap')
+            cube, PACKAGE = 'phrdwRdata')
     )
 
   } else {
 
-    return(.Call('olapRExploreCubes', olapCnn$cnn, PACKAGE = 'olap'))
+    return(.Call('olapRExploreCubes', olapCnn$cnn, PACKAGE = 'phrdwRdata'))
 
   }
 

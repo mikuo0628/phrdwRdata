@@ -17,7 +17,7 @@ executeMD <- function(olapCnn, mdx_qry) {
   } else { mdx <- mdx_qry }
 
   result <- .Call('olapRExecuteMD', olapCnn$cnn, mdx,
-                  PACKAGE = 'olap')
+                  PACKAGE = 'phrdwRdata')
 
   if (!is.data.frame(result)) {
 
