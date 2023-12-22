@@ -1,3 +1,16 @@
+#' Wrapper to explore cube names, dimensions, hierarchies, and levels of cube
+#' connection.
+#'
+#' @param olapCnn
+#' @param cube
+#' @param dimension
+#' @param hierarchy
+#' @param level
+#'
+#' @return
+#' @export
+#'
+#' @examples
 explore <- function(
     olapCnn,
     cube      = NULL,

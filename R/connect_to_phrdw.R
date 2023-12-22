@@ -1,3 +1,5 @@
+#' Creates a connection object for PHRDW datamart based on user input
+#'
 #' Connect to PHRDW data marts. Depending on the mart, the correct driver will
 #' be selected and connection parameters will be populated automatically.
 #'
@@ -38,14 +40,21 @@
 #'    \item sa: Staging
 #' }
 #'
-#' @param phrdw_datamart `r lifecycle::badge('superceded)`
-#' @param server_params
+#' @param phrdw_datamart `r lifecycle::badge('superseded')` Original mart
+#' designations provided by previous package authors. This backward-
+#' compatibility is meant to minimize changes on the user end.
+#' @param server_params named list for `mart` and `type`, specifying mart (ie.
+#' 'CDI', 'Respiratory', 'Enteric'), and the type of server (ie. 'prod', 'su',
+#' 'sa', if available).
 #'
-#' @return An `RODBC` or `OLAP_Conn` connection object that can be
+#' @return An `odbc` or `OLAP_Conn` connection object that can be
 #' executed with appropriate queries to retrieve views.
 #' @export
 #'
-#' @examples
+#' @examples connect_to_phrdw('STIBBI')
+#' connect_to_phrdw('Respiratory')
+#' connect_to_phrdw(server_params = list(mart = 'STIBBI', type = 'prod'))
+#'
 connect_to_phrdw <- function(
     phrdw_datamart = NULL,
     server_params  = list(mart = NULL, type = NULL)
@@ -62,6 +71,7 @@ connect_to_phrdw <- function(
   #   )
   #
   # }
+
 
   if (!exists('server') || is.null(server)) server <- servers
 
@@ -100,7 +110,7 @@ connect_to_phrdw <- function(
         conn <- -1
         i    <-  1
 
-        while (conn == -1 & i <= nrow(server)) {
+        while (identical(conn, -1) & i <= nrow(server)) {
 
           conn_str <-
             paste(
@@ -118,7 +128,12 @@ connect_to_phrdw <- function(
 
           i <- i + 1
 
-          conn <- RODBC::odbcDriverConnect(connection = conn_str)
+          # option 1: RODBC
+          # conn <- RODBC::odbcDriverConnect(connection = conn_str)
+
+          # option 2: odbc
+          conn <- odbc::dbConnect(drv = odbc::odbc(),
+                                  .connection_string = conn_str)
 
           conn
 
@@ -128,7 +143,7 @@ connect_to_phrdw <- function(
 
       }
 
-    if (conn == -1) stop('---CD Mart connection failed---')
+    if (identical(conn, -1)) stop('--- CD Mart connection failed ---\n')
 
     return(conn)
 
@@ -142,12 +157,12 @@ connect_to_phrdw <- function(
       server$olap %>%
       # use `filter_at` for backward compatibility with R 3.5
       dplyr::filter_at(
-        dplyr::vars(tidyselect::matches('mart')),
+        dplyr::vars(dplyr::matches('mart')),
         dplyr::any_vars(. %in% lookup_marts)
       ) %>%
       {
 
-        if (nrow(.) == 0) stop('---Datamart or type not found---')
+        if (nrow(.) == 0) stop('--- Datamart or type not found ---\n')
         if (nrow(.) == 1) {
 
           .
@@ -158,7 +173,7 @@ connect_to_phrdw <- function(
 
         } else if (nrow(.) > 1) {
 
-          # choose prod by default
+          # choose 'prod' by default
           dplyr::filter(., .data$type == 'prod')
 
         } else {
@@ -171,7 +186,7 @@ connect_to_phrdw <- function(
 
     conn <-
       server %>%
-      dplyr::select(-matches('mart|type')) %>%
+      dplyr::select(-dplyr::matches('mart|type')) %>%
       purrr::pmap(
         function(initial_catalog, data_source, provider, packet_size) {
 
@@ -190,13 +205,10 @@ connect_to_phrdw <- function(
         }
       )
 
-    if (length(conn) > 1) stop('---Please check OLAP connection params---')
+    if (length(conn) > 1) stop('--- Please check OLAP connection params ---\n')
 
-    cat(
-      paste(
-        '---Connection to', server$initial_catalog, 'is ready---\n'
-      )
-    )
+    cat(paste('--- Connection to', server$initial_catalog, '---\n'))
+    # cat('--- Success ---\n')
 
     return(conn[[1]])
 
@@ -205,7 +217,7 @@ connect_to_phrdw <- function(
   # using mart and type should be encouraged
   if (all(is.null(select_mart), is.null(server_params$type))) {
 
-    stop('---Please enter the approrpiate datamart name and type---')
+    stop('--- Please enter the approrpiate datamart name and type ---\n')
 
   }
 
