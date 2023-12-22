@@ -51,9 +51,18 @@ servers <-
   )
 
 
+filter_rules <-
+  readxl::read_excel(
+    'data-raw/phrdwRdata_filter_list.xlsx',
+    sheet = 'filters',
+    col_names = T,
+    guess_max = 2000
+  )
+
 usethis::use_data(
   overwrite = T, internal = T,
-  servers
+  servers,
+  filter_rules
 )
 
 

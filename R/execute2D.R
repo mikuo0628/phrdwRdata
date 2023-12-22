@@ -1,3 +1,12 @@
+#' Executes an OLAP Cube connection and a 2-dimention MDX query
+#'
+#' @param olapCnn OLAP connection.
+#' @param mdx_qry MDX query.
+#'
+#' @return
+#' @export
+#'
+#' @examples
 execute2D <- function(olapCnn, mdx_qry) {
 
   stopifnot(is.OlapConnection(olapCnn))
