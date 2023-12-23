@@ -25,13 +25,16 @@ explore <- function(
 
   }
 
-  checks <-
+  levels <-
     list(
       cube      = cube,
       dimension = dimension,
       hierarchy = hierarchy,
       level     = level
-    ) %>%
+    )
+
+  checks <-
+    levels %>%
     purrr::imap(
       ~ {
 
@@ -51,66 +54,92 @@ explore <- function(
       }
     )
 
-  if (
-    (!checks$cube && (checks$dimension || checks$hierarchy || checks$level)) ||
-    (!checks$dimension && (checks$hierarchy || checks$level)) ||
-    (!checks$hierarchy && (checks$level))
-  ) {
+  dll_routines <-
+    c(
+      default   = 'olapRExploreCubes',
+      cube      = 'olapRExploreDimensions',
+      dimension = 'olapRExploreHierarchies',
+      hierarchy = 'olapRExploreLevels',
+      level     = 'olapRExploreMembers'
+    )
 
-    stop(
-      paste(
-        'Need higher level options to be filled',
-        'before you can explore deeper.',
-        '\n(i.e. you cannot explore dimension without a cube).\n'
+  explore_levels <- purrr::discard(checks, isFALSE)
+  last_level     <- names(explore_levels)[length(explore_levels)]
+
+  # Default: cube, no layer option needed
+  if (identical(unname(explore_levels), list())) {
+
+    return(
+      invisible_Call(
+        dll_routines[1],
+        olapCnn$cnn,
+        PACKAGE = 'phrdwRdata'
       )
     )
 
-  }
+  } else if (
+    # Did user supply enough layer option values to dive that deep?
+    (which(names(dll_routines) == last_level) - 1) !=
+    length(explore_levels)
+  ) {
 
-  if (checks$cube) {
-
-    if (checks$dimension) {
-
-      if (checks$hierarchy) {
-
-        if (checks$level) {
-
-          return(
-            .Call('olapRExploreMembers', olapCnn$cnn,
-                  cube, dimension, hierarchy, level,
-                  PACKAGE = 'phrdwRdata')
-
-          )
-
-        }
-
-        return(
-          .Call('olapRExploreLevels', olapCnn$cnn,
-                cube, dimension, hierarchy,
-                PACKAGE = 'phrdwRdata')
-        )
-
-      }
-
-      return(
-        .Call('olapRExploreHierarchies', olapCnn$cnn,
-              cube, dimension,
-              PACKAGE = 'phrdwRdata')
+    stop(
+      paste0(
+        '\n',
+        'Please specify correct higher level options ',
+        'before you can explore deeper.',
+        '\n(i.e. you cannot explore dimension without a cube).\n',
+        collapse = ' '
       )
-
-    }
-
-    return(
-      .Call('olapRExploreDimensions', olapCnn$cnn,
-            cube, PACKAGE = 'phrdwRdata')
     )
 
   } else {
 
-    return(.Call('olapRExploreCubes', olapCnn$cnn, PACKAGE = 'phrdwRdata'))
+    output <-
+      try(
+        do.call(
+          what = invisible_Call,
+          args =
+            append(
+              list(
+                dll_routines[[last_level]],
+                olapCnn$cnn,
+                PACKAGE = 'phrdwRdata'
+              ),
+              unlist(levels)
+            )
+        ),
+        silent = T
+      )
+
+  }
+
+  if (inherits(output, 'try-error')) {
+
+    if (stringr::str_detect(output[1], 'name is invalid')) {
+
+      stop(stringr::str_extract(output[1], '(?<=:\\s).*'), call. = F)
+
+    } else {
+
+      stop(output[1])
+
+    }
+
+  } else {
+
+    return(output)
 
   }
 
 }
 
 
+#' Wrapper to capture print output from calling C/C++ OLAP routines.
+#'
+#' @param ...
+#'
+#' @return
+#'
+#' @examples
+invisible_Call <- function(...) { capture.output(invisible(.Call(...))) }
