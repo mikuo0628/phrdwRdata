@@ -58,6 +58,8 @@
 connect_to_phrdw <- function(
     phrdw_datamart = NULL,
     server_params  = list(mart = NULL, type = NULL)
+    # mart           = NULL,
+    # type           = NULL
     # connection     = NULL
 ) {
 
@@ -79,7 +81,8 @@ connect_to_phrdw <- function(
   if (
     any(
       stringr::str_detect(
-        c(select_phrdw_datamart, server_params$mart), '^CD($| Mart)'
+        c(select_phrdw_datamart, server_params$mart),
+        stringr::regex('^CD($| Mart)', ignore_case = T)
       )
     )
   ) {
@@ -96,8 +99,10 @@ connect_to_phrdw <- function(
 
           dplyr::filter(
             .,
-            .data$mart == server_params$mart,
-            .data$type == server_params$type,
+            tolower(.data$mart) == tolower(server_params$mart),
+            tolower(.data$type) == ifelse(is.null(server_params$type),
+                                          'prod',
+                                          tolower(server_params$type))
           )
 
         }
@@ -151,36 +156,33 @@ connect_to_phrdw <- function(
     any(!is.null(select_phrdw_datamart), !is.null(server_params$mart))
   ) {
 
-    lookup_marts <- c(select_phrdw_datamart, server_params$mart)
+    lookup_marts <- tolower(c(select_phrdw_datamart, server_params$mart))
 
     server <-
       server$olap %>%
       # use `filter_at` for backward compatibility with R 3.5
       dplyr::filter_at(
         dplyr::vars(dplyr::matches('mart')),
-        dplyr::any_vars(. %in% lookup_marts)
+        dplyr::any_vars(tolower(.) %in% lookup_marts)
       ) %>%
       {
 
         if (nrow(.) == 0) stop('--- Datamart or type not found ---\n')
+
         if (nrow(.) == 1) {
 
           .
 
-        } else if (nrow(.) > 1 & !is.null(server_params$type)) {
-
-          dplyr::filter(., .data$type == server_params$type)
-
         } else if (nrow(.) > 1) {
 
-          # choose 'prod' by default
-          dplyr::filter(., .data$type == 'prod')
+          dplyr::filter(
+            .,
+            tolower(.data$type) == ifelse(is.null(server_param$type),
+                                          'prod',
+                                          tolower(server_params$type))
+          )
 
-        } else {
-
-          stop('Please specified mart type in `server_params`.')
-
-        }
+        } else { stop('Please specified mart type in `server_params`.') }
 
       }
 
