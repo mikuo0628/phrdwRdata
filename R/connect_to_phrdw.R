@@ -43,9 +43,16 @@
 #' @param phrdw_datamart `r lifecycle::badge('superseded')` Original mart
 #' designations provided by previous package authors. This backward-
 #' compatibility is meant to minimize changes on the user end.
-#' @param server_params named list for `mart` and `type`, specifying mart (ie.
-#' 'CDI', 'Respiratory', 'Enteric'), and the type of server (ie. 'prod', 'su',
-#' 'sa', if available).
+#' @param mart Provide an appropriate mart name (non-case specific).
+#' See `Details`.
+#' @param type Provide an appropriate mart type (non-case specific).
+#' See `Details`.
+#' @param connection Defaults to `NULL`. For advance usage or testing purposes:
+#'  if you are clear on the exact connection parameters,
+#'  you can enter here as a named list, where name of
+#' element is `cube` or `sql`, which will determine the appropriate connection
+#' driver, and the element being the character string containing the specific
+#' parameters.
 #'
 #' @return An `odbc` or `OLAP_Conn` connection object that can be
 #' executed with appropriate queries to retrieve views.
@@ -53,29 +60,56 @@
 #'
 #' @examples connect_to_phrdw('STIBBI')
 #' connect_to_phrdw('Respiratory')
-#' connect_to_phrdw(server_params = list(mart = 'STIBBI', type = 'prod'))
+#' connect_to_phrdw(mart = 'STIBBI', type = 'prod')
 #'
 connect_to_phrdw <- function(
     phrdw_datamart = NULL,
-    server_params  = list(mart = NULL, type = NULL)
-    # mart           = NULL,
-    # type           = NULL
-    # connection     = NULL
+    # server_params  = list(mart = NULL, type = NULL),
+    mart           = NULL,
+    type           = NULL,
+    connection     = NULL
 ) {
+
+  # prioritize `connection` if provided
+  if (!is.null(connection)) {
+
+    if (tolower(names(connection)) %in% c('sql', 'cube')) {
+
+      stop(
+        paste(
+          '\n',
+          'Connection driver cannot be determined:\n',
+          'Please ensure `connection` parameter is a correctly named `list()`.',
+          collapse = '\n',
+          sep = ''
+        )
+      )
+
+    }
+
+    if (tolower(names(connection)) == 'cube') {
+
+      conn <- connection[[1]]
+
+    } else {
+
+      conn <-
+        odbc::dbConnect(
+          drv = odbc::odbc(),
+          .connection_string = connection
+        )
+
+    }
+
+    return(conn)
+
+  }
 
   select_phrdw_datamart <- force(phrdw_datamart)
 
-  # prioritize `connection` if provided
-  # if (is.null(select_phrdw_datamart) & !is.null(connection)) {
-  #
-  #   return(
-  #     RODBC::odbcDriverConnect(connection = connection)
-  #   )
-  #
-  # }
+  server_params <- list(mart = mart, type = type)
 
-
-  if (!exists('server') || is.null(server)) server <- servers
+  if (!exists('server') || is.null(server)) { server <- servers }
 
   # handling CD ie SQL tables
   if (
@@ -137,8 +171,11 @@ connect_to_phrdw <- function(
           # conn <- RODBC::odbcDriverConnect(connection = conn_str)
 
           # option 2: odbc
-          conn <- odbc::dbConnect(drv = odbc::odbc(),
-                                  .connection_string = conn_str)
+          conn <-
+            odbc::dbConnect(
+              drv = odbc::odbc(),
+              .connection_string = conn_str
+            )
 
           conn
 
@@ -217,9 +254,9 @@ connect_to_phrdw <- function(
   }
 
   # using mart and type should be encouraged
-  if (all(is.null(select_mart), is.null(server_params$type))) {
+  if (all(is.null(server_params$mart), is.null(server_params$type))) {
 
-    stop('--- Please enter the approrpiate datamart name and type ---\n')
+    stop('--- Please enter the approrpiate datamart name (and type) ---\n')
 
   }
 
