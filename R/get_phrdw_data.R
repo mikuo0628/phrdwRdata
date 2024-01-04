@@ -283,7 +283,6 @@ get_phrdw_data <- function(phrdw_datamart_connection, phrdw_datamart, dataset_na
     query <- ""
   }
 
-
   if(!query == ""){
 
     if(phrdw_datamart == "CD Mart" | phrdw_datamart == "CD Mart SU"){
@@ -367,7 +366,7 @@ get_phrdw_data <- function(phrdw_datamart_connection, phrdw_datamart, dataset_na
 
   if(class(phrdw_dataset) == "data.frame"){
     phrdw_dataset <- phrdw_dataset %>%
-      dplyr::mutate_if(is.character, list(~na_if(., "")))
+      dplyr::mutate_if(is.character, list(~dplyr::na_if(., "")))
   }
 
 
