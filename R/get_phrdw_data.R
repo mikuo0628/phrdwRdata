@@ -303,11 +303,14 @@ get_phrdw_data <- function(phrdw_datamart_connection, phrdw_datamart, dataset_na
       }
       # Execute the sql query
       phrdw_dataset = tryCatch({
-        RODBCext::sqlExecute(phrdw_datamart_connection,
-                                 query,
-                                 parameters,
-                                 fetch = TRUE,
-                                 stringsAsFactors=FALSE)
+        # RODBCext::sqlExecute(phrdw_datamart_connection,
+        #                          query,
+        #                          parameters,
+        #                          fetch = TRUE,
+        #                          stringsAsFactors=FALSE)
+        odbc::dbGetQuery(phrdw_datamart_connection,
+                         query,
+                         params = parameters)
       }, error = function(e){
         phrdw_dataset = "No data was returned by this CD Mart query"
 
