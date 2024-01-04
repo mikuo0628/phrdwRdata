@@ -79,7 +79,7 @@ get_phrdw_cdi_data <- function(phrdw_datamart_connection, phrdw_datamart, datase
 
   if(class(phrdw_dataset) == "data.frame"){
     phrdw_dataset <- phrdw_dataset %>%
-      dplyr::mutate_if(is.character, list(~na_if(., "")))
+      dplyr::mutate_if(is.character, list(~dplyr::na_if(., "")))
   }
 
   return(phrdw_dataset)
