@@ -28,6 +28,7 @@
 #' \itemize{
 #'    \item CD:
 #'    \item CDI:
+#'    \item Respiratory:
 #'    \item Enteric:
 #'    \item STIBBI:
 #'    \item VPD:
@@ -61,7 +62,6 @@
 #' @examples connect_to_phrdw('STIBBI')
 #' connect_to_phrdw('Respiratory')
 #' connect_to_phrdw(mart = 'STIBBI', type = 'prod')
-#'
 connect_to_phrdw <- function(
     phrdw_datamart = NULL,
     # server_params  = list(mart = NULL, type = NULL),
@@ -214,7 +214,7 @@ connect_to_phrdw <- function(
 
           dplyr::filter(
             .,
-            tolower(.data$type) == ifelse(is.null(server_param$type),
+            tolower(.data$type) == ifelse(is.null(server_params$type),
                                           'prod',
                                           tolower(server_params$type))
           )

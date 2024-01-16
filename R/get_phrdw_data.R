@@ -66,7 +66,7 @@ get_phrdw_data <- function(
     query_end_date                 = NULL,
     include_patient_identifiers    = F,
     include_indigenous_identifiers = F,
-    retrieve_system_ids            = NULL,
+    retrieve_system_ids            = 'Yes',
     disease                        = NULL,
     surveillance_condition         = NULL,
     classification                 = NULL,
@@ -89,7 +89,7 @@ get_phrdw_data <- function(
     if (is.null(phrdw_datamart)) stop('Please supply `phrdw_datamart`.')
     if (is.null(dataset_name))   stop('Please supply `dataset_name`.')
 
-    #' Legacy method: requires phrdw_datamart_connection
+    # Legacy method: requires phrdw_datamart_connection
     return(
       do.call(
         what = get_phrdw_data_legacy,
@@ -98,8 +98,8 @@ get_phrdw_data <- function(
           purrr::discard(
             .p = names(.) %in% c('mart', 'type', 'collect_data')
           ) %>%
-          purrr::modify_if(.p = is.null, .f = ~ '') %>%
-          purrr::modify_if(.p = names(.) == 'retrieve_system_ids', .f = ~ 'Yes')
+          purrr::modify_if(.p = is.null, .f = ~ '') #%>%
+          # purrr::modify_if(.p = names(.) == 'retrieve_system_ids', .f = ~ 'Yes')
       )
     )
 
@@ -133,7 +133,7 @@ get_phrdw_data <- function(
 
       param_list <-
         append(
-          purrr::discard_at(as.list(environment()), c(1:7)),
+          purrr::discard_at(as.list(environment()), c(1:2)),
           list(...)
         )
 
