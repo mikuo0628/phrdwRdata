@@ -35,29 +35,36 @@ get_phrdw_data_legacy <- function(phrdw_datamart_connection, phrdw_datamart, dat
   #
   # Assign the function parameters to a list
   #
-  parameter_list = list(include_patient_identifiers = include_patient_identifiers,
-                        include_indigenous_identifiers = include_indigenous_identifiers,
-                        retrieve_system_ids = retrieve_system_ids,
-                        disease = disease,
-                        surveillance_condition = surveillance_condition,
-                        classification = classification,
-                        surveillance_region_ha = surveillance_region_ha,
-                        infection_group = infection_group,
-                        ordering_provider_ha = ordering_provider_ha,
-                        lis_status = lis_status,
-                        episode_status = episode_status,
-                        test_type = test_type,
-                        episode_testing_pattern = episode_testing_pattern,
-                        testing_region_ha = testing_region_ha,
-                        case_status = case_status,
-                        case_source = case_source)
+  parameter_list <-
+    as.list(environment()) %>%
+    purrr::discard(
+      .p =
+        names(.) %in% c('mart', 'type', 'collect_data') |
+        stringr::str_detect(names(.), 'date$')
+    ) %>%
+    purrr::modify_if(.p = is.null, .f = ~ '')
+  # parameter_list = list(include_patient_identifiers = include_patient_identifiers,
+  #                       include_indigenous_identifiers = include_indigenous_identifiers,
+  #                       retrieve_system_ids = retrieve_system_ids,
+  #                       disease = disease,
+  #                       surveillance_condition = surveillance_condition,
+  #                       classification = classification,
+  #                       surveillance_region_ha = surveillance_region_ha,
+  #                       infection_group = infection_group,
+  #                       ordering_provider_ha = ordering_provider_ha,
+  #                       lis_status = lis_status,
+  #                       episode_status = episode_status,
+  #                       test_type = test_type,
+  #                       episode_testing_pattern = episode_testing_pattern,
+  #                       testing_region_ha = testing_region_ha,
+  #                       case_status = case_status,
+  #                       case_source = case_source)
 
 
   #
   # Check which datamart and dataset to query
   #
   query <- ""
-
 
   # Respiratory dataset library calls
   if(phrdw_datamart == "Respiratory"){

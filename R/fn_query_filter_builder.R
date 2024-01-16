@@ -28,12 +28,14 @@ filter_clause_olap <- function(query_start_date, query_end_date, parameter_list)
 
 
   phrdw_filter_rules <- phrdw_filter_rules %>%
-    filter(datamart == phrdw_datamart,
-           dataset == dataset_name)
+    dplyr::filter(
+      datamart == parameter_list$phrdw_datamart,
+      dataset == parameter_list$dataset_name
+    )
 
 
   character_filter_rules <- phrdw_filter_rules %>%
-    filter(filter_type == "character")
+    dplyr::filter(filter_type == "character")
 
 
   filter_clause <- "FROM ( SELECT ("
@@ -60,10 +62,10 @@ filter_clause_olap <- function(query_start_date, query_end_date, parameter_list)
   date_mdx <- ""
 
   start_date_filter_rules <- phrdw_filter_rules %>%
-    filter(parameter == "query_start_date")
+    dplyr::filter(parameter == "query_start_date")
 
   end_date_filter_rules <- phrdw_filter_rules %>%
-    filter(parameter == "query_end_date")
+    dplyr::filter(parameter == "query_end_date")
 
   date_mdx <- paste0("{[",start_date_filter_rules$dimension_name,"].[Date].&[",query_start_date,"T00:00:00]",
                      ":[",end_date_filter_rules$dimension_name,"].[Date].&[",query_end_date,"T00:00:00]}")
