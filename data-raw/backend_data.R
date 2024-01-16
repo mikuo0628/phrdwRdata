@@ -59,10 +59,71 @@ filter_rules <-
     guess_max = 2000
   )
 
+dataset_specific_available_calls <-
+  list(
+    'respiratory' = c('LIS Tests',
+                      'LIS Episodes'),
+
+    'stibbi'      = c('Case',
+                      'Investigation',
+                      'Client',
+                      'PHS Body Site',
+                      'PHS Client Risk Factor',
+                      'PHS Investigation Risk Factor',
+                      'PHS UDF Long',
+                      'LIS Tests',
+                      'LIS Test Providers',
+                      'LIS Episodes',
+                      'LIS POC'),
+
+    'enteric'     = c('case Investigation',
+                      'Risk Factor',
+                      'Symptom',
+                      'UDF',
+                      'LIS Data'),
+
+    'vpd'         = c('Case Investigation',
+                      'Symptoms',
+                      'Symptoms Long',
+                      'Risk Factors',
+                      'UDF',
+                      'UDF Long',
+                      'Immunizations',
+                      'Special Considerations',
+                      'LIS Tests'),
+
+    'cd'          = c('Investigation',
+                      'Client',
+                      'Risk Factor',
+                      'Symptom',
+                      'Observation',
+                      'UDF',
+                      'Lab',
+                      'Transmission Events',
+                      'Contacts',
+                      'Outbreaks',
+                      'TB Contacts',
+                      'TB Investigation',
+                      'TB Transmission Events',
+                      'TB Client',
+                      'TB TST Investigation',
+                      'TB TST Client',
+                      'TB Lab',
+                      'Complication')
+  )
+
+query_info <-
+  readr::read_tsv(
+    'data-raw/queries.csv',
+    col_types = readr::cols(.default = 'character')
+  )
+
 usethis::use_data(
   overwrite = T, internal = T,
   servers,
-  filter_rules
+  filter_rules,
+  dataset_specific_available_calls,
+  query_info
 )
 
 
