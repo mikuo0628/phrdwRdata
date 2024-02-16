@@ -15,7 +15,7 @@
 #' @param phrdw_dataset A data frame with columns from the PHRDW.
 #' @return A data frame with numeric fields assigned.
 #' @export
-assign_phrdw_data_type <- function(phrdw_dataset)
+assign_phrdw_data_type <- function(phrdw_dataset, phrdw_datamart)
 {
 
   column_names = names(phrdw_dataset)
