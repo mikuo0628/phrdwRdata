@@ -354,8 +354,9 @@ get_phrdw_data_legacy <- function(phrdw_datamart_connection, phrdw_datamart, dat
   # If a data.frame has been returned, then rename and assign columns
   #
   if(class(phrdw_dataset) == "data.frame" && phrdw_datamart != "CD Mart" && phrdw_datamart != "CD Mart SU"  && phrdw_datamart != "PHRDW Training"){
+
     phrdw_dataset <- rename_phrdw_columns(phrdw_dataset)
-    assign_phrdw_data_type(phrdw_dataset)
+    assign_phrdw_data_type(phrdw_dataset, phrdw_datamart = phrdw_datamart)
 
     #
     # Remove the Test ID from the LIS Episode dataset
