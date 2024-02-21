@@ -26,11 +26,27 @@
 #' @param case_source A character vector of the case sources to retrieve. Optional parameter.
 #'
 #' @return A data frame with the dataset retrieved from the specified PHRDW data mart.
-get_phrdw_data_legacy <- function(phrdw_datamart_connection, phrdw_datamart, dataset_name, query_start_date, query_end_date,
-                                  include_patient_identifiers = FALSE, include_indigenous_identifiers = FALSE, retrieve_system_ids = "Yes",
-                                  disease="", surveillance_condition="", classification="", surveillance_region_ha="", infection_group="",
-                                  ordering_provider_ha="", lis_status="", episode_status="", test_type="", episode_testing_pattern="",
-                                  testing_region_ha="", case_status="", case_source="") {
+get_phrdw_data_legacy <- function(
+    phrdw_datamart_connection,
+    phrdw_datamart, dataset_name,
+    query_start_date, query_end_date,
+    include_patient_identifiers = FALSE,
+    include_indigenous_identifiers = FALSE,
+    retrieve_system_ids = "Yes",
+    disease = "",
+    surveillance_condition = "",
+    classification = "",
+    surveillance_region_ha = "",
+    infection_group = "",
+    ordering_provider_ha = "",
+    lis_status = "",
+    episode_status = "",
+    test_type = "",
+    episode_testing_pattern = "",
+    testing_region_ha = "",
+    case_status = "",
+    case_source = ""
+) {
 
   #
   # Assign the function parameters to a list
