@@ -75,13 +75,16 @@ filter_clause_olap <- function(query_start_date, query_end_date, parameter_list)
   # Paste all the mdx together.
   #
 
-  if(phrdw_datamart == "STIBBI" | phrdw_datamart == "STIBBI QA" | phrdw_datamart == "STIBBI SU" | phrdw_datamart == "STIBBI SA"){
+  if(parameter_list$phrdw_datamart == "STIBBI" |
+     parameter_list$phrdw_datamart == "STIBBI QA" |
+     parameter_list$phrdw_datamart == "STIBBI SU" |
+     parameter_list$phrdw_datamart == "STIBBI SA"){
 
     filter_clause <- paste0(filter_clause, date_mdx,") ON COLUMNS FROM [StibbiDM])")
 
   } else
 
-    if (phrdw_datamart == "Respiratory"){
+    if (parameter_list$phrdw_datamart == "Respiratory"){
 
       filter_clause <- paste0(filter_clause, date_mdx,") ON COLUMNS FROM [RespiratoryDM])")
 
