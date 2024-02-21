@@ -14,19 +14,34 @@
 #' @param death_location_ha A character vector of BC Health Authorities associated with the location of death. Optional parameter.
 #'
 #' @return A data frame with the dataset retrieved from the specified PHRDW data mart.
-#' @export
 #'
-get_phrdw_cdi_data <- function(phrdw_datamart_connection, phrdw_datamart, dataset_name, query_start_date, query_end_date,
-                               ucd_3char_code="", ccd_3char_code="", residential_location_ha="", death_location_ha="") {
+get_phrdw_cdi_data <- function(
+    phrdw_datamart_connection,
+    phrdw_datamart,
+    dataset_name,
+    query_start_date, query_end_date,
+    ucd_3char_code = "",
+    ccd_3char_code = "",
+    residential_location_ha = "",
+    death_location_ha = ""
+) {
 
   #
   # Assign the function parameters to a list
   #
-  parameter_list = list(ucd_3char_code = ucd_3char_code,
-                        ccd_3char_code = ccd_3char_code,
-                        residential_location_ha = residential_location_ha,
-                        death_location_ha = death_location_ha)
+  # parameter_list = list(ucd_3char_code = ucd_3char_code,
+  #                       ccd_3char_code = ccd_3char_code,
+  #                       residential_location_ha = residential_location_ha,
+  #                       death_location_ha = death_location_ha)
 
+  parameter_list <-
+    as.list(environment()) %>%
+    purrr::discard(
+      .p =
+        names(.) %in% c('mart', 'type', 'collect_data') |
+        stringr::str_detect(names(.), 'date$')
+    ) %>%
+    purrr::modify_if(.p = is.null, .f = ~ '')
 
   #
   # Check which datamart and dataset to query
@@ -72,8 +87,9 @@ get_phrdw_cdi_data <- function(phrdw_datamart_connection, phrdw_datamart, datase
   # If a data.frame has been returned, then rename and assign columns
   #
   if(class(phrdw_dataset) == "data.frame" && phrdw_datamart != "CD Mart"){
+
     phrdw_dataset <- rename_phrdw_columns(phrdw_dataset)
-    assign_phrdw_data_type(phrdw_dataset)
+    assign_phrdw_data_type(phrdw_dataset, phrdw_datamart = phrdw_datamart)
 
   }
 

@@ -1,6 +1,6 @@
 #' Title
 #'
-#' List 0f marts:
+#' List of marts:
 #' \itemize{
 #'    \item CD:
 #'    \item CDI:
@@ -89,43 +89,51 @@ get_phrdw_data <- function(
     if (is.null(phrdw_datamart)) stop('Please supply `phrdw_datamart`.')
     if (is.null(dataset_name))   stop('Please supply `dataset_name`.')
 
-    # Legacy method: requires phrdw_datamart_connection
-    return(
-      do.call(
-        what = get_phrdw_data_legacy,
-        args =
-          as.list(environment()) %>%
-          purrr::discard(
-            .p = names(.) %in% c('mart', 'type', 'collect_data')
-          ) %>%
-          purrr::modify_if(.p = is.null, .f = ~ '') #%>%
-          # purrr::modify_if(.p = names(.) == 'retrieve_system_ids', .f = ~ 'Yes')
-      )
-    )
+    if (stringr::str_detect(tolower(phrdw_datamart), 'cdi')) {
 
-    # get_phrdw_data(
-    #   phrdw_datamart_connection       = phrdw_datamart_connection,
-    #   phrdw_datamart                  = phrdw_datamart,
-    #   dataset_name                    = dataset_name,
-    #   query_start_date                = query_start_date,
-    #   query_end_date                  = query_end_date,
-    #   include_patient_identifiers     = include_patient_identifiers,
-    #   include_indigenous_identifiers  = include_indigenous_identifiers,
-    #   retrieve_system_ids             = "Yes",
-    #   disease                         = "",
-    #   surveillance_condition          = "",
-    #   classification                  = "",
-    #   surveillance_region_ha          = "",
-    #   infection_group                 = "",
-    #   ordering_provider_ha            = "",
-    #   lis_status                      = "",
-    #   episode_status                  = "",
-    #   test_type                       = "",
-    #   episode_testing_pattern         = "",
-    #   testing_region_ha               = "",
-    #   case_status                     = "",
-    #   case_source                     = ""
-    # )
+      return(
+        do.call(
+          what = get_phrdw_cdi_data,
+          args =
+            as.list(environment()) %>%
+            purrr::discard(
+              .p = names(.) %in% c('mart', 'type', 'collect_data')
+            ) %>%
+            purrr::keep(
+              .p = names(.) %in%
+                c(
+                  'phrdw_datamart_connection',
+                  'phrdw_datamart',
+                  'dataset_name',
+                  'query_start_date',
+                  'query_end_date',
+                  'ucd_3char_code',
+                  'ccd_3char_code',
+                  'residential_location_ha',
+                  'death_location_ha'
+                )
+            ) %>%
+            purrr::modify_if(.p = is.null, .f = ~ '')
+        )
+      )
+
+    } else {
+
+      # Legacy method: requires phrdw_datamart_connection
+      return(
+        do.call(
+          what = get_phrdw_data_legacy,
+          args =
+            as.list(environment()) %>%
+            purrr::discard(
+              .p = names(.) %in% c('mart', 'type', 'collect_data')
+            ) %>%
+            purrr::modify_if(.p = is.null, .f = ~ '') #%>%
+            # purrr::modify_if(.p = names(.) == 'retrieve_system_ids', .f = ~ 'Yes')
+        )
+      )
+
+    }
 
   } else {
 
