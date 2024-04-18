@@ -7,7 +7,7 @@ chapters <- function(mdx_qry) {
 }
 
 
-`chapters<- ` <- function(mdx_qry, value) {
+`chapters<-` <- function(mdx_qry, value) {
 
   if (is.Query(mdx_qry)) {
 

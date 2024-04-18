@@ -1,4 +1,4 @@
-columns <- function(mdx_qry) {
+pages <- function(mdx_qry) {
 
   if (is.Query(mdx_qry)) return(axis(mdx_qry, 3))
 
@@ -7,7 +7,7 @@ columns <- function(mdx_qry) {
 }
 
 
-`cube<- ` <- function(mdx_qry, value) {
+`pages<-` <- function(mdx_qry, value) {
 
   if (is.Query(mdx_qry)) {
 

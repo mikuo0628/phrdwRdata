@@ -7,7 +7,7 @@ slicers <- function(mdx_qry) {
 }
 
 
-`slicers<- ` <- function(mdx_qry, value) {
+`slicers<-` <- function(mdx_qry, value) {
 
   if (is.Query(mdx_qry)) {
 
