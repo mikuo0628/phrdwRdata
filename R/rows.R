@@ -7,7 +7,7 @@ rows <- function(mdx_qry) {
 }
 
 
-`rows<- ` <- function(mdx_qry, value) {
+`rows<-` <- function(mdx_qry, value) {
 
   if (is.Query(mdx_qry)) {
 
