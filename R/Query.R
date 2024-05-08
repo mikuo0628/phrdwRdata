@@ -14,17 +14,17 @@ Query <- function(validate = F) {
 
     stop('Argument "validate" must be `logical`.')
 
-    qr <- list(
-      vldt = validate,
-      cube = '',
-      axes = list(c('')),
-      slicers = c("")
-    )
-
-    class(qr) <- append(class(qr), 'Query')
-
-    return(qr)
-
   }
+
+  qr <- list(
+    vldt = validate,
+    cube = '',
+    axes = list(c('')),
+    slicers = c("")
+  )
+
+  class(qr) <- append(class(qr), 'MDX_Qry')
+
+  return(qr)
 
 }
