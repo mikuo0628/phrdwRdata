@@ -63,17 +63,17 @@
 #' connect_to_phrdw('Respiratory')
 #' connect_to_phrdw(mart = 'STIBBI', type = 'prod')
 connect_to_phrdw <- function(
-    phrdw_datamart = NULL,
-    # server_params  = list(mart = NULL, type = NULL),
-    mart           = NULL,
-    type           = NULL,
-    connection     = NULL
+    phrdw_datamart  = NULL,
+    mart            = NULL,
+    type            = NULL,
+    connection      = NULL,
+    return_conn_str = F
 ) {
 
   # prioritize `connection` if provided
   if (!is.null(connection)) {
 
-    if (tolower(names(connection)) %in% c('sql', 'cube')) {
+    if (!tolower(names(connection)) %in% c('sql', 'cube')) {
 
       stop(
         paste(
@@ -89,14 +89,14 @@ connect_to_phrdw <- function(
 
     if (tolower(names(connection)) == 'cube') {
 
-      conn <- connection[[1]]
+      conn <- phrdwRdata::OlapConnection(connection$cube)
 
     } else {
 
       conn <-
         odbc::dbConnect(
           drv = odbc::odbc(),
-          .connection_string = connection
+          .connection_string = connection$sql
         )
 
     }
@@ -121,7 +121,7 @@ connect_to_phrdw <- function(
     )
   ) {
 
-    conn <-
+    conn_objs <-
       server$sql %>%
       {
 
@@ -177,17 +177,29 @@ connect_to_phrdw <- function(
               .connection_string = conn_str
             )
 
-          conn
+          # list(
+          #   conn = conn,
+          #   conn_str = conn_str
+          # )
 
         }
 
-        conn
+        list(
+          conn = conn,
+          conn_str = conn_str
+        )
 
       }
 
-    if (identical(conn, -1)) stop('--- CD Mart connection failed ---\n')
+    if (return_conn_str) return(conn_objs$conn_str)
 
-    return(conn)
+    if (identical(conn_objs$conn, -1)) {
+
+      stop('--- CD Mart connection failed ---\n')
+
+    }
+
+    return(conn_objs$conn)
 
   } else if ( # other data marts ie. non SQL
     any(!is.null(select_phrdw_datamart), !is.null(server_params$mart))
@@ -223,10 +235,10 @@ connect_to_phrdw <- function(
 
       }
 
-    conn <-
+    conn_str <-
       server %>%
       dplyr::select(-dplyr::matches('mart|type')) %>%
-      purrr::pmap(
+      purrr::pmap_chr(
         function(initial_catalog, data_source, provider, packet_size) {
 
           conn_str <-
@@ -237,17 +249,20 @@ connect_to_phrdw <- function(
               collapse = ';'
             )
 
-          conn_obj <- phrdwRdata::OlapConnection(conn_str)
+          # conn_obj <- phrdwRdata::OlapConnection(conn_str)
 
-          return(conn_obj)
+          return(conn_str)
 
         }
       )
 
+    if (return_conn_str) return(conn_str)
+
+    conn <- phrdwRdata::OlapConnection(conn_str)
+
     if (length(conn) > 1) stop('--- Please check OLAP connection params ---\n')
 
     cat(paste('--- Connection to', server$initial_catalog, '---\n'))
-    # cat('--- Success ---\n')
 
     return(conn[[1]])
 
