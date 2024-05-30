@@ -47,13 +47,14 @@
 #' @param mart Provide an appropriate mart name (non-case specific).
 #' See `Details`.
 #' @param type Provide an appropriate mart type (non-case specific).
-#' See `Details`.
-#' @param connection Defaults to `NULL`. For advance usage or testing purposes:
+#' @param .conn_str Defaults to `NULL`. For advance usage or testing purposes:
 #'  if you are clear on the exact connection parameters,
 #'  you can enter here as a named list, where name of
 #' element is `cube` or `sql`, which will determine the appropriate connection
 #' driver, and the element being the character string containing the specific
 #' parameters.
+#' See `Details`.
+#' @param .return_conn_str
 #'
 #' @return An `odbc` or `OLAP_Conn` connection object that can be
 #' executed with appropriate queries to retrieve views.
@@ -63,17 +64,17 @@
 #' connect_to_phrdw('Respiratory')
 #' connect_to_phrdw(mart = 'STIBBI', type = 'prod')
 connect_to_phrdw <- function(
-    phrdw_datamart  = NULL,
-    mart            = NULL,
-    type            = NULL,
-    connection      = NULL,
-    return_conn_str = F
+    phrdw_datamart   = NULL,
+    mart             = NULL,
+    type             = NULL,
+    .conn_str        = NULL,
+    .return_conn_str = F
 ) {
 
   # prioritize `connection` if provided
-  if (!is.null(connection)) {
+  if (!is.null(.conn_str)) {
 
-    if (!tolower(names(connection)) %in% c('sql', 'cube')) {
+    if (!tolower(names(.conn_str)) %in% c('sql', 'cube')) {
 
       stop(
         paste(
@@ -87,16 +88,16 @@ connect_to_phrdw <- function(
 
     }
 
-    if (tolower(names(connection)) == 'cube') {
+    if (tolower(names(.conn_str)) == 'cube') {
 
-      conn <- phrdwRdata::OlapConnection(connection$cube)
+      conn <- phrdwRdata::OlapConnection(.conn_str$cube)
 
     } else {
 
       conn <-
         odbc::dbConnect(
           drv = odbc::odbc(),
-          .connection_string = connection$sql
+          .connection_string = .conn_str$sql
         )
 
     }
@@ -191,7 +192,7 @@ connect_to_phrdw <- function(
 
       }
 
-    if (return_conn_str) return(conn_objs$conn_str)
+    if (.return_conn_str) return(conn_objs$conn_str)
 
     if (identical(conn_objs$conn, -1)) {
 
@@ -256,7 +257,7 @@ connect_to_phrdw <- function(
         }
       )
 
-    if (return_conn_str) return(conn_str)
+    if (.return_conn_str) return(conn_str)
 
     conn <- phrdwRdata::OlapConnection(conn_str)
 
@@ -264,7 +265,7 @@ connect_to_phrdw <- function(
 
     cat(paste('--- Connection to', server$initial_catalog, '---\n'))
 
-    return(conn[[1]])
+    return(conn)
 
   }
 
