@@ -1,25 +1,30 @@
-#' Creates a connection object for PHRDW datamart based on user input
+#' Creates a connection object for PHRDW data marts.
 #'
 #' Connect to PHRDW data marts. Depending on the mart, the correct driver will
 #' be selected and connection parameters will be populated automatically.
 #'
 #' For a detailed list of data marts and respective servers, please see
-#' `phrdwRdata::servers`.
+#' `phrdwRdata:::servers`.
 #'
-#' For developers, connections can be expanded by expanding
-#' `phrdwRdata::servers`.
-#'
-#' List of data marts that can be connected to using `phrdw_datamart` and their
-#' full name:
+#' `r lifecycle::badge('superseded')` List of data marts that can be connected
+#' to using `phrdw_datamart` and their full name:
 #' \itemize{
-#'    \item CD: Communicable Diseases
-#'    \item CDI: Chronic Disease & Injury
-#'    \item PHRDW_Enteric_Panorama:
+#'    \item CDI: Chronic Disease & Injury; links data from Vital Statistics
+#'    death records and census-based socio-economic data.
+#'    \item CD: Communicable Diseases; contains communicable disease public
+#'    health investigation data from the Panorama public health system.
+#'    \item PHRDW_Enteric_Panorama: Enteric; links data from the Panorama
+#'    public health system and the Sunquest laboratory information
+#'    ystem at PHSA.
+#'    \item PHRDW_STIBBI: Sexually Transmitted Blood Borne Infections; links
+#'    data from the Panorama public health system, the Sunquest laboratory
+#'    information system at PHSA, STIIS, HAISYS, and legacy laboratory systems.
+#'    \item PHRDW_VPD: Vaccine Preventable Disease; links data from the
+#'    Panorama public health system and the Sunquest laboratory information
+#'    system at PHSA.
 #'    \item SU_PHRDW_Enteric_Panorama:
-#'    \item PHRDW_STIBBI:
 #'    \item SU_PHRDW_STIBBI:
 #'    \item SA_PHRDW_STIBBI:
-#'    \item PHRDW_VPD:
 #'    \item SU_PHRDW_VPD:
 #' }
 #'
@@ -128,7 +133,10 @@ connect_to_phrdw <- function(
 
         if (!is.null(select_phrdw_datamart)) {
 
-          dplyr::filter(., .data$phrdw_datamart == select_phrdw_datamart)
+          dplyr::filter(
+            .,
+            tolower(.data$phrdw_datamart) == tolower(select_phrdw_datamart)
+          )
 
         } else {
 
