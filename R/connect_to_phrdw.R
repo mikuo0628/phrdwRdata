@@ -2,11 +2,11 @@
 #'
 #' @description
 #'
-#' Connect to PHRDW data marts. Depending on the mart, the correct driver will
-#' be selected and connection parameters will be populated automatically.
+#' Connect to PHRDW data marts. Depending on the mart, the appropriate driver
+#' and connection parameters will be selected automatically.
 #'
 #' For a detailed list of data marts and respective servers, please see
-#' `phrdwRdata:::servers`.
+#' [phrdwRdata:::servers].
 #'
 #' @details
 #' `r lifecycle::badge('superseded')` List of values to supply `phrdw_datamart`.
@@ -31,26 +31,32 @@
 #' * `STIBBI SA`: PROD copy/Staging server of STIBBI.
 #' * `VPD SU`: UAT server of VPD.
 #'
-#' Alternatively, use a combination of the below:
-#' List 0f marts:
-#' * CDI:
-#' * CD:
-#' * Respiratory:
-#' * Enteric:
-#' * STIBBI:
-#' * VPD:
+#' `r lifecycle::badge('stable')` Using `mart` and `type` is preferred. They
+#' are not case-sensitive and more readable.
 #'
-#' list of mart types:
-#' * prod: production
-#' * su: UAT
-#' * sa: Staging
+#' For now, PHRDW data architecture is either data warehouse/relational
+#' table or  data cubes, depending on which mart. Connection to data warehouse
+#' returns an [odbc::dbConnect()] connection object, whereas connection to data
+#' cube returns an `OLAP_Conn` object, which is just a character string under
+#' the hood that will be executed by a back-end C routine.
 #'
-#' @param phrdw_datamart `r lifecycle::badge('superseded')` Original mart
+#' This means that connection to data warehouse allows for memory-efficient
+#' tools like `dbplyr` where data is read lazily rather than loaded into memory.
+#'
+#' Users can supply their own connection string using `.conn_str`. To
+#' distinguish between the different architectures, this parameter needs to
+#' be named list, as either `sql` or `cube`. See `Examples`.
+#'
+#' @param phrdw_datamart `r lifecycle::badge('superseded')` Legacy mart
 #' designations provided by previous package authors. This backward-
-#' compatibility is meant to minimize changes on the user end.
-#' @param mart Provide an appropriate mart name (non-case specific).
-#' See `Details`.
-#' @param type Provide an appropriate mart type (non-case specific).
+#' compatibility is meant to minimize changes on the user end. The `stable`
+#' approach is to reference `mart` and `type`.
+#' @param mart `r lifecycle::badge('stable')` Provide an appropriate mart
+#' name (non-case specific). Must be one of "CDI", "CD", "Respiratory",
+#' "Enteric", "STIBBI", and "VPD". Non case-sensitive.
+#' @param type `r lifecycle::badge('stable')` Provide an appropriate mart type
+#' (non-case specific). Must be one of "prod" (default), "su", or "sa".
+#' Non case-sensitive. See `Details`.
 #' @param .conn_str Defaults to `NULL`. For advance usage or testing purposes:
 #'  if you are clear on the exact connection parameters,
 #'  you can enter here as a named list, where name of
@@ -58,19 +64,60 @@
 #' driver, and the element being the character string containing the specific
 #' parameters.
 #' See `Details`.
-#' @param .return_conn_str
+#' @param .return_conn_str: If `TRUE`, will return `character` vector instead
+#' of connection objects. For troubleshooting purposes. Defaults to `FALSE`.
 #'
-#' @return An `odbc` or `OLAP_Conn` connection object that can be
-#' executed with appropriate queries to retrieve views.
+#' @return By default, an `odbc` or `OLAP_Conn` connection object that can be
+#' executed with appropriate queries to retrieve views. If `.return_conn_str` is
+#' `TRUE`, will return `character` vector of connection parameters.
+#'
 #' @export
 #'
-#' @examples connect_to_phrdw('STIBBI')
-#' connect_to_phrdw('Respiratory')
-#' connect_to_phrdw(mart = 'STIBBI', type = 'prod')
+#' @examples
+#' Legacy:
+#' ```
+#' phrdw_datamart <- 'STIBBI'
+#' connect_to_phrdw(phrdw_datamart)
+#' ````
+#' Preferred:
+#' ```
+#' connect_to_phrdw(mart = 'stibbi')
+#' connect_to_phrdw(mart = 'stibbi', type = 'su')
+#' connect_to_phrdw(mart = 'stibbi', type = 'su', .return_conn_str = T)
+#'
+#' # Connect to STIBBI cube with connection string
+#' conn_str_cube <-
+#'   list(
+#'     cube =
+#'       paste(
+#'         "Data Source=SPRSASBI001.phsabc.ehcnet.ca\\PRISASBIM",
+#'         "Initial catalog=PHRDW_STIBBI",
+#'         "Provider=MSOLAP",
+#'         "Packet Size=32767",
+#'         sep = ';'
+#'       )
+#'   )
+#' connect_to_phrdw(.conn_str = conn_str_cube)
+#'
+#' # Connect to CD mart with connection string
+#' connect_to_phrdw(
+#'   .conn_str =
+#'     list(
+#'       sql =
+#'         paste(
+#'           "driver={SQL Server}",
+#'           "server=SPRDBSBI003.phsabc.ehcnet.ca\\PRIDBSBIEDW",
+#'           "database=SPEDW",
+#'           sep = ';'
+#'         )
+#'     )
+#' )
+#' ```
+#'
 connect_to_phrdw <- function(
     phrdw_datamart   = NULL,
     mart             = NULL,
-    type             = NULL,
+    type             = c('prod', 'su', 'sa')[1],
     .conn_str        = NULL,
     .return_conn_str = F
 ) {
@@ -94,15 +141,27 @@ connect_to_phrdw <- function(
 
     if (tolower(names(.conn_str)) == 'cube') {
 
-      conn <- phrdwRdata::OlapConnection(.conn_str$cube)
+      conn <- try(phrdwRdata::OlapConnection(.conn_str$cube), silent = T)
 
     } else {
 
       conn <-
-        odbc::dbConnect(
-          drv = odbc::odbc(),
-          .connection_string = .conn_str$sql
+        try(
+          odbc::dbConnect(
+            drv = odbc::odbc(),
+            .connection_string = .conn_str$sql
+          ),
+          silent = T
         )
+
+    }
+
+    if (inherits(conn, 'try-error')) {
+
+      cat('--- CD Mart connection failed ---\n')
+      cat('Check connection string', '\n')
+
+      stop(conn, call. = F)
 
     }
 
@@ -110,8 +169,10 @@ connect_to_phrdw <- function(
 
   }
 
+  # legacy
   select_phrdw_datamart <- force(phrdw_datamart)
 
+  # stable
   server_params <- list(mart = mart, type = type)
 
   if (!exists('server') || is.null(server)) { server <- servers }
@@ -154,10 +215,10 @@ connect_to_phrdw <- function(
 
         server <- .
 
-        conn <- -1
-        i    <-  1
+        conn <- NULL
+        i    <- 1
 
-        while (identical(conn, -1) & i <= nrow(server)) {
+        while (inherits(conn, c('try-error', 'NULL')) & i <= nrow(server)) {
 
           conn_str <-
             paste(
@@ -180,9 +241,12 @@ connect_to_phrdw <- function(
 
           # option 2: odbc
           conn <-
-            odbc::dbConnect(
-              drv = odbc::odbc(),
-              .connection_string = conn_str
+            try(
+              odbc::dbConnect(
+                drv = odbc::odbc(),
+                .connection_string = conn_str
+              ),
+              silent = T
             )
 
         }
@@ -194,13 +258,16 @@ connect_to_phrdw <- function(
 
       }
 
-    if (.return_conn_str) return(conn_objs$conn_str)
+    if (inherits(conn_objs$conn, 'try-error')) {
 
-    if (identical(conn_objs$conn, -1)) {
-
-      stop('--- CD Mart connection failed ---\n')
+      cat('--- CD Mart connection failed ---\n')
+      cat('Check connection:\n')
+      cat(conn_objs$conn_str, '\n')
+      stop(conn_objs$conn, call. = F)
 
     }
+
+    if (.return_conn_str) return(conn_objs$conn_str)
 
     return(conn_objs$conn)
 
