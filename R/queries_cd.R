@@ -17,13 +17,23 @@ cd_investigation_query <- function(mart, type, param_list) {
       investigation_status   ='investigation_status'
     )
 
+  browser()
   withr::with_db_connection(
     list(conn = connect_to_phrdw(mart = mart, type = type)),
     {
 
       sql_params <- dplyr::filter(query_info, .data$dataset == tables[[1]])
 
+      #' prevents filtering non-exisitng columns and expandable by
+      #' allowing for additional user input that's not listed
+
+      available_filters <-
+        param_list[
+          intersect(names(param_list), dplyr::pull(sql_params, field_name))
+        ]
+
       browser()
+      # TODO: extrapolate to function?
       dfs_lazy <-
         purrr::imap(
           tables,
@@ -52,7 +62,6 @@ cd_investigation_query <- function(mart, type, param_list) {
                   )
                 )
 
-
             df_temp <-
               dplyr::tbl(
                 conn, dbplyr::in_schema('phs_cd', paste0('vw_pan_', .x))
@@ -60,7 +69,7 @@ cd_investigation_query <- function(mart, type, param_list) {
 
               {
 
-                # perform date filter on investigation.surveillance_date
+                # apply date filter on investigation.surveillance_date
                 if (tolower(.x) == 'investigation') {
 
                   #' converts dates to proper SQL format and removes
@@ -85,7 +94,7 @@ cd_investigation_query <- function(mart, type, param_list) {
 
                   }
 
-                  #' creates SQL filter query
+                  # creates SQL filter query for date
                   date_filter_conditions <-
                     purrr::imap(
                       user_dates,
@@ -112,6 +121,18 @@ cd_investigation_query <- function(mart, type, param_list) {
               } %>%
 
               dplyr::select(dplyr::all_of(unique(fields$field_name))) %>%
+
+              {
+
+                # apply available user input filters
+                available_filters %>%
+                  purrr::map(
+
+                  )
+                dplyr::sql()
+
+
+              } %>%
 
               # rename cols according to queries.csv file
               dplyr::rename_with(

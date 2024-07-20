@@ -81,7 +81,6 @@ vpd_filter_clause <- function(query_start_date, query_end_date, parameter_list)
 
 vpd_case_investigation_query <- function(query_start_date, query_end_date, parameter_list, disease_check_list)
 {
-
 #
 # Build the mdx query for the case investigaiton dataset
 #
