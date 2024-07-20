@@ -21,7 +21,12 @@ servers <-
             type     = 'su',
             server   = "SNPDBSBI001\\NPIDBSBICMB",
             database = "SUEDW"
-          )
+          ),
+          dplyr::tibble(
+            type     = 'sa',
+            server   = "SNPDBSBI001\\NPIDBSBICMB",
+            database = "SAEDW"
+          ),
         )
       ) %>%
       dplyr::mutate(
@@ -42,7 +47,8 @@ servers <-
           'STIBBI',      'STIBBI SU',      "SU_PHRDW_STIBBI",           'su',
           'STIBBI',      'STIBBI SA',      "SA_PHRDW_STIBBI",           'sa',
           'VPD',         'VPD',            "PHRDW_VPD",                 'prod',
-          'VPD',         'VPD SU',         "SU_PHRDW_VPD",              'su'
+          'VPD',         'VPD SU',         "SU_PHRDW_VPD",              'su',
+          'TAT',         'TAT',            "PHRDW_TAT",                 'prod',
         ),
         data_source = 'SPRSASBI001.phsabc.ehcnet.ca\\PRISASBIM',
         provider    = 'MSOLAP',
