@@ -1,50 +1,49 @@
 #' Creates a connection object for PHRDW data marts.
 #'
+#' @description
+#'
 #' Connect to PHRDW data marts. Depending on the mart, the correct driver will
 #' be selected and connection parameters will be populated automatically.
 #'
 #' For a detailed list of data marts and respective servers, please see
 #' `phrdwRdata:::servers`.
 #'
-#' `r lifecycle::badge('superseded')` List of data marts that can be connected
-#' to using `phrdw_datamart` and their full name:
-#' \itemize{
-#'    \item CDI: Chronic Disease & Injury; links data from Vital Statistics
-#'    death records and census-based socio-economic data.
-#'    \item CD: Communicable Diseases; contains communicable disease public
-#'    health investigation data from the Panorama public health system.
-#'    \item PHRDW_Enteric_Panorama: Enteric; links data from the Panorama
-#'    public health system and the Sunquest laboratory information
-#'    ystem at PHSA.
-#'    \item PHRDW_STIBBI: Sexually Transmitted Blood Borne Infections; links
-#'    data from the Panorama public health system, the Sunquest laboratory
-#'    information system at PHSA, STIIS, HAISYS, and legacy laboratory systems.
-#'    \item PHRDW_VPD: Vaccine Preventable Disease; links data from the
-#'    Panorama public health system and the Sunquest laboratory information
-#'    system at PHSA.
-#'    \item SU_PHRDW_Enteric_Panorama:
-#'    \item SU_PHRDW_STIBBI:
-#'    \item SA_PHRDW_STIBBI:
-#'    \item SU_PHRDW_VPD:
-#' }
+#' @details
+#' `r lifecycle::badge('superseded')` List of values to supply `phrdw_datamart`.
+#' Case sensitive.
+#' * `CDI`: Chronic Disease & Injury; links data from Vital Statistics
+#'   death records and census-based socio-economic data.
+#' * `CD Mart`: Communicable Diseases; contains communicable disease public
+#'   health investigation data from the Panorama public health system.
+#' * `Enteric`: Enteric; links data from the Panorama
+#'   public health system and the Sunquest laboratory information
+#'   system at PHSA.
+#' * `Respiratory`: Respiratory diseases; includes data from the Sunquest
+#'   laboratory information system at PHSA.
+#' * `STIBBI`: Sexually Transmitted Blood Borne Infections; links
+#'   data from the Panorama public health system, the Sunquest laboratory
+#'   information system at PHSA, STIIS, HAISYS, and legacy laboratory systems.
+#' * `VPD`: Vaccine Preventable Disease; links data from the
+#'   Panorama public health system and the Sunquest laboratory information
+#'   system at PHSA.
+#' * `Enteric SU`: UAT server of Enteric.
+#' * `STIBBI SU`: UAT server of STIBBI.
+#' * `STIBBI SA`: PROD copy/Staging server of STIBBI.
+#' * `VPD SU`: UAT server of VPD.
 #'
 #' Alternatively, use a combination of the below:
 #' List 0f marts:
-#' \itemize{
-#'    \item CD:
-#'    \item CDI:
-#'    \item Respiratory:
-#'    \item Enteric:
-#'    \item STIBBI:
-#'    \item VPD:
-#' }
+#' * CDI:
+#' * CD:
+#' * Respiratory:
+#' * Enteric:
+#' * STIBBI:
+#' * VPD:
 #'
 #' list of mart types:
-#' \itemize{
-#'    \item prod: production
-#'    \item su: UAT
-#'    \item sa: Staging
-#' }
+#' * prod: production
+#' * su: UAT
+#' * sa: Staging
 #'
 #' @param phrdw_datamart `r lifecycle::badge('superseded')` Original mart
 #' designations provided by previous package authors. This backward-
@@ -185,11 +184,6 @@ connect_to_phrdw <- function(
               drv = odbc::odbc(),
               .connection_string = conn_str
             )
-
-          # list(
-          #   conn = conn,
-          #   conn_str = conn_str
-          # )
 
         }
 
