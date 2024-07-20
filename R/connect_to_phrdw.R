@@ -13,7 +13,7 @@
 #' Case sensitive.
 #' * `CDI`: Chronic Disease & Injury; links data from Vital Statistics
 #'   death records and census-based socio-economic data.
-#' * `CD Mart`: Communicable Diseases; contains communicable disease public
+#' * `CD`: Communicable Diseases; contains communicable disease public
 #'   health investigation data from the Panorama public health system.
 #' * `Enteric`: Enteric; links data from the Panorama
 #'   public health system and the Sunquest laboratory information
@@ -26,6 +26,7 @@
 #' * `VPD`: Vaccine Preventable Disease; links data from the
 #'   Panorama public health system and the Sunquest laboratory information
 #'   system at PHSA.
+#'   `TAT`: TBD.
 #' * `Enteric SU`: UAT server of Enteric.
 #' * `STIBBI SU`: UAT server of STIBBI.
 #' * `STIBBI SA`: PROD copy/Staging server of STIBBI.
@@ -269,6 +270,7 @@ connect_to_phrdw <- function(
 
     if (.return_conn_str) return(conn_objs$conn_str)
 
+    cat(paste('--- Connection to CD ---\n'))
     return(conn_objs$conn)
 
   } else if ( # other data marts ie. non SQL
@@ -339,7 +341,7 @@ connect_to_phrdw <- function(
   }
 
   # using mart and type should be encouraged
-  if (all(is.null(server_params$mart), is.null(server_params$type))) {
+  if (all(is.null(server_params$mart))) {
 
     stop('--- Please enter the approrpiate datamart name (and type) ---\n')
 
