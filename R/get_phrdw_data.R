@@ -20,7 +20,7 @@
 #' @param phrdw_datamart_connection `r lifecycle::badge('superseded')` Original
 #' function design: supply a connection object created by [connect_to_phrdw].
 #' Recommend using `mart` and `type` instead for flexibility
-#' (see [connect_to_phrdw]). The function take care of connecting
+#' (see [connect_to_phrdw]). The function takes care of connecting
 #' to the appropriate PHRDW database and disconnect after performing the
 #' requested data filtering and retrieving.
 #' @param phrdw_datamart `r lifecycle::badge('superseded')` Original function
@@ -59,8 +59,6 @@
 get_phrdw_data <- function(
     phrdw_datamart_connection      = NULL,
     phrdw_datamart                 = NULL,
-    mart                           = NULL,
-    type                           = NULL,
     dataset_name                   = NULL,
     query_start_date               = NULL,
     query_end_date                 = NULL,
@@ -81,6 +79,8 @@ get_phrdw_data <- function(
     case_status                    = NULL,
     case_source                    = NULL,
     collect_data                   = T,
+    mart                           = NULL,
+    type                           = NULL,
     ...
 ) {
 
@@ -141,12 +141,13 @@ get_phrdw_data <- function(
 
       param_list <-
         append(
-          purrr::discard_at(as.list(environment()), c(1:2)),
+          # purrr::discard_at(as.list(environment()), c(1:2)),
+          as.list(environment()),
           list(...)
         )
 
       # execute pre-build dataset_name specific queries
-      if (tolower(dataset_name) == 'investigation') {
+      if (tolower(param_list$dataset_name) == 'investigation') {
 
         # DO THIS
         cd_investigation_query(mart, type, param_list)
