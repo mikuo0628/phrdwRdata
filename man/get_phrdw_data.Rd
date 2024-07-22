@@ -33,42 +33,42 @@ get_phrdw_data(
 )
 }
 \arguments{
-\item{phrdw_datamart_connection}{`r lifecycle::badge('superseded')` Original
-function design: supply a connection object created by [connect_to_phrdw].
-Recommend using `mart` and `type` instead for flexibility
-(see [connect_to_phrdw]). The function takes care of connecting
+\item{phrdw_datamart_connection}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} Original
+function design: supply a connection object created by \link{connect_to_phrdw}.
+Recommend using \code{mart} and \code{type} instead for flexibility
+(see \link{connect_to_phrdw}). The function takes care of connecting
 to the appropriate PHRDW database and disconnect after performing the
 requested data filtering and retrieving.}
 
-\item{phrdw_datamart}{`r lifecycle::badge('superseded')` Original function
-design: supply the *exact* name of the datamart. Need to exercise case
-sensitivity. Recommend using `mart` and `type` instead for flexibility
-(see [connect_to_phrdw]).}
+\item{phrdw_datamart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} Original function
+design: supply the \emph{exact} name of the datamart. Need to exercise case
+sensitivity. Recommend using \code{mart} and \code{type} instead for flexibility
+(see \link{connect_to_phrdw}).}
 
 \item{mart}{Provide an appropriate mart name (non-case specific).
-See `Details`.}
+See \code{Details}.}
 
 \item{type}{Provide an appropriate mart type (non-case specific).
-See `Details`.}
+See \code{Details}.}
 
 \item{...}{}
 }
 \description{
 List of marts:
 \itemize{
-   \item CD:
-   \item CDI:
-   \item Respiratory:
-   \item Enteric:
-   \item STIBBI:
-   \item VPD:
+\item CD:
+\item CDI:
+\item Respiratory:
+\item Enteric:
+\item STIBBI:
+\item VPD:
 }
 }
 \details{
 list of mart types:
 \itemize{
-   \item prod: production
-   \item su: UAT
-   \item sa: Staging
+\item prod: production
+\item su: UAT
+\item sa: Staging
 }
 }

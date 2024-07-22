@@ -3,7 +3,7 @@
 \name{Query}
 \alias{Query}
 \title{Construct OLAP query.
-`Query` constructs a "Query" object. Set functions are used to build and
+\code{Query} constructs a "Query" object. Set functions are used to build and
 modify the Query axes and cube name.}
 \usage{
 Query(validate = F)
@@ -13,6 +13,6 @@ Query(validate = F)
 }
 \description{
 Construct OLAP query.
-`Query` constructs a "Query" object. Set functions are used to build and
+\code{Query} constructs a "Query" object. Set functions are used to build and
 modify the Query axes and cube name.
 }

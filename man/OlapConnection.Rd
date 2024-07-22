@@ -8,12 +8,12 @@ can be executed with MDX queries using C routines for efficiency.}
 OlapConnection(conn_str = "Data Source=localhost; Provider=MSOLAP;")
 }
 \arguments{
-\item{conn_str}{Connection string that requires `Initial Catalog`, which is
-the name of the data mart, `Data Source`, `Provider=MSOLAP`, and
-`Packet Size=32767` for PHRDW OLAP server.}
+\item{conn_str}{Connection string that requires \verb{Initial Catalog}, which is
+the name of the data mart, \verb{Data Source}, \code{Provider=MSOLAP}, and
+\verb{Packet Size=32767} for PHRDW OLAP server.}
 }
 \value{
-A character string with class `OLAP_Conn`.
+A character string with class \code{OLAP_Conn}.
 }
 \description{
 Constructs an "OlapConnection" object: string of connection parameters that
