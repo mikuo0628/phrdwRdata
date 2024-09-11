@@ -80,6 +80,110 @@ get_phrdw_data <- function(
     ...
 ) {
 
+  # Basic checks
+  if (is.null(dataset_name)) stop('Please supply `dataset_name`.')
+  if (is.null(c(phrdw_datamart, mart))) {
+
+    stop('Please supply either `phrdw_datamart` or `mart`.')
+
+  }
+
+  default_params <- as.list(environment())
+  user_params    <- rlang::list2(...)
+
+  # Data source
+  data_source <-
+    {
+
+      if (!is.null(phrdw_datamart_connection)) {
+
+        stringr::str_extract(class(phrdw_datamart_connection), 'SQL|OLAP') %>%
+          purrr::discard(is.na)
+
+      } else if (!is.null(mart)) {
+
+        mart_index <-
+          which(tolower(names(available_prebuilt_datasets)) == tolower(mart))
+
+        purrr::map(servers, dplyr::pull, mart) %>%
+          purrr::map(unique) %>%
+          purrr::map_lgl(~ tolower(mart) %in% tolower(.x)) %>%
+          purrr::discard(isFALSE) %>%
+          names()
+
+      }
+
+    } %>%
+    tolower()
+
+  # Optional checks: check user inputs
+  if (isTRUE(.check_params)) {
+
+    if (!is.null(phrdw_datamart)) {
+
+      phrdw_datamarts <-
+        unique(unlist(purrr::map(servers, pluck, 'phrdw_datamart')))
+
+      mart <-
+        servers %>%
+        purrr::map(filter, .data$phrdw_datamart == .env$phrdw_datamart) %>%
+        purrr::discard(~ nrow(.x) == 0) %>%
+        purrr::pluck(1, 'mart')
+
+      if (!phrdw_datamart %in% phrdw_datamarts) {
+
+        stop(
+          paste0(
+            'Please check `phrdw_datamart` spelling.\n',
+            'It should be one of the following ',
+            '(case-sensitive):\n\n',
+            paste('  -', phrdw_datamarts, collapse = '\n')
+          ),
+          call. = F
+        )
+
+      }
+
+    } else if (!is.null(mart)) {
+
+      if (identical(mart_index, integer(0))) {
+
+        stop(
+          paste0(
+            'Please check `mart` spelling.\n',
+            'It should be one of the following ',
+            '(non-case-sensitive):\n\n',
+            paste('  -', names(available_prebuilt_datasets), collapse = '\n')
+          ),
+          call. = F
+        )
+
+      }
+
+    }
+
+    if (!is.null(dataset_name)) {
+
+      prebuilt_datasets <- available_prebuilt_datasets[[mart_index]]
+
+      if (!tolower(dataset_name) %in% tolower(prebuilt_datasets)) {
+
+        stop(
+          paste0(
+            'Please check `dataset_name` spelling.\n',
+            'It should be one of the following ',
+            '(case-sensitive if legacy):\n\n',
+            paste('  -', prebuilt_datasets, collapse = '\n')
+          ),
+          call. = F
+        )
+
+      }
+
+    }
+
+  }
+
   if (!is.null(phrdw_datamart_connection)) {
 
     if (is.null(phrdw_datamart)) stop('Please supply `phrdw_datamart`.')
@@ -132,18 +236,41 @@ get_phrdw_data <- function(
     }
 
   } else {
+    if (is.character(.check_params)) {
 
-    if (stringr::str_detect(tolower(mart), '^cd')) {
+      cubes <- explore(connect_to_phrdw(mart = mart, type = type))
 
-      param_list <-
-        append(
-          # purrr::discard_at(as.list(environment()), c(1:2)),
-          as.list(environment()),
-          list(...)
+      dim <-
+        dplyr::filter(mdx_query_info, .data$field_name == .check_params)$dim
+
+      levels <-
+        purrr::imap(
+          rlang::set_names(cubes),
+          ~ explore(
+            connect_to_phrdw(mart = mart, type = type),
+            .x,
+            dim,
+            .check_params,
+            .check_params
+          )
         )
 
-      # execute pre-build dataset_name specific queries
-      if (tolower(param_list$dataset_name) == 'investigation') {
+      return(
+        purrr::iwalk(
+          levels,
+          ~ cat(
+            '\n',
+            stringr::str_pad('Cube:',      13, 'right', ' '), .y, '\n',
+            stringr::str_pad('Dimension:', 13, 'right', ' '), dim, '\n',
+            stringr::str_pad('Hierarchy:', 13, 'right', ' '), .check_params, '\n',
+            stringr::str_pad('Levels:',    13, 'right', ' '), '\n',
+            paste('-', .x, collapse = '\n'), '\n\n',
+            sep = ''
+          )
+        )
+      )
+
+    }
 
         # DO THIS
         cd_investigation_query(mart, type, param_list)
