@@ -184,10 +184,10 @@ get_phrdw_data <- function(
 
   }
 
+  # Legacy method: requires phrdw_datamart_connection
   if (!is.null(phrdw_datamart_connection)) {
 
     if (is.null(phrdw_datamart)) stop('Please supply `phrdw_datamart`.')
-    if (is.null(dataset_name))   stop('Please supply `dataset_name`.')
 
     if (stringr::str_detect(tolower(phrdw_datamart), 'cdi')) {
 
@@ -219,7 +219,6 @@ get_phrdw_data <- function(
 
     } else {
 
-      # Legacy method: requires phrdw_datamart_connection
       return(
         do.call(
           what = get_phrdw_data_legacy,
@@ -235,7 +234,24 @@ get_phrdw_data <- function(
 
     }
 
-  } else {
+  }
+
+  # New method: use `mart` and `type` instead
+  # no need phrdw_datamart_connection
+  if (is.null(mart)) stop('Please supply `mart`.')
+
+  if (data_source == 'sql') {
+
+    # execute pre-build dataset_name specific queries
+    if (tolower(dataset_name) == 'investigation') {
+
+      # DO THIS
+      # cd_investigation_query(mart, type, param_list)
+
+    }
+
+  } else if (data_source == 'olap') {
+
     if (is.character(.check_params)) {
 
       cubes <- explore(connect_to_phrdw(mart = mart, type = type))
@@ -272,14 +288,222 @@ get_phrdw_data <- function(
 
     }
 
-        # DO THIS
-        cd_investigation_query(mart, type, param_list)
+    # cube operations
+    if (
+      !tolower(dataset_name) %in%
+      tolower(available_prebuilt_datasets[[mart_index]])
+    ) {
 
-      }
+      stop(
+        paste0(
+          'Please check `dataset_name` spelling.\n',
+          'It should be one of the following ',
+          '(non-case-sensitive):\n\n',
+          paste(
+            '  -',
+            # purrr::keep(
+            #   available_prebuilt_datasets,
+            #   stringr::str_detect(
+            #     names(available_prebuilt_datasets),
+            #     regex(tolower('CDI'), ignore_case = T)
+            #   )
+            # ),
+            available_prebuilt_datasets[[mart_index]],
+            collapse = '\n'
+          )
+        ),
+        call. = F
+      )
 
     }
 
+    # Create query
+    mdx_query <-
+      mdx_query_info %>%
+      dplyr::filter(
+        tolower(.data$cube)         == tolower(.env$mart),
+        tolower(.data$dataset_name) == tolower(.env$dataset_name)
+      ) %>% {
+
+        columns <-
+          dplyr::filter(., .data$field_type == 'columns')$field_name
+
+        rows    <-
+          dplyr::filter(., .data$field_type == 'rows') %>%
+          dplyr::reframe(
+            .by = dim,
+            rows = list(field_name)
+          ) %>%
+          dplyr::mutate(
+            dplyr::across(
+              dplyr::where(is.list),
+              ~ rlang::set_names(.x, dim)
+            )
+          ) %>%
+          dplyr::pull(rows)
+
+        if (isTRUE(.check_params)) {
+
+          cat(
+            paste(
+            'The following are (hierarchy) fields',
+            'included in this dataset:\n\n'
+            )
+          )
+
+          purrr::iwalk(
+            rows,
+            ~ {
+
+              cat(
+                paste(stringr::str_pad('* Dimension:',  15, 'right', ' '),
+                      .y, '\n'),
+                paste(stringr::str_pad('** Hierarchy:', 15, 'right', ' '),
+                      .x, '\n'),
+                '\n',
+                sep = ''
+              )
+              cat(paste(rep('-', 50), collapse = ''), '\n\n')
+
+            }
+          )
+
+          filters <-
+            dplyr::filter(
+              .,
+              stringr::str_detect(.data$field_type, 'filter')
+            ) %>%
+            dplyr::select(dim, field_name) %>%
+            dplyr::group_by(dim) %>%
+            dplyr::reframe(hier = list(field_name)) %>%
+            purrr::pmap(\(dim, hier) rlang::set_names(hier, dim)) %>%
+            unlist
+
+          paste(
+            'The following fields (hierarchies)',
+            'that can take filters:\n\n'
+          )
+
+          purrr::iwalk(
+            filters,
+            ~ {
+
+              cat(
+                paste(stringr::str_pad('* Dimension:',  15, 'right', ' '),
+                      .y, '\n'),
+                paste(stringr::str_pad('** Hierarchy:', 15, 'right', ' '),
+                      .x, '\n'),
+                '\n',
+                sep = ''
+              )
+              cat(paste(rep('-', 50), collapse = ''), '\n\n')
+
+            }
+          )
+
+        }
+
+        # discrete filters
+        filters_discrete <-
+          dplyr::filter(
+            .,
+            .data$field_type == 'filter_d',
+            any(
+              .data$field_name %in% names(user_params),
+              .data$param_name %in%
+                names(purrr::discard(default_params, is.null))
+            )
+          ) %>%
+          {
+
+            dplyr::bind_rows(
+              # get from ...
+              dplyr::full_join(
+                by = 'field_name',
+                .,
+                tibble::enframe(
+                  user_params, name = 'field_name', value = 'memb'
+                ) %>%
+                  dplyr::filter(
+                    purrr::map_lgl(memb, is.character),
+                    !stringr::str_detect(
+                      .data$field_name,
+                      stringr::regex('date\\b', ignore_case = T)
+                    )
+                  ) %>%
+                  tidyr::unnest(dplyr::where(is.list))
+              ),
+              # get from default params
+              dplyr::full_join(
+                by = 'param_name',
+                .,
+                tibble::enframe(
+                  default_params, name = 'param_name', value = 'memb'
+                ) %>%
+                  dplyr::filter(
+                    purrr::map_lgl(memb, is.character),
+                    !stringr::str_detect(
+                      .data$param_name,
+                      stringr::regex('date\\b', ignore_case = T)
+                    )
+                  ) %>%
+                  tidyr::unnest(dplyr::where(is.list))
+              )
+            )
+
+          } %>%
+          dplyr::select(dim, attr = field_name, memb) %>%
+          tidyr::drop_na() %>%
+          { if (nrow(.) == 0) NULL else . }
+
+        # date filter
+        filter_date <-
+          dplyr::filter(
+            .,
+            .data$field_type == 'filter_r',
+            stringr::str_detect(
+              .data$field_name,
+              stringr::regex('date\\b', ignore_case = T)
+            ) |
+              .data$param_name %in% c('query_date')
+          ) %>%
+          dplyr::bind_cols(
+            tibble::tibble(
+              memb =
+                list(
+                  default_params$query_start_date,
+                  default_params$query_end_date
+                ) %>%
+                purrr::modify(\(x) if (is.null(x)) 'null' else x) %>%
+                unlist
+            )
+          ) %>%
+          dplyr::select(dim, attr = field_name, memb) %>%
+          { if (nrow(.) == 0) NULL else . }
+
+        # TODO: other range filters?
+
+        mdx_build(
+          cube_name = unique(.$cube),
+          columns   = columns,
+          rows      = rows,
+          discrete  = filters_discrete,
+          range     = filter_date
+        )
+
+      }
+
+    if (.return_query) return(mdx_query)
+
+    df <-
+      execute2D(
+        connect_to_phrdw(mart = mart, type = type),
+        mdx_query
+      ) %>%
+      tibble::as_tibble()
+
   }
+
 
 }
 
