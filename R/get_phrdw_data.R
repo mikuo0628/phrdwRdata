@@ -1,37 +1,16 @@
-#' Title
+#' Get PHRDW data.
 #'
-#' List of marts:
-#' \itemize{
-#'    \item CD:
-#'    \item CDI:
-#'    \item Respiratory:
-#'    \item Enteric:
-#'    \item STIBBI:
-#'    \item VPD:
-#' }
+#' @description
 #'
-#' list of mart types:
-#' \itemize{
-#'    \item prod: production
-#'    \item su: UAT
-#'    \item sa: Staging
-#' }
+#' @inherit connect_to_phrdw Details
 #'
-#' @param phrdw_datamart_connection `r lifecycle::badge('superseded')` Original
+#' @param phrdw_datamart_connection `r lifecycle::badge('superseded')` Legacy
 #' function design: supply a connection object created by [connect_to_phrdw].
 #' Recommend using `mart` and `type` instead for flexibility
 #' (see [connect_to_phrdw]). The function takes care of connecting
 #' to the appropriate PHRDW database and disconnect after performing the
 #' requested data filtering and retrieving.
-#' @param phrdw_datamart `r lifecycle::badge('superseded')` Original function
-#' design: supply the *exact* name of the datamart. Need to exercise case
-#' sensitivity. Recommend using `mart` and `type` instead for flexibility
-#' (see [connect_to_phrdw]).
-#' @param mart Provide an appropriate mart name (non-case specific).
-#' See `Details`.
-#' @param type Provide an appropriate mart type (non-case specific).
-#' See `Details`.
-#' @param dataset_name
+#' @param dataset_name The name of the pre-built dataset to retrieve.
 #' @param query_start_date
 #' @param query_end_date
 #' @param include_patient_identifiers
@@ -50,21 +29,30 @@
 #' @param testing_region_ha
 #' @param case_status
 #' @param case_source
-#' @param ...
+#' @param ucd_3_char_code
+#' @param ccd_3_char_code
+#' @param residential_location_ha
+#' @param death_location_ha
+#' @param .check_params
+#' @param .return_query
+#' @inheritParams connect_to_phrdw
 #'
 #' @return
 #' @export
 #'
 #' @examples
 get_phrdw_data <- function(
+
     phrdw_datamart_connection      = NULL,
     phrdw_datamart                 = NULL,
     dataset_name                   = NULL,
+
     query_start_date               = NULL,
     query_end_date                 = NULL,
     include_patient_identifiers    = F,
     include_indigenous_identifiers = F,
     retrieve_system_ids            = 'Yes',
+
     disease                        = NULL,
     surveillance_condition         = NULL,
     classification                 = NULL,
@@ -78,9 +66,17 @@ get_phrdw_data <- function(
     testing_region_ha              = NULL,
     case_status                    = NULL,
     case_source                    = NULL,
-    collect_data                   = T,
+    # Legacy: CDI specific
+    ucd_3_char_code                = NULL,
+    ccd_3_char_code                = NULL,
+    residential_location_ha        = NULL,
+    death_location_ha              = NULL,
+
+    # collect_data                   = T,
     mart                           = NULL,
-    type                           = NULL,
+    type                           = c('prod', 'su', 'sa')[1],
+    .check_params                  = F,
+    .return_query                  = F,
     ...
 ) {
 
