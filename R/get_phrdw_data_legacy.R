@@ -28,8 +28,10 @@
 #' @return A data frame with the dataset retrieved from the specified PHRDW data mart.
 get_phrdw_data_legacy <- function(
     phrdw_datamart_connection,
-    phrdw_datamart, dataset_name,
-    query_start_date, query_end_date,
+    phrdw_datamart,
+    dataset_name,
+    query_start_date,
+    query_end_date,
     include_patient_identifiers = FALSE,
     include_indigenous_identifiers = FALSE,
     retrieve_system_ids = "Yes",

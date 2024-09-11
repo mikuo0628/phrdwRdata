@@ -1,12 +1,11 @@
 #' Creates a connection object for PHRDW data marts.
 #'
 #' @description
-#'
 #' Connect to PHRDW data marts. Depending on the mart, the appropriate driver
 #' and connection parameters will be selected automatically.
 #'
 #' For a detailed list of data marts and respective servers, please see
-#' [phrdwRdata:::servers].
+#' `phrdwRdata:::servers`.
 #'
 #' @details
 #' `r lifecycle::badge('superseded')` List of values to supply `phrdw_datamart`.
@@ -75,13 +74,15 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' Legacy:
-#' ```
+#'
 #' phrdw_datamart <- 'STIBBI'
 #' connect_to_phrdw(phrdw_datamart)
-#' ````
+#'
 #' Preferred:
-#' ```
+#'
+#'
 #' connect_to_phrdw(mart = 'stibbi')
 #' connect_to_phrdw(mart = 'stibbi', type = 'su')
 #' connect_to_phrdw(mart = 'stibbi', type = 'su', .return_conn_str = T)
@@ -113,7 +114,8 @@
 #'         )
 #'     )
 #' )
-#' ```
+#' }
+#'
 #'
 connect_to_phrdw <- function(
     phrdw_datamart   = NULL,
@@ -123,19 +125,19 @@ connect_to_phrdw <- function(
     .return_conn_str = F
 ) {
 
-  # prioritize `connection` if provided
+  # prioritize `.conn_str` if provided
   if (!is.null(.conn_str)) {
 
     if (!tolower(names(.conn_str)) %in% c('sql', 'cube')) {
 
       stop(
-        paste(
-          '\n',
-          'Connection driver cannot be determined:\n',
-          'Please ensure `connection` parameter is a correctly named `list()`.',
-          collapse = '\n',
-          sep = ''
-        )
+      paste(
+        '\n',
+        'Connection driver cannot be determined:\n',
+        'Please ensure `.conn_str` parameter is a correctly named list.',
+        collapse = '\n',
+        sep = ''
+      )
       )
 
     }
@@ -346,20 +348,6 @@ connect_to_phrdw <- function(
     stop('--- Please enter the approrpiate datamart name (and type) ---\n')
 
   }
-
-}
-
-#' Closes ODBC connection to PHRDW data marts.
-#'
-#' @param phrdw_conn
-#'
-#' @return
-#' @export
-#'
-#' @examples
-close_connection_to_phrdw <- function(phrdw_conn) {
-
-  if (inherits(phrdw_conn, 'RODBC')) RODBC::odbcClose(phrdw_conn)
 
 }
 
