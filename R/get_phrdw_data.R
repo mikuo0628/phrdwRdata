@@ -35,6 +35,9 @@
 #' @param death_location_ha
 #' @param .check_params
 #' @param .return_query
+#' @param .return_data
+#' @param .clean_data
+#' @param .query_info
 #' @inheritParams connect_to_phrdw
 #'
 #' @return
@@ -75,8 +78,12 @@ get_phrdw_data <- function(
 
     mart                           = NULL,
     type                           = c('prod', 'su', 'sa')[1],
+    # user options
     .check_params                  = F,
     .return_query                  = F,
+    .return_data                   = !.return_query,
+    .clean_data                    = F,
+    .query_info                    = NULL,
     ...
 ) {
 
@@ -115,6 +122,9 @@ get_phrdw_data <- function(
 
     } %>%
     tolower()
+
+  .query_info <- if (is.null(.query_info)) list_query_info[[data_source]]
+
 
   # Optional checks: check user inputs
   if (isTRUE(.check_params)) {
@@ -243,7 +253,7 @@ get_phrdw_data <- function(
       cubes <- explore(connect_to_phrdw(mart = mart, type = type))
 
       dim <-
-        dplyr::filter(mdx_query_info, .data$field_name == .check_params)$dim
+        dplyr::filter(.query_info, .data$field_name == .check_params)$dim
 
       levels <-
         purrr::imap(
@@ -305,7 +315,7 @@ get_phrdw_data <- function(
 
     # Create query
     mdx_query <-
-      mdx_query_info %>%
+      .query_info %>%
       dplyr::filter(
         tolower(.data$cube)         == tolower(.env$mart),
         tolower(.data$dataset_name) == tolower(.env$dataset_name)
@@ -332,7 +342,7 @@ get_phrdw_data <- function(
 
           cat(
             paste(
-            'The following are (hierarchy) fields',
+            '===== The following (hierarchy) fields are',
             'included in this dataset:\n\n'
             )
           )
@@ -365,9 +375,13 @@ get_phrdw_data <- function(
             purrr::pmap(function (dim, hier) rlang::set_names(hier, dim)) %>%
             unlist
 
-          paste(
-            'The following fields (hierarchies)',
-            'that can take filters:\n\n'
+          cat(
+            '\n',
+            paste(
+              '===== The following fields (hierarchies)',
+              'can take filters:\n\n'
+            ),
+            sep = ''
           )
 
           purrr::iwalk(
@@ -402,45 +416,44 @@ get_phrdw_data <- function(
           ) %>%
           {
 
-            dplyr::bind_rows(
-              # get from ...
-              dplyr::full_join(
-                by = 'field_name',
-                .,
-                tibble::enframe(
-                  user_params, name = 'field_name', value = 'memb'
-                ) %>%
-                  dplyr::filter(
-                    purrr::map_lgl(memb, is.character),
-                    !stringr::str_detect(
-                      .data$field_name,
-                      stringr::regex('date\\b', ignore_case = T)
-                    )
-                  ) %>%
-                  tidyr::unnest(dplyr::where(is.list))
-              ),
-              # get from default params
-              dplyr::full_join(
-                by = 'param_name',
-                .,
-                tibble::enframe(
-                  default_params, name = 'param_name', value = 'memb'
-                ) %>%
-                  dplyr::filter(
-                    purrr::map_lgl(memb, is.character),
-                    !stringr::str_detect(
-                      .data$param_name,
-                      stringr::regex('date\\b', ignore_case = T)
-                    )
-                  ) %>%
-                  tidyr::unnest(dplyr::where(is.list))
-              )
-            )
+            df_temp <- .
 
-          } %>%
-          dplyr::select(dim, attr = field_name, memb) %>%
-          tidyr::drop_na() %>%
-          { if (nrow(.) == 0) NULL else . }
+            purrr::imap(
+              c('field_name' = 'user_params',
+                'param_name' = 'default_params'),
+              ~ tibble::enframe(
+                get(.x), name = .y, value = 'memb'
+              ) %>%
+                dplyr::filter(
+                  purrr::map_lgl(memb, is.character)
+                ) %>%
+                tidyr::unnest(
+                  dplyr::where(is.list), ptype = as.character()
+                ) %>%
+                dplyr::mutate(
+                  dplyr::across(dplyr::everything(), as.character)
+                ) %>%
+                dplyr::filter(
+                  !stringr::str_detect(
+                    .data[[.y]],
+                    stringr::regex('date\\b', ignore_case = T)
+                  )
+                )
+            ) %>%
+              purrr::imap(
+                ~ dplyr::full_join(
+                  by = .y,
+                  df_temp,
+                  .x
+                )
+              ) %>%
+              dplyr::bind_rows() %>%
+              dplyr::select(dim, attr = field_name, memb) %>%
+              tidyr::drop_na() %>%
+              dplyr::distinct() %>%
+              { if (nrow(.) == 0) NULL else . }
+
+          }
 
         # date filter
         filter_date <-
@@ -460,7 +473,9 @@ get_phrdw_data <- function(
                   default_params$query_start_date,
                   default_params$query_end_date
                 ) %>%
-                purrr::modify(\(x) if (is.null(x)) 'null' else x) %>%
+                purrr::map(lubridate::as_date) %>%
+                purrr::map(format, '%Y-%m-%d') %>%
+                purrr::modify(function (x) if (is.null(x)) 'null' else x) %>%
                 unlist
             )
           ) %>%
@@ -481,7 +496,7 @@ get_phrdw_data <- function(
 
     if (.return_query) return(mdx_query)
 
-    df <-
+    df_query <-
       execute2D(
         connect_to_phrdw(mart = mart, type = type),
         mdx_query
@@ -490,6 +505,34 @@ get_phrdw_data <- function(
 
   }
 
+  df_query <- rename_cols(df_query)
+
+  # TODO: process data type?
+
+  if (tolower(dataset_name) == 'vital stats ccd dashboard') {
+
+    df_query <-
+      df_query %>%
+      dplyr::group_by(
+        !!!rlang::syms(stringr::str_subset(names(.), 'ccd', negate = T))
+      ) %>%
+      tidyr::nest(
+        .key = stringr::str_subset(names(.), 'ccd')
+      ) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(
+        dplyr::across(
+          dplyr::where(is.list),
+          ~ purrr::map(.x, unlist) %>%
+            purrr::map_chr(paste, collapse = '|')
+        )
+      )
+
+  }
+
+  if (isTRUE(.clean_data)) df_query <- datatype_cols(df_query)
+
+  if (isTRUE(.return_data)) return(df_query)
 
 }
 
