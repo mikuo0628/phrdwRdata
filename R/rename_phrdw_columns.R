@@ -95,7 +95,8 @@ rename_phrdw_columns <- function(phrdw_dataset)
 			  # It is harder to determine this once the column has been renamed.
 			  #
 
-			  phrdw_dataset[,str_num] = as.Date(phrdw_dataset[,str_num])
+			  # phrdw_dataset[,str_num] = as.Date(phrdw_dataset[,str_num])
+			  phrdw_dataset[,str_num] = as.Date(phrdw_dataset[[str_num]])
 			  column_names[[str_num]]=str_token_1
 			  # print(paste("AFTER AS.DATE",str_token_1, str_token_2, str_token_3))
 
