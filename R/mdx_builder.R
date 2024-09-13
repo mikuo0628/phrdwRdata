@@ -1,0 +1,347 @@
+#' MDX Builder: builds the SELECT statement on `columns` and `rows`.
+#'
+#' @param columns Character vector of measures, with name of dimension as the
+#' name of the list. Name defaults to `Measures`.
+#' @param rows Character list of hierarchies, with name of dimension as the
+#' name of the list.
+#'
+#' @return A `sql`/`character` object.
+#'
+#' @details
+#' mdx_select(
+#'   'Case Count',
+#'   set_names(
+#'     list(
+#'       c(
+#'         "Age Group",
+#'         "Age Group 04",
+#'         "Age Group 05",
+#'         "Age Group 09",
+#'         "Age Group 10",
+#'         "Age Group 11",
+#'         "Age Group 17",
+#'         "Age Group 20",
+#'         "Age Group 24",
+#'         "Age Years"
+#'       )
+#'     ),
+#'     'Case - Age at Earliest Date'
+#'   )
+#' )
+#'
+mdx_select <- function(columns, rows) {
+
+  if (is.null(names(columns))) names(columns) <- 'Measures'
+  if (is.null(names(rows))) stop('Please provide dimension for rows as name.')
+
+  paste(
+    'SELECT',
+    paste(
+      ' ',
+      c(
+        'NON EMPTY {',
+        # '{',
+        paste(
+          '  ',
+          unlist(purrr::imap(columns, ~ stringr::str_glue('[{.y}].[{.x}]'))),
+          collapse = ',|'
+        ) %>%
+          stringr::str_split_1('\\|'),
+        '} ON COLUMNS,'
+      ),
+      collapse = '\n'
+    ),
+    paste(
+      ' ',
+      c(
+        'NON EMPTY {',
+        # '{',
+        paste(
+          '  ',
+          unlist(purrr::imap(rows, ~ stringr::str_glue('[{.y}].[{.x}].[{.x}]'))),
+          collapse = ' *|'
+        ) %>%
+          stringr::str_split_1('\\|'),
+        '} ON ROWS'
+      ),
+      collapse = '\n'
+    ),
+    sep = '\n\n'
+  ) %>%
+    dplyr::sql()
+
+}
+
+#' MDX Builder: process filters, discrete or range, by date or other data types.
+#'
+#' @param discrete A `data.frame` object with 3 columns: `dim`, `attr`, and
+#' `memb`, for "dimension", "attribute", and "member". The attribute must belong
+#' to dimension, and member must belong to the attribute hierarchy.
+#' Each member to filter for should have its own row in this `data.frame`.
+#' @param range A `data.frame` object with 3 columns: `dim`, `attr`, and
+#' `memb`, for "dimension", "attribute", and "member". The attribute must belong
+#' to dimension, and member must belong to the attribute hierarchy.
+#' Two rows must be provided here with two different member values as the `from`
+#' and `to`.
+#' If no bounds, use `NULL` or "null".
+#' @param ... Reserved for future development.
+#' @param .as_lines Boolean value that if `TRUE` (default), returns a character
+#'  vector of properly spaced MDX filter clauses. This is needed as input to
+#'  `mdx_from` for formatting purposes. If `FALSE`, returns a single element
+#'  character vector, for printing purposes.
+#'
+#' @return Character vector.
+#'
+#' @details
+#' mdx_filter(
+#'   discrete =
+#'     tibble(
+#'       dim = 'LIS - Test',
+#'       attr = 'Test Code',
+#'       memb = c('TPE1', 'RPR')
+#'     ),
+#'   range =
+#'     tibble(
+#'       dim = 'LIS - Date - Collection',
+#'       attr = 'Date',
+#'       memb = c('2019-01-01', '2019-02-02')
+#'     ),
+#'   .as_lines = T
+#' )
+#'
+mdx_filter <- function(discrete  = NULL,
+                       range     = NULL,
+                       ...,
+                       .as_lines = T) {
+
+  dots <- rlang::list2(...)
+
+  conditions <-
+    purrr::imap(
+      append(
+        list(
+          discrete = discrete,
+          range    = range
+        ),
+        dots
+      ) %>%
+        purrr::discard(is.null) %>%
+        purrr::map(~ split(.x, .x[1:2], drop = T, sep = '|')),
+      ~ {
+
+        dfs_temp <- .x
+
+        conds <-
+          purrr::map(
+            dfs_temp,
+            ~ purrr::pmap_chr(
+              .x,
+              function(dim, attr, memb) {
+
+                if (is.null(memb) | tolower(memb) == 'null') return('null')
+
+                if (
+                  stringr::str_detect(
+                    attr, stringr::regex('Date', ignore_case = T)
+                  )
+                ) {
+
+                  memb <-
+                    format(
+                      lubridate::as_datetime(memb), '%Y-%m-%dT%H:%M:%S'
+                    )
+
+                }
+
+
+                stringr::str_glue('[{dim}].[{attr}].&[{memb}]')
+
+              }
+
+            )
+          )
+
+        if (.y == 'discrete') {
+
+          conds <-
+            purrr::imap(
+              conds,
+              ~ paste0(.x, collapse = ',|')
+            ) %>%
+            purrr::map(stringr::str_split_1, '\\|')
+
+        }
+
+        if (.y == 'range') {
+
+          if (any(purrr::map_int(conds, length) != 2)) {
+
+            stop('Incorrect range bounds.')
+
+          }
+
+          conds <-
+            purrr::imap(
+              conds,
+              ~ paste0(.x, collapse = ' :|')
+            ) %>%
+            purrr::map(stringr::str_split_1, '\\|')
+
+        }
+
+        conds
+
+      }
+    ) %>%
+    purrr::imap(
+      ~ {
+
+        list_cond <- .x
+        type      <- .y
+
+        purrr::map(
+          list_cond,
+          ~ paste(
+            '{',
+            paste(
+              '  ', .x, collapse = '\n'
+            ),
+            '}',
+            sep = '\n'
+          )
+        )
+
+      }
+    ) %>%
+    unlist %>%
+    unname %>%
+    paste(collapse = ' *\n\n')
+
+  if (.as_lines) return(conditions %>% stringr::str_split_1('\n'))
+
+  return(conditions)
+
+}
+
+#' MDX Builder: builds the `FROM` clause, and incorporate any filters if needed.
+#'
+#' @param cube_name Cube name.
+#' @param ... Character vector of lines, which makes up the filter query
+#' build from `mdx_filters`.
+#'
+#' @return A `sql`/`character` object.
+#'
+#' @details
+#' mdx_from(
+#'   'StibbiDM',
+#'   mdx_filter(
+#'     discrete =
+#'       tibble(
+#'         dim = 'LIS - Test',
+#'         attr = 'Test Code',
+#'         memb = c('TPE1', 'RPR')
+#'       ),
+#'     range =
+#'       tibble(
+#'         dim = 'LIS - Date - Collection',
+#'         attr = 'Date',
+#'         memb = c('2019-01-01', '2019-02-02')
+#'       ),
+#'     .as_lines = T
+#'   )
+#' )
+#'
+mdx_from <- function(cube_name, ...) {
+
+  dots <- rlang::list2(...)
+
+  from_cube <- paste0('FROM [', cube_name, ']')
+
+  if (identical(dots, list()) | identical(unlist(dots), '')) return(from_cube)
+
+  conds <-
+    c(
+      '(',
+      paste('  ', dots[[1]]),
+      ') ON COLUMNS'
+    )
+
+  select_conds <-
+    c(
+      'SELECT',
+      paste('  ', conds),
+      '',
+      from_cube
+    )
+
+  from_final <-
+    c(
+      'FROM (',
+      paste('  ', select_conds),
+      ')'
+    ) %>%
+    paste(collapse = '\n')
+
+  return(dplyr::sql(from_final))
+
+}
+
+
+#' MDX builder: takes all MDX functions and build query.
+#'
+#' @inheritParams mdx_select
+#' @inheritParams mdx_from
+#' @inheritParams mdx_filter
+#' @inherit mdx_select return
+#'
+#' @details
+#' phrdwRdata::mdx_build(
+#'   cube_name = 'StibbiDM',
+#'   columns = 'Case Count',
+#'   rows =
+#'     set_names(
+#'       list(
+#'         c(
+#'           "Age Group 10",
+#'           "Age Group 24",
+#'           "Age Years"
+#'         )
+#'       ),
+#'       'Case - Age at Earliest Date'
+#'     ),
+#'   discrete =
+#'     tibble(
+#'       dim = 'LIS - Test',
+#'       attr = 'Test Code',
+#'       memb = c('TPE1', 'RPR')
+#'     ),
+#'   range =
+#'     tibble(
+#'       dim = 'LIS - Date - Collection',
+#'       attr = 'Date',
+#'       memb = c('2019-01-01', '2019-02-02')
+#'     )
+#' )
+#'
+mdx_build <- function(
+    cube_name,
+    columns,
+    rows,
+    discrete = NULL,
+    range    = NULL
+) {
+
+  paste(
+    mdx_select(columns, rows),
+    mdx_from(
+      cube_name,
+      mdx_filter(
+        discrete = discrete, range = range
+      )
+    ),
+    sep = '\n\n'
+  ) %>%
+    dplyr::sql()
+
+}
+
