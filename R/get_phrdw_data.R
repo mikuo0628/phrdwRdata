@@ -53,6 +53,7 @@ get_phrdw_data <- function(
     include_indigenous_identifiers = F,
     retrieve_system_ids            = 'Yes',
 
+    # Legacy: general
     disease                        = NULL,
     surveillance_condition         = NULL,
     classification                 = NULL,
@@ -72,7 +73,6 @@ get_phrdw_data <- function(
     residential_location_ha        = NULL,
     death_location_ha              = NULL,
 
-    # collect_data                   = T,
     mart                           = NULL,
     type                           = c('prod', 'su', 'sa')[1],
     .check_params                  = F,
@@ -195,23 +195,9 @@ get_phrdw_data <- function(
         do.call(
           what = get_phrdw_cdi_data,
           args =
-            as.list(environment()) %>%
-            purrr::discard(
-              .p = names(.) %in% c('mart', 'type', 'collect_data')
-            ) %>%
+            default_params %>%
             purrr::keep(
-              .p = names(.) %in%
-                c(
-                  'phrdw_datamart_connection',
-                  'phrdw_datamart',
-                  'dataset_name',
-                  'query_start_date',
-                  'query_end_date',
-                  'ucd_3char_code',
-                  'ccd_3char_code',
-                  'residential_location_ha',
-                  'death_location_ha'
-                )
+              .p = names(.) %in% formalArgs(get_phrdw_cdi_data)
             ) %>%
             purrr::modify_if(.p = is.null, .f = ~ '')
         )
@@ -223,9 +209,9 @@ get_phrdw_data <- function(
         do.call(
           what = get_phrdw_data_legacy,
           args =
-            as.list(environment()) %>%
-            purrr::discard(
-              .p = names(.) %in% c('mart', 'type', 'collect_data')
+            default_params %>%
+            purrr::keep(
+              .p = names(.) %in% formalArgs(get_phrdw_data_legacy)
             ) %>%
             purrr::modify_if(.p = is.null, .f = ~ '') #%>%
             # purrr::modify_if(.p = names(.) == 'retrieve_system_ids', .f = ~ 'Yes')
