@@ -47,7 +47,7 @@ Connect to PHRDW data marts. Depending on the mart, the appropriate driver
 and connection parameters will be selected automatically.
 
 For a detailed list of data marts and respective servers, please see
-\link[phrdwRdata:::servers]{phrdwRdata::::servers}.
+\code{phrdwRdata:::servers}.
 }
 \details{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} List of values to supply \code{phrdw_datamart}.
@@ -92,13 +92,15 @@ distinguish between the different architectures, this parameter needs to
 be named list, as either \code{sql} or \code{cube}. See \code{Examples}.
 }
 \examples{
+\dontrun{
 Legacy:
-```
+
 phrdw_datamart <- 'STIBBI'
 connect_to_phrdw(phrdw_datamart)
-````
+
 Preferred:
-```
+
+
 connect_to_phrdw(mart = 'stibbi')
 connect_to_phrdw(mart = 'stibbi', type = 'su')
 connect_to_phrdw(mart = 'stibbi', type = 'su', .return_conn_str = T)
@@ -130,6 +132,7 @@ connect_to_phrdw(
         )
     )
 )
-```
+}
+
 
 }
