@@ -316,7 +316,7 @@ get_phrdw_data <- function(
 
         rows    <-
           dplyr::filter(., .data$field_type == 'rows') %>%
-          dplyr::reframe(
+          dplyr::summarise(
             .by = dim,
             rows = list(field_name)
           ) %>%
@@ -361,8 +361,8 @@ get_phrdw_data <- function(
             ) %>%
             dplyr::select(dim, field_name) %>%
             dplyr::group_by(dim) %>%
-            dplyr::reframe(hier = list(field_name)) %>%
-            purrr::pmap(\(dim, hier) rlang::set_names(hier, dim)) %>%
+            dplyr::summarise(hier = list(field_name)) %>%
+            purrr::pmap(function (dim, hier) rlang::set_names(hier, dim)) %>%
             unlist
 
           paste(
