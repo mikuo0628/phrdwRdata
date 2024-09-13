@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_phrdw_data.R
 \name{get_phrdw_data}
 \alias{get_phrdw_data}
-\title{Title}
+\title{Get PHRDW data.}
 \usage{
 get_phrdw_data(
   phrdw_datamart_connection = NULL,
@@ -26,49 +26,43 @@ get_phrdw_data(
   testing_region_ha = NULL,
   case_status = NULL,
   case_source = NULL,
-  collect_data = T,
+  ucd_3_char_code = NULL,
+  ccd_3_char_code = NULL,
+  residential_location_ha = NULL,
+  death_location_ha = NULL,
   mart = NULL,
-  type = NULL,
+  type = c("prod", "su", "sa")[1],
+  .check_params = F,
+  .return_query = F,
+  .return_data = !.return_query,
+  .clean_data = F,
+  .query_info = NULL,
   ...
 )
 }
 \arguments{
-\item{phrdw_datamart_connection}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} Original
+\item{phrdw_datamart_connection}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} Legacy
 function design: supply a connection object created by \link{connect_to_phrdw}.
 Recommend using \code{mart} and \code{type} instead for flexibility
 (see \link{connect_to_phrdw}). The function takes care of connecting
 to the appropriate PHRDW database and disconnect after performing the
 requested data filtering and retrieving.}
 
-\item{phrdw_datamart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} Original function
-design: supply the \emph{exact} name of the datamart. Need to exercise case
-sensitivity. Recommend using \code{mart} and \code{type} instead for flexibility
-(see \link{connect_to_phrdw}).}
+\item{phrdw_datamart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} Legacy mart
+designations provided by previous package authors. This backward-
+compatibility is meant to minimize changes on the user end. The \code{stable}
+approach is to reference \code{mart} and \code{type}.}
 
-\item{mart}{Provide an appropriate mart name (non-case specific).
-See \code{Details}.}
+\item{dataset_name}{The name of the pre-built dataset to retrieve.}
 
-\item{type}{Provide an appropriate mart type (non-case specific).
-See \code{Details}.}
+\item{mart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Provide an appropriate mart
+name (non-case specific). Must be one of "CDI", "CD", "Respiratory",
+"Enteric", "STIBBI", and "VPD". Non case-sensitive.}
 
-\item{...}{}
+\item{type}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Provide an appropriate mart type
+(non-case specific). Must be one of "prod" (default), "su", or "sa".
+Non case-sensitive. See \code{Details}.}
 }
 \description{
-List of marts:
-\itemize{
-\item CD:
-\item CDI:
-\item Respiratory:
-\item Enteric:
-\item STIBBI:
-\item VPD:
-}
-}
-\details{
-list of mart types:
-\itemize{
-\item prod: production
-\item su: UAT
-\item sa: Staging
-}
+Get PHRDW data.
 }
