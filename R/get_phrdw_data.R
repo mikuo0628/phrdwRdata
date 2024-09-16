@@ -45,7 +45,6 @@
 #'
 #' @examples
 get_phrdw_data <- function(
-
     phrdw_datamart_connection      = NULL,
     phrdw_datamart                 = NULL,
     dataset_name                   = NULL,
@@ -124,7 +123,6 @@ get_phrdw_data <- function(
     tolower()
 
   .query_info <- if (is.null(.query_info)) list_query_info[[data_source]]
-
 
   # Optional checks: check user inputs
   if (isTRUE(.check_params)) {
@@ -253,7 +251,7 @@ get_phrdw_data <- function(
       cubes <- explore(connect_to_phrdw(mart = mart, type = type))
 
       dim <-
-        dplyr::filter(.query_info, .data$field_name == .check_params)$dim
+        dplyr::filter(.query_info, .data$attr_hier == .check_params)$dim
 
       levels <-
         purrr::imap(
@@ -297,13 +295,6 @@ get_phrdw_data <- function(
           '(non-case-sensitive):\n\n',
           paste(
             '  -',
-            # purrr::keep(
-            #   available_prebuilt_datasets,
-            #   stringr::str_detect(
-            #     names(available_prebuilt_datasets),
-            #     regex(tolower('CDI'), ignore_case = T)
-            #   )
-            # ),
             available_prebuilt_datasets[[mart_index]],
             collapse = '\n'
           )
@@ -313,186 +304,10 @@ get_phrdw_data <- function(
 
     }
 
-    # Create query
-    mdx_query <-
-      .query_info %>%
-      dplyr::filter(
-        tolower(.data$cube)         == tolower(.env$mart),
-        tolower(.data$dataset_name) == tolower(.env$dataset_name)
-      ) %>% {
+    ## Create query
+    environment(olap_handler) <- environment()
 
-        columns <-
-          dplyr::filter(., .data$field_type == 'columns')$field_name
-
-        rows    <-
-          dplyr::filter(., .data$field_type == 'rows') %>%
-          dplyr::summarise(
-            .by = dim,
-            rows = list(field_name)
-          ) %>%
-          dplyr::mutate(
-            dplyr::across(
-              dplyr::where(is.list),
-              ~ rlang::set_names(.x, dim)
-            )
-          ) %>%
-          dplyr::pull(rows)
-
-        if (isTRUE(.check_params)) {
-
-          cat(
-            paste(
-            '===== The following (hierarchy) fields are',
-            'included in this dataset:\n\n'
-            )
-          )
-
-          purrr::iwalk(
-            rows,
-            ~ {
-
-              cat(
-                paste(stringr::str_pad('* Dimension:',  15, 'right', ' '),
-                      .y, '\n'),
-                paste(stringr::str_pad('** Hierarchy:', 15, 'right', ' '),
-                      .x, '\n'),
-                '\n',
-                sep = ''
-              )
-              cat(paste(rep('-', 50), collapse = ''), '\n\n')
-
-            }
-          )
-
-          filters <-
-            dplyr::filter(
-              .,
-              stringr::str_detect(.data$field_type, 'filter')
-            ) %>%
-            dplyr::select(dim, field_name) %>%
-            dplyr::group_by(dim) %>%
-            dplyr::summarise(hier = list(field_name)) %>%
-            purrr::pmap(function (dim, hier) rlang::set_names(hier, dim)) %>%
-            unlist
-
-          cat(
-            '\n',
-            paste(
-              '===== The following fields (hierarchies)',
-              'can take filters:\n\n'
-            ),
-            sep = ''
-          )
-
-          purrr::iwalk(
-            filters,
-            ~ {
-
-              cat(
-                paste(stringr::str_pad('* Dimension:',  15, 'right', ' '),
-                      .y, '\n'),
-                paste(stringr::str_pad('** Hierarchy:', 15, 'right', ' '),
-                      .x, '\n'),
-                '\n',
-                sep = ''
-              )
-              cat(paste(rep('-', 50), collapse = ''), '\n\n')
-
-            }
-          )
-
-        }
-
-        # discrete filters
-        filters_discrete <-
-          dplyr::filter(
-            .,
-            .data$field_type == 'filter_d',
-            any(
-              .data$field_name %in% names(user_params),
-              .data$param_name %in%
-                names(purrr::discard(default_params, is.null))
-            )
-          ) %>%
-          {
-
-            df_temp <- .
-
-            purrr::imap(
-              c('field_name' = 'user_params',
-                'param_name' = 'default_params'),
-              ~ tibble::enframe(
-                get(.x), name = .y, value = 'memb'
-              ) %>%
-                dplyr::filter(
-                  purrr::map_lgl(memb, is.character)
-                ) %>%
-                tidyr::unnest(
-                  dplyr::where(is.list), ptype = as.character()
-                ) %>%
-                dplyr::mutate(
-                  dplyr::across(dplyr::everything(), as.character)
-                ) %>%
-                dplyr::filter(
-                  !stringr::str_detect(
-                    .data[[.y]],
-                    stringr::regex('date\\b', ignore_case = T)
-                  )
-                )
-            ) %>%
-              purrr::imap(
-                ~ dplyr::full_join(
-                  by = .y,
-                  df_temp,
-                  .x
-                )
-              ) %>%
-              dplyr::bind_rows() %>%
-              dplyr::select(dim, attr = field_name, memb) %>%
-              tidyr::drop_na() %>%
-              dplyr::distinct() %>%
-              { if (nrow(.) == 0) NULL else . }
-
-          }
-
-        # date filter
-        filter_date <-
-          dplyr::filter(
-            .,
-            .data$field_type == 'filter_r',
-            stringr::str_detect(
-              .data$field_name,
-              stringr::regex('date\\b', ignore_case = T)
-            ) |
-              .data$param_name %in% c('query_date')
-          ) %>%
-          dplyr::bind_cols(
-            tibble::tibble(
-              memb =
-                list(
-                  default_params$query_start_date,
-                  default_params$query_end_date
-                ) %>%
-                purrr::map(lubridate::as_date) %>%
-                purrr::map(format, '%Y-%m-%d') %>%
-                purrr::modify(function (x) if (is.null(x)) 'null' else x) %>%
-                unlist
-            )
-          ) %>%
-          dplyr::select(dim, attr = field_name, memb) %>%
-          { if (nrow(.) == 0) NULL else . }
-
-        # TODO: other range filters?
-
-        mdx_build(
-          cube_name = unique(.$cube),
-          columns   = columns,
-          rows      = rows,
-          discrete  = filters_discrete,
-          range     = filter_date
-        )
-
-      }
+    mdx_query <- olap_handler()
 
     if (.return_query) return(mdx_query)
 
@@ -509,6 +324,7 @@ get_phrdw_data <- function(
 
   # TODO: process data type?
 
+  # Post data-retrieval processing, if needed
   if (tolower(dataset_name) == 'vital stats ccd dashboard') {
 
     df_query <-
