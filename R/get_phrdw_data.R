@@ -307,28 +307,21 @@ get_phrdw_data <- function(
     ## Create query
     environment(olap_handler) <- environment()
 
-    mdx_query <- olap_handler()
+    query_output <- olap_handler()
 
-    if (.return_query) return(mdx_query)
-
-    df_query <-
-      execute2D(
-        connect_to_phrdw(mart = mart, type = type),
-        mdx_query
-      ) %>%
-      tibble::as_tibble()
+    if (.return_query) return(query_output)
 
   }
 
-  df_query <- rename_cols(df_query)
+  query_output <- rename_cols(query_output)
 
   # TODO: process data type?
 
   # Post data-retrieval processing, if needed
   if (tolower(dataset_name) == 'vital stats ccd dashboard') {
 
-    df_query <-
-      df_query %>%
+    query_output <-
+      query_output %>%
       dplyr::group_by(
         !!!rlang::syms(stringr::str_subset(names(.), 'ccd', negate = T))
       ) %>%
@@ -346,9 +339,9 @@ get_phrdw_data <- function(
 
   }
 
-  if (isTRUE(.clean_data)) df_query <- datatype_cols(df_query)
+  if (isTRUE(.clean_data)) query_output <- datatype_cols(query_output)
 
-  if (isTRUE(.return_data)) return(df_query)
+  if (isTRUE(.return_data)) return(query_output)
 
 }
 
