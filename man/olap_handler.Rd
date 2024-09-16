@@ -2,7 +2,7 @@
 % Please edit documentation in R/olap_handler.R
 \name{olap_handler}
 \alias{olap_handler}
-\title{Helper function to process dataset instructions into MDX query.}
+\title{Helper function to process dataset instructions into appropriate output.}
 \usage{
 olap_handler()
 }
@@ -18,5 +18,5 @@ part to select for, formatted for mdx_builder.
 }
 \description{
 Takes arguments in \code{get_phrdw_data} and returns MDX query to be executed
-in \code{execute2D}.
+in \code{execute2D}, and execute if required by user.
 }

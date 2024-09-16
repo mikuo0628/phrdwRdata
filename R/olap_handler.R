@@ -1,7 +1,7 @@
-#' Helper function to process dataset instructions into MDX query.
+#' Helper function to process dataset instructions into appropriate output.
 #'
 #' Takes arguments in `get_phrdw_data` and returns MDX query to be executed
-#' in `execute2D`.
+#' in `execute2D`, and execute if required by user.
 #'
 #' @return MDX query.
 #'
@@ -189,6 +189,14 @@ olap_handler <- function() {
       )
 
     }
+
+  if (isTRUE(.return_query)) return(mdx_query)
+
+  df_query <-
+    execute2D(connect_to_phrdw(mart = mart, type = type), mdx_query) %>%
+    tibble::as_tibble()
+
+  if (isTRUE(.return_data))  return(df_query)
 
 }
 
