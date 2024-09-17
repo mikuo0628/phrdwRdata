@@ -45,6 +45,7 @@ rename_cols <- function(
       new_name =
         dplyr::case_when(
           hier == 'Date'     ~ dim,
+          hier == 'Yes No'   ~ dim,
           TRUE               ~ hier
         ) %>%
         janitor::make_clean_names()
