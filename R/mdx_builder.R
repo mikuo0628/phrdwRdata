@@ -38,7 +38,7 @@
 #'
 mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
 
-  if (is.null(names(columns))) names(columns) <- 'Measures'
+  if (is.null(names(columns))) columns <- rlang::set_names(columns, 'Measures')
   if (is.null(names(rows))) stop('Please provide dimension for rows as name.')
   if (!is.null(.partial)) {
 
@@ -58,15 +58,16 @@ mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
 
     rows <-
       rows %>%
-      dplyr::mutate(
-        dplyr::across(c(.data$dim, .data$attr_hier, .data$lvl_memb),
-        ~ paste0('[', .x, ']')
-        )
-      ) %>%
       purrr::pmap_chr(
         function(...) {
 
-          paste(purrr::discard(rlang::list2(...), is.na), collapse = '.')
+          dots <- rlang::list2(...)
+          purrr::discard_at(dots, 'all_memb') %>%
+            purrr::discard(is.na) %>%
+            purrr::map(~ paste0('[', .x, ']')) %>%
+            append(dots['all_memb']) %>%
+            purrr::discard(is.na) %>%
+            paste(collapse = '.')
 
         }
       )
