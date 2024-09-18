@@ -141,7 +141,96 @@ mdx_query_info <-
   map(rename, dataset_name = value) %>%
   bind_rows(.id = 'mart')
 
+clean_mdx_strings <- function(list_of_mdx_strings) {
+
+  map(list_of_mdx_strings, str_split_1, '\\n') %>%
+  map(str_trim) %>%
+  map(discard, ~ nchar(.x) == 0) %>%
+  map(str_remove_all, '\\[|\\]|\\,|\\"') %>%
+  map(map, str_split_1, '\\.') %>%
+  imap(
+    ~ map2_dfr(
+      .x, .y,
+      ~ tibble(
+        mart         = 'STIBBI',
+        cube         = 'StibbiDM',
+        dataset_name = .y,
+        dim          = .x[1],
+        attr_hier    = .x[2],
+        tbd          = .x[3],
+        all_memb     = .x[4],
+      )
+    )
+  ) %>%
+  map(
+    ~ {
+
+      df_temp <- .x
+
+      mutate(
+        df_temp,
+        lvl_or_prop =
+          pmap(
+            df_temp,
+            \(mart, cube, dataset_name, dim, attr_hier, tbd, all_memb) {
+
+              df_temp <-
+                df_olap_map %>%
+                select(-mea) %>%
+                distinct %>%
+                filter(
+                  tolower(.data$cube)      == tolower(.env$cube),
+                  tolower(.data$dim)       == tolower(.env$dim),
+                  tolower(.data$attr_hier) == tolower(.env$attr_hier)
+                )
+
+              lvl_prop <-
+                map(
+                  list(
+                    lvl  = tolower(df_temp$lvl),
+                    prop = tolower(df_temp$prop)
+                  ),
+                  ~ if (any(tolower(tbd) %in% .x)) { tbd } else { NA_character_ }
+                )
+
+              if (all(is.na(lvl_prop))) lvl_prop$lvl <- tbd
+
+              return(lvl_prop)
+
+            }
+          )
+      ) %>%
+        unnest_wider(lvl_or_prop) %>%
+        select(-tbd) %>%
+        mutate(
+          .after = 2,
+          field_type =
+            case_when(
+              dim == 'Measures' ~ 'columns',
+              !is.na(lvl) & is.na(prop) ~ 'rows',
+              is.na(lvl) & !is.na(prop) ~ 'dim_prop',
+              TRUE ~ 'rows'
+            )
+        ) %>%
+        mutate(
+          .after = attr_hier,
+          lvl_memb = coalesce(lvl, prop),
+          attr_hier =
+            case_when(
+              field_type == 'rows' & attr_hier != lvl_memb & is.na(all_memb) ~
+                lvl_memb,
+              .default = attr_hier
+            )
+        ) %>%
+        select(-c(lvl, prop))
+
+    }
+  )
+
+}
+
 # CDI
+
 list_mdx_queries <-
   list(
     tibble(
@@ -646,89 +735,7 @@ list_stibbi_mdx <-
 	[LIS - Date - POC Reporting].[Date].[Date]
     )"
   ) %>%
-  map(str_split_1, '\\n') %>%
-  map(str_trim) %>%
-  map(discard, ~ nchar(.x) == 0) %>%
-  map(str_remove_all, '\\[|\\]|\\,|\\"') %>%
-  map(map, str_split_1, '\\.') %>%
-  imap(
-    ~ map2_dfr(
-      .x, .y,
-      ~ tibble(
-        mart         = 'STIBBI',
-        cube         = 'StibbiDM',
-        dataset_name = .y,
-        dim          = .x[1],
-        attr_hier    = .x[2],
-        tbd          = .x[3],
-        all_memb     = .x[4],
-      )
-    )
-  ) %>%
-  map(
-    ~ {
-
-      df_temp <- .x
-
-      mutate(
-        df_temp,
-        lvl_or_prop =
-          pmap(
-            df_temp,
-            \(mart, cube, dataset_name, dim, attr_hier, tbd, all_memb) {
-
-              df_temp <-
-                df_olap_map %>%
-                select(-mea) %>%
-                distinct %>%
-                filter(
-                  tolower(.data$cube)      == tolower(.env$cube),
-                  tolower(.data$dim)       == tolower(.env$dim),
-                  tolower(.data$attr_hier) == tolower(.env$attr_hier)
-                )
-
-              lvl_prop <-
-                map(
-                  list(
-                    lvl  = tolower(df_temp$lvl),
-                    prop = tolower(df_temp$prop)
-                  ),
-                  ~ if (any(tolower(tbd) %in% .x)) { tbd } else { NA_character_ }
-                )
-
-              if (all(is.na(lvl_prop))) lvl_prop$lvl <- tbd
-
-              return(lvl_prop)
-
-            }
-          )
-      ) %>%
-        unnest_wider(lvl_or_prop) %>%
-        select(-tbd) %>%
-        mutate(
-          .after = 2,
-          field_type =
-            case_when(
-              dim == 'Measures' ~ 'columns',
-              !is.na(lvl) & is.na(prop) ~ 'rows',
-              is.na(lvl) & !is.na(prop) ~ 'dim_prop',
-              TRUE ~ 'rows'
-            )
-        ) %>%
-        mutate(
-          .after = attr_hier,
-          lvl_memb = coalesce(lvl, prop),
-          attr_hier =
-            case_when(
-              field_type == 'rows' & attr_hier != lvl_memb & is.na(all_memb) ~
-                lvl_memb,
-              .default = attr_hier
-            )
-        ) %>%
-        select(-c(lvl, prop))
-
-    }
-  ) %>%
+  clean_mdx_strings() %>%
   imap(
     ~ {
 
@@ -782,7 +789,15 @@ list_stibbi_mdx <-
             )
         )
 
-      } else { .x }
+      } else {
+
+        mutate(
+          .x,
+          .after = field_type,
+          check = 'default'
+        )
+
+      }
 
     }
   )
