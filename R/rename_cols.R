@@ -18,38 +18,63 @@ rename_cols <- function(
     stringr::str_split('\\]\\.\\[' ) %>% # in case there's "." in the names
     purrr::map(~ stringr::str_remove_all(.x, '\\[|\\]')) %>%
     purrr::map(~ stringr::str_subset(.x, 'MEMBER_CAPTION', negate = T)) %>%
-    purrr::map(unique) %>%
-    purrr::modify(
-      .f = function(x) { if (length(x) > 2) return(x[-2]) else return(x)}
+    purrr::map(tibble::as_tibble) %>%
+    purrr::map(
+      ~ dplyr::bind_cols(
+        .x,
+        tibble::tibble(name = c('dim', 'hier', 'lvl', 'memb')[1:nrow(.x)])
+      )
     ) %>%
-    purrr::map(~ rlang::set_names(.x, c('dim', 'hier'))) %>%
+    purrr::map(
+      ~ tidyr::pivot_wider(.x, names_from = name, values_from = value)
+    ) %>%
     dplyr::bind_rows() %>%
+    { if (length(.) == 3) dplyr::mutate(., memb = NA_character_) else . } %>%
     dplyr::mutate(
-      hier =
-        dplyr::case_match(
-          hier,
-          !!!(col_name_dict %>%
-            purrr::pmap(
-              function(old_name, new_name) {
-
-                paste(
-                  paste0("'", old_name, "'"),
-                  '~',
-                  paste0("'", new_name, "'")
-                ) %>% as.formula
-
-              }
-            )
+      lvl = dplyr::case_when(!is.na(memb) ~ memb, TRUE ~ lvl)
+    ) %>%
+    # dplyr::mutate(
+    #   new_name =
+    #     dplyr::case_match(
+    #       lvl,
+    #       !!!(col_name_dict %>%
+    #         purrr::pmap(
+    #           function(old_name, new_name) {
+    #
+    #             paste(
+    #               paste0("'", old_name, "'"),
+    #               '~',
+    #               paste0("'", new_name, "'")
+    #             ) %>% as.formula
+    #
+    #           }
+    #         )
+    #       ),
+    #       .default = lvl
+    #     )
+    # ) %>%
+    dplyr::mutate(
+      new_name =
+        dplyr::if_else(
+          stringr::str_detect(lvl, 'Hospital Code|Location Type'),
+          paste(
+            stringr::str_extract(dim, 'Patient|Result|Order Entry'),
+            lvl
           ),
-          .default = hier
-        )
+          lvl
+        ),
     ) %>%
     dplyr::mutate(
       new_name =
         dplyr::case_when(
-          hier == 'Date'     ~ dim,
-          hier == 'Yes No'   ~ dim,
-          TRUE               ~ hier
+          stringr::str_detect(dim, 'LIS - Flag')      ~ dim,
+          stringr::str_detect(dim, '- Copy To')       ~ paste(dim, lvl),
+          dim  == 'Measures'                          ~ hier,
+          hier == 'Date'                              ~ dim,
+          hier == 'Yes No'                            ~ dim,
+          lvl  == 'Interval in Days'                  ~ dim,
+          lvl  == 'Interval Group 1'                  ~ paste(dim, lvl),
+          TRUE                                        ~ new_name
         ) %>%
         janitor::make_clean_names()
     ) %>%
