@@ -19,6 +19,9 @@ rename_cols <- function(
     purrr::map(~ stringr::str_remove_all(.x, '\\[|\\]')) %>%
     purrr::map(~ stringr::str_subset(.x, 'MEMBER_CAPTION', negate = T)) %>%
     purrr::map(unique) %>%
+    purrr::modify(
+      .f = function(x) { if (length(x) > 2) return(x[-2]) else return(x)}
+    ) %>%
     purrr::map(~ rlang::set_names(.x, c('dim', 'hier'))) %>%
     dplyr::bind_rows() %>%
     dplyr::mutate(
