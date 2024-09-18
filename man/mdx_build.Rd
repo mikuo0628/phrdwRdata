@@ -4,7 +4,15 @@
 \alias{mdx_build}
 \title{MDX builder: takes all MDX functions and build query.}
 \usage{
-mdx_build(cube_name, columns, rows, discrete = NULL, range = NULL)
+mdx_build(
+  cube_name,
+  columns,
+  rows,
+  dim_props,
+  .partial,
+  discrete = NULL,
+  range = NULL
+)
 }
 \arguments{
 \item{cube_name}{Cube name.}
@@ -12,8 +20,17 @@ mdx_build(cube_name, columns, rows, discrete = NULL, range = NULL)
 \item{columns}{Character vector of measures, with name of dimension as the
 name of the list. Name defaults to \code{Measures}.}
 
-\item{rows}{Character list of hierarchies, with name of dimension as the
+\item{rows}{Accepts \code{data.frame} with columns \code{dim}, \code{attr_hier}, and
+\code{lvl_memb}, or character list of hierarchies, with name of dimension as the
 name of the list.}
+
+\item{dim_props}{Must be \code{data.frame} with columns \code{dim}, \code{attr_hier}, and
+\code{lvl_memb}.}
+
+\item{.partial}{A named list of a single element, where name is either
+\code{head} or \code{tail}, and element is an integer. This will modify query to
+retrieve the first or last parts of data frame going by the default
+order.}
 
 \item{discrete}{A \code{data.frame} object with 3 columns: \code{dim}, \code{attr}, and
 \code{memb}, for "dimension", "attribute", and "member". The attribute must belong

@@ -32,6 +32,7 @@ get_phrdw_data(
   death_location_ha = NULL,
   mart = NULL,
   type = c("prod", "su", "sa")[1],
+  .partial = NULL,
   .check_params = F,
   .return_query = F,
   .return_data = !.return_query,

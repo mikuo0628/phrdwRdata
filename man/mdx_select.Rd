@@ -4,14 +4,23 @@
 \alias{mdx_select}
 \title{MDX Builder: builds the SELECT statement on \code{columns} and \code{rows}.}
 \usage{
-mdx_select(columns, rows)
+mdx_select(columns, rows, dim_props, .partial = NULL)
 }
 \arguments{
 \item{columns}{Character vector of measures, with name of dimension as the
 name of the list. Name defaults to \code{Measures}.}
 
-\item{rows}{Character list of hierarchies, with name of dimension as the
+\item{rows}{Accepts \code{data.frame} with columns \code{dim}, \code{attr_hier}, and
+\code{lvl_memb}, or character list of hierarchies, with name of dimension as the
 name of the list.}
+
+\item{dim_props}{Must be \code{data.frame} with columns \code{dim}, \code{attr_hier}, and
+\code{lvl_memb}.}
+
+\item{.partial}{A named list of a single element, where name is either
+\code{head} or \code{tail}, and element is an integer. This will modify query to
+retrieve the first or last parts of data frame going by the default
+order.}
 }
 \value{
 A \code{sql}/\code{character} object.

@@ -2,8 +2,15 @@
 #'
 #' @param columns Character vector of measures, with name of dimension as the
 #' name of the list. Name defaults to `Measures`.
-#' @param rows Character list of hierarchies, with name of dimension as the
+#' @param rows Accepts `data.frame` with columns `dim`, `attr_hier`, and
+#' `lvl_memb`, or character list of hierarchies, with name of dimension as the
 #' name of the list.
+#' @param dim_props Must be `data.frame` with columns `dim`, `attr_hier`, and
+#' `lvl_memb`.
+#' @param .partial A named list of a single element, where name is either
+#' `head` or `tail`, and element is an integer. This will modify query to
+#' retrieve the first or last parts of data frame going by the default
+#' order.
 #'
 #' @return A `sql`/`character` object.
 #'
@@ -29,10 +36,57 @@
 #'   )
 #' )
 #'
-mdx_select <- function(columns, rows) {
+mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
 
   if (is.null(names(columns))) names(columns) <- 'Measures'
   if (is.null(names(rows))) stop('Please provide dimension for rows as name.')
+  if (!is.null(.partial)) {
+
+    if (!tolower(names(.partial)) %in% c('head', 'tail')) {
+
+      stop('Please only provide `head` or `tail`.')
+
+    }
+
+  }
+
+  if (inherits(rows, 'list')) {
+
+    rows <- purrr::imap(rows, ~ stringr::str_glue('[{.y}].[{.x}].[{.x}]'))
+
+  } else if (inherits(rows, 'data.frame')) {
+
+    rows <-
+      rows %>%
+      dplyr::mutate(
+        dplyr::across(c(.data$dim, .data$attr_hier, .data$lvl_memb),
+        ~ paste0('[', .x, ']')
+        )
+      ) %>%
+      purrr::pmap_chr(
+        function(...) {
+
+          paste(purrr::discard(rlang::list2(...), is.na), collapse = '.')
+
+        }
+      )
+
+  }
+
+  dim_props <-
+    if (nrow(dim_props) == 0) { NULL } else {
+
+      dim_props %>%
+        purrr::pmap(
+          function(...) {
+
+            dots <- rlang::list2(...)
+            sprintf('[%s].[%s].[%s]', dots$dim, dots$attr_hier, dots$lvl_memb)
+
+          }
+        )
+
+    }
 
   paste(
     'SELECT',
@@ -40,7 +94,6 @@ mdx_select <- function(columns, rows) {
       ' ',
       c(
         'NON EMPTY {',
-        # '{',
         paste(
           '  ',
           unlist(purrr::imap(columns, ~ stringr::str_glue('[{.y}].[{.x}]'))),
@@ -54,15 +107,41 @@ mdx_select <- function(columns, rows) {
     paste(
       ' ',
       c(
-        'NON EMPTY {',
-        # '{',
+        paste(
+          ifelse(is.null(.partial), 'NON EMPTY', toupper(names(.partial))),
+          '('
+        ),
         paste(
           '  ',
-          unlist(purrr::imap(rows, ~ stringr::str_glue('[{.y}].[{.x}].[{.x}]'))),
-          collapse = ' *|'
-        ) %>%
-          stringr::str_split_1('\\|'),
-        '} ON ROWS'
+          c(
+            '{',
+            paste(
+              '  ',
+              unlist(rows),
+              collapse = ' *|'
+            ) %>%
+              stringr::str_split_1('\\|'),
+            '}'
+          )
+        ),
+        ifelse(is.null(.partial), '', paste(',', .partial)),
+        ')',
+
+        if (!is.null(dim_props)) {
+
+          paste(
+            '  ',
+            c(
+              'DIMENSION PROPERTIES MEMBER_CAPTION',
+              paste('  ', dim_props)
+            ),
+            collapse = ',\n'
+          ) %>%
+            stringr::str_split_1('\\n')
+
+        } else { NULL },
+
+        '\n  ON ROWS'
       ),
       collapse = '\n'
     ),
@@ -327,12 +406,14 @@ mdx_build <- function(
     cube_name,
     columns,
     rows,
+    dim_props,
+    .partial,
     discrete = NULL,
     range    = NULL
 ) {
 
   paste(
-    mdx_select(columns, rows),
+    mdx_select(columns, rows, dim_props, .partial),
     mdx_from(
       cube_name,
       mdx_filter(

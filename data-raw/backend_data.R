@@ -1,6 +1,7 @@
 # Run this to refresh sysdata.rda
 
 require(tidyverse)
+devtools::load_all()
 
 servers <-
   list(
@@ -138,51 +139,55 @@ mdx_query_info <-
   discard_at('CD') %>%
   map(as_tibble) %>%
   map(rename, dataset_name = value) %>%
-  bind_rows(.id = 'cube')
+  bind_rows(.id = 'mart')
 
-mdx_query_info <-
-  tibble(
-    cube = 'CDI',
-    dataset_name = 'Vital Stats CCD Dashboard'
-  ) %>%
-  bind_cols(
-    tribble(
-      ~ field_type, ~ dim,                                           ~ attr_hier,
-      'columns',    'Measures',                                      'VS Death Count',
-      'rows',       'VS - ID',                                       'Unique ID',
-      'rows',       'VS - Cause of Death - Underlying',              'UCD 5Char Code',
-      'rows',       'VS - Cause of Death - Contributing',            'CCD 5Char Code',
-      'rows',       'VS - Date - Death',                             'Date',
-      'rows',       'CDI - Gender',                                  'Sex',
-      'rows',       'VS - Age at Death',                             'Age Year',
-      'rows',       'VS - Age at Death',                             'Age Group 07',
-      'rows',       'VS - Age at Death',                             'Age Group Population',
-      'rows',       'VS - Place of Injury Type',                     'Place of Injury Type',
-      'rows',       'VS - Geo - Residential Location Region',        'VS Residential Location LHA',
-      'rows',       'VS - Geo - Death Location Region',              'VS Death Location LHA',
-      'rows',       'VS - Geo - Residential Location Census - 2011', 'VS Residential Dissemination Area',
-      'rows',       'VS - Geo - Death Location Census - 2011',       'VS Death Location Dissemination Area',
-      'filter_d',   'VS - Case of Death - Underlying',               'UCD 3Char Code',
-      'filter_d',   'VS - Case of Death - Contributing',             'CCD 3Char Code',
-      'filter_d',   'VS - Geo - Residential Location Region',        'VS Residential Location HA',
-      'filter_d',   'VS - Geo - Death Location Region',              'VS Death Location HA',
-      'filter_r',   'VS - Date - Death',                             'Date',
-    )
-  ) %>%
-  full_join(mdx_query_info) %>%
-  full_join(
-    tribble(
-      ~ field_type, ~ attr_hier,                  ~ param_name,
-      'filter_d',   'UCD 3Char Code',             'ucd_3_char_code',
-      'filter_d',   'CCD 3Char Code',             'ccd_3_char_code',
-      'filter_d',   'VS Residential Location HA', 'residential_location_ha',
-      'filter_d',   'VS Death Location HA',       'death_location_ha',
-      'filter_r',   'Date',                       'query_date',
-    )
+# CDI
+list_mdx_queries <-
+  list(
+    tibble(
+      mart = 'CDI',
+      cube = 'CDI',
+      dataset_name = 'Vital Stats CCD Dashboard'
+    ) %>%
+      bind_cols(
+        tribble(
+          ~ field_type, ~ dim,                                           ~ attr_hier,
+          'columns',    'Measures',                                      'VS Death Count',
+          'rows',       'VS - ID',                                       'Unique ID',
+          'rows',       'VS - Cause of Death - Underlying',              'UCD 5Char Code',
+          'rows',       'VS - Cause of Death - Contributing',            'CCD 5Char Code',
+          'rows',       'VS - Date - Death',                             'Date',
+          'rows',       'CDI - Gender',                                  'Sex',
+          'rows',       'VS - Age at Death',                             'Age Year',
+          'rows',       'VS - Age at Death',                             'Age Group 07',
+          'rows',       'VS - Age at Death',                             'Age Group Population',
+          'rows',       'VS - Place of Injury Type',                     'Place of Injury Type',
+          'rows',       'VS - Geo - Residential Location Region',        'VS Residential Location LHA',
+          'rows',       'VS - Geo - Death Location Region',              'VS Death Location LHA',
+          'rows',       'VS - Geo - Residential Location Census - 2011', 'VS Residential Dissemination Area',
+          'rows',       'VS - Geo - Death Location Census - 2011',       'VS Death Location Dissemination Area',
+          'filter_d',   'VS - Case of Death - Underlying',               'UCD 3Char Code',
+          'filter_d',   'VS - Case of Death - Contributing',             'CCD 3Char Code',
+          'filter_d',   'VS - Geo - Residential Location Region',        'VS Residential Location HA',
+          'filter_d',   'VS - Geo - Death Location Region',              'VS Death Location HA',
+          'filter_r',   'VS - Date - Death',                             'Date',
+        )
+      ) %>%
+      full_join(
+        tribble(
+          ~ field_type, ~ attr_hier,                  ~ param_name,
+          'filter_d',   'UCD 3Char Code',             'ucd_3_char_code',
+          'filter_d',   'CCD 3Char Code',             'ccd_3_char_code',
+          'filter_d',   'VS Residential Location HA', 'residential_location_ha',
+          'filter_d',   'VS Death Location HA',       'death_location_ha',
+          'filter_r',   'Date',                       'query_date',
+        )
+      )
   )
 
-mdx_query_info <-
+list_mdx_queries <-
   tibble(
+    mart = 'CDI',
     cube = 'CDI',
     dataset_name = 'Vital Stats'
   ) %>%
@@ -209,7 +214,6 @@ mdx_query_info <-
       'filter_r',   'VS - Date - Death',                             'Date',
     )
   ) %>%
-  full_join(mdx_query_info) %>%
   full_join(
     tribble(
       ~ field_type, ~ attr_hier,                  ~ param_name,
@@ -219,26 +223,31 @@ mdx_query_info <-
       'filter_d',   'VS Death Location HA',       'death_location_ha',
       'filter_r',   'Date',                       'query_date',
     )
+  ) %>%
+  list %>%
+  append(
+    list_mdx_queries,
+    .
   )
 
-mdx_query_info <-
+list_mdx_queries <-
   tibble(
+    mart = 'CDI',
     cube = 'CDI',
     dataset_name = 'Vital Stats CCD'
   ) %>%
   bind_cols(
     tribble(
-      ~ field_type, ~ dim,                                           ~ attr_hier,
-      'columns',    'Measures',                                      'VS Death Count',
-      'rows',       'VS - Cause of Death - Contributing',            'CCD 5Char Code',
-      'filter_d',   'VS - Case of Death - Underlying',               'UCD 3Char Code',
-      'filter_d',   'VS - Case of Death - Contributing',             'CCD 3Char Code',
-      'filter_d',   'VS - Geo - Residential Location Region',        'VS Residential Location HA',
-      'filter_d',   'VS - Geo - Death Location Region',              'VS Death Location HA',
-      'filter_r',   'VS - Date - Death',                             'Date',
+      ~ field_type, ~ dim,                                    ~ attr_hier,
+      'columns',    'Measures',                               'VS Death Count',
+      'rows',       'VS - Cause of Death - Contributing',     'CCD 5Char Code',
+      'filter_d',   'VS - Case of Death - Underlying',        'UCD 3Char Code',
+      'filter_d',   'VS - Case of Death - Contributing',      'CCD 3Char Code',
+      'filter_d',   'VS - Geo - Residential Location Region', 'VS Residential Location HA',
+      'filter_d',   'VS - Geo - Death Location Region',       'VS Death Location HA',
+      'filter_r',   'VS - Date - Death',                      'Date',
     )
   ) %>%
-  full_join(mdx_query_info) %>%
   full_join(
     tribble(
       ~ field_type, ~ attr_hier,                  ~ param_name,
@@ -248,56 +257,557 @@ mdx_query_info <-
       'filter_d',   'VS Death Location HA',       'death_location_ha',
       'filter_r',   'Date',                       'query_date',
     )
+  ) %>%
+  list %>%
+  append(
+    list_mdx_queries,
+    .
   )
 
-tibble(
-  cube = 'Respiratory',
-  dataset_name = 'LIS Tests'
-)
-bind_cols(
-
-  tribble(
-    ~ field_type, ~ dim,                                       ~ attr_hier,
-    'columns',    'Measures',                                  'LIS Test Count',
-    'rows',       'Patient - Patient Master',                  'Patient Master Key',
-    'rows',       'LIS - IDs',                                 'Test ID',
-    'rows',       'LIS - IDs',                                 'Accession Number',
-    'rows',       'LIS - IDs',                                 'Container ID',
-    'rows',       'LIS - Episode IDs',                         'Episode ID',
-    'rows',       'LIS - Patient',                             'Gender',
-    'rows',       'LIS - Patient',                             'Species',
-    'rows',       'LIS - Infection Group',                     'Infection Group',
-    'rows',       'LIS - Date - Collection',                   'Date',
-    'rows',       'LIS - Date - Receive',                      'Date',
-    'rows',       'LIS - Date - Result',                       'Date',
-    'rows',       'LIS - Age at Collection',                   'Age Years',
-    'rows',       'LIS - Test',                                'Test Code',
-    'rows',       'LIS - Order Item',                          'Order Code',
-    'rows',       'LIS - Test',                                'Source System ID',
-    'rows',       'LIS - Result - Test Outcome',               'Test Outcome',
-    'rows',       'LIS - Result - Organism',                   'Organism Level 4',
-    'rows',       'LIS - Geo - Patient Region',                'LIS Patient LHA',
-    'rows',       'LIS - Geo - Patient Address',               'LIS Patient Postal Code',
-    'rows',       'LIS - Geo - Ordering Provider Region ATOT', 'LIS Ordering Provider LHA',
-    'rows',       'LIS - Geo - Ordering Provider Address ATOT','LIS Ordering Provider Postal Code',
-    'rows',       'LIS - Lab Location - Result',               'Lab Name',
-    'rows',       'LIS - Flag - Proficiency Test',             'Proficiency Test',
-    'rows',       'LIS - Flag - Test Performed',               'Test Performed',
-    'rows',       'LIS - Flag - Test Valid Status',            'Valid Test',
-    'rows',       'LIS - Result Attributes',                   'Result Full Description',
+list_mdx_queries <-
+  list_mdx_queries %>%
+  map(
+    ~ mutate(
+      .x,
+      check = 'default',
+      check =
+        case_when(
+          str_detect(field_type, 'filter') ~ 'none',
+          TRUE ~ 'default'
+        ),
+      .after = 'field_type'
+    )
   )
 
-)
+# STIBBI
+new_filter_rules <-
+  filter_rules %>%
+  select(
+    mart         = datamart,
+    dataset_name = dataset,
+    dim          = dimension_name,
+    attr_hier    = dimension_name_level_2,
+    lvl_memb     = dimension_name_level_2,
+    param_name   = parameter
+  ) %>%
+    mutate(
+      param_name =
+        case_when(
+          str_detect(param_name, 'query.*date') ~ 'query_date',
+          TRUE ~ param_name
+        )
+    ) %>%
+    distinct %>%
+    mutate(
+      .after = dataset_name,
+      field_type =
+        case_when(
+          str_detect(attr_hier, 'Date') ~ 'filter_r',
+          TRUE                          ~ 'filter_d'
+        ),
+      check = 'none'
+    )
+    # count(param_name)
 
-tribble(
-  ~ field_type, ~ dim,        ~ attr_hier,
-  'Columns',    'Measures',   'Case Count',
-  'rows',       'Case - IDs', 'Investigation ID',
-  'rows',       'Case - IDs', 'Investigation ID',
-  'rows',       'Case - IDs', 'Investigation ID',
-  'rows',       'Case - IDs', 'Investigation ID',
-)
+list_stibbi_mdx <-
+  list(
+    Case =
+      r"(
+	[Measures].[Case Count]
 
+  [Case - IDs].[Case Combined ID].[Case Combined ID]
+  [Patient - Patient Master].[Patient Master Key].[Patient Master Key]
+  [Patient - Patient Master].[Gender].[Gender]
+  [Patient - Patient Master].[Birth Year].[Birth Year]
+  [Case - Disease].[Case Disease].[Case Disease]
+  [Case - Date - Earliest].[Date].[Date]
+  [Case - Date - Earliest From].[Case Earliest Date From].[Case Earliest Date From]
+  [Case - Age at Earliest Date].[Age Years].[Age Years]
+  [Case - Age at Earliest Date].[Age Group 10].[Age Group 10]
+  [Case - Geo - Surveillance Region].[Case Surveillance Region Health Authorities].[Case Surveillance Region LHA].ALLMEMBERS
+  [Case - Geo - Surveillance Region Based On].[Case Surveillance Region Based On].[Case Surveillance Region Based On]
+  [Case - Geo - Testing Region].[Case Testing Region Health Authorities].[Case Testing Region LHA]
+  [Case - Geo - Testing Region Based On].[Case Testing Region Based On].[Case Testing Region Based On]
+  [Case - Sources].[Case Source].[Case Source]
+  [Case - Status].[Case Status].[Case Status]
+  [Case - Status - LIS].[Case Status LIS].[Case Status LIS]
+  [Case - Status - PHS].[Case Status PHS].[Case Status PHS]
+  [Case - Status Confirmed By].[Case Status Confirmed By].[Case Status Confirmed By]
+  [Case - Status Determined By].[Case Status Determined By].[Case Status Determined By]"
+
+  [Case - HCV - Flag Acute].[Yes No].[Yes No]
+  [Case - HCV - Flag Acute From].[HCV Acute Flag From].[HCV Acute Flag From]
+  [Case - HCV - Flag Reinfection].[Yes No].[Yes No]
+  [Case - HCV - Interval - Seroconversion Days].[HCV Days Since Prior Negative].[HCV Days Since Prior Negative]
+    )",
+
+	`Investigation` = r"(
+	[Measures].[PHS Disease Event Count]
+
+  [PHS - IDs].[Disease Event ID].[Disease Event ID]
+  [Case - IDs].[Case Combined ID].[Case Combined ID]
+  [Patient - Patient Master].[Patient Master Key].[Patient Master Key]
+  [PHS - Client].[Client ID].[Client ID]
+  [PHS - Classification].[PHS Classification].[PHS Classification]
+  [PHS - Date - Surveillance].[Date].[Date]
+  [PHS - Date - Surveillance Reported].[Date].[Date]
+  [PHS - Disease].[PHS Disease].[PHS Disease]
+  [PHS - Stage of Infection - Earliest].[Earliest Stage of Infection].[Earliest Stage of Infection]
+  [PHS - Surveillance Condition].[Surveillance Condition].[Surveillance Condition]
+  [PHS - Etiologic Agent].[Etiologic Agent Level 1].[Etiologic Agent Level 1]
+  [PHS - Etiologic Agent].[Etiologic Agent Level 2].[Etiologic Agent Level 2]
+  [PHS - Geo - Surveillance Region].[PHS Surveillance Region Health Authorities].[PHS Surveillance Region LHA].ALLMEMBERS
+  [PHS - Geo - Surveillance Region Based On].[Surveillance Region Based On].[Surveillance Region Based On]
+  [PHS - Geo - Client Address ATOC Region].[PHS Client Address ATOC Health Authorities].[PHS Client Address ATOC LHA].ALLMEMBERS
+  [PHS - Geo - Client Address ATOC].[PHS Client Addresses ATOC].[PHS Client Address ATOC Postal Code].ALLMEMBERS
+  [PHS - Geo - Earliest Positive Ordering Provider Region].[PHS Earliest Positive Ordering Provider Health Authorities].[PHS Earliest Positive Ordering Provider LHA].ALLMEMBERS
+  [PHS - Geo - Earliest Positive Ordering Provider Address].[PHS Earliest Positive Ordering Provider Address].[PHS Earliest Positive Ordering Provider Postal Code].ALLMEMBERS
+  [PHS - Earliest Positive Ordering Provider].[Earliest Positive Ordering Provider Key].[Earliest Positive Ordering Provider Key]
+  [PHS - Source System].[Source System].[Source System]
+  [PHS - Gender Of Partners].[Gender Of Partners].[Gender Of Partners]
+  [PHS - Sexual Orientation].[Sexual Orientation].[Sexual Orientation]
+  [PHS - Age at Surveillance Date].[Age Group 10].[Age Group 10]
+  [PHS - Age at Surveillance Date].[Age Years].[Age Years]
+  [PHS - Stage of Infection].[Stage of Infection].[Stage of Infection]
+
+  [PHS - Indigenous First Nations Status].[First Nations Status].[First Nations Status]
+  [PHS - Indigenous Identity].[Indigenous Identity].[Indigenous Identity]
+  [PHS - Indigenous On Reserve Administered By].[On Reserve Administered By].[On Reserve Administered By]
+  [PHS - Indigenous Organization].[Indigenous Organization].[Indigenous Organization]
+  [PHS - Indigenous Self Identify].[Indigenous Self Identify].[Indigenous Self Identify]
+  [PHS - HAISYS On Reserve].[HAISYS On Reserve].[HAISYS On Reserve]
+
+  [PHS - STI Stage of Infection Category].[Stage of Infection Category].[Stage of Infection Category]
+
+  [PHS - STIIS Risk Category].[STIIS Risk Category].[STIIS Risk Category]
+  [PHS - STI Body Site Category].[STI Body Site Category].[STI Body Site Category]
+  [PHS - Flag - Pregnant at Time of Case].[Pregnant at Time of Case Flag].[Pregnant at Time of Case Flag]
+
+  [PHS - HIV - Client Stage of Infection].[HIV Client Stage of Infection].[HIV Client Stage of Infection]
+  [PHS - HIV - Client Stage of Infection].[HIV Stage of Infection Based On].[HIV Stage of Infection Based On]
+  [PHS - HIV - Diagnosis Test Type].[HIV Diagnosis Test Type].[HIV Diagnosis Test Type]
+  [PHS - HIV - Exposure Category].[HAISYS Exposure Category].[HAISYS Exposure Category]
+  [PHS - HIV - Flag - Non Nominal].[HIV Non Nominal Flag].[HIV Non Nominal Flag]
+  [PHS - HIV - First AIDS Defining Illness].[First AIDS Defining Illnesses].[First AIDS Defining Illness].ALLMEMBERS
+  [PHS - HIV - Reporting Category].[HIV Reporting Category].[HIV Reporting Category]
+  [PHS - HIV - Source of Diagnosis].[HIV Source of Diagnosis].[HIV Source of Diagnosis]
+  [PHS - HIV - When AIDS Diagnosed].[When AIDS Diagnosed].[When AIDS Diagnosed]
+  [PHS - HIV - Flag - Prenatal Screen].[HIV Prenatal Screen Flag].[HIV Prenatal Screen Flag]
+
+  [PHS - IDs].[Disease Event ID].[Investigation ID]
+  [PHS - IDs].[Disease Event ID].[EMR Form ID]
+
+  [PHS - IDs].[Disease Event ID].[Date - Investigation Created],
+  [PHS - IDs].[Disease Event ID].[Date - Investigation Updated],
+  [PHS - Earliest Positive Ordering Provider].[Earliest Positive Ordering Provider Key].[Earliest Positive Ordering Provider Code],
+  [PHS - Earliest Positive Ordering Provider].[Earliest Positive Ordering Provider Key].[Earliest Positive Ordering Provider Clinic Name],
+  [PHS - Earliest Positive Ordering Provider].[Earliest Positive Ordering Provider Key].[Earliest Positive Ordering Provider Clinic Code],
+  [PHS - Earliest Positive Ordering Provider].[Earliest Positive Ordering Provider Key].[Earliest Positive Ordering Provider Address Flag],
+  [PHS - Earliest Positive Ordering Provider].[Earliest Positive Ordering Provider Key].[Earliest Positive Ordering Provider Name]
+
+  [PHS - Earliest Positive Ordering Provider].[Earliest Positive Ordering Provider Key].[Earliest Positive Ordering Provider EMR Form Tab]
+    )",
+
+	`Client` = r"(
+
+	[Measures].[PHS Client Count]
+
+  [Patient - Patient Master].[Patient Master Key].[Patient Master Key]
+  [Patient - Patient Master].[Birth Year].[Birth Year]
+  [PHS - Client].[Client ID].[Client ID]
+  [PHS - Client].[Ethnicity].[Ethnicity]
+  [PHS - Client].[Gender].[Gender]
+  [PHS - Client].[Gender Identity].[Gender Identity]
+  [PHS - Client].[Other Ethnicity].[Other Ethnicity]
+
+  [PHS - Client].[HAISYS Chart Number].[HAISYS Chart Number]
+  [PHS - Client].[Haisys STI ID].[Haisys STI ID]
+
+  [PHS - Client].[STIIS Client Number].[STIIS Client Number]
+  [PHS - Client].[EMR Client ID].[EMR Client ID]
+    )",
+
+	`PHS Body Site` = r"(
+
+	[Measures].[PHS Disease Event Count]
+
+  [PHS - IDs].[Disease Event ID].[Disease Event ID]
+  [Patient - Patient Master].[Patient Master Key].[Patient Master Key]
+  [PHS - Client].[Client ID].[Client ID]
+  [PHS - Body Site and Drug Resistance].[Body Site Affected].[Body Site Affected]
+  [PHS - Body Site and Drug Resistance].[Sensitivity Interpretation].[Sensitivity Interpretation]
+  [PHS - Body Site and Drug Resistance].[Antimicrobial Drug].[Antimicrobial Drug]
+
+  [PHS - IDs].[Disease Event ID].[Investigation ID]
+    )",
+
+	`PHS Client Risk Factor` = r"(
+
+	[Measures].[PHS Disease Event Count]
+
+  [PHS - IDs].[Disease Event ID].[Disease Event ID]
+  [Patient - Patient Master].[Patient Master Key].[Patient Master Key]
+  [PHS - Client].[Client ID].[Client ID]
+  [PHS - Risk Factor - Client].[Client Risk Factor].[Client Risk Factor]
+  [PHS - Risk Factor - Client].[Client Risk Factor Response].[Client Risk Factor Response]
+  [PHS - Risk Factor - Client].[Client Risk Factor Specify]
+  [PHS - Risk Factor - Client].[Client Risk Factor End Reason].[Client Risk Factor End Reason]
+  [PHS - Risk Factor - Client].[Date - Client Risk Factor Start].[Date - Client Risk Factor Start]
+  [PHS - Risk Factor - Client].[Date - Client Risk Factor End].[Date - Client Risk Factor End]
+  [PHS - Risk Factor - Client].[Date - Client Risk Factor Reported].[Date - Client Risk Factor Reported]
+
+  [PHS - IDs].[Disease Event ID].[Investigation ID]
+    )",
+
+	`PHS Investigation Risk Factor` = r"(
+
+	[Measures].[PHS Disease Event Count]
+
+  [PHS - IDs].[Disease Event ID].[Disease Event ID]
+  [Patient - Patient Master].[Patient Master Key].[Patient Master Key]
+  [PHS - Client].[Client ID].[Client ID]
+  [PHS - Risk Factor - Investigation].[Investigation Risk Factor].[Investigation Risk Factor]
+  [PHS - Risk Factor - Investigation].[Investigation Risk Factor Response].[Investigation Risk Factor Response]
+  [PHS - Risk Factor - Investigation].[Investigation Risk Factor Specify].[Investigation Risk Factor Specify]
+  [PHS - Risk Factor - Investigation].[Investigation Risk Factor End Reason].[Investigation Risk Factor End Reason]
+  [PHS - Risk Factor - Investigation].[Date - Investigation Risk Factor Start].[Date - Investigation Risk Factor Start]
+  [PHS - Risk Factor - Investigation].[Date - Investigation Risk Factor End].[Date - Investigation Risk Factor End]
+  [PHS - Risk Factor - Investigation].[Date - Investigation Risk Factor Reported].[Date - Investigation Risk Factor Reported]
+
+  [PHS - IDs].[Disease Event ID].[Investigation ID]
+    )",
+
+	`PHS UDF Long` = r"(
+
+	[Measures].[PHS Disease Event Count]
+
+	[PHS - IDs].[Disease Event ID].[Disease Event ID]
+	[Patient - Patient Master].[Patient Master Key].[Patient Master Key]
+	[PHS - Client].[Client ID].[Client ID]
+	[PHS - UDF - All].[UDF All Key].[UDF All Key]
+
+  [PHS - IDs].[Disease Event ID].[Investigation ID]
+  [PHS - UDF - All].[UDF All Key].[Section Name]
+  [PHS - UDF - All].[UDF All Key].[Question Keyword Common]
+  [PHS - UDF - All].[UDF All Key].[Answer Value]
+  [PHS - UDF - All].[UDF All Key].[Answer Row ID]
+  [PHS - UDF - All].[UDF All Key].[Section Sort ID]
+  [PHS - UDF - All].[UDF All Key].[Question Sort ID]
+  [PHS - UDF - All].[UDF All Key].[UDF Name]
+  [PHS - UDF - All].[UDF All Key].[UDF Template Version]
+    )",
+
+	`LIS Tests` = r"(
+
+  [Measures].[LIS Test Count]
+
+  [Patient - Patient Master].[Patient Master Key].[Patient Master Key]
+  [LIS - IDs].[Test ID].[Test ID]
+  [LIS - Patient].[Patient Key].[Patient Key]
+  [LIS - Infection Group].[Infection Group].[Infection Group]
+  [LIS - Date - Collection].[Date].[Date]
+  [LIS - Date - Receive].[Date].[Date]
+  [LIS - Date - Result].[Date].[Date]
+  [LIS - Age at Collection].[Age Years].[Age Years]
+  [LIS - Age at Collection].[Age Group 09].[Age Group 09]
+  [LIS - Age at Collection].[Age Group 10].[Age Group 10]
+  [LIS - Age at Collection].[Age Group 24].[Age Group 24]
+  [LIS - Test].[Tests].[Test Name].ALLMEMBERS
+  [LIS - Test].[Order Code].[Order Code]
+  [LIS - Test].[Test Code].[Test Code]
+  [LIS - Test].[Source System ID].[Source System ID]
+  [LIS - Result Attributes].[Test Outcome].[Test Outcome]
+  [LIS - Result - Organism].[Organisms].[Organism Level 3].ALLMEMBERS
+  [LIS - Geo - Patient Region ATOT].[LIS Patient Health Authorities ATOT].[LIS Patient LHA ATOT].ALLMEMBERS
+  [LIS - Geo - Patient Address ATOT].[LIS Patient Addresses ATOT].[LIS Patient Postal Code ATOT].ALLMEMBERS
+  [LIS - Patient Location at Order].[Hospital Code].[Hospital Code]
+  [LIS - Patient Location at Order].[Location Type].[Location Type]
+  [LIS - Patient Location at Order].[Patient Location Code].[Patient Location Code]
+  [LIS - Patient Location at Order].[Patient Location Name].[Patient Location Name]
+  [LIS - Lab Location - Result].[Lab Locations].[Hospital Code]
+  [LIS - Lab Location - Result].[Lab Code].[Lab Code]
+  [LIS - Lab Location - Result].[Lab Name].[Lab Name]
+  [LIS - Lab Location - Result].[Lab Location Code].[Lab Location Code]
+  [LIS - Lab Location - Result].[Lab Location Name].[Lab Location Name]
+  [LIS - Lab Location - Result].[Lab Location Description].[Lab Location Description]
+  [LIS - Lab Location - Order Entry].[Lab Locations].[Hospital Code]
+  [LIS - Lab Location - Order Entry].[Lab Code].[Lab Code]
+  [LIS - Lab Location - Order Entry].[Lab Name].[Lab Name]
+  [LIS - Lab Location - Order Entry].[Lab Location Code].[Lab Location Code]
+  [LIS - Lab Location - Order Entry].[Lab Location Name].[Lab Location Name]
+  [LIS - Lab Location - Order Entry].[Lab Location Description].[Lab Location Description]
+  [LIS - Flag - Prenatal Test].[Prenatal Flag].[Prenatal Flag]
+  [LIS - Flag - Proficiency Test].[Yes No].[Yes No]
+  [LIS - Flag - Test Performed].[Test Performed].[Test Performed]
+  [LIS - Result Attributes].[Result Full Description].[Result Full Description]
+
+  [LIS - IDs].[Test ID].[Episode ID]
+  [LIS - IDs].[Test ID].[Accession Number]
+  [LIS - IDs].[Test ID].[Container ID]
+  [LIS - Patient].[Patient Key].[Birth Year]
+  [LIS - Patient].[Patient Key].[Gender]
+    )",
+
+	`LIS Test Providers` = r"(
+
+  [Measures].[LIS Test Count]
+
+  [Patient - Patient Master].[Patient Master Key].[Patient Master Key]
+  [LIS - Patient].[Patient Key].[Patient Key]
+  [LIS - IDs].[Test ID].[Test ID]
+  [LIS - Date - Collection].[Date].[Date]
+  [LIS - Date - Receive].[Date].[Date]
+  [LIS - Date - Episode Start].[Date].[Date]
+  [LIS - Infection Group].[Infection Group].[Infection Group]
+  [LIS - Provider - Ordering].[Provider Key].[Provider Key]
+  [LIS - Geo - Ordering Provider Region ATOT].[LIS Ordering Provider Health Authorities ATOT].[LIS Ordering Provider LHA ATOT].ALLMEMBERS
+  [LIS - Geo - Ordering Provider Address ATOT].[LIS Ordering Provider Addresses ATOT].[LIS Ordering Provider Postal Code ATOT].ALLMEMBERS
+  [LIS - Provider - Copy To 1].[Provider Key].[Provider Key]
+  [LIS - Provider - Copy To 2].[Provider Key].[Provider Key]
+  [LIS - Provider - Copy To 3].[Provider Key].[Provider Key]
+
+  [LIS - IDs].[Test ID].[Episode ID]
+  [Patient - Patient Master].[Patient Master Key].[Birth Year]
+  [LIS - IDs].[Test ID].[Accession Number]
+  [LIS - IDs].[Test ID].[Container ID]
+  [LIS - Provider - Ordering].[Provider Key].[Provider Code]
+  [LIS - Provider - Ordering].[Provider Key].[Provider Type]
+  [LIS - Provider - Ordering].[Provider Key].[Provider Group]
+  [LIS - Provider - Ordering].[Provider Key].[Provider Name]
+  [LIS - Provider - Ordering].[Provider Key].[Full Address]
+  [LIS - Provider - Copy To 1].[Provider Key].[Provider Code]
+  [LIS - Provider - Copy To 1].[Provider Key].[Provider Type]
+  [LIS - Provider - Copy To 1].[Provider Key].[Provider Group]
+  [LIS - Provider - Copy To 1].[Provider Key].[Provider Name]
+  [LIS - Provider - Copy To 1].[Provider Key].[Full Address]
+  [LIS - Provider - Copy To 2].[Provider Key].[Provider Code]
+  [LIS - Provider - Copy To 2].[Provider Key].[Provider Type]
+  [LIS - Provider - Copy To 2].[Provider Key].[Provider Group]
+  [LIS - Provider - Copy To 2].[Provider Key].[Provider Name]
+  [LIS - Provider - Copy To 2].[Provider Key].[Full Address]
+  [LIS - Provider - Copy To 3].[Provider Key].[Provider Code]
+  [LIS - Provider - Copy To 3].[Provider Key].[Provider Type]
+  [LIS - Provider - Copy To 3].[Provider Key].[Provider Group]
+  [LIS - Provider - Copy To 3].[Provider Key].[Provider Name]
+  [LIS - Provider - Copy To 3].[Provider Key].[Full Address]
+    )",
+
+	`LIS Episodes` = r"(
+
+  [Measures].[LIS Episode Count]
+
+  [Patient - Patient Master].[Patient Master Key].[Patient Master Key]
+  [Patient - Patient Master].[Birth Year].[Birth Year]
+  [LIS - IDs].[Test ID].[Test ID]
+  [Case - IDs].[Case Combined ID].[Case Combined ID]
+  [LIS - Infection Group].[Infection Group].[Infection Group]
+  [LIS - Date - Episode Start].[Date].[Date]
+  [LIS - Date - Episode End].[Date].[Date]
+  [LIS - Gender at Episode Start].[Gender].[Gender]
+  [LIS - Gender at Episode Start].[Gender Code].[Gender Code]
+  [LIS - Age at Episode Start].[Age Years].[Age Years]
+  [LIS - Age at Episode Start].[Age Group 09].[Age Group 09]
+  [LIS - Age at Episode Start].[Age Group 10].[Age Group 10]
+  [LIS - Age at Episode Start].[Age Group 24].[Age Group 24]
+  [LIS - Geo - Patient Region].[LIS Patient Health Authorities].[LIS Patient LHA].ALLMEMBERS
+  [LIS - Geo - Patient Region Proxy].[LIS Patient Health Authorities Proxy].[LIS Patient LHA Proxy].ALLMEMBERS
+  [LIS - Geo - Patient Address].[LIS Patient Addresses].[LIS Patient Postal Code].ALLMEMBERS
+  [LIS - Geo - Ordering Provider Region].[LIS Ordering Provider Health Authorities].[LIS Ordering Provider LHA].ALLMEMBERS
+  [LIS - Geo - Ordering Provider Region Proxy].[LIS Ordering Provider Health Authorities Proxy].[LIS Ordering Provider LHA Proxy].ALLMEMBERS
+  [LIS - Geo - Ordering Provider Address].[LIS Ordering Provider Addresses].[LIS Ordering Provider Postal Code].ALLMEMBERS
+  [LIS - Episode Testing Pattern].[Episode Testing Pattern].[Episode Testing Pattern]
+  [LIS - Flag - Prenatal Episode].[Prenatal Flag].[Prenatal Flag]
+  [LIS - Flag - Reinfection].[Yes No].[Yes No]
+  [LIS - Flag - Repeat Tester].[Yes No].[Yes No]
+  [LIS - Interval - Days Since First Episode].[Interval in Days].[Interval in Days]
+  [LIS - Interval - Days Since First Episode].[Interval Group 1].[Interval Group 1]
+  [LIS - Interval - Days Since Prior Episode].[Interval in Days].[Interval in Days]
+  [LIS - Interval - Days Since Prior Episode].[Interval Group 1].[Interval Group 1]
+  [LIS - Interval - Days Since Prior Pos or Neg Episode].[Interval in Days].[Interval in Days]
+  [LIS - Interval - Days Since Prior Pos or Neg Episode].[Interval Group 1].[Interval Group 1]
+  [LIS - Rule Engine - Episode Status].[Rule Engine - Episode Status].[Rule Detail Description].ALLMEMBERS
+
+  [LIS - IDs].[Test ID].[Episode ID]
+  [LIS - IDs].[Test ID].[Episode Seq]
+    )",
+
+	`LIS POC` = r"(
+
+  [Measures].[POC Test Count]
+  [Measures].[Non Reactive POC Test Count]
+  [Measures].[Indeterminate POC Test Count]
+  [Measures].[Reactive POC Test Count]
+
+	[LIS - Infection Group].[Infection Group].[Infection Group]
+	[LIS - POC - Test Location].[Health Authority].[Health Authority]
+	[LIS - POC - Test Location].[HSDA].[HSDA]
+	[LIS - POC - Test Location].[City].[City]
+	[LIS - POC - Test Location].[Site Name].[Site Name]
+	[LIS - Date - POC Reporting].[Date].[Date]
+    )"
+  ) %>%
+  map(str_split_1, '\\n') %>%
+  map(str_trim) %>%
+  map(discard, ~ nchar(.x) == 0) %>%
+  map(str_remove_all, '\\[|\\]|\\,') %>%
+  map(map, str_split_1, '\\.') %>%
+  imap(
+    ~ map2_dfr(
+      .x, .y,
+      ~ tibble(
+        mart         = 'STIBBI',
+        cube         = 'StibbiDM',
+        dataset_name = .y,
+        dim          = .x[1],
+        attr_hier    = .x[2],
+        tbd          = .x[3],
+        all_memb     = .x[4],
+      )
+    )
+  ) %>%
+  map(
+    ~ {
+
+      df_temp <- .x
+
+      mutate(
+        df_temp,
+        lvl_or_prop =
+          pmap(
+            df_temp,
+            \(mart, cube, dataset_name, dim, attr_hier, tbd, all_memb) {
+
+              df_temp <-
+                df_olap_map %>%
+                select(-mea) %>%
+                distinct %>%
+                filter(
+                  tolower(.data$cube)      == tolower(.env$cube),
+                  tolower(.data$dim)       == tolower(.env$dim),
+                  tolower(.data$attr_hier) == tolower(.env$attr_hier)
+                )
+
+              lvl_prop <-
+                map(
+                  list(
+                    lvl  = tolower(df_temp$lvl),
+                    prop = tolower(df_temp$prop)
+                  ),
+                  ~ if (any(tolower(tbd) %in% .x)) { tbd } else { NA_character_ }
+                )
+
+              if (all(is.na(lvl_prop))) lvl_prop$lvl <- tbd
+
+              return(lvl_prop)
+
+            }
+          )
+      ) %>%
+        unnest_wider(lvl_or_prop) %>%
+        select(-tbd) %>%
+        mutate(
+          .after = 2,
+          field_type =
+            case_when(
+              dim == 'Measures' ~ 'columns',
+              !is.na(lvl) & is.na(prop) ~ 'rows',
+              is.na(lvl) & !is.na(prop) ~ 'dim_prop',
+              TRUE ~ 'rows'
+            )
+        ) %>%
+        mutate(
+          .after = attr_hier,
+          lvl_memb = coalesce(lvl, prop),
+          attr_hier =
+            case_when(
+              field_type == 'rows' & attr_hier != lvl_memb & is.na(all_memb) ~
+                lvl_memb,
+              .default = attr_hier
+            )
+        ) %>%
+        select(-c(lvl, prop))
+
+    }
+  ) %>%
+  imap(
+    ~ {
+
+      ## checks ----
+
+      if (.y == 'Case') {
+
+        mutate(
+          .x,
+          .after = field_type,
+          check =
+            case_when(
+              str_detect(dim, regex('hcv', ignore_case = T)) ~ 'hvc',
+              TRUE                                           ~ 'default'
+            )
+        )
+
+      } else if (.y == 'Investigation') {
+
+        mutate(
+          .x,
+          .after = field_type,
+          check =
+            case_when(
+              str_detect(dim, regex('indige|haisys', ignore_case = T)) ~
+                'indigenous_id',
+              str_detect(dim, regex('sti stage of inf', ignore_case = T)) ~
+                'syphilis',
+              str_detect(dim, regex('stiis|sti body|flag - preg', ignore_case = T)) ~
+                'syphilis_chlamydia_gonorrhea_lymphogranuloma',
+              str_detect(lvl_memb, regex('emr form', ignore_case = T)) ~
+                'syphilis_chlamydia_gonorrhea_lymphogranuloma',
+              str_detect(dim, regex('hiv', ignore_case = T)) ~
+                'hiv_aids',
+              TRUE ~ 'default'
+            )
+        )
+
+      } else if (.y == 'Client') {
+
+        mutate(
+          .x,
+          .after = field_type,
+          check =
+            case_when(
+              str_detect(attr_hier, regex('haisys', ignore_case = T)) ~
+                'hiv_aids',
+              str_detect(attr_hier, regex('stiis', ignore_case = T))  ~
+                'syphilis_chlamydia_gonorrhea_lymphogranuloma',
+              TRUE ~ 'default'
+            )
+        )
+
+      } else { .x }
+
+    }
+  )
+
+list_stibbi_mdx %<>%
+  imap(
+    ~ bind_rows(
+      .x,
+      new_filter_rules %>%
+        filter(
+          .data$mart         == 'STIBBI',
+          .data$dataset_name == .y,
+        )
+    )
+  ) %>%
+  map(fill, cube, .direction = 'down')
+
+
+
+mdx_query_info <-
+  list_stibbi_mdx %>%
+  map(distinct) %>%
+  bind_rows() %>%
+  drop_na(dim) %>%
+  bind_rows(list_mdx_queries, .)
 
 list_query_info <-
   list(
@@ -333,7 +843,7 @@ usethis::use_data(
   # sql_query_info,
   # mdx_query_info,
   list_query_info,
-  col_name_dict
+  col_name_dict,
+  df_olap_map
 )
-
 
