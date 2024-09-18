@@ -28,11 +28,11 @@ dmvs <-
   c(
     'MDSCHEMA_DIMENSIONS',
     'MDSCHEMA_HIERARCHIES',
-    # 'MDSCHEMA_LEVELS',
+    'MDSCHEMA_LEVELS',
     'MDSCHEMA_MEASUREGROUP_DIMENSIONS',
     'MDSCHEMA_MEASUREGROUPS',
-    'MDSCHEMA_MEASURES'
-    # 'MDSCHEMA_PROPERTIES'
+    'MDSCHEMA_MEASURES',
+    'MDSCHEMA_PROPERTIES'
   )
 
 mg_dim <-
@@ -52,7 +52,7 @@ mg_dim <-
 
 marts <-
   available_prebuilt_datasets %>%
-  discard_at('cd') %>%
+  discard_at('CD') %>%
   names
 
 system.time(
@@ -112,8 +112,18 @@ system.time(
 # Clean up ----------------------------------------------------------------
 
 dmv_outputs %>%
-  { .[order(map_int(., nrow), decreasing = F)] } %>%
-  map(select, !matches('UNIQUE')) %>%
+  discard_at('MDSCHEMA_PROPERTIES') %>%
+  map(
+    ~ list(
+      .x,
+      dmv_outputs$MDSCHEMA_PROPERTIES
+    ) %>%
+      map(names) %>%
+      reduce(intersect)
+  )
+
+df_olap_map <-
+  dmv_outputs %>%
   map(remove_empty, 'cols') %>%
   map(clean_names) %>%
   map(mutate, across(where(is.numeric), as.character)) %>%
@@ -130,28 +140,41 @@ dmv_outputs %>%
   ) %>%
   map(select, -matches('is_(virtual|readwrite|visible)')) %>%
   map(select, -matches('dimension_(type|unique_setting)')) %>%
-  map(select, -matches('all|default)_member')) %>%
   map(distinct) %>%
+  { .[order(map_int(., nrow), decreasing = F)] } %>%
   {
 
-    dfs_temp <- .
-    browser()
-
-    left_join(
-      dfs_temp$MDSCHEMA_MEASURES,
-      dfs_temp$MDSCHEMA_MEASUREGROUP_DIMENSIONS,
-      relationship = 'many-to-many'
-    ) %>%
-      select(-matches('cardinality')) %>%
-      left_join(dfs_temp$MDSCHEMA_DIMENSION, relationship = 'many-to-many') %>%
-      left_join(dfs_temp$MDSCHEMA_HIERARCHIES, relationship = 'many-to-many')
-
     list(
-      dfs_temp$MDSCHEMA_DIMENSIONS,
-      dfs_temp$MDSCHEMA_HIERARCHIES,
-      dfs_temp$MDSCHEMA_MEASUREGROUP_DIMENSIONS
-    )
+      .$MDSCHEMA_MEASURES,
+      .$MDSCHEMA_MEASUREGROUPS,
+      .$MDSCHEMA_MEASUREGROUP_DIMENSIONS,
+      .$MDSCHEMA_DIMENSIONS,
+      .$MDSCHEMA_HIERARCHIES,
+      .$MDSCHEMA_LEVELS,
+      .$MDSCHEMA_PROPERTIES
+    ) %>%
+      map(select, -matches('cardinality')) %>%
+      reduce(full_join) %>%
+      distinct %>%
+      select(
+        catalog   = catalog_name,
+        cube      = cube_name,
+        mea       = measure_name,
+        dim       = dimension_name,
+        hier_attr = hierarchy_name,
+        lvl       = level_name,
+        prop      = property_name
+      ) %>%
+      drop_na(dim) %>%
+      drop_na(mea) %>%
+      mutate(
+        prop =
+          case_when(
+            str_detect(prop, 'KEY\\d|NAME|MEMBER') ~ NA,
+            TRUE ~ prop
+          )
+      ) %>%
+      distinct
 
   }
-
 
