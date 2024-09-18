@@ -333,7 +333,7 @@ list_stibbi_mdx <-
   [Case - Status - LIS].[Case Status LIS].[Case Status LIS]
   [Case - Status - PHS].[Case Status PHS].[Case Status PHS]
   [Case - Status Confirmed By].[Case Status Confirmed By].[Case Status Confirmed By]
-  [Case - Status Determined By].[Case Status Determined By].[Case Status Determined By]"
+  [Case - Status Determined By].[Case Status Determined By].[Case Status Determined By]
 
   [Case - HCV - Flag Acute].[Yes No].[Yes No]
   [Case - HCV - Flag Acute From].[HCV Acute Flag From].[HCV Acute Flag From]
@@ -649,7 +649,7 @@ list_stibbi_mdx <-
   map(str_split_1, '\\n') %>%
   map(str_trim) %>%
   map(discard, ~ nchar(.x) == 0) %>%
-  map(str_remove_all, '\\[|\\]|\\,') %>%
+  map(str_remove_all, '\\[|\\]|\\,|\\"') %>%
   map(map, str_split_1, '\\.') %>%
   imap(
     ~ map2_dfr(
