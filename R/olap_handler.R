@@ -7,10 +7,41 @@
 #'
 olap_handler <- function() {
 
+  hiv             <- 'Human immunodeficiency virus (HIV) infection'
+  aids            <- 'Acquired immunodeficiency syndrome (AIDS)'
+  syphilis        <- c('Syphilis','Syphilis (congenital)')
+  hcv             <- 'Hepatitis C'
+  chlamydia       <- 'Chlamydia'
+  gonorrhea       <- 'Gonorrhea'
+  lymphogranuloma <- 'Lymphogranuloma venereum'
+
+  # TODO: what if multiple user disease input?
+  checks <-
+    c(
+      "default"       = T,
+      "indigenous_id" = include_indigenous_identifiers,
+      "patient_id"    = include_patient_identifiers,
+      "system_ids"    = any(
+                          stringr::str_detect(
+                            retrieve_system_ids,
+                            stringr::regex('yes', ignore_case = T)
+                          ),
+                          isTRUE(retrieve_system_ids)
+                        ),
+      "hiv_aids"      = any(disease %in% c(hiv, aids)),
+      "hiv"           = any(disease %in% hiv),
+      "hvc"           = any(disease %in% hcv),
+      "syphilis"      = any(disease %in% syphilis),
+      "syphilis_chlamydia_gonorrhea_lymphogranuloma" =
+        any(disease %in% c(syphilis, chlamydia, gonorrhea, lymphogranuloma))
+    ) %>%
+    purrr::keep(isTRUE) %>%
+    names
+
   mdx_query <-
     .query_info %>%
     dplyr::filter(
-      tolower(.data$cube)         == tolower(.env$mart),
+      tolower(.data$mart)         == tolower(.env$mart),
       tolower(.data$dataset_name) == tolower(.env$dataset_name),
     ) %>%
     {
@@ -18,14 +49,13 @@ olap_handler <- function() {
       columns <- dplyr::filter(., .data$field_type == 'columns')$attr_hier
       rows    <-
         dplyr::filter(., .data$field_type == 'rows') %>%
-        dplyr::summarise(.by = dim, rows = list(attr_hier)) %>%
-        dplyr::mutate(
-          dplyr::across(
-            dplyr::where(is.list),
-            ~ rlang::set_names(.x, dim)
-          )
-        ) %>%
-        dplyr::pull(rows)
+        dplyr::filter(.data$check %in% checks) %>%
+        dplyr::select(dim, attr_hier, lvl_memb, all_memb)
+
+      dim_props <-
+        dplyr::filter(., .data$field_type == 'dim_prop') %>%
+        dplyr::filter(., .data$check %in% checks) %>%
+        dplyr::select(dim, attr_hier, lvl_memb)
 
       if (isTRUE(.check_params)) {
 
@@ -184,6 +214,8 @@ olap_handler <- function() {
         cube_name = unique(.$cube),
         columns   = columns,
         rows      = rows,
+        dim_props = dim_props,
+        .partial  = .partial,
         discrete  = filters_discrete,
         range     = filter_date
       )
