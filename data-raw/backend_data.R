@@ -70,62 +70,63 @@ filter_rules <-
     guess_max = 2000
   )
 
-available_prebuilt_datasets <-
-  list(
-    'CDI'         = c('Vital Stats',
-                      'Vital Stats CCD',
-                      'Vital Stats CCD Dashboard'
-                      ),
-
-    'Respiratory' = c('LIS Tests',
-                      'LIS Episodes'),
-
-    'STIBBI'      = c('Case',
-                      'Investigation',
-                      'Client',
-                      'PHS Body Site',
-                      'PHS Client Risk Factor',
-                      'PHS Investigation Risk Factor',
-                      'PHS UDF Long',
-                      'LIS Tests',
-                      'LIS Test Providers',
-                      'LIS Episodes',
-                      'LIS POC'),
-
-    'Enteric'     = c('case Investigation',
-                      'Risk Factor',
-                      'Symptom',
-                      'UDF',
-                      'LIS Data'),
-
-    'VPD'         = c('Case Investigation',
-                      'Symptoms',
-                      'Symptoms Long',
-                      'Risk Factors',
-                      'UDF',
-                      'UDF Long',
-                      'Immunizations',
-                      'Special Considerations',
-                      'LIS Tests'),
-
-    'CD'          = c('Investigation',
-                      'Client',
-                      'Risk Factor',
-                      'Symptom',
-                      'Observation',
-                      'UDF',
-                      'Lab',
-                      'Transmission Events',
-                      'Contacts',
-                      'Outbreaks',
-                      'TB Contacts',
-                      'TB Investigation',
-                      'TB Transmission Events',
-                      'TB Client',
-                      'TB TST Investigation',
-                      'TB TST Client',
-                      'TB Lab',
-                      'Complication')
+# available_prebuilt_datasets <-
+#   list(
+#     'CDI'         = c('Vital Stats',
+#                       'Vital Stats CCD',
+#                       'Vital Stats CCD Dashboard'
+#                       ),
+#
+#     'Respiratory' = c('LIS Tests',
+#                       'LIS Episodes'),
+#
+#     'STIBBI'      = c('Case',
+#                       'Investigation',
+#                       'Client',
+#                       'PHS Body Site',
+#                       'PHS Client Risk Factor',
+#                       'PHS Investigation Risk Factor',
+#                       'PHS UDF Long',
+#                       'LIS Tests',
+#                       'LIS Test Providers',
+#                       'LIS Episodes',
+#                       'LIS POC'),
+#
+#     'Enteric'     = c('Case Investigation',
+#                       'Risk Factor',
+#                       'Symptom',
+#                       'UDF',
+#                       'LIS Data'),
+#
+#     'VPD'         = c('Case Investigation',
+#                       'Symptoms',
+#                       'Symptoms Long',
+#                       'Risk Factors',
+#                       'UDF',
+#                       'UDF Long',
+#                       'Immunizations',
+#                       'Special Considerations',
+#                       'LIS Tests'),
+#
+#     'CD'          = c('Investigation',
+#                       'Client',
+#                       'Risk Factor',
+#                       'Symptom',
+#                       'Observation',
+#                       'UDF',
+#                       'Lab',
+#                       'Transmission Events',
+#                       'Contacts',
+#                       'Outbreaks',
+#                       'TB Contacts',
+#                       'TB Investigation',
+#                       'TB Transmission Events',
+#                       'TB Client',
+#                       'TB TST Investigation',
+#                       'TB TST Client',
+#                       'TB Lab',
+#                       'Complication')
+#   )
   )
 
 sql_query_info <-

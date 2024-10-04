@@ -50,10 +50,7 @@ mg_dim <-
     'DIMENSION_GRANULARITY'
   )
 
-marts <-
-  available_prebuilt_datasets %>%
-  discard_at('CD') %>%
-  names
+marts <- unique(list_query_info$olap$mart)
 
 system.time(
   dmv_outputs <-
