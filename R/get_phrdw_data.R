@@ -281,28 +281,13 @@ get_phrdw_data <- function(
       )
 
     }
+  if (data_source == 'sql') {
 
-    # cube operations
-    if (
-      !tolower(dataset_name) %in%
-      tolower(available_prebuilt_datasets[[mart_index]])
-    ) {
+    ##
+    environment(sql_handler) <- environment()
 
-      stop(
-        paste0(
-          'Please check `dataset_name` spelling.\n',
-          'It should be one of the following ',
-          '(non-case-sensitive):\n\n',
-          paste(
-            '  -',
-            available_prebuilt_datasets[[mart_index]],
-            collapse = '\n'
-          )
-        ),
-        call. = F
-      )
+    query_output <- sql_handler()
 
-    }
   } else if (data_source == 'olap') {
 
     ## Create query
@@ -341,7 +326,10 @@ get_phrdw_data <- function(
 
   if (isTRUE(.clean_data)) query_output <- datatype_cols(query_output)
 
-  if (isTRUE(.return_data)) return(query_output)
+  if (isTRUE(.return_query)) return(query_output)
+
+  if (isFALSE(.return_data)) return() else return(query_output)
+
 
 }
 
