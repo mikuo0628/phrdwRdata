@@ -7,46 +7,79 @@
 #'
 olap_handler <- function() {
 
-  hiv             <- 'Human immunodeficiency virus (HIV) infection'
-  aids            <- 'Acquired immunodeficiency syndrome (AIDS)'
-  syphilis        <- c('Syphilis','Syphilis (congenital)')
-  hcv             <- 'Hepatitis C'
-  chlamydia       <- 'Chlamydia'
-  gonorrhea       <- 'Gonorrhea'
-  lymphogranuloma <- 'Lymphogranuloma venereum'
+  list_check_values <-
+    list(
+      # stibbi
+      hiv             = c('Human immunodeficiency virus (HIV) infection'),
+      aids            = c('Acquired immunodeficiency syndrome (AIDS)'),
+      syphilis        = c('Syphilis','Syphilis (congenital)'),
+      hcv             = c('Hepatitis C'),
+      chlamydia       = c('Chlamydia'),
+      gonorrhea       = c('Gonorrhea'),
+      lymphogranuloma = c('Lymphogranuloma venereum'),
+
+      # vpd
+      measles         = c('Measles'),
+      mumps           = c('Mumps'),
+      bordetella      = c('Purtussis', 'Holmesii', 'Parapertussis'),
+      group_b_strep   = c('Streptococcal disease (group B)'),
+      igas            = c('Streptococcal disease (invasive group A - iGAS)'),
+      ipd             = c('Pneumococcal disease (invasive)'),
+      meningo         = c('Meningococcal disease (invasive)',
+                          'Meningococcal disease (non-invasive)'),
+      rubella         = c('Rubella', 'Rubella (congenital)'),
+      reportable_vpd  = c('Diphtheria',
+                          'Haemophilus influenza (invasive disease)',
+                          'Tetanus'),
+      other_disease   = c('Diphtheria',
+                          'Haemophilus influenzae (invasive disease)',
+                          'Tetanus',
+                          'Rubella',
+                          'Rubella (congenital)',
+                          'Meningococcal disease (invasive)',
+                          'Meningococcal disease (non-invasive)',
+                          'Pneumococcal disease (invasive)',
+                          'Streptococcal disease (invasive group A - iGAS)',
+                          'Streptococcal disease (group B)',
+                          'Pertussis','Holmesii','Parapertussis',
+                          'Mumps',
+                          'Measles')
+    )
 
   # TODO: what if multiple user disease input?
   checks <-
-    c(
-      "default"       = T,
-      "indigenous_id" = include_indigenous_identifiers,
-      "patient_id"    = include_patient_identifiers,
-      "system_ids"    = any(
-                          stringr::str_detect(
-                            retrieve_system_ids,
-                            stringr::regex('yes', ignore_case = T)
-                          ),
-                          isTRUE(retrieve_system_ids)
-                        ),
-      "hiv_aids"      = any(disease %in% c(hiv, aids)),
-      "hiv"           = any(disease %in% hiv),
-      "hvc"           = any(disease %in% hcv),
-      "syphilis"      = any(disease %in% syphilis),
-      "syphilis_chlamydia_gonorrhea_lymphogranuloma" =
-        any(disease %in% c(syphilis, chlamydia, gonorrhea, lymphogranuloma))
+    append(
+      list(
+        default         = T,
+        `indigenous_id` = include_indigenous_identifiers,
+        `patient_id`    = include_patient_identifiers,
+        `system_ids`    = any(
+          stringr::str_detect(
+            retrieve_system_ids,
+            stringr::regex('yes', ignore_case = T)
+          ),
+          isTRUE(retrieve_system_ids)
+        )
+      ),
+      purrr::map_lgl(list_check_values, ~ any(disease %in% .x))
     ) %>%
     purrr::keep(isTRUE) %>%
     names
 
+  # TODO: handle default dim_props and default filters (Enterics)
   mdx_query <-
     .query_info %>%
     dplyr::filter(
       tolower(.data$mart)         == tolower(.env$mart),
       tolower(.data$dataset_name) == tolower(.env$dataset_name),
     ) %>%
+    dplyr::group_by(field_type) %>%
+    dplyr::distinct(dim, attr_hier, lvl_memb, all_memb, .keep_all = T) %>%
+    dplyr::ungroup() %>%
     {
 
       columns <- dplyr::filter(., .data$field_type == 'columns')$attr_hier
+
       rows    <-
         dplyr::filter(., .data$field_type == 'rows') %>%
         dplyr::filter(.data$check %in% checks) %>%
@@ -66,33 +99,27 @@ olap_handler <- function() {
           )
         )
 
-        purrr::iwalk(
-          rows,
-          ~ {
-
-            cat(
-              paste(stringr::str_pad('* Dimension:',  15, 'right', ' '),
-                    .y, '\n'),
-              paste(stringr::str_pad('** Hierarchy:', 15, 'right', ' '),
-                    .x, '\n'),
-              '\n',
-              sep = ''
-            )
-            cat(paste(rep('-', 50), collapse = ''), '\n\n')
-
-          }
-        )
-
-        filters <-
-          dplyr::filter(
-            .,
-            stringr::str_detect(.data$field_type, 'filter')
-          ) %>%
-          dplyr::select(dim, attr_hier) %>%
+        rows %>%
           dplyr::group_by(dim) %>%
           dplyr::summarise(hier = list(attr_hier)) %>%
-          purrr::pmap(function (dim, hier) rlang::set_names(hier, dim)) %>%
-          unlist
+          purrr::pwalk(
+            function(...) {
+
+              dots <- rlang::list2(...)
+
+              cat(
+                paste(stringr::str_pad('* Dimension:',  15, 'right', ' '),
+                      dots$dim, '\n'),
+                paste(stringr::str_pad('** Hierarchy:', 15, 'right', ' '),
+                      dots$hier, '\n'),
+                '\n',
+                sep = ''
+              )
+
+              cat(paste(rep('-', 50), collapse = ''), '\n\n')
+
+            }
+          )
 
         cat(
           '\n',
@@ -103,21 +130,74 @@ olap_handler <- function() {
           sep = ''
         )
 
-        purrr::iwalk(
-          filters,
-          ~ {
+        dplyr::filter(
+          .,
+          stringr::str_detect(.data$field_type, 'filter')
+        ) %>%
+          dplyr::select(dim, attr_hier) %>%
+          dplyr::group_by(dim) %>%
+          dplyr::summarise(hier = list(attr_hier)) %>%
+          purrr::pwalk(
+            function(...) {
 
-            cat(
-              paste(stringr::str_pad('* Dimension:',  15, 'right', ' '),
-                    .y, '\n'),
-              paste(stringr::str_pad('** Hierarchy:', 15, 'right', ' '),
-                    .x, '\n'),
-              '\n',
-              sep = ''
+              dots <- rlang::list2(...)
+
+              cat(
+                paste(stringr::str_pad('* Dimension:',  15, 'right', ' '),
+                      dots$dim, '\n'),
+                paste(stringr::str_pad('** Hierarchy:', 15, 'right', ' '),
+                      dots$hier, '\n'),
+                '\n',
+                sep = ''
+              )
+
+              cat(paste(rep('-', 50), collapse = ''), '\n\n')
+
+            }
+          )
+
+      } else if (is.character(.check_params)) {
+
+        cubes <- explore(connect_to_phrdw(mart = mart, type = type))
+
+        dim <-
+          dplyr::filter(
+            .query_info,
+            tolower(.data$mart) == .env$mart,
+            .data$attr_hier     == .check_params
+          )$dim %>%
+          unique
+
+        levels <-
+          purrr::imap(
+            rlang::set_names(cubes),
+            ~ try(
+              explore(
+                connect_to_phrdw(mart = mart, type = type),
+                .x,
+                dim,
+                .check_params,
+                .check_params
+              ),
+              silent = T
             )
-            cat(paste(rep('-', 50), collapse = ''), '\n\n')
+          ) %>%
+          purrr::discard(~ inherits(.x, 'try-error'))
 
-          }
+        return(
+          purrr::iwalk(
+            levels,
+            ~ cat(
+              '',
+              paste(stringr::str_pad('Cube:',      13, 'right', ' '), .y),
+              paste(stringr::str_pad('Dimension:', 13, 'right', ' '), dim),
+              paste(stringr::str_pad('Hierarchy:', 13, 'right', ' '), .check_params),
+              '',
+              stringr::str_pad('Levels:',    13, 'right', ' '),
+              paste('-', .x, collapse = '\n'),
+              sep = '\n'
+            )
+          )
         )
 
       }
@@ -126,11 +206,11 @@ olap_handler <- function() {
       filters_discrete <-
         dplyr::filter(
           .,
-          .data$field_type == 'filter_d',
-          dplyr::if_any(
-            c(.data$attr_hier, .data$param_name),
-            ~ .x %in% c(names(default_params), names(user_params))
-          )
+          .data$field_type == 'filter_d' |
+            dplyr::if_any(
+              c(.data$attr_hier, .data$param_name),
+              ~ .x %in% c(names(default_params), names(user_params))
+            )
         ) %>%
         {
 
@@ -173,6 +253,7 @@ olap_handler <- function() {
               )
             ) %>%
             dplyr::bind_rows() %>%
+            dplyr::mutate(memb = dplyr::coalesce(all_memb, memb)) %>%
             dplyr::select(dim, attr = attr_hier, memb) %>%
             tidyr::drop_na() %>%
             dplyr::distinct() %>%
@@ -223,6 +304,8 @@ olap_handler <- function() {
     }
 
   if (isTRUE(.return_query)) return(mdx_query)
+
+  if (isFALSE(.return_data)) return()
 
   df_query <-
     execute2D(connect_to_phrdw(mart = mart, type = type), mdx_query) %>%
