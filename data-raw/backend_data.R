@@ -127,20 +127,1105 @@ filter_rules <-
 #                       'TB Lab',
 #                       'Complication')
 #   )
+
+
+# Building SQL query info -------------------------------------------------
+
+#' needs
+#' mart, field_type, check?, dataset_name, param_name
+#' view, col, newname?
+
+
+sql_default_filter <-
+  tribble(
+    ~ check,   ~ logic, ~ sql_func, ~ alias, ~ col,                      ~ param_name,             ~ val,
+    'user',    'and',   'where',    'inv',   'disease',                  'disease',                NA_character_,
+    'user',    'and',   'where',    'sc',    'surveillance_condition',   'surveillance_condition', NA_character_,
+    'user',    'and',   'where',    'cla',   'classification',           'classification',         NA_character_,
+    'user',    'and',   'where',    'sr',    'health_authority',         'surveillance_region_ha', NA_character_,
+    'user',    'and',   'where',    'inv',   'surveillance_date',        'query_date',             NA_character_,
+    # except TB and Contact
+    'user',    'and',   'where',    'cla',   'classification_authority', NA_character_,            'Provincial',
   )
+
+c(
+  `Investigation` =
+    r"(
+
+	inv.investigation_id,
+	inv.disease_event_id,
+	inv.earliest_stage_of_infection,
+  inv.client_id,
+  cli.vch_paris_client_id,
+  cli.fha_paris_client_id,
+  inv.paris_assessment_number
+
+  cli.first_name,
+  cli.middle_name,
+  cli.last_name,
+  cli.phn,
+  cli.birth_date,
+
+  gen.gender,
+  ob.outbreak_id,
+  inv.surveillance_date,
+  dd.cdc_epidemiology_year AS surveillance_date_epi_year,
+  dd.cdc_epidemiology_week AS surveillance_date_epi_week,
+  inv.surveillance_reported_date,
+  CONVERT(date,inv.investigation_record_created_dt_tm) AS date_investigation_created,
+  CONVERT(date,investigation_record_modified_dt_tm) AS date_investigation_updated,
+  inv.disease,
+  sc.surveillance_condition,
+  cla.classification_group,
+  cla.classification,
+  inv.classification_date,
+  sr.health_authority AS surveillance_region_ha,
+  sr.health_services_delivery_area AS surveillance_region_hsda,
+  inv.surveillance_region_based_on,
+  CONVERT(date,inv.investigation_symptom_onset_dt_tm) AS symptom_onset_date,
+  inv.symptom_set_as_onset,
+  inv.age_at_time_of_case_years AS age_at_surveillance_date_years,
+  age.age_group_10 AS age_at_surveillance_date_age_group_10,
+  ea.etiologic_agent_level_1,
+  ea.etiologic_agent_level_2,
+  ea.etiologic_agent_level_3,
+  inv.etiologic_agent_further_differentiation,
+  inv.stage_of_infection,
+  inv.address_at_time_of_case_country,
+  inv.address_at_time_of_case_province,
+  inv.address_at_time_of_case_city,
+  inv.address_at_time_of_case_postal_code,
+  inv.address_at_time_of_case_street_number,
+  inv.address_at_time_of_case_street_name,
+  inv.address_at_time_of_case_street_direction,
+  lha.health_authority AS address_at_time_of_case_ha,
+  lha.health_services_delivery_area AS address_at_time_of_case_hsda,
+  lha.local_health_area AS address_at_time_of_case_lha,
+  inv.outcome,
+  inv.outcome_date AS last_outcome_date,
+  inv.cause_of_death,
+  sta.investigation_status,
+  inv.status_date AS investigation_status_date,
+  inv.disposition,
+  inv.source_system
+
+  FROM phs_cd.vw_pan_investigation inv
+  INNER JOIN phs_cd.vw_pan_client cli ON cli.client_id = inv.client_id
+  INNER JOIN phs_cd.vw_pan_gender gen ON cli.gender_key = gen.gender_key
+  INNER JOIN phs_cd.vw_pan_age age ON inv.age_at_surveillance_reported_date_key = age.age_key
+  INNER JOIN phs_cd.vw_pan_investigation_status sta ON inv.investigation_status_key = sta.investigation_status_key
+  INNER JOIN phs_cd.vw_pan_etiologic_agent ea ON inv.etiologic_agent_key = ea.etiologic_agent_key
+  INNER JOIN phs_cd.vw_pan_lha lha ON inv.address_at_time_of_case_lha_key = lha.lha_key
+  INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+  INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+  INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+  INNER JOIN phs_cd.vw_pan_date dd ON inv.surveillance_date_key = dd.date_key
+  INNER JOIN phs_cd.vw_pan_encounter_group eg ON inv.encounter_group_key = eg.encounter_group_key
+  LEFT OUTER JOIN phs_cd.vw_pan_investigation_outbreak ob ON inv.investigation_id = ob.outbreak_id
+
+    )",
+
+  `Client` =
+    r"(
+
+	cli.client_id,
+  cli.vch_paris_client_id,
+	cli.fha_paris_client_id,
+
+  cli.first_name,
+  cli.middle_name,
+  cli.last_name,
+  cli.phn,
+  cli.birth_date,
+
+  gen.gender,
+  gi.gender_identity,
+  eth.ethnicity,
+  cli.other_ethnicity,
+  cli.death_date,
+  inv.source_system
+
+  FROM phs_cd.vw_pan_investigation inv
+  INNER JOIN phs_cd.vw_pan_client cli ON cli.client_id = inv.client_id
+  INNER JOIN phs_cd.vw_pan_gender_identity gi ON cli.gender_identity_key = gi.gender_identity_key
+  INNER JOIN phs_cd.vw_pan_ethnicity eth ON cli.ethnicity_key =eth.ethnicity_key
+  INNER JOIN phs_cd.vw_pan_gender gen ON gen.gender_key = cli.gender_key
+  INNER JOIN phs_cd.vw_pan_etiologic_agent ea ON inv.etiologic_agent_key = ea.etiologic_agent_key
+  INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+  INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+  INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+    )",
+
+  `Risk Factor` =
+    r"(
+
+	inv.investigation_id,
+	inv.disease_event_id,
+	rf.risk_factor,
+	rfc.risk_factor_response,
+	rfc.risk_factor_other,
+	rfc.risk_factor_start_date,
+	rfc.risk_factor_end_date,
+	rfc.risk_factor_reported_date,
+	rfc.risk_factor_end_reason,
+  inv.source_system
+
+  FROM phs_cd.vw_pan_investigation inv
+	INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+	INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+	INNER JOIN phs_cd.vw_pan_date dd ON inv.surveillance_date_key = dd.date_key
+	INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+	INNER JOIN phs_cd.vw_pan_encounter_group eg ON inv.encounter_group_key = eg.encounter_group_key
+	INNER JOIN phs_cd.vw_pan_risk_factor_investigation rfi ON rfi.disease_event_id = inv.disease_event_id
+	LEFT OUTER JOIN phs_cd.vw_pan_risk_factor_client rfc ON rfc.risk_factor_id = rfi.risk_factor_id
+	LEFT OUTER JOIN phs_cd.vw_pan_risk_factor rf ON rf.risk_factor_key = rfc.risk_factor_key"
+
+    )",
+
+  `Symptom` =
+    r"(
+
+	inv.investigation_id,
+	inv.disease_event_id,
+	sym.symptom_id,
+	sym.symptom,
+	sym.symptom_response,
+  CONVERT(date, sym.symptom_recovery_dt_tm)  AS symptom_recovery_date,
+	CONVERT(date,sym.symptom_onset_dt_tm) AS symptom_date,
+  inv.source_system
+
+  FROM phs_cd.vw_pan_investigation inv
+	INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+	INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+	INNER JOIN phs_cd.vw_pan_date dd ON inv.surveillance_date_key = dd.date_key
+	INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+	INNER JOIN phs_cd.vw_pan_encounter_group eg ON inv.encounter_group_key = eg.encounter_group_key
+	INNER JOIN phs_cd.vw_pan_symptom sym ON inv.disease_event_id = sym.disease_event_id"
+    )",
+
+  `Observation` =
+    r"(
+
+	inv.investigation_id,
+	inv.disease_event_id,
+	ob.symptom_id,
+	ob.observation_id,
+  ob.observation_description AS 'observation',
+	ob.observation_value,
+  ob.observation_unit,
+  CONVERT(date,ob.observation_date) AS 'observation_date',
+  ob.observed_by,
+	ob.observed_by_other,
+  inv.source_system
+
+  FROM phs_cd.vw_pan_investigation inv
+	INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+	INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+	INNER JOIN phs_cd.vw_pan_date dd ON inv.surveillance_date_key = dd.date_key
+	INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+	INNER JOIN phs_cd.vw_pan_encounter_group eg ON inv.encounter_group_key = eg.encounter_group_key
+	INNER JOIN phs_cd.vw_pan_observation ob ON inv.disease_event_id = ob.disease_event_id"
+    )",
+
+  `UDF` =
+    r"(
+
+	udf.form_instance_id AS udf_instance_id,
+	inv.investigation_id,
+  inv.disease_event_id,
+  udf.form_name AS udf_name,
+  udf.form_template_version AS udf_template_version,
+  udf.question_type,
+  udf.question_keyword_common,
+  udf.answer_row_id,
+  udf.answer_value,
+  udf.question_sort_id,
+  inv.source_system
+
+  FROM phs_cd.vw_pan_investigation inv
+	INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+	INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+	INNER JOIN phs_cd.vw_pan_date dd ON inv.surveillance_date_key = dd.date_key
+	INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+	INNER JOIN phs_cd.vw_pan_encounter_group eg ON inv.encounter_group_key = eg.encounter_group_key
+	INNER JOIN phs_cd.vw_pan_udf_all udf ON inv.disease_event_id = udf.form_instance_disease_event_id"
+    )",
+
+  `Lab` =
+    r"(
+
+	inv.client_id,
+	inv.investigation_id,
+	inv.disease_event_id,
+	inv.surveillance_date,
+	enc.encounter_id,
+	CONVERT(date, enc.encounter_date) AS 'encounter_date',
+	req.requisition_id AS 'lab_requisition_id',
+	req.requisition_date,
+	req.ordering_provider_use_other,
+	lab_test.test_id AS 'lab_test_id',
+	lab_test.test_name,
+	lab_test.test_status,
+	lab_test.test_category,
+	lab_result.result_id AS 'lab_result_id',
+	lab_result.result_name,
+	CONVERT(date, lab_result.result_dt_tm) AS 'result_date',
+	lab_result.container_id,
+	lab_result.result_status,
+	lab_result.interpreted_result,
+	lab_result.result_value,
+	lab_result.result_unit,
+	lab_result.result_flag,
+	lab_result.resulting_lab_sdl,
+	lab_result.result_description,
+	lab_result.etiologic_agent_level_1 AS 'lab_etiologic_agent_level_1',
+	lab_result.etiologic_agent_level_2 AS 'lab_etiologic_agent_level_2',
+	lab_result.etiologic_agent_level_3 AS 'lab_etiologic_agent_level_3',
+	lab_result.report_id AS 'lab_report_id',
+	lab_result.report_date AS 'lab_report_date',
+	lab_result.accession_number,
+	lab_result.report_type AS 'lab_report_type',
+	lab_spec.requisition_specimen_id AS 'specimen_id',
+	CONVERT(date, lab_spec.specimen_collect_dt_tm) AS 'specimen_collected_date',
+	lab_spec.specimen_type,
+	lab_spec.specimen_site,
+	lab_spec.specimen_description,
+  inv.source_system
+
+  FROM phs_cd.vw_pan_investigation inv
+	INNER JOIN phs_cd.vw_pan_client cli ON cli.client_id = inv.client_id
+	INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+	INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+	INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+	INNER JOIN phs_cd.vw_pan_investigation_encounter enc ON inv.investigation_id = enc.investigation_id
+
+	INNER JOIN phs_cd.vw_pan_investigation_lab_requisition req ON enc.encounter_id = req.encounter_id
+	LEFT OUTER JOIN phs_cd.vw_pan_investigation_lab_test lab_test ON req.requisition_id = lab_test.requisition_id
+	LEFT OUTER JOIN phs_cd.vw_pan_investigation_lab_result lab_result ON lab_test.test_id = lab_result.test_id
+	LEFT OUTER JOIN phs_cd.vw_pan_investigation_lab_requisition_specimen lab_spec ON req.requisition_id = lab_spec.requisition_id AND lab_spec.requisition_specimen_id = lab_test.requisition_specimen_id"
+    )",
+
+  `Transmission Events` =
+    r"(
+
+  te.transmission_event_id,
+  te.investigation_id,
+  te.disease_event_id,
+  te.transmission_event_exposure_start_date,
+  te.transmission_event_exposure_end_date,
+  te.transmission_event_exposure_name,
+  te.transmission_event_setting_type,
+  te.transmission_event_setting,
+  te.transmission_event_exposure_location_name,
+  te.mode_of_transmission,
+  te.nature_of_transmission,
+  te.anonymous_contact_count,
+  inv.source_system
+
+  FROM phs_cd.vw_pan_transmission_event te
+  INNER JOIN phs_cd.vw_pan_investigation inv ON te.disease_event_id = inv.disease_event_id
+  INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON sc.surveillance_condition_key = inv.surveillance_condition_key
+  INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+  INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key"
+    )",
+
+  `Contacts` =
+    r"(
+
+	inv.investigation_id,
+	inv.disease_event_id,
+	cli.client_id,
+	tec.transmission_event_id,
+	inv.surveillance_date,
+	inv.surveillance_reported_date,
+	inv.classification_date,
+  inv.is_a_contact_investigation_date,
+	inv.ever_a_contact_client_date,"
+
+  cli.first_name,
+  cli.middle_name,
+  cli.last_name,
+  cli.phn,
+  cli.birth_date,
+
+  abo.indigenous_self_identify,
+	abo.indigenous_identity,
+	abo.first_nation_status,
+	abo.on_reserve_administered_by AS 'address_located_on_reserve_administered_by',
+	abo.indigenous_organizational_unit_name AS 'indigenous_organization',
+
+  gen.gender,
+  cli.death_date,
+  inv.cause_of_death,
+  inv.age_at_time_of_case_years AS 'age_at_surveillance_date_years',
+  inv.disease,
+  sc.surveillance_condition,
+  cla.classification_group,
+  cla.classification,
+  sr.health_authority AS surveillance_region_ha,
+  sr.health_services_delivery_area AS surveillance_region_hsda,
+  sr.local_health_area AS surveillance_region_lha,
+  inv.surveillance_region_based_on,
+  inv.address_at_time_of_case_city,
+  ea.etiologic_agent,
+  stg.stage_of_infection,
+  inv.method_of_detection,
+  inv.source_system
+
+  FROM phs_cd.vw_pan_investigation inv
+  INNER JOIN phs_cd.vw_pan_client cli ON cli.client_id = inv.client_id
+  INNER JOIN phs_cd.vw_pan_gender gen ON gen.gender_key = cli.gender_key
+  INNER JOIN phs_cd.vw_pan_etiologic_agent ea ON inv.etiologic_agent_key = ea.etiologic_agent_key
+  INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+  INNER JOIN phs_cd.vw_pan_stage_of_infection stg ON stg.stage_of_infection_key = inv.stage_of_infection_key
+  INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+  INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+  LEFT JOIN phs_cd.vw_pan_te_contact_investigation tec ON inv.disease_event_id = tec.contact_disease_event_id"
+
+  LEFT OUTER JOIN phs_cd.vw_pan_investigation_indigenous abo ON inv.disease_event_id = abo.disease_event_id
+
+    )",
+
+  `Outbreaks` =
+    r"(
+
+	inv.investigation_id,
+  inv.client_id,
+	ob.outbreak_id,
+  ob.outbreak_name,
+  ob.outbreak_classification,
+  ob.outbreak_classification_date,
+  ob.outbreak_authority,
+  ob.outbreak_status,
+  CONVERT(date, ob.outbreak_status_date) AS outbreak_status_date,
+  CONVERT(date, ob.first_case_onset_date) AS first_case_onset_date,
+  CONVERT(date, ob.date_outbreak_declared) AS date_outbreak_declared,
+  CONVERT(date, ob.date_outbreak_declared_over) AS date_outbreak_declared_over,
+  CONVERT(date, ob.outbreak_surveillance_reported_date) AS outbreak_surveillance_reported_date,
+  inv.source_system
+
+  FROM phs_cd.vw_pan_investigation inv
+	INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+	INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+	INNER JOIN phs_cd.vw_pan_date dd ON inv.surveillance_date_key = dd.date_key
+	INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+	INNER JOIN phs_cd.vw_pan_encounter_group eg ON inv.encounter_group_key = eg.encounter_group_key
+	INNER JOIN phs_cd.vw_pan_investigation_outbreak ob ON inv.investigation_id = ob.investigation_id"
+    )",
+
+  `Complication` =
+    r"(
+  inv.investigation_id AS investigation_id,
+  inv.disease_event_id AS disease_event_id,
+  comp.encounter_id as encounter_id,
+  comp.complication_id AS complication_id,
+  comp.other_complication AS other_complication,
+  comp.complication AS complication,
+  comp.response AS response,
+  comp.complication_date AS complication_date,
+  inv.source_system
+
+  FROM phs_cd.vw_pan_investigation inv
+	INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+	INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+	INNER JOIN phs_cd.vw_pan_date dd ON inv.surveillance_date_key = dd.date_key
+	INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+  INNER JOIN phs_cd.vw_pan_investigation_encounter enc ON (inv.investigation_id = enc.investigation_id)
+  INNER JOIN phs_cd.vw_pan_complication comp ON (enc.encounter_id = comp.encounter_id)
+
+    )",
+
+  `TB Contacts` =
+    r"(
+
+	inv.investigation_id,
+	inv.disease_event_id,
+	cli.client_id,
+	tec.transmission_event_id,
+	inv.surveillance_date,
+	inv.surveillance_reported_date,
+	inv.classification_date,
+  inv.is_a_contact_investigation_date,
+	inv.ever_a_contact_client_date,
+
+  cli.first_name,
+  cli.middle_name,
+  cli.last_name,
+  cli.phn,
+  cli.birth_date,
+  cli.iphis_tb_number  AS 'bccdc_services_id',
+
+  abo.indigenous_self_identify,
+	abo.indigenous_identity,
+	abo.first_nation_status,
+	abo.on_reserve_administered_by AS 'address_located_on_reserve_administered_by',
+	abo.indigenous_organizational_unit_name AS 'indigenous_organization',
+
+  gen.gender,
+  cli.origin,
+  cli.origin_discordance_flag,
+  cli.country_of_birth,
+  cli.immigration_arrival_date,
+  cli.death_date,
+  inv.cause_of_death,
+  inv.age_at_time_of_case_years AS 'age_at_surveillance_date_years',
+  inv.disease,
+  sc.surveillance_condition,
+  cla.classification_group,
+  cla.classification,
+  sr.health_authority AS surveillance_region_ha,
+  sr.health_services_delivery_area AS surveillance_region_hsda,
+  sr.local_health_area AS surveillance_region_lha,
+  inv.surveillance_region_based_on,
+  inv.address_at_time_of_case_city,
+  ea.etiologic_agent,
+  stg.stage_of_infection,
+  inv.body_site_all,
+  inv.tb_body_site_category_2,
+  inv.tb_body_site_category_3,
+  inv.tb_body_site_category_6,
+  inv.tb_body_site_category_phac,
+  inv.treatment_start_date,
+  inv.treatment_end_date,
+  inv.treatment_status,
+  inv.reason_for_treatment,
+  inv.reason_treatment_ended,
+  inv.major_mode_of_treatment,
+  inv.treatment_outcome,
+  inv.contact_priority AS 'tb_contact_priority',
+  inv.method_of_detection,
+  inv.source_system
+  FROM phs_cd.vw_pan_investigation inv
+  INNER JOIN phs_cd.vw_pan_client cli ON cli.client_id = inv.client_id
+  INNER JOIN phs_cd.vw_pan_gender gen ON gen.gender_key = cli.gender_key
+  INNER JOIN phs_cd.vw_pan_etiologic_agent ea ON inv.etiologic_agent_key = ea.etiologic_agent_key
+  INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+  INNER JOIN phs_cd.vw_pan_stage_of_infection stg ON stg.stage_of_infection_key = inv.stage_of_infection_key
+  INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+  INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+  LEFT JOIN phs_cd.vw_pan_te_contact_investigation tec ON inv.disease_event_id = tec.contact_disease_event_id
+
+  LEFT OUTER JOIN phs_cd.vw_pan_investigation_indigenous abo ON inv.disease_event_id = abo.disease_event_id
+    )",
+
+  `TB Investigation` =
+    r"(
+
+	inv.investigation_id,
+  inv.disease_event_id,
+  inv.client_id,
+  inv.surveillance_date,
+  inv.surveillance_reported_date,
+  gen.gender,
+  geni.gender_identity,
+
+  abo.indigenous_self_identify,
+  abo.indigenous_identity,
+  abo.first_nation_status,
+  abo.on_reserve_administered_by AS 'address_located_on_reserve_administered_by',
+  abo.indigenous_organizational_unit_name AS 'indigenous_organization',"
+
+  inv.classification_date,
+  CONVERT(date, inv.investigation_record_created_dt_tm) AS 'investigation_created_date',
+  inv.age_at_time_of_case_years AS 'age_at_surveillance_date_years',
+  inv.disease,
+  sc.surveillance_condition,
+  cla.classification_group,
+  cla.classification,
+  inv.is_a_contact_investigation_flag,
+  inv.is_a_contact_investigation_date,
+  inv.ever_a_contact_client_flag,
+  inv.ever_a_contact_client_date,
+  sr.health_authority AS surveillance_region_ha,
+  sr.health_services_delivery_area AS surveillance_region_hsda,
+  sr.local_health_area AS surveillance_region_lha,
+  inv.surveillance_region_based_on,
+  inv.address_at_time_of_case_city,
+  inv.address_at_time_of_case_postal_code,
+  sta.investigation_status,
+  ea.etiologic_agent_level_1,
+  ea.etiologic_agent_level_2,
+  ea.etiologic_agent_level_3,
+  stg.stage_of_infection,
+  inv.body_site_all,
+  inv.tb_body_site_category_2,
+  tb_body_site_category_3,
+  tb_body_site_category_6,
+  tb_body_site_category_phac,
+  inv.treatment_start_date,
+  inv.treatment_end_date,
+  inv.treatment_status,
+  inv.reason_for_treatment,
+  inv.reason_treatment_ended,
+  inv.major_mode_of_treatment,
+  inv.treatment_outcome,
+  inv.cause_of_death,
+  inv.cause_of_death_other,
+  inv.method_of_detection,
+  inv.source_system
+
+  FROM phs_cd.vw_pan_investigation inv
+  INNER JOIN phs_cd.vw_pan_client cli ON cli.client_id = inv.client_id
+  INNER JOIN phs_cd.vw_pan_gender gen ON gen.gender_key = cli.gender_key
+  INNER JOIN phs_cd.vw_pan_gender_identity geni ON geni.gender_identity_key = cli.gender_identity_key
+  INNER JOIN phs_cd.vw_pan_etiologic_agent ea ON inv.etiologic_agent_key = ea.etiologic_agent_key
+  INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+  INNER JOIN phs_cd.vw_pan_stage_of_infection stg ON stg.stage_of_infection_key = inv.stage_of_infection_key
+  INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+  INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+  INNER JOIN phs_cd.vw_pan_investigation_status sta ON inv.investigation_status_key = sta.investigation_status_key
+
+  LEFT OUTER JOIN phs_cd.vw_pan_investigation_indigenous abo ON inv.disease_event_id = abo.disease_event_id
+    )",
+
+  `TB Transmission Events` =
+    r"(
+
+	te.transmission_event_id,
+  te.investigation_id,
+  te.disease_event_id,
+  te.transmission_event_exposure_start_date,
+  te.transmission_event_exposure_end_date,
+  te.transmission_event_exposure_name,
+  te.transmission_event_setting_type,
+  te.transmission_event_setting,
+  te.transmission_event_exposure_location_name,
+  te.mode_of_transmission,
+  te.nature_of_transmission,
+  te.anonymous_contact_count
+
+  FROM phs_cd.vw_pan_transmission_event te
+  INNER JOIN phs_cd.vw_pan_investigation inv ON te.disease_event_id = inv.disease_event_id
+  INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON sc.surveillance_condition_key = inv.surveillance_condition_key
+  INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+  INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key"
+    )",
+
+  `TB Client` =
+    r"(
+
+	cli.client_id,
+
+  cli.first_name,
+  cli.middle_name,
+  cli.last_name,
+  cli.phn,
+  cli.birth_date,
+  cli.iphis_tb_number  AS 'bccdc_services_id'
+
+  gen.gender,
+  eth.ethnicity,
+  cli.vch_paris_client_id,
+	cli.fha_paris_client_id,
+  cli.country_of_birth,
+  cli.immigration_arrival_date,
+  cli.death_date,
+  cli.origin,
+  cli.origin_discordance_flag
+  FROM phs_cd.vw_pan_investigation inv
+  INNER JOIN phs_cd.vw_pan_client cli ON cli.client_id = inv.client_id
+  INNER JOIN phs_cd.vw_pan_gender gen ON gen.gender_key = cli.gender_key
+  INNER JOIN phs_cd.vw_pan_etiologic_agent ea ON inv.etiologic_agent_key = ea.etiologic_agent_key
+  INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+  INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+  INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+  INNER JOIN phs_cd.vw_pan_ethnicity eth ON cli.ethnicity_key = eth.ethnicity_key
+    )",
+
+  `TB TST Investigation` =
+    r"(
+
+	inv.client_id,
+	inv.investigation_id,
+	inv.disease_event_id,
+	enc.encounter_id,
+	tst.tb_skin_test_id,
+	inv.surveillance_date,
+	cla.classification,
+  tst.tst_given_date,
+  tst.tst_given_time,
+  tst.tst_read_date,
+  tst.tst_read_time,
+	enc.encounter_type,
+	enc.encounter_reason,
+	tst.reason_for_tst,
+	tst.historical_flag,
+  tst.tst_given_organizational_unit_name AS 'tst_given_responsible_organization',
+  tst.tst_given_sdl AS 'tst_given_service_delivery_location',
+  tst.tst_read_organizational_unit_name  AS 'tst_read_responsible_organization',
+  tst.tst_read_sdl AS 'tst_read_service_delivery_location',
+  tst.tst_read_interpreted_result,
+  tst.tst_reaction_size,
+  tst.is_followup_indicator AS 'tb_tst_follow_up_indicator',
+  tst.tst_followup,
+  tst.tst_followup_detail,
+  tst.tst_reason_no_xray,
+  tst.other_tb_case_contact,
+  tst.other_tb_exposure_date,
+  tst.other_tb_exposure_date_partial_flag,
+  tst.recent_illness,
+  tst.recent_illness_date,
+  tst.recent_illness_date_partial_flag
+
+  FROM phs_cd.vw_pan_investigation inv
+  INNER JOIN phs_cd.vw_pan_client cli ON cli.client_id = inv.client_id
+  INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+  INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+  INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+  INNER JOIN phs_cd.vw_pan_investigation_encounter enc ON inv.investigation_id = enc.investigation_id
+  INNER JOIN phs_cd.vw_pan_tb_tst tst ON enc.encounter_id = tst.encounter_id"
+    )",
+
+  `TB TST Client` =
+    r"(
+
+	cli.client_id,
+	enc.investigation_id,
+  enc.encounter_id,
+  tst.tb_skin_test_id,
+  tst.tst_given_date,
+  tst.tst_given_time,
+  tst.tst_read_date,
+  tst.tst_read_time,
+  enc.encounter_type,
+  enc.encounter_reason,
+  tst.reason_for_tst,
+  tst.historical_flag,
+  tst.tst_given_organizational_unit_name AS 'tst_given_responsible_organization',
+  tst.tst_given_sdl AS 'tst_given_service_delivery_location',
+  tst.tst_read_organizational_unit_name  AS 'tst_read_responsible_organization',
+  tst.tst_read_sdl AS 'tst_read_service_delivery_location',
+  tst.tst_read_interpreted_result,
+  tst.tst_reaction_size,
+  tst.is_followup_indicator AS 'tb_tst_follow_up_indicator',
+  tst.tst_followup,
+  tst.tst_followup_detail,
+  tst.tst_reason_no_xray,
+  tst.other_tb_case_contact,
+  tst.other_tb_exposure_date,
+  tst.other_tb_exposure_date_partial_flag,
+  tst.recent_illness,
+  tst.recent_illness_date,
+  tst.recent_illness_date_partial_flag
+  FROM phs_cd.vw_pan_tb_tst tst
+  INNER JOIN phs_cd.vw_pan_client cli ON cli.client_id = tst.client_id
+  LEFT OUTER JOIN phs_cd.vw_pan_investigation_encounter enc ON tst.encounter_id = enc.encounter_id
+    )",
+
+  `TB Lab` =
+    r"(
+
+	inv.client_id,
+  inv.investigation_id,
+  inv.disease_event_id,
+  inv.surveillance_date,
+  enc.encounter_id,
+  CONVERT(date, enc.encounter_date) AS 'encounter_date',
+  req.requisition_id AS 'lab_requisition_id',
+  req.requisition_date,
+  req.ordering_provider_use_other,
+  lab_test.test_id AS 'lab_test_id',
+  lab_test.test_name,
+  lab_test.test_status,
+  lab_test.test_category,
+  lab_result.result_id AS 'lab_result_id',
+  lab_result.result_name,
+  CONVERT(date, lab_result.result_dt_tm) AS 'result_date',
+  lab_result.container_id,
+  lab_result.result_status,
+  lab_result.interpreted_result,
+  lab_result.result_value,
+  lab_result.result_unit,
+  lab_result.result_flag,
+  lab_result.result_description,
+  lab_result.etiologic_agent_level_1 AS 'lab_etiologic_agent_level_1',
+	lab_result.etiologic_agent_level_2 AS 'lab_etiologic_agent_level_2',
+	lab_result.etiologic_agent_level_3 AS 'lab_etiologic_agent_level_3',
+  lab_sens.antimicrobial_drug_name,
+  lab_sens.sensitivity_interpretation,
+  lab_sens.sensitivity_value,
+  lab_result.report_id AS 'lab_report_id',
+  lab_result.report_date AS 'lab_report_date',
+  lab_result.accession_number,
+  lab_result.report_type AS 'lab_report_type',
+  lab_spec.requisition_specimen_id AS 'specimen_id',
+  CONVERT(date, lab_spec.specimen_collect_dt_tm) AS 'specimen_collected_date',
+  lab_spec.specimen_type,
+  lab_spec.specimen_site,
+  lab_spec.specimen_description
+
+  FROM phs_cd.vw_pan_investigation inv
+  INNER JOIN phs_cd.vw_pan_client cli ON cli.client_id = inv.client_id
+  INNER JOIN phs_cd.vw_pan_lha sr ON inv.surveillance_region_lha_key = sr.lha_key
+  INNER JOIN phs_cd.vw_pan_classification cla ON inv.classification_key = cla.classification_key
+  INNER JOIN phs_cd.vw_pan_surveillance_condition sc ON inv.surveillance_condition_key = sc.surveillance_condition_key
+  INNER JOIN phs_cd.vw_pan_investigation_encounter enc ON inv.investigation_id = enc.investigation_id
+
+  INNER JOIN phs_cd.vw_pan_investigation_lab_requisition req ON enc.encounter_id = req.encounter_id
+  LEFT OUTER JOIN phs_cd.vw_pan_investigation_lab_test lab_test ON req.requisition_id = lab_test.requisition_id
+  LEFT OUTER JOIN phs_cd.vw_pan_investigation_lab_result lab_result ON lab_test.test_id = lab_result.test_id
+  LEFT OUTER JOIN phs_cd.vw_pan_investigation_lab_sensitivity lab_sens ON lab_result.result_id = lab_sens.result_id
+  LEFT OUTER JOIN phs_cd.vw_pan_investigation_lab_requisition_specimen lab_spec ON req.requisition_id = lab_spec.requisition_id AND lab_spec.requisition_specimen_id = lab_test.requisition_specimen_id
+    )"
+
+) %>%
+  # .[dataset_n] %>%
+  # .['Lab'] %>%
+  imap(
+    ~ {
+
+      dataset_name <- .y
+      list_query <- .x
+
+      temp_query_info <-
+        str_split_1(list_query, '\n') %>%
+        str_remove_all('(convert|CONVERT)\\(date|\\)|\\(') %>%
+        str_remove_all(r"(,|"|')") %>%
+        str_trim() %>%
+        discard(nchar(.) == 0) %>%
+        split(str_detect(., regex('from|join|where', ignore_case = T))) %>%
+        set_names(c('col', 'op')) %>%
+        imap(
+          ~ {
+
+            if (.y == 'col') {
+
+              str_split(.x, '\\.') %>%
+                map(~ if (length(.x) == 1) c('', .x) else .x) %>%
+                map_dfr(
+                  ~ tibble(
+                    type = c('alias', 'col'),
+                    val = .x
+                  ) %>%
+                    pivot_wider(
+                      names_from = type,
+                      values_from = val
+                    ) %>%
+                    mutate(
+                      col =
+                        map(
+                          col, str_split_1, regex('\\bas\\b', ignore_case = T)
+                        )
+                    ) %>%
+                    unnest_wider(
+                      col,
+                      names_sep = '_',
+                      names_repair = \(x) {
+
+                        str_replace(x, 'col_1', 'col') %>%
+                          str_replace('col_2', 'as')
+
+                      }
+                    ) %>%
+                    mutate(across(everything(), str_trim))
+                ) %>%
+                mutate(
+                  order    = 0L,
+                  sql_func = 'select',
+                  .before  = 1
+                )
+
+            } else if (.y == 'op') {
+
+              split_by_on_or_and <-
+                map(
+                  .x,
+                  ~ str_split_1(.x, regex('\\b(on|and|or)\\b', ignore_case = T))
+                )
+
+              views <-
+                split_by_on_or_and %>%
+                map(~ .x[1]) %>%
+                map(~ str_extract(.x, '(FROM|.*JOIN)\\s(.*)', group = c(1:2))) %>%
+                map(map_chr, str_trim) %>%
+                map(~ tibble(val = .x, type = c('op', 'view'))) %>%
+                map_dfr(
+                  ~ pivot_wider(.x, names_from = type, values_from = val)
+                ) %>%
+                mutate(
+                  op = str_remove(tolower(op), 'outer ') %>% str_replace('\\s', '_'),
+                  view = map(view, ~ str_split_1(.x, '\\.|\\s'))
+                ) %>%
+                unnest_wider(
+                  view,
+                  names_sep = '_',
+                  names_repair = ~ c('sql_func', 'schema', 'view', 'alias')
+                )
+
+              join_by_keys <-
+                split_by_on_or_and %>%
+                map(~ .x[-1]) %>%
+                discard(identical, character(0)) %>%
+                map(map, ~ str_split_1(.x, '=')) %>%
+                map(map, str_trim) %>%
+                map(map_dfr, ~ tibble(col = .x)) %>%
+                imap(
+                  ~ mutate(
+                    .x,
+                    col =
+                      map(col, str_split_1, '\\.') %>%
+                      map(set_names, c('alias', 'col'))
+                  ) %>%
+                    unnest_wider(col) %>%
+                    mutate(
+                      order = .y
+                    )
+                ) %>%
+                map2(
+                  str_subset(views$sql_func, 'join'),
+                  ~ mutate(
+                    .x,
+                    sql_func = .y
+                  )
+                ) %>%
+                map_dfr(
+                  ~ mutate(
+                    .x,
+                    alias = factor(alias, views$alias),
+                  ) %>%
+                    mutate(
+                      logic  = '==',
+                      .after = sql_func
+                    ) %>%
+                    {
+
+                      if (nrow(.) == 2) { arrange(., order, alias) }
+                      else { . }
+
+                    }
+                )
+
+              list(
+                views   = select(views, -matches('sql_func')) %>% distinct,
+                join_by = join_by_keys
+              )
+
+            }
+
+          }
+        )
+
+      list(
+        view = temp_query_info$op$views,
+        select =
+          temp_query_info$col %>%
+          left_join(select(temp_query_info$op$views, -matches('schema'))),
+        join =
+          temp_query_info$op$join_by %>%
+          left_join(select(temp_query_info$op$views, -matches('schema')))
+      )
+
+    }
+  ) -> sql_query_info
 
 sql_query_info <-
-  readr::read_tsv(
-    'data-raw/sql_queries.csv',
-    col_types = readr::cols(.default = 'character')
+  imap(
+    sql_query_info,
+    ~ {
+
+      if (.y %in% c('Investigation', 'Client')) {
+
+        .x[['select']] <-
+          .x$select %>%
+          mutate(
+            .before = 1,
+            check =
+              case_when(
+                alias == 'cli' & str_detect(col, '(name|phn|birth_date)$') ~
+                  'patient_id',
+                .default = 'default'
+              )
+          )
+
+      } else if (.y == 'Contacts') {
+
+        .x[['select']] <-
+          .x$select %>%
+          mutate(
+            .before = 1,
+            check =
+              case_when(
+                alias == 'cli' & str_detect(col, '(name|phn|birth_date)$') ~
+                  'patient_id',
+                alias == 'abo' ~
+                  'indigenous_id',
+                .default = 'default'
+              )
+          )
+
+        .x[['join']] <-
+          .x$join %>%
+          mutate(
+            .before = 1,
+            check =
+              case_when(
+                alias == 'abo' ~
+                  'indigenous_id',
+                .default = 'default'
+              )
+          )
+
+      } else if (.y == 'TB Contacts') {
+
+        .x[['select']] <-
+          .x$select %>%
+          mutate(
+            .before = 1,
+            check =
+              case_when(
+                alias == 'cli' &
+                  str_detect(col, '(name|phn|birth_date)$|iphis') ~
+                  'patient_id',
+                alias == 'abo' ~
+                  'indigenous_id',
+                .default = 'default'
+              )
+          )
+
+        .x[['join']] <-
+          .x$join %>%
+          mutate(
+            .before = 1,
+            check =
+              case_when(
+                alias == 'abo' ~
+                  'indigenous_id',
+                .default = 'default'
+              )
+          )
+
+        .x[['where']] <-
+          tribble(
+            ~ check,   ~ sql_func, ~ logic, ~ alias, ~ col,                              ~ val,
+            'default', 'where',    'and',   'inv',   'is_a_contact_investigation_flag',  'Yes',
+            'default', 'where',    'or',    'inv',   'ever_a_contact_client_flag',       'Yes',
+          ) %>%
+          mutate(order = 1L)
+
+      } else if (.y == 'TB Investigation') {
+
+        .x[['select']] <-
+          .x$select %>%
+          mutate(
+            .before = 1,
+            check =
+              case_when(
+                alias == 'abo' ~
+                  'indigenous_id',
+                .default = 'default'
+              )
+          )
+
+        .x[['join']] <-
+          .x$join %>%
+          mutate(
+            .before = 1,
+            check =
+              case_when(
+                alias == 'abo' ~
+                  'indigenous_id',
+                .default = 'default'
+              )
+          )
+
+      } else if (.y == 'TB Client') {
+
+        .x[['select']] <-
+          .x$select %>%
+          mutate(
+            .before = 1,
+            check =
+              case_when(
+                alias == 'cli' &
+                  str_detect(col, '(name|phn|birth_date)$|iphis') ~
+                  'patient_id',
+                .default = 'default'
+              )
+          )
+
+      } else if (.y == 'TB TST Client') {
+
+        .x[['where']] <-
+          tribble(
+            ~ check,   ~ sql_func, ~ logic, ~ alias, ~ col,             ~ param_name,
+            'default', 'where',    'and',   'tst',   'tst_given_date',  'query_date',
+            'default', 'where',    'or',    'tst',   'tst_read_date',   'query_date',
+          ) %>%
+          mutate(order = 1L)
+
+      }
+
+
+      if (.y == 'Contact' | str_detect(.y, '^TB')) {
+
+        .x[['where']] <-
+          bind_rows(
+            .x[['where']],
+            sql_default_filter[1:5, ]
+          ) %>%
+          left_join(select(.x$view, -matches('schema')))
+
+      } else {
+
+        .x[['where']] <-
+          bind_rows(
+            .x[['where']],
+            sql_default_filter
+          ) %>%
+          left_join(select(.x$view, -matches('schema')))
+
+      }
+
+      discard_at(.x, 'view') %>%
+        map(mutate, .before = 1, dataset_name = .y)
+
+    }
+  ) %>%
+  map(bind_rows) %>%
+  bind_rows() %>%
+  replace_na(
+    list(check = 'default', order = 0L)
+  ) %>%
+  mutate(
+    alias =
+      case_when(
+        alias == '' ~ 'inv',
+        .default = alias
+      ),
+    view =
+      case_when(
+        is.na(view) ~ 'vw_pan_investigation',
+        .default = view
+      ),
+  ) %>%
+  rename(default_val = val) %>%
+  select(
+    dataset_name,
+    sql_func,
+    logic,
+    check,
+    order,
+    alias,
+    view,
+    col,
+    as,
+    default_val,
+    everything()
   )
 
-mdx_query_info <-
-  available_prebuilt_datasets %>%
-  discard_at('CD') %>%
-  map(as_tibble) %>%
-  map(rename, dataset_name = value) %>%
-  bind_rows(.id = 'mart')
+# sql_query_info %>%
+#   write_csv('data-raw/sql_queries.csv')
+#   view
+#
+#
+# sql_query_info <-
+#   readr::read_csv(
+#     'data-raw/sql_queries.csv',
+#     col_types = readr::cols(.default = 'character')
+#   )
+
+
+
 # Building MDX query info -------------------------------------------------
 
 # mdx_query_info <-
@@ -2617,17 +3702,53 @@ mdx_query_info <-
   bind_rows() %>%
   drop_na(dim)
 
+
+list_query_info <-
+  list(
+    sql = mutate(sql_query_info, mart = 'CD', .before = 1),
+    olap = mdx_query_info
   )
+
+list_query_info$sql <-
+  list_query_info$sql %>%
+  # filter(
+  #   dataset_name == 'Contacts',
+  #   sql_func == 'left_join',
+  #   order == 9
+  # ) %>%
+  group_by(dataset_name, sql_func, order) %>%
+  mutate(
+    check =
+      {
+
+        if (all(str_detect(sql_func, 'join'))) {
+
+          if (length(unique(c(check))) == 2) {
+
+            rep(unique(str_subset(check, 'default', negate = T)), length(check))
+
+          } else { check }
+
+        } else { check }
+
+      }
+  ) %>%
+  ungroup
+  # pull(check)
+  # summarise(check = list(check)) %>%
+  # filter(str_detect(sql_func, 'join')) %>%
+  # view
+
 
 usethis::use_data(
   overwrite = T, internal = T,
   servers,
   filter_rules,
-  available_prebuilt_datasets,
+  # available_prebuilt_datasets,
   # sql_query_info,
   # mdx_query_info,
   list_query_info,
-  col_name_dict,
+  # col_name_dict,
   df_olap_map
 )
 
