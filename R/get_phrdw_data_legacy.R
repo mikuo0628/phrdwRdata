@@ -174,6 +174,7 @@ get_phrdw_data_legacy <- function(
   }else if(phrdw_datamart == "Enteric" | phrdw_datamart == "Enteric SU"){
 
     if(dataset_name == "Case Investigation"){
+
       query <- enteric_case_investigation_query(query_start_date, query_end_date, parameter_list)
 
     }else if(dataset_name == "Risk Factor"){
@@ -383,7 +384,7 @@ get_phrdw_data_legacy <- function(
       drop_test_id <- c("test_id")
 
       phrdw_dataset <- phrdw_dataset[ ,!(names(phrdw_dataset) %in% drop_test_id)] %>%
-        distinct()
+        dplyr::distinct()
     }
 
   }
