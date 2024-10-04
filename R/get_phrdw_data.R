@@ -303,39 +303,39 @@ get_phrdw_data <- function(
       )
 
     }
+  } else if (data_source == 'olap') {
 
     ## Create query
     environment(olap_handler) <- environment()
 
     query_output <- olap_handler()
 
-    if (.return_query) return(query_output)
+    query_output <- rename_cols(query_output)
 
-  }
+    # TODO: process data type?
 
-  query_output <- rename_cols(query_output)
+    # Post data-retrieval processing, if needed.
+    # Can handle both OLAP and SQL output data.
+    if (tolower(dataset_name) == 'vital stats ccd dashboard') {
 
-  # TODO: process data type?
-
-  # Post data-retrieval processing, if needed
-  if (tolower(dataset_name) == 'vital stats ccd dashboard') {
-
-    query_output <-
-      query_output %>%
-      dplyr::group_by(
-        !!!rlang::syms(stringr::str_subset(names(.), 'ccd', negate = T))
-      ) %>%
-      tidyr::nest(
-        .key = stringr::str_subset(names(.), 'ccd')
-      ) %>%
-      dplyr::ungroup() %>%
-      dplyr::mutate(
-        dplyr::across(
-          dplyr::where(is.list),
-          ~ purrr::map(.x, unlist) %>%
-            purrr::map_chr(paste, collapse = '|')
+      query_output <-
+        query_output %>%
+        dplyr::group_by(
+          !!!rlang::syms(stringr::str_subset(names(.), 'ccd', negate = T))
+        ) %>%
+        tidyr::nest(
+          .key = stringr::str_subset(names(.), 'ccd')
+        ) %>%
+        dplyr::ungroup() %>%
+        dplyr::mutate(
+          dplyr::across(
+            dplyr::where(is.list),
+            ~ purrr::map(.x, unlist) %>%
+              purrr::map_chr(paste, collapse = '|')
+          )
         )
-      )
+
+    }
 
   }
 
