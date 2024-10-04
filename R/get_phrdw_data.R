@@ -33,6 +33,7 @@
 #' @param ccd_3_char_code
 #' @param residential_location_ha
 #' @param death_location_ha
+#' @param .partial
 #' @param .check_params
 #' @param .return_query
 #' @param .return_data
@@ -78,6 +79,7 @@ get_phrdw_data <- function(
     mart                           = NULL,
     type                           = c('prod', 'su', 'sa')[1],
     # user options
+    .partial                       = NULL,
     .check_params                  = F,
     .return_query                  = F,
     .return_data                   = !.return_query,
@@ -86,16 +88,80 @@ get_phrdw_data <- function(
     ...
 ) {
 
-  # Basic checks
+  # Basic checks and deriving some useful vars ----
+
   if (is.null(dataset_name)) stop('Please supply `dataset_name`.')
   if (is.null(c(phrdw_datamart, mart))) {
 
-    stop('Please supply either `phrdw_datamart` or `mart`.')
+    stop(
+      paste(
+        'Missing essential parameter(s):',
+        'Must enter valid value for either `phrdw_datamart` or `mart`.',
+        sep = '\n'
+      ),
+      call. = F
+    )
 
   }
 
   default_params <- as.list(environment())
   user_params    <- rlang::list2(...)
+
+  if (!is.null(phrdw_datamart)) {
+
+    phrdw_datamarts <-
+      unique(unlist(purrr::map(servers, purrr::pluck, 'phrdw_datamart')))
+
+    mart <-
+      servers %>%
+      purrr::map(dplyr::filter, .data$phrdw_datamart == .env$phrdw_datamart) %>%
+      purrr::discard(~ nrow(.x) == 0) %>%
+      purrr::pluck(1, 'mart') %>%
+      unique #%>%
+      # rlang::set_names()
+
+    if (!phrdw_datamart %in% phrdw_datamarts) {
+
+        stop(
+          paste0(
+            'Please check argument `phrdw_datamart` spelling.\n',
+            'It should be one of the following ',
+            '(case-sensitive):\n\n',
+            paste('  -', phrdw_datamarts, collapse = '\n')
+          ),
+          call. = F
+        )
+
+    }
+
+  }
+
+  marts <- unique(unlist(purrr::map(servers, purrr::pluck, 'mart')))
+
+  if (!is.null(default_params$mart)) {
+
+    if (!tolower(default_params$mart) %in% tolower(marts)) {
+
+      stop(
+        paste0(
+          'Please check argument `mart` spelling.\n',
+          'It should be one of the following ',
+          '(non-case-sensitive):\n\n',
+          paste('  -', marts, collapse = '\n')
+        ),
+        call. = F
+      )
+
+    }
+
+  }
+
+  # name of mart: proper, to reference; element of mart: user input
+  mart <-
+    rlang::set_names(
+      mart,
+      marts[which(tolower(marts) == tolower(mart))]
+    )
 
   # Data source
   data_source <-
@@ -108,9 +174,6 @@ get_phrdw_data <- function(
 
       } else if (!is.null(mart)) {
 
-        mart_index <-
-          which(tolower(names(available_prebuilt_datasets)) == tolower(mart))
-
         purrr::map(servers, dplyr::pull, mart) %>%
           purrr::map(unique) %>%
           purrr::map_lgl(~ tolower(mart) %in% tolower(.x)) %>%
@@ -122,77 +185,34 @@ get_phrdw_data <- function(
     } %>%
     tolower()
 
-  .query_info <- if (is.null(.query_info)) list_query_info[[data_source]]
+  if (!is.null(dataset_name)) {
 
-  # Optional checks: check user inputs
-  if (isTRUE(.check_params)) {
+    prebuilt_datasets <-
+      list_query_info[[data_source]] %>%
+      dplyr::filter(tolower(.data$mart) == tolower(.env$mart)) %>%
+      dplyr::pull(dataset_name) %>%
+      unique
 
-    if (!is.null(phrdw_datamart)) {
+    if (!tolower(dataset_name) %in% tolower(prebuilt_datasets)) {
 
-      phrdw_datamarts <-
-        unique(unlist(purrr::map(servers, pluck, 'phrdw_datamart')))
-
-      mart <-
-        servers %>%
-        purrr::map(filter, .data$phrdw_datamart == .env$phrdw_datamart) %>%
-        purrr::discard(~ nrow(.x) == 0) %>%
-        purrr::pluck(1, 'mart')
-
-      if (!phrdw_datamart %in% phrdw_datamarts) {
-
-        stop(
-          paste0(
-            'Please check `phrdw_datamart` spelling.\n',
-            'It should be one of the following ',
-            '(case-sensitive):\n\n',
-            paste('  -', phrdw_datamarts, collapse = '\n')
-          ),
-          call. = F
-        )
-
-      }
-
-    } else if (!is.null(mart)) {
-
-      if (identical(mart_index, integer(0))) {
-
-        stop(
-          paste0(
-            'Please check `mart` spelling.\n',
-            'It should be one of the following ',
-            '(non-case-sensitive):\n\n',
-            paste('  -', names(available_prebuilt_datasets), collapse = '\n')
-          ),
-          call. = F
-        )
-
-      }
-
-    }
-
-    if (!is.null(dataset_name)) {
-
-      prebuilt_datasets <- available_prebuilt_datasets[[mart_index]]
-
-      if (!tolower(dataset_name) %in% tolower(prebuilt_datasets)) {
-
-        stop(
-          paste0(
-            'Please check `dataset_name` spelling.\n',
-            'It should be one of the following ',
-            '(case-sensitive if legacy):\n\n',
-            paste('  -', prebuilt_datasets, collapse = '\n')
-          ),
-          call. = F
-        )
-
-      }
+      stop(
+        paste0(
+          'Please check `dataset_name` spelling.\n',
+          'It should be one of the following ',
+          '(case-sensitive if legacy):\n\n',
+          paste('  -', prebuilt_datasets, collapse = '\n')
+        ),
+        call. = F
+      )
 
     }
 
   }
 
-  # Legacy method: requires phrdw_datamart_connection
+  .query_info <- if (is.null(.query_info)) list_query_info[[data_source]]
+
+  # Legacy method: requires phrdw_datamart_connection ----
+
   if (!is.null(phrdw_datamart_connection)) {
 
     if (is.null(phrdw_datamart)) stop('Please supply `phrdw_datamart`.')
@@ -230,57 +250,38 @@ get_phrdw_data <- function(
 
   }
 
-  # New method: use `mart` and `type` instead
+  # New method: use `mart` and `type` instead ----
   # no need phrdw_datamart_connection
-  if (is.null(mart)) stop('Please supply `mart`.')
 
-  if (data_source == 'sql') {
+  available_datasets <-
+    .query_info %>%
+    dplyr::select(mart, dataset_name) %>%
+    dplyr::distinct() %>%
+    dplyr::group_by(mart) %>%
+    dplyr::summarise(dataset_name = list(dataset_name)) %>%
+    { rlang::set_names(.$dataset_name, .$mart) }
 
-    # execute pre-build dataset_name specific queries
-    if (tolower(dataset_name) == 'investigation') {
+  if (
+    !tolower(dataset_name) %in%
+    tolower(available_datasets[[names(mart)]])
+  ) {
 
-      # DO THIS
-      # cd_investigation_query(mart, type, param_list)
-
-    }
-
-  } else if (data_source == 'olap') {
-
-    if (is.character(.check_params)) {
-
-      cubes <- explore(connect_to_phrdw(mart = mart, type = type))
-
-      dim <-
-        dplyr::filter(.query_info, .data$attr_hier == .check_params)$dim
-
-      levels <-
-        purrr::imap(
-          rlang::set_names(cubes),
-          ~ explore(
-            connect_to_phrdw(mart = mart, type = type),
-            .x,
-            dim,
-            .check_params,
-            .check_params
-          )
+    stop(
+      paste0(
+        'Please check `dataset_name` spelling.\n',
+        'It should be one of the following ',
+        '(non-case-sensitive):\n\n',
+        paste(
+          '  -',
+          available_datasets[[names(mart)]],
+          collapse = '\n'
         )
+      ),
+      call. = F
+    )
 
-      return(
-        purrr::iwalk(
-          levels,
-          ~ cat(
-            '\n',
-            stringr::str_pad('Cube:',      13, 'right', ' '), .y, '\n',
-            stringr::str_pad('Dimension:', 13, 'right', ' '), dim, '\n',
-            stringr::str_pad('Hierarchy:', 13, 'right', ' '), .check_params, '\n',
-            stringr::str_pad('Levels:',    13, 'right', ' '), '\n',
-            paste('-', .x, collapse = '\n'), '\n\n',
-            sep = ''
-          )
-        )
-      )
+  }
 
-    }
   if (data_source == 'sql') {
 
     ##
