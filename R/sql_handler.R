@@ -179,7 +179,7 @@ sql_handler <- function() {
         purrr::walk(
           ~ {
 
-            df_filter <- .x
+            df_filter <- tidyr::replace_na(.x, list(logic = 'and'))
 
             filter_clause <-
               df_filter %>%
