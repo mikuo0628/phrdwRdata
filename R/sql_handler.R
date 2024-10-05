@@ -1,6 +1,5 @@
 sql_handler <- function() {
 
-  # browser()
   schema <-
     ifelse(
       any(stringr::str_detect(names(Sys.getenv()), '^WVD')),
@@ -22,6 +21,59 @@ sql_handler <- function() {
     .query_info %>%
     dplyr::filter(tolower(.data$dataset_name) == tolower(.env$dataset_name)) %>%
     dplyr::filter(.data$check %in% checks)
+
+  if (isTRUE(.check_params)) {
+
+    n_pad <- floor(max(nchar(.query_info$col)) * 1.15)
+
+    cat('===== The following fields are included in this dataset:\n\n')
+    subset(.query_info, sql_func == 'select') %>%
+      dplyr::select(col, as) %>%
+      purrr::pwalk(
+        function(col, as) {
+
+          if (!is.na(as)) {
+
+            cat(
+              stringr::str_pad(paste('  -', col), n_pad, 'right', '.'),
+              'renamed as',
+              paste0('[', as, ']'),
+              '\n'
+            )
+
+          } else { cat('  -', col, '\n') }
+
+        }
+      )
+
+    cat('\n\n')
+
+    cat('===== The following fields are default filters:\n\n')
+    .query_info %>%
+      dplyr::filter(stringr::str_detect(sql_func, 'where')) %>%
+      dplyr::select(col, as) %>%
+      purrr::pwalk(
+        function(col, as) {
+
+          if (!is.na(as)) {
+
+            cat(
+              stringr::str_pad(paste('  -', col), n_pad, 'right', '.'),
+              'renamed as',
+              paste0('[', as, ']'),
+              '\n'
+            )
+
+          } else { cat('  -', col, '\n') }
+
+        }
+      )
+
+    cat('\n')
+
+  }
+
+  # if (all(isFALSE(.return_data), isFALSE(.return_query))) return()
 
   withr::with_db_connection(
     list(conn = connect_to_phrdw(mart = mart, type = type)),
@@ -59,6 +111,23 @@ sql_handler <- function() {
           )
 
         }
+
+      if (is.character(.check_params)) {
+
+        cat(paste0('===== Levels for `', .check_params, '` are:\n\n'))
+        dfs_views[[
+          .query_info %>%
+            dplyr::filter(.data$col == .check_params) %>%
+            dplyr::pull(alias)
+        ]] %>%
+          dplyr::count(!!rlang::sym(.check_params)) %>%
+          dplyr::pull(1) %>%
+          sort(na.last = T) %>%
+          paste('  -', ., collapse = '\n') %>%
+          cat
+        cat('\n\n')
+
+      }
 
       # WHEREs for each lzy_df before join
       ## Discrete
