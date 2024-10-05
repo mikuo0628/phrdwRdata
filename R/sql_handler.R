@@ -91,7 +91,6 @@ sql_handler <- function() {
         dplyr::mutate(
           .keep = 'none',
           alias, view,
-          # named_col = purrr::map2(col, as, rlang::set_names)
           named_col = col
         ) %>%
         {
@@ -133,7 +132,6 @@ sql_handler <- function() {
       ## Discrete
       filters <-
         purrr::map2(
-          # param_name = default; col = user inputs
           list(param_name = default_params, col = user_params),
           list(
             subset(.query_info, sql_func == 'where')$param_name,
@@ -266,10 +264,6 @@ sql_handler <- function() {
           filter_date <-
             default_params %>%
             purrr::keep(stringr::str_detect(names(.), 'query_')) %>%
-            # list(
-            #   start = '2021-01-01',
-            #   end   = NULL
-            # ) %>%
             purrr::discard(is.null) %>%
             purrr::map(lubridate::ymd, quiet = T) %>%
             purrr::map(~ format(.x, "'%Y-%m-%d'")) %>%

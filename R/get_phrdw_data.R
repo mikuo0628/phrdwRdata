@@ -298,8 +298,6 @@ get_phrdw_data <- function(
 
     query_output <- rename_cols(query_output)
 
-    # TODO: process data type?
-
     # Post data-retrieval processing, if needed.
     # Can handle both OLAP and SQL output data.
     if (tolower(dataset_name) == 'vital stats ccd dashboard') {
@@ -329,8 +327,7 @@ get_phrdw_data <- function(
 
   if (isTRUE(.return_query)) return(query_output)
 
-  if (isFALSE(.return_data)) return() else return(query_output)
-
+  if (isTRUE(.return_data))  return(query_output) else return()
 
 }
 

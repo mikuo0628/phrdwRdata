@@ -125,7 +125,7 @@ olap_handler <- function() {
           '\n',
           paste(
             '===== The following fields (hierarchies)',
-            'can take filters:\n\n'
+            'are default filters:\n\n'
           ),
           sep = ''
         )
