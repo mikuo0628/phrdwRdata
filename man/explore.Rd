@@ -8,9 +8,22 @@ connection.}
 explore(olapCnn, cube = NULL, dimension = NULL, hierarchy = NULL, level = NULL)
 }
 \arguments{
-\item{level}{}
+\item{olapCnn}{Required. An OLAP connection string.
+Can be created with \code{connect_to_phrdw}.}
+
+\item{cube}{Optional. Cube name.}
+
+\item{dimension}{Optional. Dimension name.}
+
+\item{hierarchy}{Optional. Hierarchy name.}
+
+\item{level}{Optional. Level name.}
+}
+\value{
+Character vector of cube(s) information.
 }
 \description{
-Wrapper to explore cube names, dimensions, hierarchies, and levels of cube
-connection.
+Given \code{olapCnn} OLAP connection string, returns info on cubes under the OLAP
+server. If no cube information is supplied, it will return all the
+information of the highest level.
 }

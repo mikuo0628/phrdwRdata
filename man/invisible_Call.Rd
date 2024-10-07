@@ -9,6 +9,9 @@ invisible_Call(...)
 \arguments{
 \item{...}{}
 }
+\value{
+A character vector.
+}
 \description{
-Wrapper to capture print output from calling C/C++ OLAP routines.
+Simple function to capture \code{cat} into usable character vector.
 }

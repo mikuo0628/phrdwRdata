@@ -1,13 +1,12 @@
 #' Construct OLAP query.
-#' `Query` constructs a "Query" object. Set functions are used to build and
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' Query` constructs a "Query" object. Set functions are used to build and
 #' modify the Query axes and cube name.
 #'
 #' @param validate
 #'
-#' @return
-#' @export
-#'
-#' @examples
 Query <- function(validate = F) {
 
   if (!is.logical(validate)) {

@@ -11,6 +11,9 @@ executeMD(olapCnn, mdx_qry)
 
 \item{mdx_qry}{MDX query.}
 }
+\value{
+A \code{data.frame} object.
+}
 \description{
 Executes an OLAP Cube connection and a multi-dimention MDX query
 }

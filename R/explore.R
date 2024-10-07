@@ -1,16 +1,21 @@
 #' Wrapper to explore cube names, dimensions, hierarchies, and levels of cube
 #' connection.
 #'
-#' @param olapCnn
-#' @param cube
-#' @param dimension
-#' @param hierarchy
-#' @param level
+#' @description
+#' Given `olapCnn` OLAP connection string, returns info on cubes under the OLAP
+#' server. If no cube information is supplied, it will return all the
+#' information of the highest level.
 #'
-#' @return
+#' @param olapCnn Required. An OLAP connection string.
+#' Can be created with `connect_to_phrdw`.
+#' @param cube Optional. Cube name.
+#' @param dimension Optional. Dimension name.
+#' @param hierarchy Optional. Hierarchy name.
+#' @param level Optional. Level name.
+#'
+#' @return Character vector of cube(s) information.
 #' @export
 #'
-#' @examples
 explore <- function(
     olapCnn,
     cube      = NULL,
@@ -137,9 +142,11 @@ explore <- function(
 
 #' Wrapper to capture print output from calling C/C++ OLAP routines.
 #'
+#' @description
+#' Simple function to capture `cat` into usable character vector.
+#'
 #' @param ...
 #'
-#' @return
+#' @return A character vector.
 #'
-#' @examples
 invisible_Call <- function(...) { capture.output(invisible(.Call(...))) }

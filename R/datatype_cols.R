@@ -1,11 +1,20 @@
 #' Cast data types appropriately.
 #'
-#' @param dataset
+#' @description
+#' `r lifecycle::badge("experimental")`
+#' Instead of heuristically prase dates, it detects date string by preset
+#' patterns and apply respective `lubrdate` functions accordingly.
 #'
-#' @return
+#' @param dataset A `data.frame` or `tibble` object.
+#' @param date_col_pattern String pattern to detect column names. Common
+#' patterns can be 'date', or 'dt_tm'. Defaults to 'date'.
 #'
-#' @examples
-datatype_cols <- function(dataset) {
+#' @return A `data.frame` or `tibble` object.
+#'
+datatype_cols <- function(
+    dataset,
+    date_col_pattern = 'date'
+) {
 
   patterns <-
     c(
@@ -40,7 +49,7 @@ datatype_cols <- function(dataset) {
     dplyr::mutate(
       # .keep = 'used',
       dplyr::across(
-        dplyr::matches('date'),
+        dplyr::matches(date_col_pattern),
         ~ dplyr::case_when(
           !!!rlang::parse_exprs(case_when_date_fmt),
           .default = lubridate::as_date(.x),
