@@ -202,6 +202,8 @@ olap_handler <- function() {
 
       }
 
+      if (all(isFALSE(.return_data), isFALSE(.return_query))) return()
+
       # Discrete filters
       filters_discrete <-
         dplyr::filter(
