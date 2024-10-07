@@ -4,11 +4,19 @@
 \alias{datatype_cols}
 \title{Cast data types appropriately.}
 \usage{
-datatype_cols(dataset)
+datatype_cols(dataset, date_col_pattern = "date")
 }
 \arguments{
-\item{dataset}{}
+\item{dataset}{A \code{data.frame} or \code{tibble} object.}
+
+\item{date_col_pattern}{String pattern to detect column names. Common
+patterns can be 'date', or 'dt_tm'. Defaults to 'date'.}
+}
+\value{
+A \code{data.frame} or \code{tibble} object.
 }
 \description{
-Cast data types appropriately.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+Instead of heuristically prase dates, it detects date string by preset
+patterns and apply respective \code{lubrdate} functions accordingly.
 }

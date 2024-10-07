@@ -1,15 +1,10 @@
-#' Title
+#' Renames data retrieved from Data cubes.
 #'
-#' @param obj A `data.frame` or character vector.
-#' @param dict
+#' @param obj A `data.frame` or character vector of names.
 #'
-#' @return
+#' @return Same as input `obj.
 #'
-#' @examples
-rename_cols <- function(
-    obj,
-    dict = col_name_dict
-) {
+rename_cols <- function(obj) {
 
   if (is.data.frame(obj)) list_names <- names(obj) else list_names <- obj
 

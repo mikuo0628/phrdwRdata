@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_phrdw_data.R
 \name{get_phrdw_data}
 \alias{get_phrdw_data}
-\title{Get PHRDW data.}
+\title{Retrieve pre-built datasets from specific datamarts.}
 \usage{
 get_phrdw_data(
   phrdw_datamart_connection = NULL,
@@ -56,6 +56,79 @@ approach is to reference \code{mart} and \code{type}.}
 
 \item{dataset_name}{The name of the pre-built dataset to retrieve.}
 
+\item{query_start_date}{Start date of your dataset. Can accept character date.
+Defaults to \code{NULL}, which indicates no lower bound.}
+
+\item{query_end_date}{End date of your dataset. Can accept character date.
+Defaults to \code{NULL}, which indicates no upper bound.}
+
+\item{include_patient_identifiers}{Whether to include patient identifier
+information. Accepts Boolean values. Defaults to \code{FALSE}. Note: user needs
+to have access, otherwise data restriction may return unintended results.}
+
+\item{include_indigenous_identifiers}{Whether to include indigenous
+identifier information. Accepts Boolean values. Defaults to \code{FALSE}. Note:
+user needs to have access, otherwise data restriction may return unintended
+results.}
+
+\item{retrieve_system_ids}{Whether to include systems IDs in the dataset.
+Currently only applies to \code{Enteric} datamart. Defaults to legacy value "Yes",
+but can accept Boolean, and no longer case-specific.}
+
+\item{disease}{Optional. Character vector of diseases. Only applicable to
+some datasets.}
+
+\item{surveillance_condition}{Optional. Character vector of surveillance
+conditions. Only for applicable datasets.}
+
+\item{classification}{Optional. Character vector of classifications.
+Only for applicable datasets.}
+
+\item{surveillance_region_ha}{Optional. Character vector of Health Region
+Authorities where the Patient lives/lived. Only for applicable datasets.}
+
+\item{infection_group}{Optional. Character vector of infection groups.
+Only for applicable datasets.}
+
+\item{ordering_provider_ha}{Optional. Character vector of Health Region
+Authorities where the Ordering Provide resides.
+Only for applicable datasets.}
+
+\item{lis_status}{Optional. Character vector of case level statuses about
+the LIS data in a Case. Only for applicable datasets.}
+
+\item{episode_status}{Optional. Character vector of episode statuses from the
+LIS result processing and rule engine. Only for applicable datasets.}
+
+\item{test_type}{Optional. Character vector of the types of tests. Only for
+applicable datasets.}
+
+\item{episode_testing_pattern}{Optional. Character vector of testing patterns.
+Only for applicable datasets.}
+
+\item{testing_region_ha}{Optional. Character vector of testing Health Region
+Authorities. Only for applicable datasets.}
+
+\item{case_status}{Optional. Character vector of case status. Only for
+applicable datasets.}
+
+\item{case_source}{Optional. Character vector of case status. Only for
+applicable datasets.}
+
+\item{ucd_3_char_code}{Optional. Character vector of UCD 3-character codes.
+Only for applicable CDI datasets.}
+
+\item{ccd_3_char_code}{Optional. Character vector of CCD 3-character codes.
+Only for applicable CDI datasets.}
+
+\item{residential_location_ha}{Optional. Character vector of BC Health
+Authorities associated with decedant's usual residence.
+Only for applicable CDI datasets.}
+
+\item{death_location_ha}{Optional. Character vector of BC Health
+Authorities associated with decedant's location of death.
+Only for applicable CDI datasets.}
+
 \item{mart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Provide an appropriate mart
 name (non-case specific). Must be one of "CDI", "CD", "Respiratory",
 "Enteric", "STIBBI", and "VPD". Non case-sensitive.}
@@ -63,7 +136,97 @@ name (non-case specific). Must be one of "CDI", "CD", "Respiratory",
 \item{type}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Provide an appropriate mart type
 (non-case specific). Must be one of "prod" (default), "su", or "sa".
 Non case-sensitive. See \code{Details}.}
+
+\item{.partial}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Takes a named list
+of single integer, where the name must be one of "head" or "tail". The
+appropriate \code{head} or \code{tail} function will be applied and the integer
+specifies number of rows to return. Only \code{head} works with OLAP queries,
+while both \code{head} and \code{tail} work with SQL queries.}
+
+\item{.check_params}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Can accept Boolean or
+character values.
+
+Boolean \code{TRUE} will return general info of the dataset:
+For MDX queries: dimensions, hierarchies, and levels if possible, and
+hierarchies for default filters.
+For SQL queries: column names as they are in the source tables, and what
+they are renamed to, and columns for default filters.
+
+On the other hand, user can supply hierarchy or column names retrieved from
+the above as character vector, and a list of the cardinal levels will
+return. Useful to check for typos, or available names to filter for.}
+
+\item{.return_query}{Boolean value. Whether to return query or not.}
+
+\item{.return_data}{Boolean value. Whether to return data or not.}
+
+\item{.clean_data}{Boolean value. Whether to attempt cleaning the dates in
+data or not.}
+
+\item{.query_info}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} A user supplied
+\code{data.frame} object similar to \code{phrdwRdata::list_query_info}, on which the
+appropriate operation will take place and retrieve specified data.}
+}
+\value{
+Depending on user input, a \code{data.frame} or \code{tibble} or character
+string.
 }
 \description{
-Get PHRDW data.
+Helps users retrieve pre-built datasets from specific datamarts, with the
+capacity to supply values to some default filters, such as dates and
+diseases.
+In addition to retrieving data, user can perform preliminary
+self-diagnosis to troubleshoot issues, return query instead of data, and
+even supply filters outside the predefined default filters.
+
+This function retains the legacy form, which can be invoked by providing
+arguments with \code{phrdw_} prefix, such as \code{phrdw_datamart_connection} and
+\code{phrdw_datamart}.
+
+The modern form, on the other hand, is invoked by a simple \code{mart} and/or
+\code{type}, which streamlines the process, allows additional features, and
+avoids redundant inputs such as \code{phrdw_datamart} in both \code{connect_to_phrdw}
+and \code{get_phrdw_data}.
+}
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} List of values to supply \code{phrdw_datamart}.
+Case sensitive.
+\itemize{
+\item \code{CDI}: Chronic Disease & Injury; links data from Vital Statistics
+death records and census-based socio-economic data.
+\item \code{CD}: Communicable Diseases; contains communicable disease public
+health investigation data from the Panorama public health system.
+\item \code{Enteric}: Enteric; links data from the Panorama
+public health system and the Sunquest laboratory information
+system at PHSA.
+\item \code{Respiratory}: Respiratory diseases; includes data from the Sunquest
+laboratory information system at PHSA.
+\item \code{STIBBI}: Sexually Transmitted Blood Borne Infections; links
+data from the Panorama public health system, the Sunquest laboratory
+information system at PHSA, STIIS, HAISYS, and legacy laboratory systems.
+\item \code{VPD}: Vaccine Preventable Disease; links data from the
+Panorama public health system and the Sunquest laboratory information
+system at PHSA.
+\code{TAT}: TBD.
+\item \verb{Enteric SU}: UAT server of Enteric.
+\item \verb{STIBBI SU}: UAT server of STIBBI.
+\item \verb{STIBBI SA}: PROD copy/Staging server of STIBBI.
+\item \verb{VPD SU}: UAT server of VPD.
+}
+
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Using \code{mart} and \code{type} is preferred. They
+are not case-sensitive and more readable.
+
+For now, PHRDW data architecture is either data warehouse/relational
+table or  data cubes, depending on which mart. Connection to data warehouse
+returns an \code{\link[odbc:dbConnect-OdbcDriver-method]{odbc::dbConnect()}} connection object, whereas connection to data
+cube returns an \code{OLAP_Conn} object, which is just a character string under
+the hood that will be executed by a back-end C routine.
+
+This means that connection to data warehouse allows for memory-efficient
+tools like \code{dbplyr} where data is read lazily rather than loaded into memory.
+
+Users can supply their own connection string using \code{.conn_str}. To
+distinguish between the different architectures, this parameter needs to
+be named list, as either \code{sql} or \code{cube}. See \code{Examples}.
 }

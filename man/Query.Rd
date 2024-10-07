@@ -2,9 +2,7 @@
 % Please edit documentation in R/Query.R
 \name{Query}
 \alias{Query}
-\title{Construct OLAP query.
-\code{Query} constructs a "Query" object. Set functions are used to build and
-modify the Query axes and cube name.}
+\title{Construct OLAP query.}
 \usage{
 Query(validate = F)
 }
@@ -12,7 +10,7 @@ Query(validate = F)
 \item{validate}{}
 }
 \description{
-Construct OLAP query.
-\code{Query} constructs a "Query" object. Set functions are used to build and
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Query` constructs a "Query" object. Set functions are used to build and
 modify the Query axes and cube name.
 }

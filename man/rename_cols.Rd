@@ -2,15 +2,16 @@
 % Please edit documentation in R/rename_cols.R
 \name{rename_cols}
 \alias{rename_cols}
-\title{Title}
+\title{Renames data retrieved from Data cubes.}
 \usage{
-rename_cols(obj, dict = col_name_dict)
+rename_cols(obj)
 }
 \arguments{
-\item{obj}{A \code{data.frame} or character vector.}
-
-\item{dict}{}
+\item{obj}{A \code{data.frame} or character vector of names.}
+}
+\value{
+Same as input `obj.
 }
 \description{
-Title
+Renames data retrieved from Data cubes.
 }

@@ -3,10 +3,9 @@
 #' @param olapCnn OLAP connection.
 #' @param mdx_qry MDX query.
 #'
-#' @return
+#' @return A `data.frame` object.
 #' @export
 #'
-#' @examples
 executeMD <- function(olapCnn, mdx_qry) {
 
   stopifnot(is.OlapConnection(olapCnn))
