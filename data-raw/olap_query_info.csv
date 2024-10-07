@@ -1,0 +1,1089 @@
+mart,cube,field_type,check,dataset_name,dim,attr_hier,lvl_memb,all_memb,param_name
+CDI,CDI,columns,default,Vital Stats,Measures,VS Death Count,NA,NA,NA
+CDI,CDI,rows,default,Vital Stats,VS - ID,Unique ID,Unique ID,NA,NA
+CDI,CDI,rows,default,Vital Stats,VS - Cause of Death - Underlying,UCD Code Hierarchy,UCD 5Char Code,ALLMEMBERS,NA
+CDI,CDI,rows,default,Vital Stats,VS - Date - Death,Date,Date,NA,NA
+CDI,CDI,rows,default,Vital Stats,CDI - Gender,Sex,Sex,NA,NA
+CDI,CDI,rows,default,Vital Stats,VS - Age at Death,Age Year,Age Year,NA,NA
+CDI,CDI,rows,default,Vital Stats,VS - Age at Death,Age Group 07,Age Group 07,NA,NA
+CDI,CDI,rows,default,Vital Stats,VS - Age at Death,Age Group Population,Age Group Population,NA,NA
+CDI,CDI,rows,default,Vital Stats,VS - Place of Injury Type,Place of Injury Type,Place of Injury Type,NA,NA
+CDI,CDI,rows,default,Vital Stats,VS - Geo - Residential Location Region,VS Residential Location Health Authorities,VS Residential Location LHA,ALLMEMBERS,NA
+CDI,CDI,rows,default,Vital Stats,VS - Geo - Death Location Region,VS Death Location Health Authorities,VS Death Location LHA,ALLMEMBERS,NA
+CDI,CDI,rows,default,Vital Stats,VS - Geo - Residential Location Census - 2011,VS Residential Location Census - 2011,VS Residential Dissemination Area,ALLMEMBERS,NA
+CDI,CDI,rows,default,Vital Stats,VS - Geo - Death Location Census - 2011,VS Death Location Census - 2011,VS Death Location Dissemination Area,ALLMEMBERS,NA
+CDI,CDI,filter_d,none,Vital Stats,VS - Cause of Death - Underlying,UCD 3Char Code,UCD 3Char Code,NA,ucd_3_char_code
+CDI,CDI,filter_d,none,Vital Stats,VS - Cause of Death - Contributing,CCD 3Char Code,CCD 3Char Code,NA,ccd_3_char_code
+CDI,CDI,filter_d,none,Vital Stats,VS - Geo - Residential Location Region,VS Residential Location HA,VS Residential Location HA,NA,residential_location_ha
+CDI,CDI,filter_d,none,Vital Stats,VS - Geo - Death Location Region,VS Death Location HA,VS Death Location HA,NA,death_location_ha
+CDI,CDI,filter_r,none,Vital Stats,VS - Date - Death,Date,Date,NA,query_date
+CDI,CDI,columns,default,Vital Stats CCD,Measures,VS Death Count,NA,NA,NA
+CDI,CDI,rows,default,Vital Stats CCD,VS - ID,Unique ID,Unique ID,NA,NA
+CDI,CDI,rows,default,Vital Stats CCD,VS - Cause of Death - Contributing,CCD Code Hierarchy,CCD 5Char Code,ALLMEMBERS,NA
+CDI,CDI,filter_d,none,Vital Stats CCD,VS - Cause of Death - Underlying,UCD 3Char Code,UCD 3Char Code,NA,ucd_3_char_code
+CDI,CDI,filter_d,none,Vital Stats CCD,VS - Cause of Death - Contributing,CCD 3Char Code,CCD 3Char Code,NA,ccd_3_char_code
+CDI,CDI,filter_d,none,Vital Stats CCD,VS - Geo - Residential Location Region,VS Residential Location HA,VS Residential Location HA,NA,residential_location_ha
+CDI,CDI,filter_d,none,Vital Stats CCD,VS - Geo - Death Location Region,VS Death Location HA,VS Death Location HA,NA,death_location_ha
+CDI,CDI,filter_r,none,Vital Stats CCD,VS - Date - Death,Date,Date,NA,query_date
+CDI,CDI,columns,default,Vital Stats CCD Dashboard,Measures,VS Death Count,NA,NA,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,VS - ID,Unique ID,Unique ID,NA,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,VS - Cause of Death - Underlying,UCD Code Hierarchy,UCD 5Char Code,ALLMEMBERS,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,VS - Cause of Death - Contributing,CCD 4Char Code,CCD 4Char Code,NA,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,VS - Date - Death,Date,Date,NA,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,CDI - Gender,Sex,Sex,NA,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,VS - Age at Death,Age Year,Age Year,NA,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,VS - Age at Death,Age Group 07,Age Group 07,NA,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,VS - Age at Death,Age Group Population,Age Group Population,NA,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,VS - Place of Injury Type,Place of Injury Type,Place of Injury Type,NA,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,VS - Geo - Residential Location Region,VS Residential Location Health Authorities,VS Residential Location LHA,ALLMEMBERS,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,VS - Geo - Death Location Region,VS Death Location Health Authorities,VS Death Location LHA,ALLMEMBERS,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,VS - Geo - Residential Location Census - 2011,VS Residential Location Census - 2011,VS Residential Dissemination Area,ALLMEMBERS,NA
+CDI,CDI,rows,default,Vital Stats CCD Dashboard,VS - Geo - Death Location Census - 2011,VS Death Location Census - 2011,VS Death Location Dissemination Area,ALLMEMBERS,NA
+CDI,CDI,filter_d,none,Vital Stats CCD Dashboard,VS - Cause of Death - Underlying,UCD 3Char Code,UCD 3Char Code,NA,ucd_3_char_code
+CDI,CDI,filter_d,none,Vital Stats CCD Dashboard,VS - Cause of Death - Contributing,CCD 3Char Code,CCD 3Char Code,NA,ccd_3_char_code
+CDI,CDI,filter_d,none,Vital Stats CCD Dashboard,VS - Geo - Residential Location Region,VS Residential Location HA,VS Residential Location HA,NA,residential_location_ha
+CDI,CDI,filter_d,none,Vital Stats CCD Dashboard,VS - Geo - Death Location Region,VS Death Location HA,VS Death Location HA,NA,death_location_ha
+CDI,CDI,filter_r,none,Vital Stats CCD Dashboard,VS - Date - Death,Date,Date,NA,query_date
+Respiratory,RespiratoryDM,columns,default,LIS Tests,Measures,LIS Test Count,NA,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - IDs,Test ID,Test ID,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - IDs,Accession Number,Accession Number,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - IDs,Container ID,Container ID,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Episode IDs,Episode ID,Episode ID,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Patient,Gender,Gender,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Patient,Species,Species,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Infection Group,Infection Group,Infection Group,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Date - Collection,Date,Date,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Date - Receive,Date,Date,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Date - Result,Date,Date,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Age at Collection,Age Years,Age Years,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Test,Tests,Test Code,ALLMEMBERS,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Order Item,Orders,Order Code,ALLMEMBERS,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Test,Source System ID,Source System ID,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Result - Test Outcome,Test Outcome,Test Outcome,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Result - Organism,Organisms,Organism Level 4,ALLMEMBERS,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Geo - Patient Region,LIS Patient Health Authorities,LIS Patient LHA,ALLMEMBERS,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Geo - Patient Address,LIS Patient Addresses,LIS Patient Postal Code,ALLMEMBERS,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Geo - Ordering Provider Region ATOT,LIS Ordering Provider Health Authorities,LIS Ordering Provider LHA,ALLMEMBERS,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Geo - Ordering Provider Address ATOT,LIS Ordering Provider Addresses,LIS Ordering Provider Postal Code,ALLMEMBERS,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Lab Location - Result,Lab Name,Lab Name,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Flag - Proficiency Test,Proficiency Test,Proficiency Test,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Flag - Test Performed,Test Performed,Test Performed,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Flag - Test Valid Status,Valid Test,Valid Test,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Tests,LIS - Result Attributes,Result Full Description,Result Full Description,NA,NA
+Respiratory,RespiratoryDM,filter_d,none,LIS Tests,LIS - Infection Group,Infection Group,Infection Group,NA,infection_group
+Respiratory,RespiratoryDM,filter_d,none,LIS Tests,LIS - Geo - Patient Region,LIS Patient HA,LIS Patient HA,NA,surveillance_region_ha
+Respiratory,RespiratoryDM,filter_d,none,LIS Tests,LIS - Geo - Ordering Provider Region ATOT,LIS Ordering Provider HA,LIS Ordering Provider HA,NA,ordering_provider_ha
+Respiratory,RespiratoryDM,filter_d,none,LIS Tests,LIS - Rule Engine - Episode Status,Episode Status,Episode Status,NA,episode_status
+Respiratory,RespiratoryDM,filter_r,none,LIS Tests,LIS - Date - Collection,Date,Date,NA,query_date
+Respiratory,RespiratoryDM,columns,default,LIS Episodes,Measures,LIS Episode Count,NA,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Episodes,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Episodes,LIS - Episode IDs,Episode ID,Episode ID,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Episodes,LIS - Infection Group,Infection Group,Infection Group,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Episodes,LIS - Date - Episode Start,Flu Season,Date,ALLMEMBERS,NA
+Respiratory,RespiratoryDM,rows,default,LIS Episodes,LIS - Episode Attributes,Episode Testing Pattern,Episode Testing Pattern,NA,NA
+Respiratory,RespiratoryDM,rows,default,LIS Episodes,LIS - Rule Engine - Episode Status,Rule Engine - Episode Status,Rule Detail Description,ALLMEMBERS,NA
+Respiratory,RespiratoryDM,filter_d,none,LIS Episodes,LIS - Infection Group,Infection Group,Infection Group,NA,infection_group
+Respiratory,RespiratoryDM,filter_d,none,LIS Episodes,LIS - Geo - Patient Region,LIS Patient HA,LIS Patient HA,NA,surveillance_region_ha
+Respiratory,RespiratoryDM,filter_d,none,LIS Episodes,LIS - Geo - Ordering Provider Region ATOT,LIS Ordering Provider HA,LIS Ordering Provider HA,NA,ordering_provider_ha
+Respiratory,RespiratoryDM,filter_d,none,LIS Episodes,LIS - Rule Engine - Episode Status,Episode Status,Episode Status,NA,episode_status
+Respiratory,RespiratoryDM,filter_r,none,LIS Episodes,LIS - Date - Episode Start,Date,Date,NA,query_date
+STIBBI,StibbiDM,columns,default,Case,Measures,Case Count,NA,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - IDs,Case Combined ID,Case Combined ID,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Patient - Patient Master,Gender,Gender,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Patient - Patient Master,Birth Year,Birth Year,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Disease,Case Disease,Case Disease,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Date - Earliest,Date,Date,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Date - Earliest From,Case Earliest Date From,Case Earliest Date From,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Age at Earliest Date,Age Years,Age Years,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Age at Earliest Date,Age Group 10,Age Group 10,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Geo - Surveillance Region,Case Surveillance Region Health Authorities,Case Surveillance Region LHA,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Geo - Surveillance Region Based On,Case Surveillance Region Based On,Case Surveillance Region Based On,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Geo - Testing Region,Case Testing Region LHA,Case Testing Region LHA,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Geo - Testing Region Based On,Case Testing Region Based On,Case Testing Region Based On,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Sources,Case Source,Case Source,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Status,Case Status,Case Status,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Status - PHS,Case Status PHS,Case Status PHS,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Status Confirmed By,Case Status Confirmed By,Case Status Confirmed By,NA,NA
+STIBBI,StibbiDM,rows,default,Case,Case - Status Determined By,Case Status Determined By,Case Status Determined By,NA,NA
+STIBBI,StibbiDM,rows,hvc,Case,Case - HCV - Flag Acute,Yes No,Yes No,NA,NA
+STIBBI,StibbiDM,rows,hvc,Case,Case - HCV - Flag Acute From,HCV Acute Flag From,HCV Acute Flag From,NA,NA
+STIBBI,StibbiDM,rows,hvc,Case,Case - HCV - Flag Reinfection,Yes No,Yes No,NA,NA
+STIBBI,StibbiDM,rows,hvc,Case,Case - HCV - Interval - Seroconversion Days,HCV Days Since Prior Negative,HCV Days Since Prior Negative,NA,NA
+STIBBI,StibbiDM,filter_d,none,Case,Case - Disease,Case Disease,Case Disease,NA,disease
+STIBBI,StibbiDM,filter_d,none,Case,Case - Geo - Surveillance Region,Case Surveillance Region HA,Case Surveillance Region HA,NA,surveillance_region_ha
+STIBBI,StibbiDM,filter_d,none,Case,Case - Geo - Testing Region,Case Testing Region HA,Case Testing Region HA,NA,testing_region_ha
+STIBBI,StibbiDM,filter_d,none,Case,Case - Sources,Case Source,Case Source,NA,case_source
+STIBBI,StibbiDM,filter_d,none,Case,Case - Status,Case Status,Case Status,NA,case_status
+STIBBI,StibbiDM,filter_r,none,Case,Case - Date - Earliest,Date,Date,NA,query_date
+STIBBI,StibbiDM,columns,default,Investigation,Measures,PHS Disease Event Count,NA,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - IDs,Disease Event ID,Disease Event ID,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,Case - IDs,Case Combined ID,Case Combined ID,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Client,Client ID,Client ID,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Classification,PHS Classification,PHS Classification,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Date - Surveillance,Date,Date,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Date - Surveillance Reported,Date,Date,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Disease,PHS Disease,PHS Disease,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Stage of Infection - Earliest,Earliest Stage of Infection,Earliest Stage of Infection,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Surveillance Condition,Surveillance Condition,Surveillance Condition,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Etiologic Agent,Etiologic Agent Level 1,Etiologic Agent Level 1,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Etiologic Agent,Etiologic Agent Level 2,Etiologic Agent Level 2,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Geo - Surveillance Region,PHS Surveillance Region Health Authorities,PHS Surveillance Region LHA,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Geo - Surveillance Region Based On,Surveillance Region Based On,Surveillance Region Based On,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Geo - Client Address ATOC Region,PHS Client Address ATOC Health Authorities,PHS Client Address ATOC LHA,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Geo - Client Address ATOC,PHS Client Addresses ATOC,PHS Client Address ATOC Postal Code,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Geo - Earliest Positive Ordering Provider Region,PHS Earliest Positive Ordering Provider Health Authorities,PHS Earliest Positive Ordering Provider LHA,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Geo - Earliest Positive Ordering Provider Address,PHS Earliest Positive Ordering Provider Address,PHS Earliest Positive Ordering Provider Postal Code,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Earliest Positive Ordering Provider,Earliest Positive Ordering Provider Key,Earliest Positive Ordering Provider Key,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Source System,Source System,Source System,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Gender Of Partners,Gender Of Partners,Gender Of Partners,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Sexual Orientation,Sexual Orientation,Sexual Orientation,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Age at Surveillance Date,Age Group 10,Age Group 10,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Age at Surveillance Date,Age Years,Age Years,NA,NA
+STIBBI,StibbiDM,rows,default,Investigation,PHS - Stage of Infection,Stage of Infection,Stage of Infection,NA,NA
+STIBBI,StibbiDM,rows,indigenous_id,Investigation,PHS - Indigenous First Nations Status,First Nations Status,First Nations Status,NA,NA
+STIBBI,StibbiDM,rows,indigenous_id,Investigation,PHS - Indigenous Identity,Indigenous Identity,Indigenous Identity,NA,NA
+STIBBI,StibbiDM,rows,indigenous_id,Investigation,PHS - Indigenous On Reserve Administered By,On Reserve Administered By,On Reserve Administered By,NA,NA
+STIBBI,StibbiDM,rows,indigenous_id,Investigation,PHS - Indigenous Organization,Indigenous Organization,Indigenous Organization,NA,NA
+STIBBI,StibbiDM,rows,indigenous_id,Investigation,PHS - Indigenous Self Identify,Indigenous Self Identify,Indigenous Self Identify,NA,NA
+STIBBI,StibbiDM,rows,indigenous_id,Investigation,PHS - HAISYS On Reserve,HAISYS On Reserve,HAISYS On Reserve,NA,NA
+STIBBI,StibbiDM,rows,syphilis,Investigation,PHS - STI Stage of Infection Category,Stage of Infection Category,Stage of Infection Category,NA,NA
+STIBBI,StibbiDM,rows,syphilis,Investigation,PHS - STIIS Risk Category,STIIS Risk Category,STIIS Risk Category,NA,NA
+STIBBI,StibbiDM,rows,chlamydia,Investigation,PHS - STIIS Risk Category,STIIS Risk Category,STIIS Risk Category,NA,NA
+STIBBI,StibbiDM,rows,gonorrhea,Investigation,PHS - STIIS Risk Category,STIIS Risk Category,STIIS Risk Category,NA,NA
+STIBBI,StibbiDM,rows,lymphogranuloma,Investigation,PHS - STIIS Risk Category,STIIS Risk Category,STIIS Risk Category,NA,NA
+STIBBI,StibbiDM,rows,syphilis,Investigation,PHS - STI Body Site Category,STI Body Site Category,STI Body Site Category,NA,NA
+STIBBI,StibbiDM,rows,chlamydia,Investigation,PHS - STI Body Site Category,STI Body Site Category,STI Body Site Category,NA,NA
+STIBBI,StibbiDM,rows,gonorrhea,Investigation,PHS - STI Body Site Category,STI Body Site Category,STI Body Site Category,NA,NA
+STIBBI,StibbiDM,rows,lymphogranuloma,Investigation,PHS - STI Body Site Category,STI Body Site Category,STI Body Site Category,NA,NA
+STIBBI,StibbiDM,rows,syphilis,Investigation,PHS - Flag - Pregnant at Time of Case,Pregnant at Time of Case Flag,Pregnant at Time of Case Flag,NA,NA
+STIBBI,StibbiDM,rows,chlamydia,Investigation,PHS - Flag - Pregnant at Time of Case,Pregnant at Time of Case Flag,Pregnant at Time of Case Flag,NA,NA
+STIBBI,StibbiDM,rows,gonorrhea,Investigation,PHS - Flag - Pregnant at Time of Case,Pregnant at Time of Case Flag,Pregnant at Time of Case Flag,NA,NA
+STIBBI,StibbiDM,rows,lymphogranuloma,Investigation,PHS - Flag - Pregnant at Time of Case,Pregnant at Time of Case Flag,Pregnant at Time of Case Flag,NA,NA
+STIBBI,StibbiDM,rows,hiv,Investigation,PHS - HIV - Client Stage of Infection,HIV Client Stage of Infection,HIV Client Stage of Infection,NA,NA
+STIBBI,StibbiDM,rows,aids,Investigation,PHS - HIV - Client Stage of Infection,HIV Client Stage of Infection,HIV Client Stage of Infection,NA,NA
+STIBBI,StibbiDM,rows,hiv,Investigation,PHS - HIV - Client Stage of Infection,HIV Stage of Infection Based On,HIV Stage of Infection Based On,NA,NA
+STIBBI,StibbiDM,rows,aids,Investigation,PHS - HIV - Client Stage of Infection,HIV Stage of Infection Based On,HIV Stage of Infection Based On,NA,NA
+STIBBI,StibbiDM,rows,hiv,Investigation,PHS - HIV - Diagnosis Test Type,HIV Diagnosis Test Type,HIV Diagnosis Test Type,NA,NA
+STIBBI,StibbiDM,rows,aids,Investigation,PHS - HIV - Diagnosis Test Type,HIV Diagnosis Test Type,HIV Diagnosis Test Type,NA,NA
+STIBBI,StibbiDM,rows,hiv,Investigation,PHS - HIV - Exposure Category,HAISYS Exposure Category,HAISYS Exposure Category,NA,NA
+STIBBI,StibbiDM,rows,aids,Investigation,PHS - HIV - Exposure Category,HAISYS Exposure Category,HAISYS Exposure Category,NA,NA
+STIBBI,StibbiDM,rows,hiv,Investigation,PHS - HIV - Flag - Non Nominal,HIV Non Nominal Flag,HIV Non Nominal Flag,NA,NA
+STIBBI,StibbiDM,rows,aids,Investigation,PHS - HIV - Flag - Non Nominal,HIV Non Nominal Flag,HIV Non Nominal Flag,NA,NA
+STIBBI,StibbiDM,rows,hiv,Investigation,PHS - HIV - First AIDS Defining Illness,First AIDS Defining Illnesses,First AIDS Defining Illness,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,aids,Investigation,PHS - HIV - First AIDS Defining Illness,First AIDS Defining Illnesses,First AIDS Defining Illness,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,hiv,Investigation,PHS - HIV - Reporting Category,HIV Reporting Category,HIV Reporting Category,NA,NA
+STIBBI,StibbiDM,rows,aids,Investigation,PHS - HIV - Reporting Category,HIV Reporting Category,HIV Reporting Category,NA,NA
+STIBBI,StibbiDM,rows,hiv,Investigation,PHS - HIV - Source of Diagnosis,HIV Source of Diagnosis,HIV Source of Diagnosis,NA,NA
+STIBBI,StibbiDM,rows,aids,Investigation,PHS - HIV - Source of Diagnosis,HIV Source of Diagnosis,HIV Source of Diagnosis,NA,NA
+STIBBI,StibbiDM,rows,hiv,Investigation,PHS - HIV - When AIDS Diagnosed,When AIDS Diagnosed,When AIDS Diagnosed,NA,NA
+STIBBI,StibbiDM,rows,aids,Investigation,PHS - HIV - When AIDS Diagnosed,When AIDS Diagnosed,When AIDS Diagnosed,NA,NA
+STIBBI,StibbiDM,rows,hiv,Investigation,PHS - HIV - Flag - Prenatal Screen,HIV Prenatal Screen Flag,HIV Prenatal Screen Flag,NA,NA
+STIBBI,StibbiDM,rows,aids,Investigation,PHS - HIV - Flag - Prenatal Screen,HIV Prenatal Screen Flag,HIV Prenatal Screen Flag,NA,NA
+STIBBI,StibbiDM,dim_prop,default,Investigation,PHS - IDs,Disease Event ID,Investigation ID,NA,NA
+STIBBI,StibbiDM,dim_prop,syphilis,Investigation,PHS - IDs,Disease Event ID,EMR Form ID,NA,NA
+STIBBI,StibbiDM,dim_prop,chlamydia,Investigation,PHS - IDs,Disease Event ID,EMR Form ID,NA,NA
+STIBBI,StibbiDM,dim_prop,gonorrhea,Investigation,PHS - IDs,Disease Event ID,EMR Form ID,NA,NA
+STIBBI,StibbiDM,dim_prop,lymphogranuloma,Investigation,PHS - IDs,Disease Event ID,EMR Form ID,NA,NA
+STIBBI,StibbiDM,dim_prop,default,Investigation,PHS - IDs,Disease Event ID,Date - Investigation Created,NA,NA
+STIBBI,StibbiDM,dim_prop,default,Investigation,PHS - IDs,Disease Event ID,Date - Investigation Updated,NA,NA
+STIBBI,StibbiDM,dim_prop,default,Investigation,PHS - Earliest Positive Ordering Provider,Earliest Positive Ordering Provider Key,Earliest Positive Ordering Provider Code,NA,NA
+STIBBI,StibbiDM,dim_prop,default,Investigation,PHS - Earliest Positive Ordering Provider,Earliest Positive Ordering Provider Key,Earliest Positive Ordering Provider Clinic Name,NA,NA
+STIBBI,StibbiDM,dim_prop,default,Investigation,PHS - Earliest Positive Ordering Provider,Earliest Positive Ordering Provider Key,Earliest Positive Ordering Provider Clinic Code,NA,NA
+STIBBI,StibbiDM,dim_prop,default,Investigation,PHS - Earliest Positive Ordering Provider,Earliest Positive Ordering Provider Key,Earliest Positive Ordering Provider Address Flag,NA,NA
+STIBBI,StibbiDM,dim_prop,default,Investigation,PHS - Earliest Positive Ordering Provider,Earliest Positive Ordering Provider Key,Earliest Positive Ordering Provider Name,NA,NA
+STIBBI,StibbiDM,dim_prop,syphilis,Investigation,PHS - Earliest Positive Ordering Provider,Earliest Positive Ordering Provider Key,Earliest Positive Ordering Provider EMR Form Tab,NA,NA
+STIBBI,StibbiDM,dim_prop,chlamydia,Investigation,PHS - Earliest Positive Ordering Provider,Earliest Positive Ordering Provider Key,Earliest Positive Ordering Provider EMR Form Tab,NA,NA
+STIBBI,StibbiDM,dim_prop,gonorrhea,Investigation,PHS - Earliest Positive Ordering Provider,Earliest Positive Ordering Provider Key,Earliest Positive Ordering Provider EMR Form Tab,NA,NA
+STIBBI,StibbiDM,dim_prop,lymphogranuloma,Investigation,PHS - Earliest Positive Ordering Provider,Earliest Positive Ordering Provider Key,Earliest Positive Ordering Provider EMR Form Tab,NA,NA
+STIBBI,StibbiDM,filter_d,none,Investigation,PHS - Disease,PHS Disease,PHS Disease,NA,disease
+STIBBI,StibbiDM,filter_d,none,Investigation,PHS - Geo - Surveillance Region,PHS Surveillance Region HA,PHS Surveillance Region HA,NA,surveillance_region_ha
+STIBBI,StibbiDM,filter_r,none,Investigation,PHS - Date - Surveillance,Date,Date,NA,query_date
+STIBBI,StibbiDM,columns,default,Client,Measures,PHS Client Count,NA,NA,NA
+STIBBI,StibbiDM,rows,default,Client,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+STIBBI,StibbiDM,rows,default,Client,Patient - Patient Master,Birth Year,Birth Year,NA,NA
+STIBBI,StibbiDM,rows,default,Client,PHS - Client,Client ID,Client ID,NA,NA
+STIBBI,StibbiDM,rows,default,Client,PHS - Client,Ethnicity,Ethnicity,NA,NA
+STIBBI,StibbiDM,rows,default,Client,PHS - Client,Gender,Gender,NA,NA
+STIBBI,StibbiDM,rows,default,Client,PHS - Client,Gender Identity,Gender Identity,NA,NA
+STIBBI,StibbiDM,rows,default,Client,PHS - Client,Other Ethnicity,Other Ethnicity,NA,NA
+STIBBI,StibbiDM,rows,hiv,Client,PHS - Client,HAISYS Chart Number,HAISYS Chart Number,NA,NA
+STIBBI,StibbiDM,rows,aids,Client,PHS - Client,HAISYS Chart Number,HAISYS Chart Number,NA,NA
+STIBBI,StibbiDM,rows,hiv,Client,PHS - Client,Haisys STI ID,Haisys STI ID,NA,NA
+STIBBI,StibbiDM,rows,aids,Client,PHS - Client,Haisys STI ID,Haisys STI ID,NA,NA
+STIBBI,StibbiDM,rows,syphilis,Client,PHS - Client,STIIS Client Number,STIIS Client Number,NA,NA
+STIBBI,StibbiDM,rows,chlamydia,Client,PHS - Client,STIIS Client Number,STIIS Client Number,NA,NA
+STIBBI,StibbiDM,rows,gonorrhea,Client,PHS - Client,STIIS Client Number,STIIS Client Number,NA,NA
+STIBBI,StibbiDM,rows,lymphogranuloma,Client,PHS - Client,STIIS Client Number,STIIS Client Number,NA,NA
+STIBBI,StibbiDM,rows,default,Client,PHS - Client,EMR Client ID,EMR Client ID,NA,NA
+STIBBI,StibbiDM,filter_d,none,Client,PHS - Disease,PHS Disease,PHS Disease,NA,disease
+STIBBI,StibbiDM,filter_d,none,Client,PHS - Geo - Surveillance Region,PHS Surveillance Region HA,PHS Surveillance Region HA,NA,surveillance_region_ha
+STIBBI,StibbiDM,filter_r,none,Client,PHS - Date - Surveillance,Date,Date,NA,query_date
+STIBBI,StibbiDM,columns,default,PHS Body Site,Measures,PHS Disease Event Count,NA,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Body Site,PHS - IDs,Disease Event ID,Disease Event ID,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Body Site,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Body Site,PHS - Client,Client ID,Client ID,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Body Site,PHS - Body Site and Drug Resistance,Body Site Affected,Body Site Affected,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Body Site,PHS - Body Site and Drug Resistance,Sensitivity Interpretation,Sensitivity Interpretation,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Body Site,PHS - Body Site and Drug Resistance,Antimicrobial Drug,Antimicrobial Drug,NA,NA
+STIBBI,StibbiDM,dim_prop,default,PHS Body Site,PHS - IDs,Disease Event ID,Investigation ID,NA,NA
+STIBBI,StibbiDM,filter_d,none,PHS Body Site,PHS - Disease,PHS Disease,PHS Disease,NA,disease
+STIBBI,StibbiDM,filter_d,none,PHS Body Site,PHS - Geo - Surveillance Region,PHS Surveillance Region HA,PHS Surveillance Region HA,NA,surveillance_region_ha
+STIBBI,StibbiDM,filter_r,none,PHS Body Site,PHS - Date - Surveillance,Date,Date,NA,query_date
+STIBBI,StibbiDM,columns,default,PHS Client Risk Factor,Measures,PHS Disease Event Count,NA,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Client Risk Factor,PHS - IDs,Disease Event ID,Disease Event ID,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Client Risk Factor,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Client Risk Factor,PHS - Client,Client ID,Client ID,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Client Risk Factor,PHS - Risk Factor - Client,Client Risk Factor,Client Risk Factor,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Client Risk Factor,PHS - Risk Factor - Client,Client Risk Factor Response,Client Risk Factor Response,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Client Risk Factor,PHS - Risk Factor - Client,Client Risk Factor Specify,NA,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Client Risk Factor,PHS - Risk Factor - Client,Client Risk Factor End Reason,Client Risk Factor End Reason,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Client Risk Factor,PHS - Risk Factor - Client,Date - Client Risk Factor Start,Date - Client Risk Factor Start,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Client Risk Factor,PHS - Risk Factor - Client,Date - Client Risk Factor End,Date - Client Risk Factor End,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Client Risk Factor,PHS - Risk Factor - Client,Date - Client Risk Factor Reported,Date - Client Risk Factor Reported,NA,NA
+STIBBI,StibbiDM,dim_prop,default,PHS Client Risk Factor,PHS - IDs,Disease Event ID,Investigation ID,NA,NA
+STIBBI,StibbiDM,filter_d,none,PHS Client Risk Factor,PHS - Disease,PHS Disease,PHS Disease,NA,disease
+STIBBI,StibbiDM,filter_d,none,PHS Client Risk Factor,PHS - Geo - Surveillance Region,PHS Surveillance Region HA,PHS Surveillance Region HA,NA,surveillance_region_ha
+STIBBI,StibbiDM,filter_r,none,PHS Client Risk Factor,PHS - Date - Surveillance,Date,Date,NA,query_date
+STIBBI,StibbiDM,columns,default,PHS Investigation Risk Factor,Measures,PHS Disease Event Count,NA,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Investigation Risk Factor,PHS - IDs,Disease Event ID,Disease Event ID,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Investigation Risk Factor,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Investigation Risk Factor,PHS - Client,Client ID,Client ID,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Investigation Risk Factor,PHS - Risk Factor - Investigation,Investigation Risk Factor,Investigation Risk Factor,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Investigation Risk Factor,PHS - Risk Factor - Investigation,Investigation Risk Factor Response,Investigation Risk Factor Response,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Investigation Risk Factor,PHS - Risk Factor - Investigation,Investigation Risk Factor Specify,Investigation Risk Factor Specify,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Investigation Risk Factor,PHS - Risk Factor - Investigation,Investigation Risk Factor End Reason,Investigation Risk Factor End Reason,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Investigation Risk Factor,PHS - Risk Factor - Investigation,Date - Investigation Risk Factor Start,Date - Investigation Risk Factor Start,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Investigation Risk Factor,PHS - Risk Factor - Investigation,Date - Investigation Risk Factor End,Date - Investigation Risk Factor End,NA,NA
+STIBBI,StibbiDM,rows,default,PHS Investigation Risk Factor,PHS - Risk Factor - Investigation,Date - Investigation Risk Factor Reported,Date - Investigation Risk Factor Reported,NA,NA
+STIBBI,StibbiDM,dim_prop,default,PHS Investigation Risk Factor,PHS - IDs,Disease Event ID,Investigation ID,NA,NA
+STIBBI,StibbiDM,filter_d,none,PHS Investigation Risk Factor,PHS - Disease,PHS Disease,PHS Disease,NA,disease
+STIBBI,StibbiDM,filter_d,none,PHS Investigation Risk Factor,PHS - Geo - Surveillance Region,PHS Surveillance Region HA,PHS Surveillance Region HA,NA,surveillance_region_ha
+STIBBI,StibbiDM,filter_r,none,PHS Investigation Risk Factor,PHS - Date - Surveillance,Date,Date,NA,query_date
+STIBBI,StibbiDM,columns,default,PHS UDF Long,Measures,PHS Disease Event Count,NA,NA,NA
+STIBBI,StibbiDM,rows,default,PHS UDF Long,PHS - IDs,Disease Event ID,Disease Event ID,NA,NA
+STIBBI,StibbiDM,rows,default,PHS UDF Long,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+STIBBI,StibbiDM,rows,default,PHS UDF Long,PHS - Client,Client ID,Client ID,NA,NA
+STIBBI,StibbiDM,rows,default,PHS UDF Long,PHS - UDF - All,UDF All Key,UDF All Key,NA,NA
+STIBBI,StibbiDM,dim_prop,default,PHS UDF Long,PHS - IDs,Disease Event ID,Investigation ID,NA,NA
+STIBBI,StibbiDM,dim_prop,default,PHS UDF Long,PHS - UDF - All,UDF All Key,Section Name,NA,NA
+STIBBI,StibbiDM,dim_prop,default,PHS UDF Long,PHS - UDF - All,UDF All Key,Question Keyword Common,NA,NA
+STIBBI,StibbiDM,dim_prop,default,PHS UDF Long,PHS - UDF - All,UDF All Key,Answer Value,NA,NA
+STIBBI,StibbiDM,dim_prop,default,PHS UDF Long,PHS - UDF - All,UDF All Key,Answer Row ID,NA,NA
+STIBBI,StibbiDM,dim_prop,default,PHS UDF Long,PHS - UDF - All,UDF All Key,Section Sort ID,NA,NA
+STIBBI,StibbiDM,dim_prop,default,PHS UDF Long,PHS - UDF - All,UDF All Key,Question Sort ID,NA,NA
+STIBBI,StibbiDM,dim_prop,default,PHS UDF Long,PHS - UDF - All,UDF All Key,UDF Name,NA,NA
+STIBBI,StibbiDM,dim_prop,default,PHS UDF Long,PHS - UDF - All,UDF All Key,UDF Template Version,NA,NA
+STIBBI,StibbiDM,filter_d,none,PHS UDF Long,PHS - Disease,PHS Disease,PHS Disease,NA,disease
+STIBBI,StibbiDM,filter_d,none,PHS UDF Long,PHS - Geo - Surveillance Region,PHS Surveillance Region HA,PHS Surveillance Region HA,NA,surveillance_region_ha
+STIBBI,StibbiDM,filter_r,none,PHS UDF Long,PHS - Date - Surveillance,Date,Date,NA,query_date
+STIBBI,StibbiDM,columns,default,LIS Tests,Measures,LIS Test Count,NA,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - IDs,Test ID,Test ID,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Patient,Patient Key,Patient Key,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Infection Group,Infection Group,Infection Group,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Date - Collection,Date,Date,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Date - Receive,Date,Date,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Date - Result,Date,Date,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Age at Collection,Age Years,Age Years,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Age at Collection,Age Group 09,Age Group 09,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Age at Collection,Age Group 10,Age Group 10,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Age at Collection,Age Group 24,Age Group 24,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Test,Tests,Test Name,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Test,Order Code,Order Code,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Test,Test Code,Test Code,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Test,Source System ID,Source System ID,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Result Attributes,Test Outcome,Test Outcome,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Result - Organism,Organisms,Organism Level 3,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Geo - Patient Region ATOT,LIS Patient Health Authorities ATOT,LIS Patient LHA ATOT,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Geo - Patient Address ATOT,LIS Patient Addresses ATOT,LIS Patient Postal Code ATOT,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Patient Location at Order,Hospital Code,Hospital Code,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Patient Location at Order,Location Type,Location Type,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Patient Location at Order,Patient Location Code,Patient Location Code,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Patient Location at Order,Patient Location Name,Patient Location Name,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Lab Location - Result,Hospital Code,Hospital Code,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Lab Location - Result,Lab Code,Lab Code,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Lab Location - Result,Lab Name,Lab Name,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Lab Location - Result,Lab Location Code,Lab Location Code,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Lab Location - Result,Lab Location Name,Lab Location Name,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Lab Location - Result,Lab Location Description,Lab Location Description,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Lab Location - Order Entry,Hospital Code,Hospital Code,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Lab Location - Order Entry,Lab Code,Lab Code,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Lab Location - Order Entry,Lab Name,Lab Name,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Lab Location - Order Entry,Lab Location Code,Lab Location Code,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Lab Location - Order Entry,Lab Location Name,Lab Location Name,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Lab Location - Order Entry,Lab Location Description,Lab Location Description,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Flag - Prenatal Test,Prenatal Flag,Prenatal Flag,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Flag - Proficiency Test,Yes No,Yes No,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Flag - Test Performed,Test Performed,Test Performed,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Tests,LIS - Result Attributes,Result Full Description,Result Full Description,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Tests,LIS - IDs,Test ID,Episode ID,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Tests,LIS - IDs,Test ID,Accession Number,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Tests,LIS - IDs,Test ID,Container ID,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Tests,LIS - Patient,Patient Key,Birth Year,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Tests,LIS - Patient,Patient Key,Gender,NA,NA
+STIBBI,StibbiDM,filter_d,none,LIS Tests,LIS - Infection Group,Infection Group,Infection Group,NA,infection_group
+STIBBI,StibbiDM,filter_d,none,LIS Tests,LIS - Geo - Patient Region ATOT,LIS Patient HA ATOT,LIS Patient HA ATOT,NA,surveillance_region_ha
+STIBBI,StibbiDM,filter_d,none,LIS Tests,LIS - Geo - Ordering Provider Region ATOT,LIS Ordering Provider HA ATOT,LIS Ordering Provider HA ATOT,NA,ordering_provider_ha
+STIBBI,StibbiDM,filter_d,none,LIS Tests,LIS - Test,Test Type,Test Type,NA,test_type
+STIBBI,StibbiDM,filter_d,none,LIS Tests,LIS - Rule Engine - Episode Status,Episode Status,Episode Status,NA,episode_status
+STIBBI,StibbiDM,filter_d,none,LIS Tests,LIS - Episode Testing Pattern,Episode Testing Pattern,Episode Testing Pattern,NA,episode_testing_pattern
+STIBBI,StibbiDM,filter_r,none,LIS Tests,LIS - Date - Collection,Date,Date,NA,query_date
+STIBBI,StibbiDM,columns,default,LIS Test Providers,Measures,LIS Test Count,NA,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,LIS - Patient,Patient Key,Patient Key,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,LIS - IDs,Test ID,Test ID,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,LIS - Date - Collection,Date,Date,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,LIS - Date - Receive,Date,Date,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,LIS - Date - Episode Start,Date,Date,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,LIS - Infection Group,Infection Group,Infection Group,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,LIS - Provider - Ordering,Provider Key,Provider Key,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,LIS - Geo - Ordering Provider Region ATOT,LIS Ordering Provider Health Authorities ATOT,LIS Ordering Provider LHA ATOT,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,LIS - Geo - Ordering Provider Address ATOT,LIS Ordering Provider Addresses ATOT,LIS Ordering Provider Postal Code ATOT,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,LIS - Provider - Copy To 1,Provider Key,Provider Key,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,LIS - Provider - Copy To 2,Provider Key,Provider Key,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Test Providers,LIS - Provider - Copy To 3,Provider Key,Provider Key,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - IDs,Test ID,Episode ID,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,Patient - Patient Master,Patient Master Key,Birth Year,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - IDs,Test ID,Accession Number,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - IDs,Test ID,Container ID,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Ordering,Provider Key,Provider Code,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Ordering,Provider Key,Provider Type,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Ordering,Provider Key,Provider Group,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Ordering,Provider Key,Provider Name,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Ordering,Provider Key,Full Address,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 1,Provider Key,Provider Code,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 1,Provider Key,Provider Type,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 1,Provider Key,Provider Group,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 1,Provider Key,Provider Name,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 1,Provider Key,Full Address,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 2,Provider Key,Provider Code,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 2,Provider Key,Provider Type,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 2,Provider Key,Provider Group,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 2,Provider Key,Provider Name,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 2,Provider Key,Full Address,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 3,Provider Key,Provider Code,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 3,Provider Key,Provider Type,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 3,Provider Key,Provider Group,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 3,Provider Key,Provider Name,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Test Providers,LIS - Provider - Copy To 3,Provider Key,Full Address,NA,NA
+STIBBI,StibbiDM,filter_d,none,LIS Test Providers,LIS - Infection Group,Infection Group,Infection Group,NA,infection_group
+STIBBI,StibbiDM,filter_d,none,LIS Test Providers,LIS - Geo - Patient Region ATOT,LIS Patient HA ATOT,LIS Patient HA ATOT,NA,surveillance_region_ha
+STIBBI,StibbiDM,filter_d,none,LIS Test Providers,LIS - Geo - Ordering Provider Region ATOT,LIS Ordering Provider HA ATOT,LIS Ordering Provider HA ATOT,NA,ordering_provider_ha
+STIBBI,StibbiDM,filter_d,none,LIS Test Providers,LIS - Test,Test Type,Test Type,NA,test_type
+STIBBI,StibbiDM,filter_d,none,LIS Test Providers,LIS - Rule Engine - Episode Status,Episode Status,Episode Status,NA,episode_status
+STIBBI,StibbiDM,filter_d,none,LIS Test Providers,LIS - Episode Testing Pattern,Episode Testing Pattern,Episode Testing Pattern,NA,episode_testing_pattern
+STIBBI,StibbiDM,filter_r,none,LIS Test Providers,LIS - Date - Collection,Date,Date,NA,query_date
+STIBBI,StibbiDM,columns,default,LIS Episodes,Measures,LIS Episode Count,NA,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,Patient - Patient Master,Birth Year,Birth Year,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - IDs,Test ID,Test ID,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,Case - IDs,Case Combined ID,Case Combined ID,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Infection Group,Infection Group,Infection Group,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Date - Episode Start,Date,Date,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Date - Episode End,Date,Date,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Gender at Episode Start,Gender,Gender,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Gender at Episode Start,Gender Code,Gender Code,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Age at Episode Start,Age Years,Age Years,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Age at Episode Start,Age Group 09,Age Group 09,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Age at Episode Start,Age Group 10,Age Group 10,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Age at Episode Start,Age Group 24,Age Group 24,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Geo - Patient Region,LIS Patient Health Authorities,LIS Patient LHA,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Geo - Patient Region Proxy,LIS Patient Health Authorities Proxy,LIS Patient LHA Proxy,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Geo - Patient Address,LIS Patient Addresses,LIS Patient Postal Code,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Geo - Ordering Provider Region,LIS Ordering Provider Health Authorities,LIS Ordering Provider LHA,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Geo - Ordering Provider Region Proxy,LIS Ordering Provider Health Authorities Proxy,LIS Ordering Provider LHA Proxy,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Geo - Ordering Provider Address,LIS Ordering Provider Addresses,LIS Ordering Provider Postal Code,ALLMEMBERS,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Episode Testing Pattern,Episode Testing Pattern,Episode Testing Pattern,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Flag - Prenatal Episode,Prenatal Flag,Prenatal Flag,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Flag - Reinfection,Yes No,Yes No,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Flag - Repeat Tester,Yes No,Yes No,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Interval - Days Since First Episode,Interval in Days,Interval in Days,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Interval - Days Since First Episode,Interval Group 1,Interval Group 1,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Interval - Days Since Prior Episode,Interval in Days,Interval in Days,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Interval - Days Since Prior Episode,Interval Group 1,Interval Group 1,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Interval - Days Since Prior Pos or Neg Episode,Interval in Days,Interval in Days,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Interval - Days Since Prior Pos or Neg Episode,Interval Group 1,Interval Group 1,NA,NA
+STIBBI,StibbiDM,rows,default,LIS Episodes,LIS - Rule Engine - Episode Status,Rule Engine - Episode Status,Rule Detail Description,ALLMEMBERS,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Episodes,LIS - IDs,Test ID,Episode ID,NA,NA
+STIBBI,StibbiDM,dim_prop,default,LIS Episodes,LIS - IDs,Test ID,Episode Seq,NA,NA
+STIBBI,StibbiDM,filter_d,none,LIS Episodes,LIS - Infection Group,Infection Group,Infection Group,NA,infection_group
+STIBBI,StibbiDM,filter_d,none,LIS Episodes,LIS - Geo - Patient Region,LIS Patient HA,LIS Patient HA,NA,surveillance_region_ha
+STIBBI,StibbiDM,filter_d,none,LIS Episodes,LIS - Geo - Ordering Provider Region,LIS Ordering Provider HA,LIS Ordering Provider HA,NA,ordering_provider_ha
+STIBBI,StibbiDM,filter_d,none,LIS Episodes,LIS - Test,Test Type,Test Type,NA,test_type
+STIBBI,StibbiDM,filter_d,none,LIS Episodes,LIS - Rule Engine - Episode Status,Episode Status,Episode Status,NA,episode_status
+STIBBI,StibbiDM,filter_d,none,LIS Episodes,LIS - Episode Testing Pattern,Episode Testing Pattern,Episode Testing Pattern,NA,episode_testing_pattern
+STIBBI,StibbiDM,filter_r,none,LIS Episodes,LIS - Date - Episode Start,Date,Date,NA,query_date
+STIBBI,StibbiDM,columns,default,LIS POC,Measures,POC Test Count,NA,NA,NA
+STIBBI,StibbiDM,columns,default,LIS POC,Measures,Non Reactive POC Test Count,NA,NA,NA
+STIBBI,StibbiDM,columns,default,LIS POC,Measures,Indeterminate POC Test Count,NA,NA,NA
+STIBBI,StibbiDM,columns,default,LIS POC,Measures,Reactive POC Test Count,NA,NA,NA
+STIBBI,StibbiDM,rows,default,LIS POC,LIS - Infection Group,Infection Group,Infection Group,NA,NA
+STIBBI,StibbiDM,rows,default,LIS POC,LIS - POC - Test Location,Health Authority,Health Authority,NA,NA
+STIBBI,StibbiDM,rows,default,LIS POC,LIS - POC - Test Location,HSDA,HSDA,NA,NA
+STIBBI,StibbiDM,rows,default,LIS POC,LIS - POC - Test Location,City,City,NA,NA
+STIBBI,StibbiDM,rows,default,LIS POC,LIS - POC - Test Location,Site Name,Site Name,NA,NA
+STIBBI,StibbiDM,rows,default,LIS POC,LIS - Date - POC Reporting,Date,Date,NA,NA
+STIBBI,StibbiDM,filter_d,none,LIS POC,LIS - POC - Test Location,Health Authority,Health Authority,NA,surveillance_region_ha
+STIBBI,StibbiDM,filter_r,none,LIS POC,LIS - Date - POC Reporting,Date,Date,NA,query_date
+Enteric,EntericDM,columns,default,Case Investigation,Measures,Case Count,NA,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Case - IDs,Case Combined ID,Case Combined ID,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Case - Date - Earliest,Date,Date,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Case - Date Earliest Based On,Earliest Date Based On,Earliest Date Based On,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Patient - Patient Master,Gender,Gender,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Case - Match Status,Case Match Description,Case Match Description,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Case - Disease,Case Disease,Case Disease,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Case - Surveillance Condition,Surveillance Condition,Surveillance Condition,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Date - Surveillance Reported,Date,Date,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Date - Onset Symptom,Date,Date,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Investigation Classification,Classification,Classification,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Investigation Status,Investigation Status,Investigation Status,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Investigation Outcome,Last Outcome,Last Outcome,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Surveillance Region,Pan Surveillance Region HA,Pan Surveillance Region HA,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Surveillance Region,Pan Surveillance Region HSDA,Pan Surveillance Region HSDA,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Surveillance Region,Pan Surveillance Region LHA,Pan Surveillance Region LHA,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Address at Time of Case,Address Location,Address At Time Of Case Postal Code,ALLMEMBERS,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Age At Surveillance Reported Date,Age Years,Age Years,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Age At Surveillance Reported Date,Age Group 5,Age Group 5,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Age At Surveillance Reported Date,Age Group 10,Age Group 10,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Etiologic Agent,Etiologic Agent Level,Etiologic Agent Level 2,ALLMEMBERS,NA
+Enteric,EntericDM,rows,default,Case Investigation,Pan - Etiologic Agent,Etiologic Agent Further Differentiation,Etiologic Agent Further Differentiation,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Case - IDs,FHA PARIS Client Id,FHA PARIS Client Id,NA,NA
+Enteric,EntericDM,rows,default,Case Investigation,Case - IDs,VCH PARIS Client Id,VCH PARIS Client Id,NA,NA
+Enteric,EntericDM,dim_prop,default,Case Investigation,Case - IDs,Case Combined ID,Case ID,NA,NA
+Enteric,EntericDM,dim_prop,system_ids,Case Investigation,Case - IDs,Case Combined ID,Investigation ID,NA,NA
+Enteric,EntericDM,dim_prop,system_ids,Case Investigation,Case - IDs,Case Combined ID,Disease Event ID,NA,NA
+Enteric,EntericDM,dim_prop,system_ids,Case Investigation,Case - IDs,Case Combined ID,Pan Client ID,NA,NA
+Enteric,EntericDM,dim_prop,system_ids,Case Investigation,Case - IDs,Case Combined ID,Paris Assessment Number,NA,NA
+Enteric,EntericDM,filter_d,none,Case Investigation,Case - Disease,Case Disease,Case Disease,NA,disease
+Enteric,EntericDM,filter_d,none,Case Investigation,Case - Surveillance Condition,Surveillance Condition,Surveillance Condition,NA,surveillance_condition
+Enteric,EntericDM,filter_d,none,Case Investigation,Pan - Investigation Classification,Classification,Classification,NA,classification
+Enteric,EntericDM,filter_d,none,Case Investigation,Pan - Surveillance Region,Pan Surveillance Region HA,Pan Surveillance Region HA,NA,surveillance_region_ha
+Enteric,EntericDM,filter_r,none,Case Investigation,Case - Date - Earliest,Date,Date,NA,query_date
+Enteric,EntericDM,filter_d,default,Case Investigation,Pan - Investigation Classification,Classification Group,Classification Group,**No Investigation,NA
+Enteric,EntericDM,filter_d,default,Case Investigation,Pan - Investigation Classification,Classification Group,Classification Group,Case,NA
+Enteric,EntericDM,filter_d,default,Case Investigation,LIS - Patient,Species Category,Species Category,Human,NA
+Enteric,EntericDM,filter_d,default,Case Investigation,LIS - Patient,Species Category,Species Category,**No Test,NA
+Enteric,EntericDM,filter_d,default,Case Investigation,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+Enteric,EntericDM,columns,default,Symptom,Measures,Case Count,NA,NA,NA
+Enteric,EntericDM,rows,default,Symptom,Case - IDs,Case Combined ID,Case Combined ID,NA,NA
+Enteric,EntericDM,rows,default,Symptom,Pan - Symptom,Symptom,Symptom,NA,NA
+Enteric,EntericDM,rows,default,Symptom,Pan - Symptom,Symptom Response,Symptom Response,NA,NA
+Enteric,EntericDM,dim_prop,default,Symptom,Case - IDs,Case Combined ID,Case ID,NA,NA
+Enteric,EntericDM,filter_d,none,Symptom,Case - Disease,Case Disease,Case Disease,NA,disease
+Enteric,EntericDM,filter_d,none,Symptom,Case - Surveillance Condition,Surveillance Condition,Surveillance Condition,NA,surveillance_condition
+Enteric,EntericDM,filter_d,none,Symptom,Pan - Investigation Classification,Classification,Classification,NA,classification
+Enteric,EntericDM,filter_d,none,Symptom,Pan - Surveillance Region,Pan Surveillance Region HA,Pan Surveillance Region HA,NA,surveillance_region_ha
+Enteric,EntericDM,filter_r,none,Symptom,Case - Date - Earliest,Date,Date,NA,query_date
+Enteric,EntericDM,filter_d,default,Symptom,Pan - Investigation Classification,Classification Group,Classification Group,**No Investigation,NA
+Enteric,EntericDM,filter_d,default,Symptom,Pan - Investigation Classification,Classification Group,Classification Group,Case,NA
+Enteric,EntericDM,filter_d,default,Symptom,LIS - Patient,Species Category,Species Category,Human,NA
+Enteric,EntericDM,filter_d,default,Symptom,LIS - Patient,Species Category,Species Category,**No Test,NA
+Enteric,EntericDM,filter_d,default,Symptom,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+Enteric,EntericDM,columns,default,Risk Factor,Measures,Case Count,NA,NA,NA
+Enteric,EntericDM,rows,default,Risk Factor,Case - IDs,Case Combined ID,Case Combined ID,NA,NA
+Enteric,EntericDM,rows,default,Risk Factor,Pan - Risk Factor - Investigation,Risk Factor,Risk Factor,NA,NA
+Enteric,EntericDM,rows,default,Risk Factor,Pan - Risk Factor - Investigation,Risk Factor Response,Risk Factor Response,NA,NA
+Enteric,EntericDM,dim_prop,default,Risk Factor,Case - IDs,Case Combined ID,Case ID,NA,NA
+Enteric,EntericDM,filter_d,none,Risk Factor,Case - Disease,Case Disease,Case Disease,NA,disease
+Enteric,EntericDM,filter_d,none,Risk Factor,Case - Surveillance Condition,Surveillance Condition,Surveillance Condition,NA,surveillance_condition
+Enteric,EntericDM,filter_d,none,Risk Factor,Pan - Investigation Classification,Classification,Classification,NA,classification
+Enteric,EntericDM,filter_d,none,Risk Factor,Pan - Surveillance Region,Pan Surveillance Region HA,Pan Surveillance Region HA,NA,surveillance_region_ha
+Enteric,EntericDM,filter_r,none,Risk Factor,Case - Date - Earliest,Date,Date,NA,query_date
+Enteric,EntericDM,filter_d,default,Risk Factor,Pan - Investigation Classification,Classification Group,Classification Group,**No Investigation,NA
+Enteric,EntericDM,filter_d,default,Risk Factor,Pan - Investigation Classification,Classification Group,Classification Group,Case,NA
+Enteric,EntericDM,filter_d,default,Risk Factor,LIS - Patient,Species Category,Species Category,Human,NA
+Enteric,EntericDM,filter_d,default,Risk Factor,LIS - Patient,Species Category,Species Category,**No Test,NA
+Enteric,EntericDM,filter_d,default,Risk Factor,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+Enteric,EntericDM,columns,default,UDF,Measures,Case Count,NA,NA,NA
+Enteric,EntericDM,dim_prop,default,UDF,Case - IDs,Case Combined ID,Case ID,NA,NA
+Enteric,EntericDM,rows,default,UDF,Case - IDs,Case Combined ID,Case Combined ID,NA,NA
+Enteric,EntericDM,rows,default,UDF,Pan - UDF - All,UDF Question,Question Keyword Common,ALLMEMBERS,NA
+Enteric,EntericDM,rows,default,UDF,Pan - UDF - All,Answer Value,Answer Value,NA,NA
+Enteric,EntericDM,rows,default,UDF,Pan - UDF - All,Answer Row ID,Answer Row ID,NA,NA
+Enteric,EntericDM,rows,default,UDF,Pan - UDF - All,Question Sort ID,Question Sort ID,NA,NA
+Enteric,EntericDM,rows,default,UDF,Pan - UDF - All,UDF Template Version,UDF Template Version,NA,NA
+Enteric,EntericDM,rows,default,UDF,Pan - UDF - All,UDF Name,UDF Name,NA,NA
+Enteric,EntericDM,dim_prop,default,UDF,Case - IDs,Case Combined ID,Disease Event ID,NA,NA
+Enteric,EntericDM,filter_d,none,UDF,Case - Disease,Case Disease,Case Disease,NA,disease
+Enteric,EntericDM,filter_d,none,UDF,Case - Surveillance Condition,Surveillance Condition,Surveillance Condition,NA,surveillance_condition
+Enteric,EntericDM,filter_d,none,UDF,Pan - Investigation Classification,Classification,Classification,NA,classification
+Enteric,EntericDM,filter_d,none,UDF,Pan - Surveillance Region,Pan Surveillance Region HA,Pan Surveillance Region HA,NA,surveillance_region_ha
+Enteric,EntericDM,filter_r,none,UDF,Case - Date - Earliest,Date,Date,NA,query_date
+Enteric,EntericDM,filter_d,default,UDF,Pan - Investigation Classification,Classification Group,Classification Group,**No Investigation,NA
+Enteric,EntericDM,filter_d,default,UDF,Pan - Investigation Classification,Classification Group,Classification Group,Case,NA
+Enteric,EntericDM,filter_d,default,UDF,LIS - Patient,Species Category,Species Category,Human,NA
+Enteric,EntericDM,filter_d,default,UDF,LIS - Patient,Species Category,Species Category,**No Test,NA
+Enteric,EntericDM,filter_d,default,UDF,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+Enteric,EntericDM,columns,default,LIS Data,Measures,Case Count,NA,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,Case - IDs,Case Combined ID,Case Combined ID,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Date - Collection Date,Date,Date,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Date - Order Entry,Date,Date,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Date - Receive Date,Date,Date,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Date - Result Date,Date,Date,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Age At Collection,Age Years,Age Years,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Flag - Proficiency Test,Proficiency Test,Proficiency Test,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Flag - Test Performed,Test Performed,Test Performed,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Specimen,Specimen Description,Specimen Description,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Microorganism,Organism,Serotype,ALLMEMBERS,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Patient City,Patient City Name,Patient City Name,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Patient Health Authority,Patient Health Authorities,Patient Local Health Area,ALLMEMBERS,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Result Attributes,Organism Isolated,Organism Isolated,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Result Attributes,Result Full Description,Result Full Description,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Result Attributes - Direct Exam,Direct Exam Result Full Description,Direct Exam Result Full Description,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Result Attributes - Direct Exam,Shiga Toxin Result,Shiga Toxin Result,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Test,Order Code,Order Code,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Test,Test Code,Test Code,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Copy To Provider 1,Provider Types,Provider Name,ALLMEMBERS,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Order Entry Lab Location,Lab Location,Lab Location Code,ALLMEMBERS,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Ordering Provider,Provider Types,Provider Name,ALLMEMBERS,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Ordering Provider City,Ordering Provider City Name,Ordering Provider City Name,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Ordering Provider Health Authority,Ordering Provider Health Authorities,Ordering Provider Local Health Area,ALLMEMBERS,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Bionumerics Result WGS,WGS Cluster Code,WGS Cluster Code,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Bionumerics Result,Pfge Apai Pattern,Pfge Apai Pattern,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Bionumerics Result,Pfge Asci Pattern,Pfge Asci Pattern,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Bionumerics Result,Pfge Blnl Pattern,Pfge Blnl Pattern,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Bionumerics Result,Pfge Notl Pattern,Pfge Notl Pattern,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Bionumerics Result,Pfge Xbal Pattern,Pfge Xbal Pattern,NA,NA
+Enteric,EntericDM,rows,default,LIS Data,LIS - Bionumerics Result,Phage Type,Phage Type,NA,NA
+Enteric,EntericDM,dim_prop,default,LIS Data,Case - IDs,Case Combined ID,Case ID,NA,NA
+Enteric,EntericDM,dim_prop,system_ids,LIS Data,Case - IDs,Case Combined ID,Container ID,NA,NA
+Enteric,EntericDM,dim_prop,system_ids,LIS Data,Case - IDs,Case Combined ID,Accession Number,NA,NA
+Enteric,EntericDM,dim_prop,system_ids,LIS Data,Case - IDs,Case Combined ID,Parent Container ID,NA,NA
+Enteric,EntericDM,filter_d,none,LIS Data,Case - Disease,Case Disease,Case Disease,NA,disease
+Enteric,EntericDM,filter_d,none,LIS Data,Case - Surveillance Condition,Surveillance Condition,Surveillance Condition,NA,surveillance_condition
+Enteric,EntericDM,filter_d,none,LIS Data,Pan - Investigation Classification,Classification,Classification,NA,classification
+Enteric,EntericDM,filter_d,none,LIS Data,Pan - Surveillance Region,Pan Surveillance Region HA,Pan Surveillance Region HA,NA,surveillance_region_ha
+Enteric,EntericDM,filter_r,none,LIS Data,Case - Date - Earliest,Date,Date,NA,query_date
+Enteric,EntericDM,filter_d,default,LIS Data,Pan - Investigation Classification,Classification Group,Classification Group,**No Investigation,NA
+Enteric,EntericDM,filter_d,default,LIS Data,Pan - Investigation Classification,Classification Group,Classification Group,Case,NA
+Enteric,EntericDM,filter_d,default,LIS Data,LIS - Patient,Species Category,Species Category,Human,NA
+Enteric,EntericDM,filter_d,default,LIS Data,LIS - Patient,Species Category,Species Category,**No Test,NA
+Enteric,EntericDM,filter_d,default,LIS Data,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+VPD,VPD,columns,default,Case Investigation,Measures,Case Count,NA,NA,NA
+VPD,VPD,rows,default,Case Investigation,Patient - Patient Master,Patient Master Key,Patient Master Key,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - IDs,Case ID,Case ID,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - IDs,Investigation ID,Investigation ID,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - IDs,Disease Event ID,Disease Event ID,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - IDs,PHS Client ID,PHS Client ID,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - IDs,VCH PARIS Client Id,VCH PARIS Client Id,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - IDs,FHA PARIS Client Id,FHA PARIS Client Id,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - IDs,PARIS Assessment Number,PARIS Assessment Number,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - Date,Date,Date,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - Date,Epi-Year,Epi-Year,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - Date,Epi-Week,Epi-Week,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - Date - Based On,Case Date Based On,Case Date Based On,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - Disease,Case Disease,Case Disease,NA,NA
+VPD,VPD,rows,group_b_strep,Case Investigation,Case - Serotype,Case Serotype,Case Serotype,NA,NA
+VPD,VPD,rows,igas,Case Investigation,Case - Serotype,Case Serotype,Case Serotype,NA,NA
+VPD,VPD,rows,ipd,Case Investigation,Case - Serotype,Case Serotype,Case Serotype,NA,NA
+VPD,VPD,rows,bordetella,Case Investigation,Case - Serotype,Case Serotype,Case Serotype,NA,NA
+VPD,VPD,rows,meningo,Case Investigation,Case - Serotype,Case Serotype,Case Serotype,NA,NA
+VPD,VPD,rows,reportable_vpd,Case Investigation,Case - Serotype,Case Serotype,Case Serotype,NA,NA
+VPD,VPD,rows,default,Case Investigation,Patient - Patient Master,Gender,Gender,NA,NA
+VPD,VPD,rows,default,Case Investigation,Patient - Patient Master,Birth Date,Birth Date,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - Age at Case Date,Age Group 10,Age Group 10,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - Age at Case Date,Age Year,Age Year,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - Age at Case Date,Age Month,Age Month,NA,NA
+VPD,VPD,rows,group_b_strep,Case Investigation,Case - Age at Case Date,Age Day,Age Day,NA,NA
+VPD,VPD,rows,other_disease,Case Investigation,Case - Age at Case Date,Age Day,Age Day,NA,NA
+VPD,VPD,rows,group_b_strep,Case Investigation,Case - Age at Case Date,NGBS,Age Group Ngbs 2,ALLMEMBERS,NA
+VPD,VPD,rows,other_disease,Case Investigation,Case - Age at Case Date,NGBS,Age Group Ngbs 2,ALLMEMBERS,NA
+VPD,VPD,rows,ipd,Case Investigation,Case - Age at Case Date,IPD,Age Group Ipd 2,ALLMEMBERS,NA
+VPD,VPD,rows,mumps,Case Investigation,Case - Age at Case Date,Age Group Mumps,Age Group Mumps,NA,NA
+VPD,VPD,rows,bordetella,Case Investigation,Case - Age at Case Date,Age Group Pertussis,Age Group Pertussis,NA,NA
+VPD,VPD,rows,bordetella,Case Investigation,PHS - Date - Paroxysmal Onset,Date,Date,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - Sources,Case Source,Case Source,NA,NA
+VPD,VPD,rows,group_b_strep,Case Investigation,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,NA
+VPD,VPD,rows,igas,Case Investigation,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,NA
+VPD,VPD,rows,ipd,Case Investigation,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,NA
+VPD,VPD,rows,measles,Case Investigation,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,NA
+VPD,VPD,rows,mumps,Case Investigation,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,NA
+VPD,VPD,rows,rubella,Case Investigation,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,NA
+VPD,VPD,rows,bordetella,Case Investigation,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,NA
+VPD,VPD,rows,meningo,Case Investigation,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,NA
+VPD,VPD,rows,reportable_vpd,Case Investigation,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - Classification - PHS,Case Classifications,Case Classification,ALLMEMBERS,NA
+VPD,VPD,rows,default,Case Investigation,Case - Status,Case Status,Case Status,NA,NA
+VPD,VPD,rows,default,Case Investigation,Case - Geo - Surveillance Region,Case Surveillance Region Health Authorities,Case Surveillance Region LHA,ALLMEMBERS,NA
+VPD,VPD,rows,default,Case Investigation,Case - Geo - Surveillance Region Based On,Case Surveillance Region Based On,Case Surveillance Region Based On,NA,NA
+VPD,VPD,rows,default,Case Investigation,PHS - Geo - Client Address ATOC,PHS Client Addresses ATOC,PHS Client Address ATOC Postal Code,ALLMEMBERS,NA
+VPD,VPD,rows,group_b_strep,Case Investigation,Case - Discordant Status,Discordant Classification,Discordant Classification,NA,NA
+VPD,VPD,rows,igas,Case Investigation,Case - Discordant Status,Discordant Classification,Discordant Classification,NA,NA
+VPD,VPD,rows,ipd,Case Investigation,Case - Discordant Status,Discordant Classification,Discordant Classification,NA,NA
+VPD,VPD,rows,measles,Case Investigation,Case - Discordant Status,Discordant Classification,Discordant Classification,NA,NA
+VPD,VPD,rows,mumps,Case Investigation,Case - Discordant Status,Discordant Classification,Discordant Classification,NA,NA
+VPD,VPD,rows,rubella,Case Investigation,Case - Discordant Status,Discordant Classification,Discordant Classification,NA,NA
+VPD,VPD,rows,bordetella,Case Investigation,Case - Discordant Status,Discordant Classification,Discordant Classification,NA,NA
+VPD,VPD,rows,meningo,Case Investigation,Case - Discordant Status,Discordant Classification,Discordant Classification,NA,NA
+VPD,VPD,rows,reportable_vpd,Case Investigation,Case - Discordant Status,Discordant Classification,Discordant Classification,NA,NA
+VPD,VPD,rows,group_b_strep,Case Investigation,Case - Discordant Status,Discordant Etiologic Agent 2,Discordant Etiologic Agent 2,NA,NA
+VPD,VPD,rows,igas,Case Investigation,Case - Discordant Status,Discordant Etiologic Agent 2,Discordant Etiologic Agent 2,NA,NA
+VPD,VPD,rows,ipd,Case Investigation,Case - Discordant Status,Discordant Etiologic Agent 2,Discordant Etiologic Agent 2,NA,NA
+VPD,VPD,rows,measles,Case Investigation,Case - Discordant Status,Discordant Etiologic Agent 2,Discordant Etiologic Agent 2,NA,NA
+VPD,VPD,rows,mumps,Case Investigation,Case - Discordant Status,Discordant Etiologic Agent 2,Discordant Etiologic Agent 2,NA,NA
+VPD,VPD,rows,rubella,Case Investigation,Case - Discordant Status,Discordant Etiologic Agent 2,Discordant Etiologic Agent 2,NA,NA
+VPD,VPD,rows,bordetella,Case Investigation,Case - Discordant Status,Discordant Etiologic Agent 2,Discordant Etiologic Agent 2,NA,NA
+VPD,VPD,rows,meningo,Case Investigation,Case - Discordant Status,Discordant Etiologic Agent 2,Discordant Etiologic Agent 2,NA,NA
+VPD,VPD,rows,reportable_vpd,Case Investigation,Case - Discordant Status,Discordant Etiologic Agent 2,Discordant Etiologic Agent 2,NA,NA
+VPD,VPD,rows,bordetella,Case Investigation,Case - Discordant Status,Discordant Infection Group,Discordant Infection Group,NA,NA
+VPD,VPD,rows,default,Case Investigation,PHS - Etiologic Agent,Etiologic Agent Levels,Etiologic Agent Level 2,ALLMEMBERS,NA
+VPD,VPD,rows,default,Case Investigation,PHS - Etiologic Agent,Etiologic Agent Further Differentiation,Etiologic Agent Further Differentiation,NA,NA
+VPD,VPD,rows,default,Case Investigation,PHS - Date - Onset Symptom,Date,Date,NA,NA
+VPD,VPD,rows,default,Case Investigation,PHS - Date - Surveillance Reported,Date,Date,NA,NA
+VPD,VPD,rows,default,Case Investigation,PHS - Symptom - All,Onset Symptom,Onset Symptom,NA,NA
+VPD,VPD,rows,group_b_strep,Case Investigation,PHS - Investigation Last Outcome,Last Outcome,Last Outcome,NA,NA
+VPD,VPD,rows,igas,Case Investigation,PHS - Investigation Last Outcome,Last Outcome,Last Outcome,NA,NA
+VPD,VPD,rows,ipd,Case Investigation,PHS - Investigation Last Outcome,Last Outcome,Last Outcome,NA,NA
+VPD,VPD,rows,measles,Case Investigation,PHS - Investigation Last Outcome,Last Outcome,Last Outcome,NA,NA
+VPD,VPD,rows,mumps,Case Investigation,PHS - Investigation Last Outcome,Last Outcome,Last Outcome,NA,NA
+VPD,VPD,rows,rubella,Case Investigation,PHS - Investigation Last Outcome,Last Outcome,Last Outcome,NA,NA
+VPD,VPD,rows,bordetella,Case Investigation,PHS - Investigation Last Outcome,Last Outcome,Last Outcome,NA,NA
+VPD,VPD,rows,meningo,Case Investigation,PHS - Investigation Last Outcome,Last Outcome,Last Outcome,NA,NA
+VPD,VPD,rows,reportable_vpd,Case Investigation,PHS - Investigation Last Outcome,Last Outcome,Last Outcome,NA,NA
+VPD,VPD,rows,ipd,Case Investigation,PHS - Date - Last Outcome,Date,Date,NA,NA
+VPD,VPD,rows,measles,Case Investigation,PHS - Date - Last Outcome,Date,Date,NA,NA
+VPD,VPD,rows,mumps,Case Investigation,PHS - Date - Last Outcome,Date,Date,NA,NA
+VPD,VPD,rows,rubella,Case Investigation,PHS - Date - Last Outcome,Date,Date,NA,NA
+VPD,VPD,rows,bordetella,Case Investigation,PHS - Date - Last Outcome,Date,Date,NA,NA
+VPD,VPD,rows,meningo,Case Investigation,PHS - Date - Last Outcome,Date,Date,NA,NA
+VPD,VPD,rows,reportable_vpd,Case Investigation,PHS - Date - Last Outcome,Date,Date,NA,NA
+VPD,VPD,rows,igas,Case Investigation,PHS - Investigation Last Outcome,Cause of Death,Cause of Death,NA,NA
+VPD,VPD,rows,ipd,Case Investigation,PHS - Investigation Last Outcome,Cause of Death,Cause of Death,NA,NA
+VPD,VPD,rows,measles,Case Investigation,PHS - Investigation Last Outcome,Cause of Death,Cause of Death,NA,NA
+VPD,VPD,rows,mumps,Case Investigation,PHS - Investigation Last Outcome,Cause of Death,Cause of Death,NA,NA
+VPD,VPD,rows,rubella,Case Investigation,PHS - Investigation Last Outcome,Cause of Death,Cause of Death,NA,NA
+VPD,VPD,rows,bordetella,Case Investigation,PHS - Investigation Last Outcome,Cause of Death,Cause of Death,NA,NA
+VPD,VPD,rows,meningo,Case Investigation,PHS - Investigation Last Outcome,Cause of Death,Cause of Death,NA,NA
+VPD,VPD,rows,reportable_vpd,Case Investigation,PHS - Investigation Last Outcome,Cause of Death,Cause of Death,NA,NA
+VPD,VPD,rows,igas,Case Investigation,PHS - Stage of Infection,Stage of Infection,Stage of Infection,NA,NA
+VPD,VPD,rows,reportable_vpd,Case Investigation,PHS - Stage of Infection,Stage of Infection,Stage of Infection,NA,NA
+VPD,VPD,rows,measles,Case Investigation,PHS - Complication,Encephalitis,Encephalitis,NA,NA
+VPD,VPD,rows,mumps,Case Investigation,PHS - Complication,Encephalitis,Encephalitis,NA,NA
+VPD,VPD,rows,rubella,Case Investigation,PHS - Complication,Encephalitis,Encephalitis,NA,NA
+VPD,VPD,rows,measles,Case Investigation,PHS - Complication,Meningitis,Meningitis,NA,NA
+VPD,VPD,rows,mumps,Case Investigation,PHS - Complication,Meningitis,Meningitis,NA,NA
+VPD,VPD,rows,rubella,Case Investigation,PHS - Complication,Meningitis,Meningitis,NA,NA
+VPD,VPD,rows,mumps,Case Investigation,PHS - Complication,Permanent Hearing Loss,Permanent Hearing Loss,NA,NA
+VPD,VPD,rows,measles,Case Investigation,PHS - Complication,Pneumonia,Pneumonia,NA,NA
+VPD,VPD,filter_d,none,Case Investigation,Case - Disease,Case Disease,Case Disease,NA,disease
+VPD,VPD,filter_d,none,Case Investigation,Case - Classification - PHS,Case Classification,Case Classification,NA,classification
+VPD,VPD,filter_d,none,Case Investigation,Case - Geo - Surveillance Region,Case Surveillance Region HA,Case Surveillance Region HA,NA,surveillance_region_ha
+VPD,VPD,filter_d,none,Case Investigation,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,lis_status
+VPD,VPD,filter_r,none,Case Investigation,Case - Date,Date,Date,NA,query_date
+VPD,VPD,filter_d,default,Case Investigation,Case - Classification - PHS,Case Classification Group,Case Classification Group,Case,NA
+VPD,VPD,filter_d,default,Case Investigation,Case - Classification - PHS,Case Classification Group,Case Classification Group,No PHS Data,NA
+VPD,VPD,filter_d,default,Case Investigation,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+VPD,VPD,columns,default,Symptoms,Measures,Case Count,NA,NA,NA
+VPD,VPD,rows,default,Symptoms,Case - IDs,Case ID,Case ID,NA,NA
+VPD,VPD,rows,default,Symptoms,Case - IDs,Investigation ID,Investigation ID,NA,NA
+VPD,VPD,rows,default,Symptoms,Case - Disease,Case Disease,Case Disease,NA,NA
+VPD,VPD,rows,measles,Symptoms,PHS - Symptom,Arthralgia,Arthralgia,NA,NA
+VPD,VPD,rows,igas,Symptoms,PHS - Symptom,Arthritis,Arthritis,NA,NA
+VPD,VPD,rows,igas,Symptoms,PHS - Symptom,Bacteremia,Bacteremia,NA,NA
+VPD,VPD,rows,ipd,Symptoms,PHS - Symptom,Bacteremia,Bacteremia,NA,NA
+VPD,VPD,rows,meningo,Symptoms,PHS - Symptom,Bacteremia,Bacteremia,NA,NA
+VPD,VPD,rows,igas,Symptoms,PHS - Symptom,Cellulitis,Cellulitis,NA,NA
+VPD,VPD,rows,measles,Symptoms,PHS - Symptom,Conjunctivitis,Conjunctivitis,NA,NA
+VPD,VPD,rows,rubella,Symptoms,PHS - Symptom,Conjunctivitis,Conjunctivitis,NA,NA
+VPD,VPD,rows,measles,Symptoms,PHS - Symptom,Coryza,Coryza,NA,NA
+VPD,VPD,rows,measles,Symptoms,PHS - Symptom,Cough,Cough,NA,NA
+VPD,VPD,rows,bordetella,Symptoms,PHS - Symptom,Cough,Cough,NA,NA
+VPD,VPD,rows,bordetella,Symptoms,PHS - Symptom,Cough Associated With Apnea,Cough Associated With Apnea,NA,NA
+VPD,VPD,rows,bordetella,Symptoms,PHS - Symptom,Cough Ending In Inspriatory Whoop,Cough Ending In Inspriatory Whoop,NA,NA
+VPD,VPD,rows,bordetella,Symptoms,PHS - Symptom,Cough Ending In Vomiting Or Gagging,Cough Ending In Vomiting Or Gagging,NA,NA
+VPD,VPD,rows,bordetella,Symptoms,PHS - Symptom,Cough Lasting More Than 2 Weeks,Cough Lasting More Than 2 Weeks,NA,NA
+VPD,VPD,rows,bordetella,Symptoms,PHS - Symptom,Cough Paroxysmal,Cough Paroxysmal,NA,NA
+VPD,VPD,rows,measles,Symptoms,PHS - Symptom,Fever,Fever,NA,NA
+VPD,VPD,rows,mumps,Symptoms,PHS - Symptom,Fever,Fever,NA,NA
+VPD,VPD,rows,rubella,Symptoms,PHS - Symptom,Fever,Fever,NA,NA
+VPD,VPD,rows,bordetella,Symptoms,PHS - Symptom,Fever,Fever,NA,NA
+VPD,VPD,rows,measles,Symptoms,PHS - Symptom,Lymphadenopathy,Lymphadenopathy,NA,NA
+VPD,VPD,rows,rubella,Symptoms,PHS - Symptom,Lymphadenopathy,Lymphadenopathy,NA,NA
+VPD,VPD,rows,rubella,Symptoms,PHS - Symptom,Lymphadenopathy Occipital,Lymphadenopathy Occipital,NA,NA
+VPD,VPD,rows,rubella,Symptoms,PHS - Symptom,Lymphadenopathy Post - Auricular,Lymphadenopathy Post - Auricular,NA,NA
+VPD,VPD,rows,rubella,Symptoms,PHS - Symptom,Lymphadenopathy Posterior Cervical,Lymphadenopathy Posterior Cervical,NA,NA
+VPD,VPD,rows,igas,Symptoms,PHS - Symptom,Meningitis,Meningitis,NA,NA
+VPD,VPD,rows,ipd,Symptoms,PHS - Symptom,Meningitis,Meningitis,NA,NA
+VPD,VPD,rows,meningo,Symptoms,PHS - Symptom,Meningitis,Meningitis,NA,NA
+VPD,VPD,rows,igas,Symptoms,PHS - Symptom,Necrotizing Fasciiti - Myositis - Gangrene,Necrotizing Fasciiti - Myositis - Gangrene,NA,NA
+VPD,VPD,rows,mumps,Symptoms,PHS - Symptom,Orchitis,Orchitis,NA,NA
+VPD,VPD,rows,igas,Symptoms,PHS - Symptom,Other,Other,NA,NA
+VPD,VPD,rows,ipd,Symptoms,PHS - Symptom,Other,Other,NA,NA
+VPD,VPD,rows,measles,Symptoms,PHS - Symptom,Other,Other,NA,NA
+VPD,VPD,rows,mumps,Symptoms,PHS - Symptom,Other,Other,NA,NA
+VPD,VPD,rows,rubella,Symptoms,PHS - Symptom,Other,Other,NA,NA
+VPD,VPD,rows,bordetella,Symptoms,PHS - Symptom,Other,Other,NA,NA
+VPD,VPD,rows,meningo,Symptoms,PHS - Symptom,Other,Other,NA,NA
+VPD,VPD,rows,mumps,Symptoms,PHS - Symptom,Parotitis Bilateral,Parotitis Bilateral,NA,NA
+VPD,VPD,rows,mumps,Symptoms,PHS - Symptom,Parotitis Unilateral,Parotitis Unilateral,NA,NA
+VPD,VPD,rows,measles,Symptoms,PHS - Symptom,Peri - Partum Fever,Peri - Partum Fever,NA,NA
+VPD,VPD,rows,mumps,Symptoms,PHS - Symptom,Peri - Partum Fever,Peri - Partum Fever,NA,NA
+VPD,VPD,rows,rubella,Symptoms,PHS - Symptom,Peri - Partum Fever,Peri - Partum Fever,NA,NA
+VPD,VPD,rows,bordetella,Symptoms,PHS - Symptom,Peri - Partum Fever,Peri - Partum Fever,NA,NA
+VPD,VPD,rows,igas,Symptoms,PHS - Symptom,Pneumonia,Pneumonia,NA,NA
+VPD,VPD,rows,ipd,Symptoms,PHS - Symptom,Pneumonia,Pneumonia,NA,NA
+VPD,VPD,rows,meningo,Symptoms,PHS - Symptom,Purpura Fulminans - Meningococcemia,Purpura Fulminans - Meningococcemia,NA,NA
+VPD,VPD,rows,measles,Symptoms,PHS - Symptom,Rash Maculopapular,Rash Maculopapular,NA,NA
+VPD,VPD,rows,rubella,Symptoms,PHS - Symptom,Rash Maculopapular,Rash Maculopapular,NA,NA
+VPD,VPD,rows,measles,Symptoms,PHS - Symptom,Rash Petechial,Rash Petechial,NA,NA
+VPD,VPD,rows,meningo,Symptoms,PHS - Symptom,Rash Petechial,Rash Petechial,NA,NA
+VPD,VPD,rows,igas,Symptoms,PHS - Symptom,Toxic Shock Syndrome,Toxic Shock Syndrome,NA,NA
+VPD,VPD,filter_d,none,Symptoms,Case - Disease,Case Disease,Case Disease,NA,disease
+VPD,VPD,filter_d,none,Symptoms,Case - Classification - PHS,Case Classification,Case Classification,NA,classification
+VPD,VPD,filter_d,none,Symptoms,Case - Geo - Surveillance Region,Case Surveillance Region HA,Case Surveillance Region HA,NA,surveillance_region_ha
+VPD,VPD,filter_d,none,Symptoms,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,lis_status
+VPD,VPD,filter_r,none,Symptoms,Case - Date,Date,Date,NA,query_date
+VPD,VPD,filter_d,default,Symptoms,Case - Classification - PHS,Case Classification Group,Case Classification Group,Case,NA
+VPD,VPD,filter_d,default,Symptoms,Case - Classification - PHS,Case Classification Group,Case Classification Group,No PHS Data,NA
+VPD,VPD,filter_d,default,Symptoms,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+VPD,VPD,columns,default,Symptoms Long,Measures,Case Count,NA,NA,NA
+VPD,VPD,rows,default,Symptoms Long,Case - IDs,Case ID,Case ID,NA,NA
+VPD,VPD,rows,default,Symptoms Long,Case - IDs,Investigation ID,Investigation ID,NA,NA
+VPD,VPD,rows,default,Symptoms Long,Case - Disease,Case Disease,Case Disease,NA,NA
+VPD,VPD,rows,default,Symptoms Long,PHS - Symptom - All,Symptom,Symptom,NA,NA
+VPD,VPD,rows,default,Symptoms Long,PHS - Symptom - All,Symptom Response,Symptom Response,NA,NA
+VPD,VPD,rows,default,Symptoms Long,PHS - Symptom - All,Symptom Date,Symptom Date,NA,NA
+VPD,VPD,filter_d,none,Symptoms Long,Case - Disease,Case Disease,Case Disease,NA,disease
+VPD,VPD,filter_d,none,Symptoms Long,Case - Classification - PHS,Case Classification,Case Classification,NA,classification
+VPD,VPD,filter_d,none,Symptoms Long,Case - Geo - Surveillance Region,Case Surveillance Region HA,Case Surveillance Region HA,NA,surveillance_region_ha
+VPD,VPD,filter_d,none,Symptoms Long,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,lis_status
+VPD,VPD,filter_r,none,Symptoms Long,Case - Date,Date,Date,NA,query_date
+VPD,VPD,filter_d,default,Symptoms Long,Case - Classification - PHS,Case Classification Group,Case Classification Group,Case,NA
+VPD,VPD,filter_d,default,Symptoms Long,Case - Classification - PHS,Case Classification Group,Case Classification Group,No PHS Data,NA
+VPD,VPD,filter_d,default,Symptoms Long,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+VPD,VPD,columns,default,Risk Factors,Measures,Case Count,NA,NA,NA
+VPD,VPD,rows,default,Risk Factors,Case - IDs,Case ID,Case ID,NA,NA
+VPD,VPD,rows,default,Risk Factors,Case - IDs,Investigation ID,Investigation ID,NA,NA
+VPD,VPD,rows,default,Risk Factors,Case - Disease,Case Disease,Case Disease,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Alcohol Use,Alcohol Use,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Chronic Cardiac Condition,Chronic Cardiac Condition,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Chronic Cardiac Condition,Chronic Cardiac Condition,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Chronic CSF Leak,Chronic CSF Leak,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Chronic Liver Disease,Chronic Liver Disease,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Chronic Liver Disease Specify,Chronic Liver Disease Specify,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Chronic Renal Disease,Chronic Renal Disease,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Cystic Fibrosis,Cystic Fibrosis,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Chronic Respiratory Pulmonary Condition,Chronic Respiratory Pulmonary Condition,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Chronic Respiratory Pulmonary Condition,Chronic Respiratory Pulmonary Condition,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Diabetes Mellitus,Diabetes Mellitus,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Diabetes Mellitus,Diabetes Mellitus,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Homelessness Underhoused,Homelessness Underhoused,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Immunocompromised Other,Immunocompromised Other,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Immunocompromised Other,Immunocompromised Other,NA,NA
+VPD,VPD,rows,meningo,Risk Factors,PHS - Risk Factor,Immunocompromised Other,Immunocompromised Other,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Immunocompromised Other Specify,Immunocompromised Other Specify,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Immunocompromised Other Specify,Immunocompromised Other Specify,NA,NA
+VPD,VPD,rows,meningo,Risk Factors,PHS - Risk Factor,Immunocompromised Other Specify,Immunocompromised Other Specify,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Immunocompromised Transplant,Immunocompromised Transplant,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Immunocompromised Transplant,Immunocompromised Transplant,NA,NA
+VPD,VPD,rows,meningo,Risk Factors,PHS - Risk Factor,Immunocompromised Transplant,Immunocompromised Transplant,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Immunocompromised Transplant Specify,Immunocompromised Transplant Specify,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Immunocompromised Transplant Specify,Immunocompromised Transplant Specify,NA,NA
+VPD,VPD,rows,meningo,Risk Factors,PHS - Risk Factor,Immunocompromised Transplant Specify,Immunocompromised Transplant Specify,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Immunocompromised Treatment,Immunocompromised Treatment,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Immunocompromised Treatment,Immunocompromised Treatment,NA,NA
+VPD,VPD,rows,meningo,Risk Factors,PHS - Risk Factor,Immunocompromised Treatment,Immunocompromised Treatment,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Immunocompromised Treatment Specify,Immunocompromised Treatment Specify,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Immunocompromised Treatment Specify,Immunocompromised Treatment Specify,NA,NA
+VPD,VPD,rows,meningo,Risk Factors,PHS - Risk Factor,Immunocompromised Treatment Specify,Immunocompromised Treatment Specify,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Immunocompromising Condition,Immunocompromising Condition,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Immunocompromising Condition,Immunocompromising Condition,NA,NA
+VPD,VPD,rows,meningo,Risk Factors,PHS - Risk Factor,Immunocompromising Condition,Immunocompromising Condition,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Immunocompromising Condition Specify,Immunocompromising Condition Specify,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Immunocompromising Condition Specify,Immunocompromising Condition Specify,NA,NA
+VPD,VPD,rows,meningo,Risk Factors,PHS - Risk Factor,Immunocompromising Condition Specify,Immunocompromising Condition Specify,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Injection Drug Use,Injection Drug Use,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Malignancies Cancer,Malignancies Cancer,NA,NA
+VPD,VPD,rows,meningo,Risk Factors,PHS - Risk Factor,MSM,MSM,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Other,Other,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Other,Other,NA,NA
+VPD,VPD,rows,measles,Risk Factors,PHS - Risk Factor,Other,Other,NA,NA
+VPD,VPD,rows,mumps,Risk Factors,PHS - Risk Factor,Other,Other,NA,NA
+VPD,VPD,rows,bordetella,Risk Factors,PHS - Risk Factor,Other,Other,NA,NA
+VPD,VPD,rows,meningo,Risk Factors,PHS - Risk Factor,Other,Other,NA,NA
+VPD,VPD,rows,igas,Risk Factors,PHS - Risk Factor,Other Specify,Other Specify,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Other Specify,Other Specify,NA,NA
+VPD,VPD,rows,measles,Risk Factors,PHS - Risk Factor,Other Specify,Other Specify,NA,NA
+VPD,VPD,rows,mumps,Risk Factors,PHS - Risk Factor,Other Specify,Other Specify,NA,NA
+VPD,VPD,rows,bordetella,Risk Factors,PHS - Risk Factor,Other Specify,Other Specify,NA,NA
+VPD,VPD,rows,meningo,Risk Factors,PHS - Risk Factor,Other Specify,Other Specify,NA,NA
+VPD,VPD,rows,bordetella,Risk Factors,PHS - Risk Factor,Pregnancy,Pregnancy,NA,NA
+VPD,VPD,rows,ipd,Risk Factors,PHS - Risk Factor,Sickle Cell Disease,Sickle Cell Disease,NA,NA
+VPD,VPD,filter_d,none,Risk Factors,Case - Disease,Case Disease,Case Disease,NA,disease
+VPD,VPD,filter_d,none,Risk Factors,Case - Classification - PHS,Case Classification,Case Classification,NA,classification
+VPD,VPD,filter_d,none,Risk Factors,Case - Geo - Surveillance Region,Case Surveillance Region HA,Case Surveillance Region HA,NA,surveillance_region_ha
+VPD,VPD,filter_d,none,Risk Factors,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,lis_status
+VPD,VPD,filter_r,none,Risk Factors,Case - Date,Date,Date,NA,query_date
+VPD,VPD,filter_d,default,Risk Factors,Case - Classification - PHS,Case Classification Group,Case Classification Group,Case,NA
+VPD,VPD,filter_d,default,Risk Factors,Case - Classification - PHS,Case Classification Group,Case Classification Group,No PHS Data,NA
+VPD,VPD,filter_d,default,Risk Factors,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+VPD,VPD,columns,default,UDF,Measures,Case Count,NA,NA,NA
+VPD,VPD,rows,default,UDF,Case - IDs,Case ID,Case ID,NA,NA
+VPD,VPD,rows,default,UDF,Case - IDs,Investigation ID,Investigation ID,NA,NA
+VPD,VPD,rows,default,UDF,Case - Disease,Case Disease,Case Disease,NA,NA
+VPD,VPD,rows,ipd,UDF,PHS - UDF - Immunization,Immunization Status Prior To Onset,Immunization Status Prior To Onset,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Immunization,Immunization Status Prior To Onset,Immunization Status Prior To Onset,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Immunization,Immunization Status Prior To Onset,Immunization Status Prior To Onset,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Immunization,Immunization Status Prior To Onset,Immunization Status Prior To Onset,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Immunization,Immunization Status Prior To Onset,Immunization Status Prior To Onset,NA,NA
+VPD,VPD,rows,meningo,UDF,PHS - UDF - Immunization,Immunization Status Prior To Onset,Immunization Status Prior To Onset,NA,NA
+VPD,VPD,rows,reportable_vpd,UDF,PHS - UDF - Immunization,Immunization Status Prior To Onset,Immunization Status Prior To Onset,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Pregnancy,Pregnancy Outcome,Pregnancy Outcome,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Pregnancy,Pregnancy Was Infant Affected,Pregnancy Was Infant Affected,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Hospitalization,ER Visit,ER Visit,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Hospitalization,ER Visit,ER Visit,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Hospitalization,ER Visit,ER Visit,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Hospitalization,ER Visit Hospital Name,ER Visit Hospital Name,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Hospitalization,ER Visit Hospital Name,ER Visit Hospital Name,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Hospitalization,Admitted To Hospital,Admitted To Hospital,NA,NA
+VPD,VPD,rows,ipd,UDF,PHS - UDF - Hospitalization,Admitted To Hospital,Admitted To Hospital,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Hospitalization,Admitted To Hospital,Admitted To Hospital,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Hospitalization,Admitted To Hospital,Admitted To Hospital,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Hospitalization,Admitted To Hospital,Admitted To Hospital,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Hospitalization,Admitted To Hospital,Admitted To Hospital,NA,NA
+VPD,VPD,rows,meningo,UDF,PHS - UDF - Hospitalization,Admitted To Hospital,Admitted To Hospital,NA,NA
+VPD,VPD,rows,reportable_vpd,UDF,PHS - UDF - Hospitalization,Admitted To Hospital,Admitted To Hospital,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Hospitalization,Name Of Hospital For Admission,Name Of Hospital For Admission,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Hospitalization,Name Of Hospital For Admission,Name Of Hospital For Admission,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Hospitalization,Name Of Hospital For Admission,Name Of Hospital For Admission,NA,NA
+VPD,VPD,rows,ipd,UDF,PHS - UDF - Hospitalization,Admission Date,Admission Date,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Hospitalization,Admission Date,Admission Date,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Hospitalization,Admission Date,Admission Date,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Hospitalization,Admission Date,Admission Date,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Hospitalization,Admission Date,Admission Date,NA,NA
+VPD,VPD,rows,meningo,UDF,PHS - UDF - Hospitalization,Admission Date,Admission Date,NA,NA
+VPD,VPD,rows,reportable_vpd,UDF,PHS - UDF - Hospitalization,Admission Date,Admission Date,NA,NA
+VPD,VPD,rows,ipd,UDF,PHS - UDF - Hospitalization,Admitted To ICU,Admitted To ICU,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Hospitalization,Admitted To ICU,Admitted To ICU,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Hospitalization,Admitted To ICU,Admitted To ICU,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Hospitalization,Admitted To ICU,Admitted To ICU,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Hospitalization,Admitted To ICU,Admitted To ICU,NA,NA
+VPD,VPD,rows,meningo,UDF,PHS - UDF - Hospitalization,Admitted To ICU,Admitted To ICU,NA,NA
+VPD,VPD,rows,reportable_vpd,UDF,PHS - UDF - Hospitalization,Admitted To ICU,Admitted To ICU,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Hospitalization,ICU Hospital Name,ICU Hospital Name,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Hospitalization,ICU Hospital Name,ICU Hospital Name,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Hospitalization,ICU Hospital Name,ICU Hospital Name,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Hospitalization,Surgery,Surgery,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Predisposing Conditions,Predisposing Condition Chickenpox,Predisposing Condition Chickenpox,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Predisposing Conditions,Predisposing Condition Skin Infection,Predisposing Condition Skin Infection,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Predisposing Conditions,Predisposing Condition Wound,Predisposing Condition Wound,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Predisposing Conditions,Wound Type,Wound Type,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Exposures,Contact With Known Case,Contact With Known Case,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Exposures,Contact With Known Case,Contact With Known Case,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Exposures,Contact With Known Case,Contact With Known Case,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Exposures,Contact With Known Case,Contact With Known Case,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Exposures,Contact With Known Case,Contact With Known Case,NA,NA
+VPD,VPD,rows,meningo,UDF,PHS - UDF - Exposures,Contact With Known Case,Contact With Known Case,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Exposures,Did Case Travel During Incubation Period,Did Case Travel During Incubation Period,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Exposures,Did Case Travel During Incubation Period,Did Case Travel During Incubation Period,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Exposures,Did Case Travel During Incubation Period,Did Case Travel During Incubation Period,NA,NA
+VPD,VPD,rows,meningo,UDF,PHS - UDF - Exposures,Did Case Travel During Incubation Period,Did Case Travel During Incubation Period,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Exposures,Where Case Travelled During Incubation Period,Where Case Travelled During Incubation Period,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Exposures,Where Case Travelled During Incubation Period,Where Case Travelled During Incubation Period,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Exposures,Where Case Travelled During Incubation Period,Where Case Travelled During Incubation Period,NA,NA
+VPD,VPD,rows,meningo,UDF,PHS - UDF - Exposures,Where Case Travelled During Incubation Period,Where Case Travelled During Incubation Period,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Exposures,Travel Locations During Incubation Period,Travel Locations During Incubation Period,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Exposures,Travel Locations During Incubation Period,Travel Locations During Incubation Period,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Exposures,Travel Locations During Incubation Period,Travel Locations During Incubation Period,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Exposures,Source Of Infection,Source Of Infection,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Exposures,Source Of Infection,Source Of Infection,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Exposures,Source Of Infection,Source Of Infection,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Exposures,Hospital Associated Infection,Hospital Associated Infection,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Exposures,Hospital Associated Infection Specify,Hospital Associated Infection Specify,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Exposures,Previous Pregnancies,Previous Pregnancies,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Settings,Healthcare Worker,Healthcare Worker,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Settings,Healthcare Worker,Healthcare Worker,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Settings,Healthcare Worker,Healthcare Worker,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Settings,Setting Name Type Location,Setting Name Type Location,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Settings,Setting Name Type Location,Setting Name Type Location,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Settings,Setting Name Type Location,Setting Name Type Location,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Settings,Child Care School University,Child Care School University,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Settings,Child Care School University,Child Care School University,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Settings,Child Care School University,Child Care School University,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Settings,Child Care School University,Child Care School University,NA,NA
+VPD,VPD,rows,meningo,UDF,PHS - UDF - Settings,Child Care School University,Child Care School University,NA,NA
+VPD,VPD,rows,igas,UDF,PHS - UDF - Settings,Lives In Communal Setting,Lives In Communal Setting,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Settings,Lives In Communal Setting,Lives In Communal Setting,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Settings,Lives In Communal Setting,Lives In Communal Setting,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Settings,Lives In Communal Setting,Lives In Communal Setting,NA,NA
+VPD,VPD,rows,meningo,UDF,PHS - UDF - Settings,Lives In Communal Setting,Lives In Communal Setting,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Contacts,Infants Under One Year,Infants Under One Year,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Contacts,Pregnant Women Third Trimester,Pregnant Women Third Trimester,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Contacts,Household Contact,Household Contact,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Contacts,Family Daycare Contacts,Family Daycare Contacts,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Travel Communicability Period,Did Case Travel During Communicability,Did Case Travel During Communicability,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Travel Communicability Period,Did Case Travel During Communicability,Did Case Travel During Communicability,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Travel Communicability Period,Did Case Travel During Communicability,Did Case Travel During Communicability,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Travel Communicability Period,Where Case Travelled During Communicability,Where Case Travelled During Communicability,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Travel Communicability Period,Where Case Travelled During Communicability,Where Case Travelled During Communicability,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Travel Communicability Period,Where Case Travelled During Communicability,Where Case Travelled During Communicability,NA,NA
+VPD,VPD,rows,ipd,UDF,PHS - UDF - Notes,General Comments,General Comments,NA,NA
+VPD,VPD,rows,measles,UDF,PHS - UDF - Notes,General Comments,General Comments,NA,NA
+VPD,VPD,rows,mumps,UDF,PHS - UDF - Notes,General Comments,General Comments,NA,NA
+VPD,VPD,rows,rubella,UDF,PHS - UDF - Notes,General Comments,General Comments,NA,NA
+VPD,VPD,rows,bordetella,UDF,PHS - UDF - Notes,General Comments,General Comments,NA,NA
+VPD,VPD,rows,meningo,UDF,PHS - UDF - Notes,General Comments,General Comments,NA,NA
+VPD,VPD,filter_d,none,UDF,Case - Disease,Case Disease,Case Disease,NA,disease
+VPD,VPD,filter_d,none,UDF,Case - Classification - PHS,Case Classification,Case Classification,NA,classification
+VPD,VPD,filter_d,none,UDF,Case - Geo - Surveillance Region,Case Surveillance Region HA,Case Surveillance Region HA,NA,surveillance_region_ha
+VPD,VPD,filter_d,none,UDF,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,lis_status
+VPD,VPD,filter_r,none,UDF,Case - Date,Date,Date,NA,query_date
+VPD,VPD,filter_d,default,UDF,Case - Classification - PHS,Case Classification Group,Case Classification Group,Case,NA
+VPD,VPD,filter_d,default,UDF,Case - Classification - PHS,Case Classification Group,Case Classification Group,No PHS Data,NA
+VPD,VPD,filter_d,default,UDF,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+VPD,VPD,columns,default,UDF Long,Measures,Case Count,NA,NA,NA
+VPD,VPD,rows,default,UDF Long,Case - IDs,Case ID,Case ID,NA,NA
+VPD,VPD,rows,default,UDF Long,Case - IDs,Investigation ID,Investigation ID,NA,NA
+VPD,VPD,rows,default,UDF Long,Case - Disease,Case Disease,Case Disease,NA,NA
+VPD,VPD,rows,default,UDF Long,PHS - UDF - All,UDF All Key,UDF All Key,NA,NA
+VPD,VPD,dim_prop,default,UDF Long,PHS - UDF - All,UDF All Key,Answer Row ID,NA,NA
+VPD,VPD,dim_prop,default,UDF Long,PHS - UDF - All,UDF All Key,Answer Value,NA,NA
+VPD,VPD,dim_prop,default,UDF Long,PHS - UDF - All,UDF All Key,Question Keyword Common,NA,NA
+VPD,VPD,dim_prop,default,UDF Long,PHS - UDF - All,UDF All Key,Question Sort ID,NA,NA
+VPD,VPD,dim_prop,default,UDF Long,PHS - UDF - All,UDF All Key,Section Name,NA,NA
+VPD,VPD,dim_prop,default,UDF Long,PHS - UDF - All,UDF All Key,Section Sort ID,NA,NA
+VPD,VPD,dim_prop,default,UDF Long,PHS - UDF - All,UDF All Key,Form Name,NA,NA
+VPD,VPD,dim_prop,default,UDF Long,PHS - UDF - All,UDF All Key,Form Template Version,NA,NA
+VPD,VPD,filter_d,none,UDF Long,Case - Disease,Case Disease,Case Disease,NA,disease
+VPD,VPD,filter_d,none,UDF Long,Case - Classification - PHS,Case Classification,Case Classification,NA,classification
+VPD,VPD,filter_d,none,UDF Long,Case - Geo - Surveillance Region,Case Surveillance Region HA,Case Surveillance Region HA,NA,surveillance_region_ha
+VPD,VPD,filter_d,none,UDF Long,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,lis_status
+VPD,VPD,filter_r,none,UDF Long,Case - Date,Date,Date,NA,query_date
+VPD,VPD,filter_d,default,UDF Long,Case - Classification - PHS,Case Classification Group,Case Classification Group,Case,NA
+VPD,VPD,filter_d,default,UDF Long,Case - Classification - PHS,Case Classification Group,Case Classification Group,No PHS Data,NA
+VPD,VPD,filter_d,default,UDF Long,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+VPD,VPD,columns,default,Immunizations,Measures,Case Count,NA,NA,NA
+VPD,VPD,rows,default,Immunizations,Case - IDs,Case ID,Case ID,NA,NA
+VPD,VPD,rows,default,Immunizations,Case - IDs,Investigation ID,Investigation ID,NA,NA
+VPD,VPD,rows,default,Immunizations,Case - Disease,Case Disease,Case Disease,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Immunization Id,Immunization Id,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Administered Date,Administered Date,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Administered Date Estimated Flag,Administered Date Estimated Flag,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Age at Time of Dose,Age Year,Age Year,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Age at Time of Dose,Age Month,Age Month,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Age at Time of Dose,Age Day,Age Day,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Agent,Agent,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Antigen,Antigen,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Antigen Status,Antigen Status,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Agent Dose Number,Agent Dose Number,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Dose Status,Dose Status,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Historical Flag,Historical Flag,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Immunization Reason,Immunization Reason,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Override Flag,Override Flag,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Agent Revised Dose Number,Agent Revised Dose Number,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Agent Dose Number Derived,Agent Dose Number Derived,NA,NA
+VPD,VPD,rows,default,Immunizations,PHS - Imms - Investigation,Revised Dose Reason,Revised Dose Reason,NA,NA
+VPD,VPD,rows,ipd,Immunizations,PHS - Imms - Investigation,Trade Name,Trade Name,NA,NA
+VPD,VPD,filter_d,none,Immunizations,Case - Disease,Case Disease,Case Disease,NA,disease
+VPD,VPD,filter_d,none,Immunizations,Case - Classification - PHS,Case Classification,Case Classification,NA,classification
+VPD,VPD,filter_d,none,Immunizations,Case - Geo - Surveillance Region,Case Surveillance Region HA,Case Surveillance Region HA,NA,surveillance_region_ha
+VPD,VPD,filter_d,none,Immunizations,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,lis_status
+VPD,VPD,filter_r,none,Immunizations,Case - Date,Date,Date,NA,query_date
+VPD,VPD,filter_d,default,Immunizations,Case - Classification - PHS,Case Classification Group,Case Classification Group,Case,NA
+VPD,VPD,filter_d,default,Immunizations,Case - Classification - PHS,Case Classification Group,Case Classification Group,No PHS Data,NA
+VPD,VPD,filter_d,default,Immunizations,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+VPD,VPD,columns,default,Special Considerations,Measures,Case Count,NA,NA,NA
+VPD,VPD,rows,default,Special Considerations,Case - IDs,Case ID,Case ID,NA,NA
+VPD,VPD,rows,default,Special Considerations,Case - IDs,Investigation ID,Investigation ID,NA,NA
+VPD,VPD,rows,default,Special Considerations,Case - Disease,Case Disease,Case Disease,NA,NA
+VPD,VPD,rows,default,Special Considerations,PHS - Imms - Special Consideration,Antigen,Antigen,NA,NA
+VPD,VPD,rows,default,Special Considerations,PHS - Imms - Special Consideration,Created Date,Created Date,NA,NA
+VPD,VPD,rows,default,Special Considerations,PHS - Imms - Special Consideration,Special Consideration Type,Special Consideration Type,NA,NA
+VPD,VPD,rows,default,Special Considerations,PHS - Imms - Special Consideration,Special Consideration Reason,Special Consideration Reason,NA,NA
+VPD,VPD,rows,default,Special Considerations,PHS - Imms - Special Consideration,Special Consideration Reason Comment,Special Consideration Reason Comment,NA,NA
+VPD,VPD,rows,default,Special Considerations,PHS - Imms - Special Consideration,Effective From Date,Effective From Date,NA,NA
+VPD,VPD,rows,default,Special Considerations,PHS - Imms - Special Consideration,Effective To Date,Effective To Date,NA,NA
+VPD,VPD,rows,default,Special Considerations,PHS - Imms - Special Consideration,Source Evidence,Source Evidence,NA,NA
+VPD,VPD,rows,default,Special Considerations,PHS - Imms - Special Consideration,Disease Date,Disease Date,NA,NA
+VPD,VPD,rows,default,Special Considerations,PHS - Imms - Special Consideration,Accurate Disease Date Indicator,Accurate Disease Date Indicator,NA,NA
+VPD,VPD,filter_d,none,Special Considerations,Case - Disease,Case Disease,Case Disease,NA,disease
+VPD,VPD,filter_d,none,Special Considerations,Case - Classification - PHS,Case Classification,Case Classification,NA,classification
+VPD,VPD,filter_d,none,Special Considerations,Case - Geo - Surveillance Region,Case Surveillance Region HA,Case Surveillance Region HA,NA,surveillance_region_ha
+VPD,VPD,filter_d,none,Special Considerations,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,lis_status
+VPD,VPD,filter_r,none,Special Considerations,Case - Date,Date,Date,NA,query_date
+VPD,VPD,filter_d,default,Special Considerations,Case - Classification - PHS,Case Classification Group,Case Classification Group,Case,NA
+VPD,VPD,filter_d,default,Special Considerations,Case - Classification - PHS,Case Classification Group,Case Classification Group,No PHS Data,NA
+VPD,VPD,filter_d,default,Special Considerations,Patient - Match Level,Match Level Description,Match Level Description,3,NA
+VPD,VPD,columns,default,LIS Tests,Measures,Case Count,NA,NA,NA
+VPD,VPD,rows,default,LIS Tests,Case - IDs,Case ID,Case ID,NA,NA
+VPD,VPD,rows,default,LIS Tests,Case - IDs,Container ID,Container ID,NA,NA
+VPD,VPD,rows,default,LIS Tests,Case - IDs,Investigation ID,Investigation ID,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - IDs,Episode ID,Episode ID,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - IDs,Accession Number,Accession Number,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - Date - Collection,Date,Date,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - Date - Result,Date,Date,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - Rule Engine - Episode Status,Episode Status,Episode Status,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - Infection Group,Infection Group,Infection Group,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - Specimen,Specimen Description,Specimen Description,NA,NA
+VPD,VPD,rows,group_b_strep,LIS Tests,LIS - Specimen,Sterile Status,Sterile Status,NA,NA
+VPD,VPD,rows,igas,LIS Tests,LIS - Specimen,Sterile Status,Sterile Status,NA,NA
+VPD,VPD,rows,ipd,LIS Tests,LIS - Specimen,Sterile Status,Sterile Status,NA,NA
+VPD,VPD,rows,rubella,LIS Tests,LIS - Specimen,Sterile Status,Sterile Status,NA,NA
+VPD,VPD,rows,bordetella,LIS Tests,LIS - Specimen,Sterile Status,Sterile Status,NA,NA
+VPD,VPD,rows,meningo,LIS Tests,LIS - Specimen,Sterile Status,Sterile Status,NA,NA
+VPD,VPD,rows,reportable_vpd,LIS Tests,LIS - Specimen,Sterile Status,Sterile Status,NA,NA
+VPD,VPD,rows,group_b_strep,LIS Tests,LIS - Result - Organism,Organisms,Level 3,ALLMEMBERS,NA
+VPD,VPD,rows,igas,LIS Tests,LIS - Result - Organism,Organisms,Level 3,ALLMEMBERS,NA
+VPD,VPD,rows,ipd,LIS Tests,LIS - Result - Organism,Organisms,Level 3,ALLMEMBERS,NA
+VPD,VPD,rows,measles,LIS Tests,LIS - Result - Organism,Organisms,Level 3,ALLMEMBERS,NA
+VPD,VPD,rows,mumps,LIS Tests,LIS - Result - Organism,Organisms,Level 3,ALLMEMBERS,NA
+VPD,VPD,rows,rubella,LIS Tests,LIS - Result - Organism,Organisms,Level 3,ALLMEMBERS,NA
+VPD,VPD,rows,bordetella,LIS Tests,LIS - Result - Organism,Organisms,Level 3,ALLMEMBERS,NA
+VPD,VPD,rows,meningo,LIS Tests,LIS - Result - Organism,Organisms,Level 3,ALLMEMBERS,NA
+VPD,VPD,rows,reportable_vpd,LIS Tests,LIS - Result - Organism,Organisms,Level 3,ALLMEMBERS,NA
+VPD,VPD,rows,group_b_strep,LIS Tests,LIS - Test,Order Code,Order Code,NA,NA
+VPD,VPD,rows,igas,LIS Tests,LIS - Test,Order Code,Order Code,NA,NA
+VPD,VPD,rows,ipd,LIS Tests,LIS - Test,Order Code,Order Code,NA,NA
+VPD,VPD,rows,measles,LIS Tests,LIS - Test,Order Code,Order Code,NA,NA
+VPD,VPD,rows,mumps,LIS Tests,LIS - Test,Order Code,Order Code,NA,NA
+VPD,VPD,rows,rubella,LIS Tests,LIS - Test,Order Code,Order Code,NA,NA
+VPD,VPD,rows,bordetella,LIS Tests,LIS - Test,Order Code,Order Code,NA,NA
+VPD,VPD,rows,meningo,LIS Tests,LIS - Test,Order Code,Order Code,NA,NA
+VPD,VPD,rows,reportable_vpd,LIS Tests,LIS - Test,Order Code,Order Code,NA,NA
+VPD,VPD,rows,group_b_strep,LIS Tests,LIS - Test,Test Code,Test Code,NA,NA
+VPD,VPD,rows,igas,LIS Tests,LIS - Test,Test Code,Test Code,NA,NA
+VPD,VPD,rows,ipd,LIS Tests,LIS - Test,Test Code,Test Code,NA,NA
+VPD,VPD,rows,measles,LIS Tests,LIS - Test,Test Code,Test Code,NA,NA
+VPD,VPD,rows,mumps,LIS Tests,LIS - Test,Test Code,Test Code,NA,NA
+VPD,VPD,rows,rubella,LIS Tests,LIS - Test,Test Code,Test Code,NA,NA
+VPD,VPD,rows,bordetella,LIS Tests,LIS - Test,Test Code,Test Code,NA,NA
+VPD,VPD,rows,meningo,LIS Tests,LIS - Test,Test Code,Test Code,NA,NA
+VPD,VPD,rows,reportable_vpd,LIS Tests,LIS - Test,Test Code,Test Code,NA,NA
+VPD,VPD,rows,group_b_strep,LIS Tests,LIS - Special Request,SREQ Description,SREQ Description,NA,NA
+VPD,VPD,rows,igas,LIS Tests,LIS - Special Request,SREQ Description,SREQ Description,NA,NA
+VPD,VPD,rows,ipd,LIS Tests,LIS - Special Request,SREQ Description,SREQ Description,NA,NA
+VPD,VPD,rows,measles,LIS Tests,LIS - Special Request,SREQ Description,SREQ Description,NA,NA
+VPD,VPD,rows,mumps,LIS Tests,LIS - Special Request,SREQ Description,SREQ Description,NA,NA
+VPD,VPD,rows,rubella,LIS Tests,LIS - Special Request,SREQ Description,SREQ Description,NA,NA
+VPD,VPD,rows,bordetella,LIS Tests,LIS - Special Request,SREQ Description,SREQ Description,NA,NA
+VPD,VPD,rows,meningo,LIS Tests,LIS - Special Request,SREQ Description,SREQ Description,NA,NA
+VPD,VPD,rows,reportable_vpd,LIS Tests,LIS - Special Request,SREQ Description,SREQ Description,NA,NA
+VPD,VPD,rows,igas,LIS Tests,LIS - Bacterial Typing,AOF,AOF,NA,NA
+VPD,VPD,rows,igas,LIS Tests,LIS - Bacterial Typing,SOF,SOF,NA,NA
+VPD,VPD,rows,igas,LIS Tests,LIS - Bacterial Typing,T Type,T Type,NA,NA
+VPD,VPD,rows,meningo,LIS Tests,LIS - Bacterial Typing,Biotype,Biotype,NA,NA
+VPD,VPD,rows,reportable_vpd,LIS Tests,LIS - Bacterial Typing,Biotype,Biotype,NA,NA
+VPD,VPD,rows,igas,LIS Tests,LIS - Bacterial Typing,ET Type,ET Type,NA,NA
+VPD,VPD,rows,meningo,LIS Tests,LIS - Bacterial Typing,Sero-subtype,Sero-subtype,NA,NA
+VPD,VPD,rows,reportable_vpd,LIS Tests,LIS - Bacterial Typing,Sero-subtype,Sero-subtype,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - Result Attributes - Test Outcome,Test Outcome,Test Outcome,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - Flag - Test Valid Status,Test Valid Status,Test Valid Status,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - Rule Engine - Episode Status,Rule Description,Rule Description,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - Flag - Proficiency Test,Proficiency Test,Proficiency Test,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - Flag - Test Performed,Test Performed,Test Performed,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - Result Attributes,Organism Identified,Organism Identified,NA,NA
+VPD,VPD,rows,default,LIS Tests,LIS - Result Attributes,Result Full Description,Result Full Description,NA,NA
+VPD,VPD,rows,rubella,LIS Tests,LIS - Result Attributes,Diphtheria Toxin Result,Diphtheria Toxin Result,NA,NA
+VPD,VPD,filter_d,none,LIS Tests,Case - Disease,Case Disease,Case Disease,NA,disease
+VPD,VPD,filter_d,none,LIS Tests,Case - Classification - PHS,Case Classification,Case Classification,NA,classification
+VPD,VPD,filter_d,none,LIS Tests,Case - Geo - Surveillance Region,Case Surveillance Region HA,Case Surveillance Region HA,NA,surveillance_region_ha
+VPD,VPD,filter_d,none,LIS Tests,Case - Status - LIS,Case Status LIS,Case Status LIS,NA,lis_status
+VPD,VPD,filter_r,none,LIS Tests,Case - Date,Date,Date,NA,query_date
+VPD,VPD,filter_d,default,LIS Tests,Case - Classification - PHS,Case Classification Group,Case Classification Group,Case,NA
+VPD,VPD,filter_d,default,LIS Tests,Case - Classification - PHS,Case Classification Group,Case Classification Group,No PHS Data,NA
+VPD,VPD,filter_d,default,LIS Tests,Patient - Match Level,Match Level Description,Match Level Description,3,NA

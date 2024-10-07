@@ -1,0 +1,10 @@
+mart,driver,type,server,database,phrdw_datamart
+CD,{SQL Server},prod,SPRDBSBI003.phsabc.ehcnet.ca\PRIDBSBIEDW,SPEDW,CD Mart
+CD,{SQL Server},sa,SNPDBSBI001\NPIDBSBICMB,SAEDW,CD Mart
+CD,{SQL Server},su,SNPDBSBI001\NPIDBSBICMB,SUEDW,CD Mart SU
+CD,{ODBC Driver 18 for SQL Server},prod,SPRDBSBI003.phsabc.ehcnet.ca\PRIDBSBIEDW,SPEDW,CD Mart
+CD,{ODBC Driver 18 for SQL Server},sa,SNPDBSBI001\NPIDBSBICMB,SAEDW,CD Mart
+CD,{ODBC Driver 18 for SQL Server},su,SNPDBSBI001\NPIDBSBICMB,SUEDW,CD Mart SU
+CD,{ODBC Driver 17 for SQL Server},prod,SPRDBSBI003.phsabc.ehcnet.ca\PRIDBSBIEDW,SPEDW,CD Mart
+CD,{ODBC Driver 17 for SQL Server},sa,SNPDBSBI001\NPIDBSBICMB,SAEDW,CD Mart
+CD,{ODBC Driver 17 for SQL Server},su,SNPDBSBI001\NPIDBSBICMB,SUEDW,CD Mart SU

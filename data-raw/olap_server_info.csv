@@ -1,0 +1,11 @@
+mart,phrdw_datamart,initial_catalog,type,data_source,provider,packet_size
+CDI,CDI,CDI,prod,SPRSASBI001.phsabc.ehcnet.ca\PRISASBIM,MSOLAP,32767
+Enteric,Enteric,PHRDW_Enteric_Panorama,prod,SPRSASBI001.phsabc.ehcnet.ca\PRISASBIM,MSOLAP,32767
+Enteric,Enteric SU,SU_PHRDW_Enteric_Panorama,su,SPRSASBI001.phsabc.ehcnet.ca\PRISASBIM,MSOLAP,32767
+Respiratory,Respiratory,PHRDW_Respiratory,prod,SPRSASBI001.phsabc.ehcnet.ca\PRISASBIM,MSOLAP,32767
+STIBBI,STIBBI,PHRDW_STIBBI,prod,SPRSASBI001.phsabc.ehcnet.ca\PRISASBIM,MSOLAP,32767
+STIBBI,STIBBI SA,SA_PHRDW_STIBBI,sa,SPRSASBI001.phsabc.ehcnet.ca\PRISASBIM,MSOLAP,32767
+STIBBI,STIBBI SU,SU_PHRDW_STIBBI,su,SPRSASBI001.phsabc.ehcnet.ca\PRISASBIM,MSOLAP,32767
+TAT,TAT,PHRDW_TAT,prod,SPRSASBI001.phsabc.ehcnet.ca\PRISASBIM,MSOLAP,32767
+VPD,VPD,PHRDW_VPD,prod,SPRSASBI001.phsabc.ehcnet.ca\PRISASBIM,MSOLAP,32767
+VPD,VPD SU,SU_PHRDW_VPD,su,SPRSASBI001.phsabc.ehcnet.ca\PRISASBIM,MSOLAP,32767

@@ -1,0 +1,812 @@
+mart,dataset_name,sql_func,logic,check,order,alias,view,col,as,default_val,param_name
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,earliest_stage_of_infection,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,Investigation,select,NA,default,0,cli,vw_pan_client,vch_paris_client_id,NA,NA,NA
+CD,Investigation,select,NA,default,0,cli,vw_pan_client,fha_paris_client_id,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,paris_assessment_number,NA,NA,NA
+CD,Investigation,select,NA,patient_id,0,cli,vw_pan_client,first_name,NA,NA,NA
+CD,Investigation,select,NA,patient_id,0,cli,vw_pan_client,middle_name,NA,NA,NA
+CD,Investigation,select,NA,patient_id,0,cli,vw_pan_client,last_name,NA,NA,NA
+CD,Investigation,select,NA,patient_id,0,cli,vw_pan_client,phn,NA,NA,NA
+CD,Investigation,select,NA,patient_id,0,cli,vw_pan_client,birth_date,NA,NA,NA
+CD,Investigation,select,NA,default,0,gen,vw_pan_gender,gender,NA,NA,NA
+CD,Investigation,select,NA,default,0,ob,vw_pan_investigation_outbreak,outbreak_id,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,surveillance_date,NA,NA,NA
+CD,Investigation,select,NA,default,0,dd,vw_pan_date,cdc_epidemiology_year,surveillance_date_epi_year,NA,NA
+CD,Investigation,select,NA,default,0,dd,vw_pan_date,cdc_epidemiology_week,surveillance_date_epi_week,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,surveillance_reported_date,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,investigation_record_created_dt_tm,date_investigation_created,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,investigation_record_modified_dt_tm,date_investigation_updated,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,disease,NA,NA,NA
+CD,Investigation,select,NA,default,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,NA
+CD,Investigation,select,NA,default,0,cla,vw_pan_classification,classification_group,NA,NA,NA
+CD,Investigation,select,NA,default,0,cla,vw_pan_classification,classification,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,classification_date,NA,NA,NA
+CD,Investigation,select,NA,default,0,sr,vw_pan_lha,health_authority,surveillance_region_ha,NA,NA
+CD,Investigation,select,NA,default,0,sr,vw_pan_lha,health_services_delivery_area,surveillance_region_hsda,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,surveillance_region_based_on,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,investigation_symptom_onset_dt_tm,symptom_onset_date,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,symptom_set_as_onset,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,age_at_time_of_case_years,age_at_surveillance_date_years,NA,NA
+CD,Investigation,select,NA,default,0,age,vw_pan_age,age_group_10,age_at_surveillance_date_age_group_10,NA,NA
+CD,Investigation,select,NA,default,0,ea,vw_pan_etiologic_agent,etiologic_agent_level_1,NA,NA,NA
+CD,Investigation,select,NA,default,0,ea,vw_pan_etiologic_agent,etiologic_agent_level_2,NA,NA,NA
+CD,Investigation,select,NA,default,0,ea,vw_pan_etiologic_agent,etiologic_agent_level_3,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,etiologic_agent_further_differentiation,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,stage_of_infection,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,address_at_time_of_case_country,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,address_at_time_of_case_province,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,address_at_time_of_case_city,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,address_at_time_of_case_postal_code,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,address_at_time_of_case_street_number,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,address_at_time_of_case_street_name,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,address_at_time_of_case_street_direction,NA,NA,NA
+CD,Investigation,select,NA,default,0,lha,vw_pan_lha,health_authority,address_at_time_of_case_ha,NA,NA
+CD,Investigation,select,NA,default,0,lha,vw_pan_lha,health_services_delivery_area,address_at_time_of_case_hsda,NA,NA
+CD,Investigation,select,NA,default,0,lha,vw_pan_lha,local_health_area,address_at_time_of_case_lha,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,outcome,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,outcome_date,last_outcome_date,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,cause_of_death,NA,NA,NA
+CD,Investigation,select,NA,default,0,sta,vw_pan_investigation_status,investigation_status,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,status_date,investigation_status_date,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,disposition,NA,NA,NA
+CD,Investigation,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,Investigation,inner_join,==,default,1,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,Investigation,inner_join,==,default,1,cli,vw_pan_client,client_id,NA,NA,NA
+CD,Investigation,inner_join,==,default,2,cli,vw_pan_client,gender_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,2,gen,vw_pan_gender,gender_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,3,inv,vw_pan_investigation,age_at_surveillance_reported_date_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,3,age,vw_pan_age,age_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,4,inv,vw_pan_investigation,investigation_status_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,4,sta,vw_pan_investigation_status,investigation_status_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,5,inv,vw_pan_investigation,etiologic_agent_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,5,ea,vw_pan_etiologic_agent,etiologic_agent_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,6,inv,vw_pan_investigation,address_at_time_of_case_lha_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,6,lha,vw_pan_lha,lha_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,7,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,7,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,8,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,8,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,9,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,9,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,10,inv,vw_pan_investigation,surveillance_date_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,10,dd,vw_pan_date,date_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,11,inv,vw_pan_investigation,encounter_group_key,NA,NA,NA
+CD,Investigation,inner_join,==,default,11,eg,vw_pan_encounter_group,encounter_group_key,NA,NA,NA
+CD,Investigation,left_join,==,default,12,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,Investigation,left_join,==,default,12,ob,vw_pan_investigation_outbreak,outbreak_id,NA,NA,NA
+CD,Investigation,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,Investigation,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,Investigation,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,Investigation,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,Investigation,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,Investigation,where,and,user,0,cla,vw_pan_classification,classification_authority,NA,Provincial,NA
+CD,Client,select,NA,default,0,cli,vw_pan_client,client_id,NA,NA,NA
+CD,Client,select,NA,default,0,cli,vw_pan_client,vch_paris_client_id,NA,NA,NA
+CD,Client,select,NA,default,0,cli,vw_pan_client,fha_paris_client_id,NA,NA,NA
+CD,Client,select,NA,patient_id,0,cli,vw_pan_client,first_name,NA,NA,NA
+CD,Client,select,NA,patient_id,0,cli,vw_pan_client,middle_name,NA,NA,NA
+CD,Client,select,NA,patient_id,0,cli,vw_pan_client,last_name,NA,NA,NA
+CD,Client,select,NA,patient_id,0,cli,vw_pan_client,phn,NA,NA,NA
+CD,Client,select,NA,patient_id,0,cli,vw_pan_client,birth_date,NA,NA,NA
+CD,Client,select,NA,default,0,gen,vw_pan_gender,gender,NA,NA,NA
+CD,Client,select,NA,default,0,gi,vw_pan_gender_identity,gender_identity,NA,NA,NA
+CD,Client,select,NA,default,0,eth,vw_pan_ethnicity,ethnicity,NA,NA,NA
+CD,Client,select,NA,default,0,cli,vw_pan_client,other_ethnicity,NA,NA,NA
+CD,Client,select,NA,default,0,cli,vw_pan_client,death_date,NA,NA,NA
+CD,Client,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,Client,inner_join,==,default,1,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,Client,inner_join,==,default,1,cli,vw_pan_client,client_id,NA,NA,NA
+CD,Client,inner_join,==,default,2,cli,vw_pan_client,gender_identity_key,NA,NA,NA
+CD,Client,inner_join,==,default,2,gi,vw_pan_gender_identity,gender_identity_key,NA,NA,NA
+CD,Client,inner_join,==,default,3,cli,vw_pan_client,ethnicity_key,NA,NA,NA
+CD,Client,inner_join,==,default,3,eth,vw_pan_ethnicity,ethnicity_key,NA,NA,NA
+CD,Client,inner_join,==,default,4,cli,vw_pan_client,gender_key,NA,NA,NA
+CD,Client,inner_join,==,default,4,gen,vw_pan_gender,gender_key,NA,NA,NA
+CD,Client,inner_join,==,default,5,inv,vw_pan_investigation,etiologic_agent_key,NA,NA,NA
+CD,Client,inner_join,==,default,5,ea,vw_pan_etiologic_agent,etiologic_agent_key,NA,NA,NA
+CD,Client,inner_join,==,default,6,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,Client,inner_join,==,default,6,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,Client,inner_join,==,default,7,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,Client,inner_join,==,default,7,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,Client,inner_join,==,default,8,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,Client,inner_join,==,default,8,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,Client,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,Client,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,Client,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,Client,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,Client,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,Client,where,and,user,0,cla,vw_pan_classification,classification_authority,NA,Provincial,NA
+CD,Risk Factor,select,NA,default,0,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,Risk Factor,select,NA,default,0,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,Risk Factor,select,NA,default,0,rf,vw_pan_risk_factor,risk_factor,NA,NA,NA
+CD,Risk Factor,select,NA,default,0,rfc,vw_pan_risk_factor_client,risk_factor_response,NA,NA,NA
+CD,Risk Factor,select,NA,default,0,rfc,vw_pan_risk_factor_client,risk_factor_other,NA,NA,NA
+CD,Risk Factor,select,NA,default,0,rfc,vw_pan_risk_factor_client,risk_factor_start_date,NA,NA,NA
+CD,Risk Factor,select,NA,default,0,rfc,vw_pan_risk_factor_client,risk_factor_end_date,NA,NA,NA
+CD,Risk Factor,select,NA,default,0,rfc,vw_pan_risk_factor_client,risk_factor_reported_date,NA,NA,NA
+CD,Risk Factor,select,NA,default,0,rfc,vw_pan_risk_factor_client,risk_factor_end_reason,NA,NA,NA
+CD,Risk Factor,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,Risk Factor,inner_join,==,default,1,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,Risk Factor,inner_join,==,default,1,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,Risk Factor,inner_join,==,default,2,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,Risk Factor,inner_join,==,default,2,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,Risk Factor,inner_join,==,default,3,inv,vw_pan_investigation,surveillance_date_key,NA,NA,NA
+CD,Risk Factor,inner_join,==,default,3,dd,vw_pan_date,date_key,NA,NA,NA
+CD,Risk Factor,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,Risk Factor,inner_join,==,default,4,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,Risk Factor,inner_join,==,default,5,inv,vw_pan_investigation,encounter_group_key,NA,NA,NA
+CD,Risk Factor,inner_join,==,default,5,eg,vw_pan_encounter_group,encounter_group_key,NA,NA,NA
+CD,Risk Factor,inner_join,==,default,6,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,Risk Factor,inner_join,==,default,6,rfi,vw_pan_risk_factor_investigation,disease_event_id,NA,NA,NA
+CD,Risk Factor,left_join,==,default,7,rfi,vw_pan_risk_factor_investigation,risk_factor_id,NA,NA,NA
+CD,Risk Factor,left_join,==,default,7,rfc,vw_pan_risk_factor_client,risk_factor_id,NA,NA,NA
+CD,Risk Factor,left_join,==,default,8,rfc,vw_pan_risk_factor_client,risk_factor_key,NA,NA,NA
+CD,Risk Factor,left_join,==,default,8,rf,vw_pan_risk_factor,risk_factor_key,NA,NA,NA
+CD,Risk Factor,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,Risk Factor,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,Risk Factor,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,Risk Factor,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,Risk Factor,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,Risk Factor,where,and,user,0,cla,vw_pan_classification,classification_authority,NA,Provincial,NA
+CD,Symptom,select,NA,default,0,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,Symptom,select,NA,default,0,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,Symptom,select,NA,default,0,sym,vw_pan_symptom,symptom_id,NA,NA,NA
+CD,Symptom,select,NA,default,0,sym,vw_pan_symptom,symptom,NA,NA,NA
+CD,Symptom,select,NA,default,0,sym,vw_pan_symptom,symptom_response,NA,NA,NA
+CD,Symptom,select,NA,default,0,sym,vw_pan_symptom,symptom_recovery_dt_tm,symptom_recovery_date,NA,NA
+CD,Symptom,select,NA,default,0,sym,vw_pan_symptom,symptom_onset_dt_tm,symptom_date,NA,NA
+CD,Symptom,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,Symptom,inner_join,==,default,1,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,Symptom,inner_join,==,default,1,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,Symptom,inner_join,==,default,2,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,Symptom,inner_join,==,default,2,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,Symptom,inner_join,==,default,3,inv,vw_pan_investigation,surveillance_date_key,NA,NA,NA
+CD,Symptom,inner_join,==,default,3,dd,vw_pan_date,date_key,NA,NA,NA
+CD,Symptom,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,Symptom,inner_join,==,default,4,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,Symptom,inner_join,==,default,5,inv,vw_pan_investigation,encounter_group_key,NA,NA,NA
+CD,Symptom,inner_join,==,default,5,eg,vw_pan_encounter_group,encounter_group_key,NA,NA,NA
+CD,Symptom,inner_join,==,default,6,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,Symptom,inner_join,==,default,6,sym,vw_pan_symptom,disease_event_id,NA,NA,NA
+CD,Symptom,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,Symptom,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,Symptom,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,Symptom,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,Symptom,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,Symptom,where,and,user,0,cla,vw_pan_classification,classification_authority,NA,Provincial,NA
+CD,Observation,select,NA,default,0,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,Observation,select,NA,default,0,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,Observation,select,NA,default,0,ob,vw_pan_observation,symptom_id,NA,NA,NA
+CD,Observation,select,NA,default,0,ob,vw_pan_observation,observation_id,NA,NA,NA
+CD,Observation,select,NA,default,0,ob,vw_pan_observation,observation_description,observation,NA,NA
+CD,Observation,select,NA,default,0,ob,vw_pan_observation,observation_value,NA,NA,NA
+CD,Observation,select,NA,default,0,ob,vw_pan_observation,observation_unit,NA,NA,NA
+CD,Observation,select,NA,default,0,ob,vw_pan_observation,observation_date,observation_date,NA,NA
+CD,Observation,select,NA,default,0,ob,vw_pan_observation,observed_by,NA,NA,NA
+CD,Observation,select,NA,default,0,ob,vw_pan_observation,observed_by_other,NA,NA,NA
+CD,Observation,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,Observation,inner_join,==,default,1,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,Observation,inner_join,==,default,1,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,Observation,inner_join,==,default,2,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,Observation,inner_join,==,default,2,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,Observation,inner_join,==,default,3,inv,vw_pan_investigation,surveillance_date_key,NA,NA,NA
+CD,Observation,inner_join,==,default,3,dd,vw_pan_date,date_key,NA,NA,NA
+CD,Observation,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,Observation,inner_join,==,default,4,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,Observation,inner_join,==,default,5,inv,vw_pan_investigation,encounter_group_key,NA,NA,NA
+CD,Observation,inner_join,==,default,5,eg,vw_pan_encounter_group,encounter_group_key,NA,NA,NA
+CD,Observation,inner_join,==,default,6,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,Observation,inner_join,==,default,6,ob,vw_pan_observation,disease_event_id,NA,NA,NA
+CD,Observation,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,Observation,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,Observation,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,Observation,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,Observation,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,Observation,where,and,user,0,cla,vw_pan_classification,classification_authority,NA,Provincial,NA
+CD,UDF,select,NA,default,0,udf,vw_pan_udf_all,form_instance_id,udf_instance_id,NA,NA
+CD,UDF,select,NA,default,0,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,UDF,select,NA,default,0,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,UDF,select,NA,default,0,udf,vw_pan_udf_all,form_name,udf_name,NA,NA
+CD,UDF,select,NA,default,0,udf,vw_pan_udf_all,form_template_version,udf_template_version,NA,NA
+CD,UDF,select,NA,default,0,udf,vw_pan_udf_all,question_type,NA,NA,NA
+CD,UDF,select,NA,default,0,udf,vw_pan_udf_all,question_keyword_common,NA,NA,NA
+CD,UDF,select,NA,default,0,udf,vw_pan_udf_all,answer_row_id,NA,NA,NA
+CD,UDF,select,NA,default,0,udf,vw_pan_udf_all,answer_value,NA,NA,NA
+CD,UDF,select,NA,default,0,udf,vw_pan_udf_all,question_sort_id,NA,NA,NA
+CD,UDF,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,UDF,inner_join,==,default,1,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,UDF,inner_join,==,default,1,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,UDF,inner_join,==,default,2,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,UDF,inner_join,==,default,2,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,UDF,inner_join,==,default,3,inv,vw_pan_investigation,surveillance_date_key,NA,NA,NA
+CD,UDF,inner_join,==,default,3,dd,vw_pan_date,date_key,NA,NA,NA
+CD,UDF,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,UDF,inner_join,==,default,4,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,UDF,inner_join,==,default,5,inv,vw_pan_investigation,encounter_group_key,NA,NA,NA
+CD,UDF,inner_join,==,default,5,eg,vw_pan_encounter_group,encounter_group_key,NA,NA,NA
+CD,UDF,inner_join,==,default,6,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,UDF,inner_join,==,default,6,udf,vw_pan_udf_all,form_instance_disease_event_id,NA,NA,NA
+CD,UDF,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,UDF,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,UDF,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,UDF,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,UDF,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,UDF,where,and,user,0,cla,vw_pan_classification,classification_authority,NA,Provincial,NA
+CD,Lab,select,NA,default,0,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,Lab,select,NA,default,0,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,Lab,select,NA,default,0,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,Lab,select,NA,default,0,inv,vw_pan_investigation,surveillance_date,NA,NA,NA
+CD,Lab,select,NA,default,0,enc,vw_pan_investigation_encounter,encounter_id,NA,NA,NA
+CD,Lab,select,NA,default,0,enc,vw_pan_investigation_encounter,encounter_date,encounter_date,NA,NA
+CD,Lab,select,NA,default,0,req,vw_pan_investigation_lab_requisition,requisition_id,lab_requisition_id,NA,NA
+CD,Lab,select,NA,default,0,req,vw_pan_investigation_lab_requisition,requisition_date,NA,NA,NA
+CD,Lab,select,NA,default,0,req,vw_pan_investigation_lab_requisition,ordering_provider_use_other,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_test,vw_pan_investigation_lab_test,test_id,lab_test_id,NA,NA
+CD,Lab,select,NA,default,0,lab_test,vw_pan_investigation_lab_test,test_name,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_test,vw_pan_investigation_lab_test,test_status,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_test,vw_pan_investigation_lab_test,test_category,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_id,lab_result_id,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_name,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_dt_tm,result_date,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,container_id,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_status,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,interpreted_result,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_value,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_unit,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_flag,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,resulting_lab_sdl,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_description,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,etiologic_agent_level_1,lab_etiologic_agent_level_1,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,etiologic_agent_level_2,lab_etiologic_agent_level_2,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,etiologic_agent_level_3,lab_etiologic_agent_level_3,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,report_id,lab_report_id,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,report_date,lab_report_date,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,accession_number,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,report_type,lab_report_type,NA,NA
+CD,Lab,select,NA,default,0,lab_spec,vw_pan_investigation_lab_requisition_specimen,requisition_specimen_id,specimen_id,NA,NA
+CD,Lab,select,NA,default,0,lab_spec,vw_pan_investigation_lab_requisition_specimen,specimen_collect_dt_tm,specimen_collected_date,NA,NA
+CD,Lab,select,NA,default,0,lab_spec,vw_pan_investigation_lab_requisition_specimen,specimen_type,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_spec,vw_pan_investigation_lab_requisition_specimen,specimen_site,NA,NA,NA
+CD,Lab,select,NA,default,0,lab_spec,vw_pan_investigation_lab_requisition_specimen,specimen_description,NA,NA,NA
+CD,Lab,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,Lab,inner_join,==,default,1,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,Lab,inner_join,==,default,1,cli,vw_pan_client,client_id,NA,NA,NA
+CD,Lab,inner_join,==,default,2,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,Lab,inner_join,==,default,2,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,Lab,inner_join,==,default,3,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,Lab,inner_join,==,default,3,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,Lab,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,Lab,inner_join,==,default,4,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,Lab,inner_join,==,default,5,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,Lab,inner_join,==,default,5,enc,vw_pan_investigation_encounter,investigation_id,NA,NA,NA
+CD,Lab,inner_join,==,default,6,enc,vw_pan_investigation_encounter,encounter_id,NA,NA,NA
+CD,Lab,inner_join,==,default,6,req,vw_pan_investigation_lab_requisition,encounter_id,NA,NA,NA
+CD,Lab,left_join,==,default,7,req,vw_pan_investigation_lab_requisition,requisition_id,NA,NA,NA
+CD,Lab,left_join,==,default,7,lab_test,vw_pan_investigation_lab_test,requisition_id,NA,NA,NA
+CD,Lab,left_join,==,default,8,lab_test,vw_pan_investigation_lab_test,test_id,NA,NA,NA
+CD,Lab,left_join,==,default,8,lab_result,vw_pan_investigation_lab_result,test_id,NA,NA,NA
+CD,Lab,left_join,==,default,9,req,vw_pan_investigation_lab_requisition,requisition_id,NA,NA,NA
+CD,Lab,left_join,==,default,9,lab_spec,vw_pan_investigation_lab_requisition_specimen,requisition_id,NA,NA,NA
+CD,Lab,left_join,==,default,9,lab_spec,vw_pan_investigation_lab_requisition_specimen,requisition_specimen_id,NA,NA,NA
+CD,Lab,left_join,==,default,9,lab_test,vw_pan_investigation_lab_test,requisition_specimen_id,NA,NA,NA
+CD,Lab,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,Lab,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,Lab,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,Lab,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,Lab,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,Lab,where,and,user,0,cla,vw_pan_classification,classification_authority,NA,Provincial,NA
+CD,Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_id,NA,NA,NA
+CD,Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,investigation_id,NA,NA,NA
+CD,Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,disease_event_id,NA,NA,NA
+CD,Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_exposure_start_date,NA,NA,NA
+CD,Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_exposure_end_date,NA,NA,NA
+CD,Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_exposure_name,NA,NA,NA
+CD,Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_setting_type,NA,NA,NA
+CD,Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_setting,NA,NA,NA
+CD,Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_exposure_location_name,NA,NA,NA
+CD,Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,mode_of_transmission,NA,NA,NA
+CD,Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,nature_of_transmission,NA,NA,NA
+CD,Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,anonymous_contact_count,NA,NA,NA
+CD,Transmission Events,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,Transmission Events,inner_join,==,default,1,te,vw_pan_transmission_event,disease_event_id,NA,NA,NA
+CD,Transmission Events,inner_join,==,default,1,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,Transmission Events,inner_join,==,default,2,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,Transmission Events,inner_join,==,default,2,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,Transmission Events,inner_join,==,default,3,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,Transmission Events,inner_join,==,default,3,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,Transmission Events,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,Transmission Events,inner_join,==,default,4,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,Transmission Events,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,Transmission Events,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,Transmission Events,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,Transmission Events,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,Transmission Events,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,Transmission Events,where,and,user,0,cla,vw_pan_classification,classification_authority,NA,Provincial,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,Contacts,select,NA,default,0,cli,vw_pan_client,client_id,NA,NA,NA
+CD,Contacts,select,NA,default,0,tec,vw_pan_te_contact_investigation,transmission_event_id,NA,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,surveillance_date,NA,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,surveillance_reported_date,NA,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,classification_date,NA,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,is_a_contact_investigation_date,NA,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,ever_a_contact_client_date,NA,NA,NA
+CD,Contacts,select,NA,patient_id,0,cli,vw_pan_client,first_name,NA,NA,NA
+CD,Contacts,select,NA,patient_id,0,cli,vw_pan_client,middle_name,NA,NA,NA
+CD,Contacts,select,NA,patient_id,0,cli,vw_pan_client,last_name,NA,NA,NA
+CD,Contacts,select,NA,patient_id,0,cli,vw_pan_client,phn,NA,NA,NA
+CD,Contacts,select,NA,patient_id,0,cli,vw_pan_client,birth_date,NA,NA,NA
+CD,Contacts,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,indigenous_self_identify,NA,NA,NA
+CD,Contacts,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,indigenous_identity,NA,NA,NA
+CD,Contacts,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,first_nation_status,NA,NA,NA
+CD,Contacts,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,on_reserve_administered_by,address_located_on_reserve_administered_by,NA,NA
+CD,Contacts,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,indigenous_organizational_unit_name,indigenous_organization,NA,NA
+CD,Contacts,select,NA,default,0,gen,vw_pan_gender,gender,NA,NA,NA
+CD,Contacts,select,NA,default,0,cli,vw_pan_client,death_date,NA,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,cause_of_death,NA,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,age_at_time_of_case_years,age_at_surveillance_date_years,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,disease,NA,NA,NA
+CD,Contacts,select,NA,default,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,NA
+CD,Contacts,select,NA,default,0,cla,vw_pan_classification,classification_group,NA,NA,NA
+CD,Contacts,select,NA,default,0,cla,vw_pan_classification,classification,NA,NA,NA
+CD,Contacts,select,NA,default,0,sr,vw_pan_lha,health_authority,surveillance_region_ha,NA,NA
+CD,Contacts,select,NA,default,0,sr,vw_pan_lha,health_services_delivery_area,surveillance_region_hsda,NA,NA
+CD,Contacts,select,NA,default,0,sr,vw_pan_lha,local_health_area,surveillance_region_lha,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,surveillance_region_based_on,NA,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,address_at_time_of_case_city,NA,NA,NA
+CD,Contacts,select,NA,default,0,ea,vw_pan_etiologic_agent,etiologic_agent,NA,NA,NA
+CD,Contacts,select,NA,default,0,stg,vw_pan_stage_of_infection,stage_of_infection,NA,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,method_of_detection,NA,NA,NA
+CD,Contacts,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,Contacts,inner_join,==,default,1,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,Contacts,inner_join,==,default,1,cli,vw_pan_client,client_id,NA,NA,NA
+CD,Contacts,inner_join,==,default,2,cli,vw_pan_client,gender_key,NA,NA,NA
+CD,Contacts,inner_join,==,default,2,gen,vw_pan_gender,gender_key,NA,NA,NA
+CD,Contacts,inner_join,==,default,3,inv,vw_pan_investigation,etiologic_agent_key,NA,NA,NA
+CD,Contacts,inner_join,==,default,3,ea,vw_pan_etiologic_agent,etiologic_agent_key,NA,NA,NA
+CD,Contacts,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,Contacts,inner_join,==,default,4,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,Contacts,inner_join,==,default,5,inv,vw_pan_investigation,stage_of_infection_key,NA,NA,NA
+CD,Contacts,inner_join,==,default,5,stg,vw_pan_stage_of_infection,stage_of_infection_key,NA,NA,NA
+CD,Contacts,inner_join,==,default,6,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,Contacts,inner_join,==,default,6,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,Contacts,inner_join,==,default,7,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,Contacts,inner_join,==,default,7,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,Contacts,left_join,==,default,8,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,Contacts,left_join,==,default,8,tec,vw_pan_te_contact_investigation,contact_disease_event_id,NA,NA,NA
+CD,Contacts,left_join,==,indigenous_id,9,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,Contacts,left_join,==,indigenous_id,9,abo,vw_pan_investigation_indigenous,disease_event_id,NA,NA,NA
+CD,Contacts,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,Contacts,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,Contacts,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,Contacts,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,Contacts,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,Contacts,where,and,user,0,cla,vw_pan_classification,classification_authority,NA,Provincial,NA
+CD,Outbreaks,select,NA,default,0,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,Outbreaks,select,NA,default,0,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,Outbreaks,select,NA,default,0,ob,vw_pan_investigation_outbreak,outbreak_id,NA,NA,NA
+CD,Outbreaks,select,NA,default,0,ob,vw_pan_investigation_outbreak,outbreak_name,NA,NA,NA
+CD,Outbreaks,select,NA,default,0,ob,vw_pan_investigation_outbreak,outbreak_classification,NA,NA,NA
+CD,Outbreaks,select,NA,default,0,ob,vw_pan_investigation_outbreak,outbreak_classification_date,NA,NA,NA
+CD,Outbreaks,select,NA,default,0,ob,vw_pan_investigation_outbreak,outbreak_authority,NA,NA,NA
+CD,Outbreaks,select,NA,default,0,ob,vw_pan_investigation_outbreak,outbreak_status,NA,NA,NA
+CD,Outbreaks,select,NA,default,0,ob,vw_pan_investigation_outbreak,outbreak_status_date,outbreak_status_date,NA,NA
+CD,Outbreaks,select,NA,default,0,ob,vw_pan_investigation_outbreak,first_case_onset_date,first_case_onset_date,NA,NA
+CD,Outbreaks,select,NA,default,0,ob,vw_pan_investigation_outbreak,date_outbreak_declared,date_outbreak_declared,NA,NA
+CD,Outbreaks,select,NA,default,0,ob,vw_pan_investigation_outbreak,date_outbreak_declared_over,date_outbreak_declared_over,NA,NA
+CD,Outbreaks,select,NA,default,0,ob,vw_pan_investigation_outbreak,outbreak_surveillance_reported_date,outbreak_surveillance_reported_date,NA,NA
+CD,Outbreaks,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,Outbreaks,inner_join,==,default,1,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,Outbreaks,inner_join,==,default,1,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,Outbreaks,inner_join,==,default,2,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,Outbreaks,inner_join,==,default,2,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,Outbreaks,inner_join,==,default,3,inv,vw_pan_investigation,surveillance_date_key,NA,NA,NA
+CD,Outbreaks,inner_join,==,default,3,dd,vw_pan_date,date_key,NA,NA,NA
+CD,Outbreaks,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,Outbreaks,inner_join,==,default,4,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,Outbreaks,inner_join,==,default,5,inv,vw_pan_investigation,encounter_group_key,NA,NA,NA
+CD,Outbreaks,inner_join,==,default,5,eg,vw_pan_encounter_group,encounter_group_key,NA,NA,NA
+CD,Outbreaks,inner_join,==,default,6,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,Outbreaks,inner_join,==,default,6,ob,vw_pan_investigation_outbreak,investigation_id,NA,NA,NA
+CD,Outbreaks,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,Outbreaks,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,Outbreaks,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,Outbreaks,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,Outbreaks,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,Outbreaks,where,and,user,0,cla,vw_pan_classification,classification_authority,NA,Provincial,NA
+CD,Complication,select,NA,default,0,inv,vw_pan_investigation,investigation_id,investigation_id,NA,NA
+CD,Complication,select,NA,default,0,inv,vw_pan_investigation,disease_event_id,disease_event_id,NA,NA
+CD,Complication,select,NA,default,0,comp,vw_pan_complication,encounter_id,encounter_id,NA,NA
+CD,Complication,select,NA,default,0,comp,vw_pan_complication,complication_id,complication_id,NA,NA
+CD,Complication,select,NA,default,0,comp,vw_pan_complication,other_complication,other_complication,NA,NA
+CD,Complication,select,NA,default,0,comp,vw_pan_complication,complication,complication,NA,NA
+CD,Complication,select,NA,default,0,comp,vw_pan_complication,response,response,NA,NA
+CD,Complication,select,NA,default,0,comp,vw_pan_complication,complication_date,complication_date,NA,NA
+CD,Complication,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,Complication,inner_join,==,default,1,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,Complication,inner_join,==,default,1,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,Complication,inner_join,==,default,2,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,Complication,inner_join,==,default,2,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,Complication,inner_join,==,default,3,inv,vw_pan_investigation,surveillance_date_key,NA,NA,NA
+CD,Complication,inner_join,==,default,3,dd,vw_pan_date,date_key,NA,NA,NA
+CD,Complication,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,Complication,inner_join,==,default,4,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,Complication,inner_join,==,default,5,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,Complication,inner_join,==,default,5,enc,vw_pan_investigation_encounter,investigation_id,NA,NA,NA
+CD,Complication,inner_join,==,default,6,enc,vw_pan_investigation_encounter,encounter_id,NA,NA,NA
+CD,Complication,inner_join,==,default,6,comp,vw_pan_complication,encounter_id,NA,NA,NA
+CD,Complication,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,Complication,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,Complication,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,Complication,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,Complication,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,Complication,where,and,user,0,cla,vw_pan_classification,classification_authority,NA,Provincial,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,cli,vw_pan_client,client_id,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,tec,vw_pan_te_contact_investigation,transmission_event_id,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,surveillance_date,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,surveillance_reported_date,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,classification_date,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,is_a_contact_investigation_date,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,ever_a_contact_client_date,NA,NA,NA
+CD,TB Contacts,select,NA,patient_id,0,cli,vw_pan_client,first_name,NA,NA,NA
+CD,TB Contacts,select,NA,patient_id,0,cli,vw_pan_client,middle_name,NA,NA,NA
+CD,TB Contacts,select,NA,patient_id,0,cli,vw_pan_client,last_name,NA,NA,NA
+CD,TB Contacts,select,NA,patient_id,0,cli,vw_pan_client,phn,NA,NA,NA
+CD,TB Contacts,select,NA,patient_id,0,cli,vw_pan_client,birth_date,NA,NA,NA
+CD,TB Contacts,select,NA,patient_id,0,cli,vw_pan_client,iphis_tb_number,bccdc_services_id,NA,NA
+CD,TB Contacts,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,indigenous_self_identify,NA,NA,NA
+CD,TB Contacts,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,indigenous_identity,NA,NA,NA
+CD,TB Contacts,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,first_nation_status,NA,NA,NA
+CD,TB Contacts,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,on_reserve_administered_by,address_located_on_reserve_administered_by,NA,NA
+CD,TB Contacts,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,indigenous_organizational_unit_name,indigenous_organization,NA,NA
+CD,TB Contacts,select,NA,default,0,gen,vw_pan_gender,gender,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,cli,vw_pan_client,origin,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,cli,vw_pan_client,origin_discordance_flag,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,cli,vw_pan_client,country_of_birth,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,cli,vw_pan_client,immigration_arrival_date,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,cli,vw_pan_client,death_date,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,cause_of_death,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,age_at_time_of_case_years,age_at_surveillance_date_years,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,disease,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,cla,vw_pan_classification,classification_group,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,cla,vw_pan_classification,classification,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,sr,vw_pan_lha,health_authority,surveillance_region_ha,NA,NA
+CD,TB Contacts,select,NA,default,0,sr,vw_pan_lha,health_services_delivery_area,surveillance_region_hsda,NA,NA
+CD,TB Contacts,select,NA,default,0,sr,vw_pan_lha,local_health_area,surveillance_region_lha,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,surveillance_region_based_on,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,address_at_time_of_case_city,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,ea,vw_pan_etiologic_agent,etiologic_agent,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,stg,vw_pan_stage_of_infection,stage_of_infection,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,body_site_all,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,tb_body_site_category_2,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,tb_body_site_category_3,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,tb_body_site_category_6,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,tb_body_site_category_phac,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,treatment_start_date,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,treatment_end_date,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,treatment_status,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,reason_for_treatment,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,reason_treatment_ended,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,major_mode_of_treatment,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,treatment_outcome,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,contact_priority,tb_contact_priority,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,method_of_detection,NA,NA,NA
+CD,TB Contacts,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,1,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,1,cli,vw_pan_client,client_id,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,2,cli,vw_pan_client,gender_key,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,2,gen,vw_pan_gender,gender_key,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,3,inv,vw_pan_investigation,etiologic_agent_key,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,3,ea,vw_pan_etiologic_agent,etiologic_agent_key,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,4,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,5,inv,vw_pan_investigation,stage_of_infection_key,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,5,stg,vw_pan_stage_of_infection,stage_of_infection_key,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,6,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,6,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,7,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,TB Contacts,inner_join,==,default,7,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,TB Contacts,left_join,==,default,8,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,TB Contacts,left_join,==,default,8,tec,vw_pan_te_contact_investigation,contact_disease_event_id,NA,NA,NA
+CD,TB Contacts,left_join,==,indigenous_id,9,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,TB Contacts,left_join,==,indigenous_id,9,abo,vw_pan_investigation_indigenous,disease_event_id,NA,NA,NA
+CD,TB Contacts,where,and,default,1,inv,vw_pan_investigation,is_a_contact_investigation_flag,NA,Yes,NA
+CD,TB Contacts,where,or,default,1,inv,vw_pan_investigation,ever_a_contact_client_flag,NA,Yes,NA
+CD,TB Contacts,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,TB Contacts,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,TB Contacts,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,TB Contacts,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,TB Contacts,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,surveillance_date,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,surveillance_reported_date,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,gen,vw_pan_gender,gender,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,geni,vw_pan_gender_identity,gender_identity,NA,NA,NA
+CD,TB Investigation,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,indigenous_self_identify,NA,NA,NA
+CD,TB Investigation,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,indigenous_identity,NA,NA,NA
+CD,TB Investigation,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,first_nation_status,NA,NA,NA
+CD,TB Investigation,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,on_reserve_administered_by,address_located_on_reserve_administered_by,NA,NA
+CD,TB Investigation,select,NA,indigenous_id,0,abo,vw_pan_investigation_indigenous,indigenous_organizational_unit_name,indigenous_organization,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,classification_date,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,investigation_record_created_dt_tm,investigation_created_date,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,age_at_time_of_case_years,age_at_surveillance_date_years,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,disease,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,cla,vw_pan_classification,classification_group,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,cla,vw_pan_classification,classification,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,is_a_contact_investigation_flag,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,is_a_contact_investigation_date,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,ever_a_contact_client_flag,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,ever_a_contact_client_date,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,sr,vw_pan_lha,health_authority,surveillance_region_ha,NA,NA
+CD,TB Investigation,select,NA,default,0,sr,vw_pan_lha,health_services_delivery_area,surveillance_region_hsda,NA,NA
+CD,TB Investigation,select,NA,default,0,sr,vw_pan_lha,local_health_area,surveillance_region_lha,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,surveillance_region_based_on,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,address_at_time_of_case_city,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,address_at_time_of_case_postal_code,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,sta,vw_pan_investigation_status,investigation_status,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,ea,vw_pan_etiologic_agent,etiologic_agent_level_1,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,ea,vw_pan_etiologic_agent,etiologic_agent_level_2,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,ea,vw_pan_etiologic_agent,etiologic_agent_level_3,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,stg,vw_pan_stage_of_infection,stage_of_infection,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,body_site_all,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,tb_body_site_category_2,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,tb_body_site_category_3,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,tb_body_site_category_6,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,tb_body_site_category_phac,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,treatment_start_date,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,treatment_end_date,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,treatment_status,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,reason_for_treatment,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,reason_treatment_ended,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,major_mode_of_treatment,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,treatment_outcome,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,cause_of_death,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,cause_of_death_other,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,method_of_detection,NA,NA,NA
+CD,TB Investigation,select,NA,default,0,inv,vw_pan_investigation,source_system,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,1,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,1,cli,vw_pan_client,client_id,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,2,cli,vw_pan_client,gender_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,2,gen,vw_pan_gender,gender_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,3,cli,vw_pan_client,gender_identity_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,3,geni,vw_pan_gender_identity,gender_identity_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,4,inv,vw_pan_investigation,etiologic_agent_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,4,ea,vw_pan_etiologic_agent,etiologic_agent_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,5,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,5,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,6,inv,vw_pan_investigation,stage_of_infection_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,6,stg,vw_pan_stage_of_infection,stage_of_infection_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,7,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,7,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,8,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,8,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,9,inv,vw_pan_investigation,investigation_status_key,NA,NA,NA
+CD,TB Investigation,inner_join,==,default,9,sta,vw_pan_investigation_status,investigation_status_key,NA,NA,NA
+CD,TB Investigation,left_join,==,indigenous_id,10,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,TB Investigation,left_join,==,indigenous_id,10,abo,vw_pan_investigation_indigenous,disease_event_id,NA,NA,NA
+CD,TB Investigation,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,TB Investigation,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,TB Investigation,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,TB Investigation,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,TB Investigation,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,TB Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_id,NA,NA,NA
+CD,TB Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,investigation_id,NA,NA,NA
+CD,TB Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,disease_event_id,NA,NA,NA
+CD,TB Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_exposure_start_date,NA,NA,NA
+CD,TB Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_exposure_end_date,NA,NA,NA
+CD,TB Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_exposure_name,NA,NA,NA
+CD,TB Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_setting_type,NA,NA,NA
+CD,TB Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_setting,NA,NA,NA
+CD,TB Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,transmission_event_exposure_location_name,NA,NA,NA
+CD,TB Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,mode_of_transmission,NA,NA,NA
+CD,TB Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,nature_of_transmission,NA,NA,NA
+CD,TB Transmission Events,select,NA,default,0,te,vw_pan_transmission_event,anonymous_contact_count,NA,NA,NA
+CD,TB Transmission Events,inner_join,==,default,1,te,vw_pan_transmission_event,disease_event_id,NA,NA,NA
+CD,TB Transmission Events,inner_join,==,default,1,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,TB Transmission Events,inner_join,==,default,2,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,TB Transmission Events,inner_join,==,default,2,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,TB Transmission Events,inner_join,==,default,3,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,TB Transmission Events,inner_join,==,default,3,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,TB Transmission Events,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,TB Transmission Events,inner_join,==,default,4,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,TB Transmission Events,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,TB Transmission Events,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,TB Transmission Events,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,TB Transmission Events,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,TB Transmission Events,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,TB Client,select,NA,default,0,cli,vw_pan_client,client_id,NA,NA,NA
+CD,TB Client,select,NA,patient_id,0,cli,vw_pan_client,first_name,NA,NA,NA
+CD,TB Client,select,NA,patient_id,0,cli,vw_pan_client,middle_name,NA,NA,NA
+CD,TB Client,select,NA,patient_id,0,cli,vw_pan_client,last_name,NA,NA,NA
+CD,TB Client,select,NA,patient_id,0,cli,vw_pan_client,phn,NA,NA,NA
+CD,TB Client,select,NA,patient_id,0,cli,vw_pan_client,birth_date,NA,NA,NA
+CD,TB Client,select,NA,patient_id,0,cli,vw_pan_client,iphis_tb_number,bccdc_services_id,NA,NA
+CD,TB Client,select,NA,default,0,gen,vw_pan_gender,gender,NA,NA,NA
+CD,TB Client,select,NA,default,0,eth,vw_pan_ethnicity,ethnicity,NA,NA,NA
+CD,TB Client,select,NA,default,0,cli,vw_pan_client,vch_paris_client_id,NA,NA,NA
+CD,TB Client,select,NA,default,0,cli,vw_pan_client,fha_paris_client_id,NA,NA,NA
+CD,TB Client,select,NA,default,0,cli,vw_pan_client,country_of_birth,NA,NA,NA
+CD,TB Client,select,NA,default,0,cli,vw_pan_client,immigration_arrival_date,NA,NA,NA
+CD,TB Client,select,NA,default,0,cli,vw_pan_client,death_date,NA,NA,NA
+CD,TB Client,select,NA,default,0,cli,vw_pan_client,origin,NA,NA,NA
+CD,TB Client,select,NA,default,0,cli,vw_pan_client,origin_discordance_flag,NA,NA,NA
+CD,TB Client,inner_join,==,default,1,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,TB Client,inner_join,==,default,1,cli,vw_pan_client,client_id,NA,NA,NA
+CD,TB Client,inner_join,==,default,2,cli,vw_pan_client,gender_key,NA,NA,NA
+CD,TB Client,inner_join,==,default,2,gen,vw_pan_gender,gender_key,NA,NA,NA
+CD,TB Client,inner_join,==,default,3,inv,vw_pan_investigation,etiologic_agent_key,NA,NA,NA
+CD,TB Client,inner_join,==,default,3,ea,vw_pan_etiologic_agent,etiologic_agent_key,NA,NA,NA
+CD,TB Client,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,TB Client,inner_join,==,default,4,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,TB Client,inner_join,==,default,5,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,TB Client,inner_join,==,default,5,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,TB Client,inner_join,==,default,6,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,TB Client,inner_join,==,default,6,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,TB Client,inner_join,==,default,7,cli,vw_pan_client,ethnicity_key,NA,NA,NA
+CD,TB Client,inner_join,==,default,7,eth,vw_pan_ethnicity,ethnicity_key,NA,NA,NA
+CD,TB Client,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,TB Client,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,TB Client,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,TB Client,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,TB Client,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,TB TST Investigation,select,NA,default,0,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,enc,vw_pan_investigation_encounter,encounter_id,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tb_skin_test_id,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,inv,vw_pan_investigation,surveillance_date,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,cla,vw_pan_classification,classification,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_given_date,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_given_time,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_read_date,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_read_time,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,enc,vw_pan_investigation_encounter,encounter_type,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,enc,vw_pan_investigation_encounter,encounter_reason,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,reason_for_tst,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,historical_flag,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_given_organizational_unit_name,tst_given_responsible_organization,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_given_sdl,tst_given_service_delivery_location,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_read_organizational_unit_name,tst_read_responsible_organization,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_read_sdl,tst_read_service_delivery_location,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_read_interpreted_result,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_reaction_size,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,is_followup_indicator,tb_tst_follow_up_indicator,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_followup,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_followup_detail,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,tst_reason_no_xray,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,other_tb_case_contact,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,other_tb_exposure_date,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,other_tb_exposure_date_partial_flag,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,recent_illness,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,recent_illness_date,NA,NA,NA
+CD,TB TST Investigation,select,NA,default,0,tst,vw_pan_tb_tst,recent_illness_date_partial_flag,NA,NA,NA
+CD,TB TST Investigation,inner_join,==,default,1,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,TB TST Investigation,inner_join,==,default,1,cli,vw_pan_client,client_id,NA,NA,NA
+CD,TB TST Investigation,inner_join,==,default,2,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,TB TST Investigation,inner_join,==,default,2,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,TB TST Investigation,inner_join,==,default,3,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,TB TST Investigation,inner_join,==,default,3,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,TB TST Investigation,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,TB TST Investigation,inner_join,==,default,4,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,TB TST Investigation,inner_join,==,default,5,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,TB TST Investigation,inner_join,==,default,5,enc,vw_pan_investigation_encounter,investigation_id,NA,NA,NA
+CD,TB TST Investigation,inner_join,==,default,6,enc,vw_pan_investigation_encounter,encounter_id,NA,NA,NA
+CD,TB TST Investigation,inner_join,==,default,6,tst,vw_pan_tb_tst,encounter_id,NA,NA,NA
+CD,TB TST Investigation,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,TB TST Investigation,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,TB TST Investigation,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,TB TST Investigation,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,TB TST Investigation,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,TB TST Client,select,NA,default,0,cli,vw_pan_client,client_id,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,enc,vw_pan_investigation_encounter,investigation_id,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,enc,vw_pan_investigation_encounter,encounter_id,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tb_skin_test_id,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_given_date,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_given_time,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_read_date,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_read_time,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,enc,vw_pan_investigation_encounter,encounter_type,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,enc,vw_pan_investigation_encounter,encounter_reason,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,reason_for_tst,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,historical_flag,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_given_organizational_unit_name,tst_given_responsible_organization,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_given_sdl,tst_given_service_delivery_location,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_read_organizational_unit_name,tst_read_responsible_organization,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_read_sdl,tst_read_service_delivery_location,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_read_interpreted_result,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_reaction_size,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,is_followup_indicator,tb_tst_follow_up_indicator,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_followup,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_followup_detail,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,tst_reason_no_xray,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,other_tb_case_contact,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,other_tb_exposure_date,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,other_tb_exposure_date_partial_flag,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,recent_illness,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,recent_illness_date,NA,NA,NA
+CD,TB TST Client,select,NA,default,0,tst,vw_pan_tb_tst,recent_illness_date_partial_flag,NA,NA,NA
+CD,TB TST Client,inner_join,==,default,1,tst,vw_pan_tb_tst,client_id,NA,NA,NA
+CD,TB TST Client,inner_join,==,default,1,cli,vw_pan_client,client_id,NA,NA,NA
+CD,TB TST Client,left_join,==,default,2,tst,vw_pan_tb_tst,encounter_id,NA,NA,NA
+CD,TB TST Client,left_join,==,default,2,enc,vw_pan_investigation_encounter,encounter_id,NA,NA,NA
+CD,TB TST Client,where,and,default,1,tst,vw_pan_tb_tst,tst_given_date,NA,NA,query_date
+CD,TB TST Client,where,or,default,1,tst,vw_pan_tb_tst,tst_read_date,NA,NA,query_date
+CD,TB TST Client,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,TB TST Client,where,and,user,0,sc,vw_pan_investigation,surveillance_condition,NA,NA,surveillance_condition
+CD,TB TST Client,where,and,user,0,cla,vw_pan_investigation,classification,NA,NA,classification
+CD,TB TST Client,where,and,user,0,sr,vw_pan_investigation,health_authority,NA,NA,surveillance_region_ha
+CD,TB TST Client,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
+CD,TB Lab,select,NA,default,0,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,TB Lab,select,NA,default,0,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,TB Lab,select,NA,default,0,inv,vw_pan_investigation,disease_event_id,NA,NA,NA
+CD,TB Lab,select,NA,default,0,inv,vw_pan_investigation,surveillance_date,NA,NA,NA
+CD,TB Lab,select,NA,default,0,enc,vw_pan_investigation_encounter,encounter_id,NA,NA,NA
+CD,TB Lab,select,NA,default,0,enc,vw_pan_investigation_encounter,encounter_date,encounter_date,NA,NA
+CD,TB Lab,select,NA,default,0,req,vw_pan_investigation_lab_requisition,requisition_id,lab_requisition_id,NA,NA
+CD,TB Lab,select,NA,default,0,req,vw_pan_investigation_lab_requisition,requisition_date,NA,NA,NA
+CD,TB Lab,select,NA,default,0,req,vw_pan_investigation_lab_requisition,ordering_provider_use_other,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_test,vw_pan_investigation_lab_test,test_id,lab_test_id,NA,NA
+CD,TB Lab,select,NA,default,0,lab_test,vw_pan_investigation_lab_test,test_name,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_test,vw_pan_investigation_lab_test,test_status,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_test,vw_pan_investigation_lab_test,test_category,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_id,lab_result_id,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_name,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_dt_tm,result_date,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,container_id,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_status,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,interpreted_result,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_value,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_unit,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_flag,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,result_description,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,etiologic_agent_level_1,lab_etiologic_agent_level_1,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,etiologic_agent_level_2,lab_etiologic_agent_level_2,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,etiologic_agent_level_3,lab_etiologic_agent_level_3,NA,NA
+CD,TB Lab,select,NA,default,0,lab_sens,vw_pan_investigation_lab_sensitivity,antimicrobial_drug_name,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_sens,vw_pan_investigation_lab_sensitivity,sensitivity_interpretation,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_sens,vw_pan_investigation_lab_sensitivity,sensitivity_value,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,report_id,lab_report_id,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,report_date,lab_report_date,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,accession_number,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_result,vw_pan_investigation_lab_result,report_type,lab_report_type,NA,NA
+CD,TB Lab,select,NA,default,0,lab_spec,vw_pan_investigation_lab_requisition_specimen,requisition_specimen_id,specimen_id,NA,NA
+CD,TB Lab,select,NA,default,0,lab_spec,vw_pan_investigation_lab_requisition_specimen,specimen_collect_dt_tm,specimen_collected_date,NA,NA
+CD,TB Lab,select,NA,default,0,lab_spec,vw_pan_investigation_lab_requisition_specimen,specimen_type,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_spec,vw_pan_investigation_lab_requisition_specimen,specimen_site,NA,NA,NA
+CD,TB Lab,select,NA,default,0,lab_spec,vw_pan_investigation_lab_requisition_specimen,specimen_description,NA,NA,NA
+CD,TB Lab,inner_join,==,default,1,inv,vw_pan_investigation,client_id,NA,NA,NA
+CD,TB Lab,inner_join,==,default,1,cli,vw_pan_client,client_id,NA,NA,NA
+CD,TB Lab,inner_join,==,default,2,inv,vw_pan_investigation,surveillance_region_lha_key,NA,NA,NA
+CD,TB Lab,inner_join,==,default,2,sr,vw_pan_lha,lha_key,NA,NA,NA
+CD,TB Lab,inner_join,==,default,3,inv,vw_pan_investigation,classification_key,NA,NA,NA
+CD,TB Lab,inner_join,==,default,3,cla,vw_pan_classification,classification_key,NA,NA,NA
+CD,TB Lab,inner_join,==,default,4,inv,vw_pan_investigation,surveillance_condition_key,NA,NA,NA
+CD,TB Lab,inner_join,==,default,4,sc,vw_pan_surveillance_condition,surveillance_condition_key,NA,NA,NA
+CD,TB Lab,inner_join,==,default,5,inv,vw_pan_investigation,investigation_id,NA,NA,NA
+CD,TB Lab,inner_join,==,default,5,enc,vw_pan_investigation_encounter,investigation_id,NA,NA,NA
+CD,TB Lab,inner_join,==,default,6,enc,vw_pan_investigation_encounter,encounter_id,NA,NA,NA
+CD,TB Lab,inner_join,==,default,6,req,vw_pan_investigation_lab_requisition,encounter_id,NA,NA,NA
+CD,TB Lab,left_join,==,default,7,req,vw_pan_investigation_lab_requisition,requisition_id,NA,NA,NA
+CD,TB Lab,left_join,==,default,7,lab_test,vw_pan_investigation_lab_test,requisition_id,NA,NA,NA
+CD,TB Lab,left_join,==,default,8,lab_test,vw_pan_investigation_lab_test,test_id,NA,NA,NA
+CD,TB Lab,left_join,==,default,8,lab_result,vw_pan_investigation_lab_result,test_id,NA,NA,NA
+CD,TB Lab,left_join,==,default,9,lab_result,vw_pan_investigation_lab_result,result_id,NA,NA,NA
+CD,TB Lab,left_join,==,default,9,lab_sens,vw_pan_investigation_lab_sensitivity,result_id,NA,NA,NA
+CD,TB Lab,left_join,==,default,10,req,vw_pan_investigation_lab_requisition,requisition_id,NA,NA,NA
+CD,TB Lab,left_join,==,default,10,lab_spec,vw_pan_investigation_lab_requisition_specimen,requisition_id,NA,NA,NA
+CD,TB Lab,left_join,==,default,10,lab_spec,vw_pan_investigation_lab_requisition_specimen,requisition_specimen_id,NA,NA,NA
+CD,TB Lab,left_join,==,default,10,lab_test,vw_pan_investigation_lab_test,requisition_specimen_id,NA,NA,NA
+CD,TB Lab,where,and,user,0,inv,vw_pan_investigation,disease,NA,NA,disease
+CD,TB Lab,where,and,user,0,sc,vw_pan_surveillance_condition,surveillance_condition,NA,NA,surveillance_condition
+CD,TB Lab,where,and,user,0,cla,vw_pan_classification,classification,NA,NA,classification
+CD,TB Lab,where,and,user,0,sr,vw_pan_lha,health_authority,NA,NA,surveillance_region_ha
+CD,TB Lab,where,and,user,0,inv,vw_pan_investigation,surveillance_date,NA,NA,query_date
