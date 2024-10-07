@@ -71,9 +71,10 @@ sql_handler <- function() {
 
     cat('\n')
 
+    if (all(isFALSE(.return_data), isFALSE(.return_query))) return()
+
   }
 
-  # if (all(isFALSE(.return_data), isFALSE(.return_query))) return()
 
   withr::with_db_connection(
     list(conn = connect_to_phrdw(mart = mart, type = type)),
@@ -125,6 +126,8 @@ sql_handler <- function() {
           paste('  -', ., collapse = '\n') %>%
           cat
         cat('\n\n')
+
+        if (all(isFALSE(.return_data), isFALSE(.return_query))) return()
 
       }
 
