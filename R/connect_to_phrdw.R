@@ -75,13 +75,17 @@
 #'
 #' @examples
 #' \dontrun{
-#' Legacy:
+#'
+#' # Legacy ------------------------------------------------------------------
+#'
+#' phrdw_datamart <- 'CD Mart'
+#' phrdw_datamart_connection <- connect_to_phrdw(phrdw_datamart)
+#'
 #'
 #' phrdw_datamart <- 'STIBBI'
-#' connect_to_phrdw(phrdw_datamart)
+#' phrdw_datamart_connection <- connect_to_phrdw(phrdw_datamart)
 #'
-#' Preferred:
-#'
+#' # Stable ------------------------------------------------------------------
 #'
 #' connect_to_phrdw(mart = 'stibbi')
 #' connect_to_phrdw(mart = 'stibbi', type = 'su')
@@ -114,6 +118,7 @@
 #'         )
 #'     )
 #' )
+#'
 #' }
 #'
 #'
