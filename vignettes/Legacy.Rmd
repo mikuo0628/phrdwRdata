@@ -1,0 +1,86 @@
+---
+title: "Legacy Usage of `get_phrdw_data()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Legacy Usage of `get_phrdw_data()`}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(phrdwRdata)
+```
+
+# Introduction
+
+`phrdwRdata::get_phrdw_data()` function is designed to pull data for users in
+an easy and efficient manner by abstracting away the nuances of database
+connection, complexity of querying for OLAP (ie. data cubes) and relational
+database (ie. SQL), and easy handling of some common filters, such as 
+Health Authority Regions, etc.
+
+The redesign of `phrdwRdata` package removes the restriction to work in
+the Microsoft Client of R (ver 3.5.2), but respects *legacy* scripts by
+retaining the order of arguments, and only updating the functions that are
+deprecated in R version 4+. 
+
+**This is an assurance to the users that they do not need to refactor their**
+**scripts, and that their old scripts will continue to work.**
+
+That said, it is *highly* recommended for users to update or upgrade their 
+workflow to meet modern coding standards.
+
+This vignette collects and revises past `phrdwRdata` tutorials and presents
+them all in one place.
+
+# CD Mart
+
+## Available datasets
+```{r}
+#| label: cd-datasets
+unique(list_query_info$sql$dataset_name) %>% knitr::kable(col.names = 'dataset')
+list_query_info$sql %>% View
+```
+
+The `Investigation` dataset will retrieve non-identifiable client attributes
+such as age and gender, along with Panorama data such as region, date, etiologic 
+agent and stage. 
+
+There are also support to retrieve linked datasets for `Risk Factor`s, Signs, 
+`Symptom`s, and `UDF`s. At this time, only `Classification Group` == `Case` can
+be pulled through the CD Mart datasets (what does this mean? is this true??? 
+i don't see this in the code for CD).
+
+**Note:** Only completed data is returned in the linked datasets. To see 
+investigations where no Risk Factors, Signs & Symptoms or User Defined forms
+where completed, a `LEFT JOIN` back to the `Investigation` dataset is required.
+
+```{r}
+list_query_info$sql %>% 
+  View
+  dplyr::group_by(dataset_name) %>% 
+  dplyr::filter(
+    stringr::str_detect(col, 'date'),
+    .data$sql_func == 'where',
+    .data$check    == 'user',
+  ) %>% 
+  {
+    
+    browser()
+    dplyr::select(., dataset_name, col)
+    View(.)
+    
+  }
+```
+
+
+# Access to Data Cubes
+
+## CDI Mart

@@ -230,3 +230,45 @@ Users can supply their own connection string using \code{.conn_str}. To
 distinguish between the different architectures, this parameter needs to
 be named list, as either \code{sql} or \code{cube}. See \code{Examples}.
 }
+\examples{
+\dontrun{
+# Legacy ------------------------------------------------------------------
+
+# CD mart
+phrdw_datamart          <- 'CD Mart'
+dataset_name            <- 'Investigation',
+query_start_date        <- as.Date('2016-01-01'),
+query_end_date          <- as.Date('2018-01-01'),
+surveillance_conditions <- c('Legionella Infection'),
+classifications         <- c('Confirmed', 'Confirmed Epi-Linked'),
+surveillance_HAs        <- c('Interior', 'Fraser'),
+
+investigation_dataset <-
+  get_phrdw_data(
+    phrdw_datamart_connection = connect_to_phrdw(phrdw_datamart),
+    phrdw_datamart            = phrdw_datamart,
+    dataset_name              = dataset_name,
+    query_start_date          = query_start_date,
+    query_end_date            = query_end_date,
+    surveillance_condition    = surveillance_conditions,
+    classification            = classifications,
+    surveillance_region_ha    = surveillance_HAs
+  )
+
+# Stable ------------------------------------------------------------------
+
+investigation_dataset <-
+  get_phrdw_data(
+    mart                      = 'CD',
+    dataset_name              = dataset_name,
+    query_start_date          = query_start_date,
+    query_end_date            = query_end_date,
+    surveillance_condition    = surveillance_conditions,
+    classification            = classifications,
+    surveillance_region_ha    = surveillance_HAs
+  )
+
+
+}
+
+}
