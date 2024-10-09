@@ -147,6 +147,10 @@ phrdwRdata::get_phrdw_data(
   )
   ```
 
+  - Dates can be character strings, and handles open bounds gracefully.
+
+- Troubleshooting
+
   - Meaningful error messages for users to troubleshoot.
 
   ``` r
@@ -199,11 +203,6 @@ phrdwRdata::get_phrdw_data(
         - TB TST Investigation
         - TB TST Client
         - TB Lab
-
-  - Dates can be character strings.
-    - Better handling of open bounds.
-
-- Troubleshooting tools
 
   - Return query instead of data.
   - Examine dataset metadata.
