@@ -29,7 +29,6 @@ To install from Github, you will require additional packages, such as
 `devtools` or `renv`.
 
 ``` r
-
 # with devtools
 library(devtools)
 devtools::install_github(
@@ -54,7 +53,6 @@ found on the network drive. Although this may not guarantee newest
 version. Users should take note of the version number in the file name.
 
 ``` r
-
 install.packages(
   file.path(
     "O:/BCCDC/Groups/Analytics_Resources/Coding",

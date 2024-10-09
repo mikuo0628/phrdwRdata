@@ -112,12 +112,12 @@
 #'
 #' # CD mart
 #' phrdw_datamart          <- 'CD Mart'
-#' dataset_name            <- 'Investigation',
-#' query_start_date        <- as.Date('2016-01-01'),
-#' query_end_date          <- as.Date('2018-01-01'),
-#' surveillance_conditions <- c('Legionella Infection'),
-#' classifications         <- c('Confirmed', 'Confirmed Epi-Linked'),
-#' surveillance_HAs        <- c('Interior', 'Fraser'),
+#' dataset_name            <- 'Investigation'
+#' query_start_date        <- as.Date('2016-01-01')
+#' query_end_date          <- as.Date('2018-01-01')
+#' surveillance_conditions <- c('Legionella Infection')
+#' classifications         <- c('Confirmed', 'Confirmed Epi-Linked')
+#' surveillance_HAs        <- c('Interior', 'Fraser')
 #'
 #' investigation_dataset <-
 #'   get_phrdw_data(

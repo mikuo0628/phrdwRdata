@@ -13,6 +13,11 @@ knitr::opts_chunk$set(
   comment  = "#>",
   eval     = FALSE
 )
+
+library(phrdwRdata)
+library(dplyr)
+library(forcats)
+library(tibble)
 ```
 
 # Introduction
@@ -77,7 +82,7 @@ where completed, a `LEFT JOIN` back to the `Investigation` dataset is required.
 #| title: non-tb-datasets
 #| eval:  true
 
-list_query_info$sql %>% 
+phrdwRdata:::list_query_info$sql %>% 
   dplyr::mutate(dataset_name = forcats::fct_inorder(dataset_name)) %>% 
   dplyr::filter(stringr::str_detect(dataset_name, '^TB', negate = T)) %>% 
   dplyr::group_by(dataset_name) %>% 
@@ -135,7 +140,7 @@ list_query_info$sql %>%
 #| title: tb-datasets
 #| eval:  true
 
-list_query_info$sql %>% 
+phrdwRdata:::list_query_info$sql %>% 
   dplyr::mutate(dataset_name = forcats::fct_inorder(dataset_name)) %>% 
   dplyr::filter(stringr::str_detect(dataset_name, '^TB')) %>% 
   dplyr::group_by(dataset_name) %>% 
