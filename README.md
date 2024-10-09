@@ -66,10 +66,49 @@ install.packages(
 )
 ```
 
-## Usages and Features
+## Usages
 
-All legacy functionality is retained. Please read the Legacy vignette if
-needed.
+All legacy functionality is retained. Please read `vignette('Legacy')`
+
+### What’s new?
+
+- Datasets retrieved from SQL now leverages
+  [`dbplyr`](https://dbplyr.tidyverse.org/).
+
+- Datasets retrieved from SQL are pre-optimized by performing `WHERE` on
+  the joining tables first before `JOIN`. This improves performance on
+  the initial call (ie. before internal caching).
+
+  ``` r
+  # Legacy
+  system.time(
+    phrdwRdata::get_phrdw_data(
+      phrdw_datamart_connection = connect_to_phrdw('CD Mart'),
+      phrdw_datamart            = 'CD Mart',
+      dataset_name              = 'Investigation',
+      query_start_date          = '2021-01-01',
+      query_end_date            = '2022-01-01'
+    )
+  )
+
+  # Stable
+  system.time(
+    phrdwRdata::get_phrdw_data(
+      mart             = 'CD',
+      dataset_name     = 'Investigation',
+      query_start_date = '2021-01-01',
+      query_end_date   = '2022-01-01'
+    )
+  )
+  ```
+
+      # Legacy
+      user  system elapsed 
+      1.27    0.42   22.06 
+
+      # Stable
+      user  system elapsed 
+      1.54    0.45   10.09 
 
 - Using the function is now more streamlined with less repetition.
 
@@ -99,106 +138,75 @@ phrdwRdata::get_phrdw_data(
 
   - Not case-sensitive.
 
-    ``` r
-    phrdwRdata::get_phrdw_data(
-      mart             = 'cd', 
-      dataset_name     = 'investigation',
-      query_start_date = '2021-01-01',
-      query_end_date   = '2022-01-01'
-    )
-    ```
+  ``` r
+  phrdwRdata::get_phrdw_data(
+    mart             = 'cd', 
+    dataset_name     = 'investigation',
+    query_start_date = '2021-01-01',
+    query_end_date   = '2022-01-01'
+  )
+  ```
 
   - Meaningful error messages for users to troubleshoot.
 
-    ``` r
-    phrdwRdata::get_phrdw_data(
-      mart             = 'xyz', 
-      dataset_name     = 'investigation',
-      query_start_date = '2021-01-01',
-      query_end_date   = '2022-01-01'
-    )
-    ```
+  ``` r
+  phrdwRdata::get_phrdw_data(
+    mart             = 'xyz', 
+    dataset_name     = 'investigation',
+    query_start_date = '2021-01-01',
+    query_end_date   = '2022-01-01'
+  )
+  ```
 
-        Error: Please check argument `mart` spelling.
-        It should be one of the following (non case-sensitive):
+      Error: Please check argument `mart` spelling.
+      It should be one of the following (non case-sensitive):
 
-          - CD
-          - CDI
-          - Enteric
-          - Respiratory
-          - STIBBI
-          - TAT
-          - VPD
+        - CD
+        - CDI
+        - Enteric
+        - Respiratory
+        - STIBBI
+        - TAT
+        - VPD
 
-    ``` r
-    phrdwRdata::get_phrdw_data(
-      mart             = 'cd', 
-      dataset_name     = 'investigations',
-      query_start_date = '2021-01-01',
-      query_end_date   = '2022-01-01'
-    )
-    ```
+  ``` r
+  phrdwRdata::get_phrdw_data(
+    mart             = 'cd', 
+    dataset_name     = 'investigations',
+    query_start_date = '2021-01-01',
+    query_end_date   = '2022-01-01'
+  )
+  ```
 
-        Error: Please check `dataset_name` spelling.
-        It should be one of the following (case-sensitive if legacy):
+      Error: Please check `dataset_name` spelling.
+      It should be one of the following (case-sensitive if legacy):
 
-          - Investigation
-          - Client
-          - Risk Factor
-          - Symptom
-          - Observation
-          - UDF
-          - Lab
-          - Transmission Events
-          - Contacts
-          - Outbreaks
-          - Complication
-          - TB Contacts
-          - TB Investigation
-          - TB Transmission Events
-          - TB Client
-          - TB TST Investigation
-          - TB TST Client
-          - TB Lab
+        - Investigation
+        - Client
+        - Risk Factor
+        - Symptom
+        - Observation
+        - UDF
+        - Lab
+        - Transmission Events
+        - Contacts
+        - Outbreaks
+        - Complication
+        - TB Contacts
+        - TB Investigation
+        - TB Transmission Events
+        - TB Client
+        - TB TST Investigation
+        - TB TST Client
+        - TB Lab
 
   - Dates can be character strings.
-
     - Better handling of open bounds.
 
 - Troubleshooting tools
 
-  - Option to return query instead of data.
+  - Return query instead of data.
+  - Examine dataset metadata.
 
-  ``` r
-  phrdwRdata::get_phrdw_data(
-    mart             = 'cd',
-    dataset_name     = 'Investigation',
-    query_start_date = '2021-01-01',
-    query_end_date   = '2022-01-01',
-    .return_query    = T
-  )
-  ```
-
-  - Option to examine metadata
-
-  ``` r
-  phrdwRdata::get_phrdw_data(
-    mart             = 'cd',
-    dataset_name     = 'Investigation',
-    query_start_date = '2021-01-01',
-    query_end_date   = '2022-01-01',
-    .check_params    = T,
-    .return_query    = F,
-    .return_data     = F,
-  )
-
-  phrdwRdata::get_phrdw_data(
-    mart             = 'stibbi',
-    dataset_name     = 'Investigation',
-    query_start_date = '2021-01-01',
-    query_end_date   = '2022-01-01',
-    .check_params    = T,
-    .return_query    = F,
-    .return_data     = F,
-  )
-  ```
+- Beyond the default built-in filters: users can leverage metadata info
+  and dynamic dots to query with additional filters.
