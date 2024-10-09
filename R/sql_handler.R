@@ -412,8 +412,8 @@ sql_handler <- function() {
           )
         )
 
-
-      if (isTRUE(.return_query)) return(dplyr::show_query(df_join))
+      if (isTRUE(.return_query)) return(dbplyr::sql_render(df_join))
+      if (isFALSE(.return_data)) return()
       if (isTRUE(.return_data))  return(dplyr::collect(df_join))
 
     }

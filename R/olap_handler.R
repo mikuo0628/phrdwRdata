@@ -184,28 +184,24 @@ olap_handler <- function() {
           ) %>%
           purrr::discard(~ inherits(.x, 'try-error'))
 
-        return(
-          purrr::iwalk(
-            levels,
-            ~ cat(
-              '',
-              paste(stringr::str_pad('Cube:',      13, 'right', ' '), .y),
-              paste(stringr::str_pad('Dimension:', 13, 'right', ' '), dim),
-              paste(stringr::str_pad('Hierarchy:', 13, 'right', ' '), .check_params),
-              '',
-              stringr::str_pad('Levels:',    13, 'right', ' '),
-              paste('-', .x, collapse = '\n'),
-              sep = '\n'
-            )
+        purrr::iwalk(
+          levels,
+          ~ cat(
+            '',
+            paste(stringr::str_pad('Cube:',      13, 'right', ' '), .y),
+            paste(stringr::str_pad('Dimension:', 13, 'right', ' '), dim),
+            paste(stringr::str_pad('Hierarchy:', 13, 'right', ' '), .check_params),
+            '',
+            stringr::str_pad('Levels:',    13, 'right', ' '),
+            paste('-', .x, collapse = '\n'),
+            sep = '\n'
           )
         )
 
       }
 
-      if (all(isFALSE(.return_data), isFALSE(.return_query))) return()
-
       # Discrete filters
-      filters_discrete <-
+        filters_discrete <-
         dplyr::filter(
           .,
           .data$field_type == 'filter_d' |
@@ -306,14 +302,13 @@ olap_handler <- function() {
     }
 
   if (isTRUE(.return_query)) return(mdx_query)
-
   if (isFALSE(.return_data)) return()
 
   df_query <-
     execute2D(connect_to_phrdw(mart = mart, type = type), mdx_query) %>%
     tibble::as_tibble()
 
-  if (isTRUE(.return_data))  return(df_query)
+  if (isTRUE(.return_data)) return(df_query)
 
 }
 
