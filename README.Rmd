@@ -154,6 +154,10 @@ phrdwRdata::get_phrdw_data(
      query_end_date   = '2022-01-01'
    )
    ```
+   -  Dates can be character strings, and handles open bounds gracefully.
+
+-  Troubleshooting
+
    -  Meaningful error messages for users to troubleshoot.
    ```{r}
    phrdwRdata::get_phrdw_data(
@@ -207,11 +211,6 @@ phrdwRdata::get_phrdw_data(
      - TB TST Client
      - TB Lab
    ```
-   -  Dates can be character strings.
-      -  Better handling of open bounds.
-
--  Troubleshooting tools
-
    -  Return query instead of data.
    -  Examine dataset metadata.
 
