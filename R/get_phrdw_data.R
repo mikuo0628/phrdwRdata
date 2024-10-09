@@ -388,22 +388,26 @@ get_phrdw_data <- function(
 
   if (data_source == 'sql') {
 
-    ##
     environment(sql_handler) <- environment()
 
     query_output <- sql_handler()
 
   } else if (data_source == 'olap') {
 
-    ## Create query
     environment(olap_handler) <- environment()
 
     query_output <- olap_handler()
 
+  }
+
+  if (isTRUE(.return_query)) return(query_output)
+  if (isFALSE(.return_data)) return()
+
+  # Post data-retrieval processing, if needed.
+  if (data_source == 'olap') {
+
     query_output <- rename_cols(query_output)
 
-    # Post data-retrieval processing, if needed.
-    # Can handle both OLAP and SQL output data.
     if (tolower(dataset_name) == 'vital stats ccd dashboard') {
 
       query_output <-
@@ -429,9 +433,7 @@ get_phrdw_data <- function(
 
   if (isTRUE(.clean_data)) query_output <- datatype_cols(query_output)
 
-  if (isTRUE(.return_query)) return(query_output)
-
-  if (isTRUE(.return_data))  return(query_output) else return()
+  return(query_output)
 
 }
 
