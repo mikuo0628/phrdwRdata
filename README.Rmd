@@ -40,7 +40,6 @@ and bug fixes.
 To install from Github, you will require additional packages, such as 
 `devtools` or `renv`.
 ```{r}
-
 # with devtools
 library(devtools)
 devtools::install_github(
@@ -56,7 +55,6 @@ renv::install(
   dependencies = T,
   prompt = F
 )
-
 ```
 
 Installation from Gitlab will be available soon.
@@ -65,7 +63,6 @@ Alternatively, you can install from a pre-compiled tarball that could be found
 on the network drive. Although this may not guarantee newest version. Users 
 should take note of the version number in the file name.
 ```{r}
-
 install.packages(
   file.path(
     "O:/BCCDC/Groups/Analytics_Resources/Coding",
@@ -75,7 +72,6 @@ install.packages(
   # INSTALL_opts = '--no-test-load', 
   repos = NULL
 )
-
 ```
 
 ## Usages 
