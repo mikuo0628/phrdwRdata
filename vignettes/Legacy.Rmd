@@ -10,12 +10,9 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment  = "#>",
+  eval     = FALSE
 )
-```
-
-```{r setup}
-library(phrdwRdata)
 ```
 
 # Introduction
@@ -37,17 +34,31 @@ deprecated in R version 4+.
 That said, it is *highly* recommended for users to update or upgrade their 
 workflow to meet modern coding standards.
 
-This vignette collects and revises past `phrdwRdata` tutorials and presents
-them all in one place.
+This vignette collects and revises (only if necessary) past `phrdwRdata`
+tutorials and presents them all in one place.
+
+# Prerequisites for legacy `phrdwRdata` package
+
+The BCCDC Analytics Platform (Citrix) is running the required Microsoft R Client
+(ver 3.5.2) that comes with `olapR` package and OLE DB connection files 
+to drive OLAP (data cube) operations. No further action needed if using Citrix.
+
+Users who are not using Citrix and want R installed locally will need to
+ensure the following are met.
+
+1.  Local PC is running 64-bit Windows.
+2.  [Microsoft R Client 3.5.2][ms_client]. 
+
+    - Alternatively, [CRAN R client 3.5.2][cran_client], but will require side-
+    loading (ie. loading packages you did not install) `olapR` package which
+    can be potentially problematic.
 
 # CD Mart
 
-## Available datasets
-```{r}
-#| label: cd-datasets
-unique(list_query_info$sql$dataset_name) %>% knitr::kable(col.names = 'dataset')
-list_query_info$sql %>% View
-```
+Here's a table of all `CD Mart` datasets, keys used for joining, and a 
+brief description if available.
+
+## Non Tuberculosis Datasets
 
 The `Investigation` dataset will retrieve non-identifiable client attributes
 such as age and gender, along with Panorama data such as region, date, etiologic 
@@ -63,24 +74,200 @@ investigations where no Risk Factors, Signs & Symptoms or User Defined forms
 where completed, a `LEFT JOIN` back to the `Investigation` dataset is required.
 
 ```{r}
+#| title: non-tb-datasets
+#| eval:  true
+
 list_query_info$sql %>% 
-  View
+  dplyr::mutate(dataset_name = forcats::fct_inorder(dataset_name)) %>% 
+  dplyr::filter(stringr::str_detect(dataset_name, '^TB', negate = T)) %>% 
   dplyr::group_by(dataset_name) %>% 
   dplyr::filter(
-    stringr::str_detect(col, 'date'),
-    .data$sql_func == 'where',
-    .data$check    == 'user',
+    stringr::str_detect(col, 'id$'),
+    stringr::str_detect(.data$sql_func, 'join'),
   ) %>% 
-  {
-    
-    browser()
-    dplyr::select(., dataset_name, col)
-    View(.)
-    
-  }
+  dplyr::summarise(col = list(unique(col))) %>% 
+  dplyr::mutate(col = purrr::map_chr(col, paste, collapse = ', ')) %>% 
+  dplyr::left_join(
+    tibble::tribble(
+      ~ dataset_name,         ~ Description,
+      'Investigation',        paste("Retrieves Investigation and de-identified",
+                                    "patient data."),
+      'Client',               paste("Retrieves patients data with an option to",
+                                    "include identifiers."),
+      'Risk Factor',          paste("Retrieves Risk Factors that are marked",
+                                    "Pertinent to an Investigation."),
+      'Symptom',              paste("Retrieves Signs and Symptoms data."),
+      'Observation',          paste("Retrieves the Observations from the Signs",
+                                    "and Symptoms data."),
+      'UDF',                  paste("Retrieves User Defined Forms data."),
+      'Lab',                  paste("Retrieves Public Health System",
+                                    "Laboratory data."),
+      'Contacts',             paste("Retrieves Investigations based on",
+                                    "the `Is A Contact Investigation` or",
+                                    "`Ever A Contact Client` flags.",
+                                    "Includes an option to retrieve",
+                                    "patient and aboriginal identifiers."),
+      'Transmission Events',  paste("Retrieves Transmission Events based",
+                                    "on the source Investigation."),
+      'Complication',         paste("Retrieves complication data"),
+    )
+  ) %>% 
+  tidyr::replace_na(list(Description = '')) %>% 
+  dplyr::group_by(dataset_name) %>% 
+  dplyr::mutate(
+    dataset_name =
+      dplyr::case_when(
+        dplyr::row_number() >= 2 ~ '',
+        TRUE ~ dataset_name
+      )
+  ) %>% 
+  dplyr::rename(
+    `Dataset Name` = dataset_name,
+    `Linkable Key` = col
+  ) %>% 
+  knitr::kable()
+  
 ```
 
+## Tuberculosis Datasets
+
+```{r}
+#| title: tb-datasets
+#| eval:  true
+
+list_query_info$sql %>% 
+  dplyr::mutate(dataset_name = forcats::fct_inorder(dataset_name)) %>% 
+  dplyr::filter(stringr::str_detect(dataset_name, '^TB')) %>% 
+  dplyr::group_by(dataset_name) %>% 
+  dplyr::filter(
+    stringr::str_detect(col, 'id$'),
+    stringr::str_detect(.data$sql_func, 'join'),
+  ) %>% 
+  dplyr::summarise(col = list(unique(col))) %>% 
+  dplyr::mutate(col = purrr::map_chr(col, paste, collapse = ', ')) %>% 
+  dplyr::left_join(
+    tibble::tribble(
+      ~ dataset_name,           ~ Description,
+      'TB Investigation',       paste('Retrieves TB specific investigation',
+                                      'data. Includes an option to retrieve',
+                                      'aboriginal fields if authorized.'),
+      'TB Client',              paste('Retrieves TB specific patients',
+                                      'data with an option to include',
+                                      'identifiers.'),
+      'TB Transmission Events', paste('Retrieves Transmission Events',
+                                      'based on the source Investigation.'),
+      'TB Contacts',            paste('Retrieves Investigations based',
+                                      'on the `Is A Contact Investigation`',
+                                      'or `Ever A Contact Client` flags.',
+                                      'Includes an option to retrieve',
+                                      'patient identifiers and aboriginal',
+                                      'fields '),
+      'TB TST Investigation',   paste('Retrieves TST data that is',
+                                      'associated with an Investigation.'),
+      'TB TST Client',          paste('Retrieves all TST data for a client,',
+                                      'regardless of if the TST is',
+                                      'associated with an Investigation.'),
+      'TB Lab',                 paste('Retrieves TB specific laboratory data.'),
+    )
+  ) %>% 
+  tidyr::replace_na(list(Description = '')) %>% 
+  dplyr::group_by(dataset_name) %>% 
+  dplyr::mutate(
+    dataset_name =
+      dplyr::case_when(
+        dplyr::row_number() >= 2 ~ '',
+        TRUE ~ dataset_name
+      )
+  ) %>% 
+  dplyr::rename(
+    `Dataset Name` = dataset_name,
+    `Linkable Key` = col
+  ) %>% 
+  knitr::kable()
+  
+```
+
+## Script set up
+
+1.  You will need to load or side-load the following:
+```{r}
+# Dependencies for `phrdwRdata`
+library(dplyr)
+library(digest)  
+library(stringr)
+library(RODBC)
+library(RODBCext)
+
+lib_loc <- "//Phsabc/root/BCCDC/Groups/Analytics_Resources/Coding/R/Library"
+library(olapR,      lib.loc = log_loc) # if not using MS R Client
+library(phrdwRdata, lib.loc = log_loc)
+```
+
+2.  Create a connection object
+```{r}
+phrdw_datamart <- 'CD Mart'
+phrdw_datamart_connection <- phrdwRdata::connect_to_phrdw(phrdw_datamart)
+```
+
+3.  Set the start and end dates of your query
+```{r}
+query_start_date <- as.Date('2016-01-01')
+query_end_date   <- as.Date('2018-01-01')
+```
+
+4.  Additional optional parameters
+
+-  `disease`
+-  `classification`
+-  `surveillance_condition`
+-  `surveillance_region_ha`
+
+```{r}
+surveillance_condition <- c("Legionella Infection")
+classification         <- c("Confirmed",
+                            "Confirmed Epi-Linked",
+                            "Clinical",
+                            "Probable")
+surveillance_region_ha <- c("Interior",
+                            "Fraser",
+                            "Northern",
+                            "Vancouver Coastal",
+                            "Vancouver Island")
+```
+
+5.  Supply the above parameters in `get_phrdw_data()`
+
+```{r}
+dataset_name <- "Investigation"
+investigation_dataset  <- 
+  get_phrdw_data(
+    phrdw_datamart_connection = phrdw_datamart_connection,
+    phrdw_datamart            = phrdw_datamart, 
+    dataset_name              = dataset_name, 
+    query_start_date          = query_start_date, 
+    query_end_date            = query_end_date,
+    surveillance_condition    = surveillance_condition_vector,
+    classification            = classification_vector,
+    surveillance_region_ha    = surveillance_region_ha_vector
+  )
+
+dataset_name <- "UDF"
+udf_dataset  <- 
+  get_phrdw_data(
+    phrdw_datamart_connection = phrdw_datamart_connection,
+    phrdw_datamart            = phrdw_datamart, 
+    dataset_name              = dataset_name, 
+    query_start_date          = query_start_date, 
+    query_end_date            = query_end_date,
+    surveillance_condition    = surveillance_condition_vector,
+    classification            = classification_vector,
+    surveillance_region_ha    = surveillance_region_ha_vector
+  )
+```
 
 # Access to Data Cubes
 
 ## CDI Mart
+
+[ms_client]: https://docs.microsoft.com/en-us/machine-learning-server/r-client/install-on-windows
+[cran_client]: https://cran-archive.r-project.org/bin/windows/base/old/3.5.2

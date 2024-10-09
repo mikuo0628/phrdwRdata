@@ -4,3 +4,4 @@
 ^renv\.lock$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^README\.Rmd$
