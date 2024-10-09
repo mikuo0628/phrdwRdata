@@ -92,17 +92,22 @@ sql_handler <- function() {
         dplyr::mutate(
           .keep = 'none',
           alias, view,
-          named_col = col
+          col, as
         ) %>%
         {
 
           rlang::set_names(
             purrr::pmap(
               .,
-              function(alias, view, named_col) {
+              function(alias, view, col, as) {
 
                 dplyr::tbl(conn, dbplyr::in_schema(schema, view)) %>%
-                  dplyr::select(tidyselect::all_of(named_col))
+                  dplyr::select(
+                    tidyselect::all_of(
+                      # col
+                      rlang::set_names(col, as) # rename cols
+                    )
+                  )
 
               }
 
@@ -133,6 +138,11 @@ sql_handler <- function() {
 
       # WHEREs for each lzy_df before join
       ## Discrete
+
+      # going forward, new col names will be used
+      .query_info <-
+        .query_info %>% dplyr::mutate(col = dplyr::coalesce(as, col))
+
       filters <-
         purrr::map2(
           list(param_name = default_params, col = user_params),
@@ -143,47 +153,51 @@ sql_handler <- function() {
           ~ purrr::keep_at(.x, .y) %>% purrr::discard(is.null)
         )
 
-      filters %>%
-        purrr::map(names) %>%
-        purrr::imap_dfr(
-          ~ .query_info %>%
-            dplyr::filter(
-              !!rlang::sym(.y) %in% .x |
-                .data$sql_func == 'where' & .data$check == 'default'
-            )
-        ) %>%
-        dplyr::select(logic, order, alias, view, col, default_val, param_name) %>%
-        dplyr::left_join(
-          filters %>%
-            purrr::imap_dfr(
-              ~ {
+      if (!all(purrr::map_lgl(filters, ~ length(.x) == 0))) {
 
-                purrr::imap_dfr(
-                  .x,
-                  ~ tibble::tibble(col = .y, user_val = .x)
-                )
+        filters %>%
+          purrr::map(names) %>%
+          purrr::imap_dfr(
+            ~ .query_info %>%
+              dplyr::filter(
+                !!rlang::sym(.y) %in% .x |
+                  .data$sql_func == 'where' & .data$check == 'default'
+              )
+          ) %>%
+          dplyr::select(
+            logic, order, alias, view, col, default_val, param_name
+          ) %>%
+          dplyr::left_join(
+            filters %>%
+              purrr::imap_dfr(
+                ~ {
 
-              }
-            )
-        ) %>%
-        dplyr::mutate(
-          .keep = 'none',
-          logic, order, alias, view, col,
-          use_val = dplyr::coalesce(default_val, user_val)
-        ) %>%
-        dplyr::distinct() %>%
-        dplyr::group_by(
-          !!!rlang::syms(stringr::str_subset(names(.), 'val$', negate = T))
-        ) %>%
-        dplyr::summarise(val = list(use_val)) %>%
-        split(.$alias) %>%
-        purrr::walk(
-          ~ {
+                  purrr::imap_dfr(
+                    .x,
+                    ~ tibble::tibble(col = .y, user_val = .x)
+                  )
 
-            df_filter <- tidyr::replace_na(.x, list(logic = 'and'))
+                }
+              )
+          ) %>%
+          dplyr::mutate(
+            .keep = 'none',
+            logic, order, alias, view, col,
+            use_val = dplyr::coalesce(default_val, user_val)
+          ) %>%
+          dplyr::distinct() %>%
+          dplyr::group_by(
+            !!!rlang::syms(stringr::str_subset(names(.), 'val$', negate = T))
+          ) %>%
+          dplyr::summarise(val = list(use_val)) %>%
+          split(.$alias) %>%
+          purrr::walk(
+            ~ {
 
-            filter_clause <-
-              df_filter %>%
+              df_filter <- tidyr::replace_na(.x, list(logic = 'and'))
+
+              filter_clause <-
+                df_filter %>%
                 dplyr::group_by(order) %>%
                 purrr::pmap(
                   function(logic, order, alias, view, col, val) {
@@ -252,12 +266,14 @@ sql_handler <- function() {
                   }
                 )
 
-            dfs_views[[unique(df_filter$alias)]] <<-
-              dfs_views[[unique(df_filter$alias)]] %>%
-              dplyr::filter(!!rlang::parse_expr(filter_clause))
+              dfs_views[[unique(df_filter$alias)]] <<-
+                dfs_views[[unique(df_filter$alias)]] %>%
+                dplyr::filter(!!rlang::parse_expr(filter_clause))
 
-          }
-        )
+            }
+          )
+
+      }
 
       ## Date
       purrr::pwalk(
@@ -289,14 +305,15 @@ sql_handler <- function() {
       # JOINs
       df_join <-
         .query_info %>%
-        dplyr::filter(stringr::str_detect(.data$sql_func, 'join')) %>%
+        dplyr::filter(stringr::str_detect(.data$sql_func, 'join|select')) %>%
         dplyr::select(
-          sql_func, order, tidyselect::matches('^(alias|view|logic|col)$')
+          sql_func, order, tidyselect::matches('^(alias|view|logic|col|as)$')
         ) %>%
         {
 
           join_keys <-
-            dplyr::group_by(., sql_func, order, logic) %>%
+            dplyr::filter(., stringr::str_detect(.data$sql_func, 'join')) %>%
+            dplyr::group_by(sql_func, order, logic) %>%
             dplyr::summarise(
               .groups = 'drop',
               col   = list(col),
@@ -315,11 +332,26 @@ sql_handler <- function() {
             ) %>%
             dplyr::mutate(col = purrr::map(col, purrr::map, rlang::parse_expr))
 
+          # df_renames <-
+          #   subset(., sql_func == 'select') %>%
+          #   dplyr::group_by(alias) %>%
+          #   dplyr::summarise(
+          #     col = list(col),
+          #     as  = list(as)
+          #   )
+
           purrr::reduce2(
             .init = dfs_views[[.$alias[[1]]]],
             .x    = dfs_views[purrr::map_chr(join_keys$alias, 2)],
             .y    = join_keys$order,
             .f    = function(df_1, df_2, row_n) {
+
+              # df_renames %>%
+              #   dplyr::mutate(
+              #     alias = factor(alias, unlist(join_keys[row_n, ]$alias))
+              #   ) %>%
+              #   tidyr::drop_na(alias) %>%
+              #   dplyr::arrange(alias)
 
               .join_by <- dplyr::join_by(!!!join_keys$col[[row_n]])
 
@@ -375,7 +407,8 @@ sql_handler <- function() {
               dplyr::filter(.data$sql_func == 'select') %>%
               dplyr::select(col, as) %>%
               dplyr::mutate(new_col = dplyr::coalesce(as, col)) %>%
-              { rlang::set_names(.$col, .$new_col) }
+              # { rlang::set_names(.$col, .$new_col) }
+              dplyr::pull(new_col)
           )
         )
 
