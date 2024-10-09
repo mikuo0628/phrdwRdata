@@ -395,6 +395,7 @@ get_phrdw_data_legacy <- function(
       dplyr::mutate_if(is.character, list(~dplyr::na_if(., "")))
   }
 
+  odbc::dbDisconnect(phrdw_datamart_connection)
 
   return(phrdw_dataset)
 
