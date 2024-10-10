@@ -19,6 +19,7 @@ A \code{sql}/\code{character} object.
 MDX Builder: builds the \code{FROM} clause, and incorporate any filters if needed.
 }
 \examples{
+\dontrun{
 mdx_from(
   'StibbiDM',
   mdx_filter(
@@ -37,5 +38,6 @@ mdx_from(
     .as_lines = T
   )
 )
+}
 
 }

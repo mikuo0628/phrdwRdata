@@ -35,6 +35,7 @@ Character vector.
 MDX Builder: process filters, discrete or range, by date or other data types.
 }
 \examples{
+\dontrun{
 mdx_filter(
   discrete =
     tibble(
@@ -50,5 +51,6 @@ mdx_filter(
     ),
   .as_lines = T
 )
+}
 
 }
