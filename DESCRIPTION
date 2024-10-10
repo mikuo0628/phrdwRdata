@@ -18,7 +18,6 @@ Suggests:
 Imports: 
     rlang,
     purrr,
-    RODBC,
     magrittr,
     dplyr,
     stringr,
@@ -33,3 +32,4 @@ Depends:
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+URL: https://mikuo0628.github.io/phrdwRdata/
