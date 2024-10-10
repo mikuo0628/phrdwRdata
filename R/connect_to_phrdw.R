@@ -32,7 +32,6 @@
 #' * `VPD SU`: UAT server of VPD.
 #'
 #' `r lifecycle::badge('stable')`
-#'
 #' Using `mart` and `type` is preferred. They are not case-sensitive and
 #'   more readable.
 #'

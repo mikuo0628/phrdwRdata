@@ -12,6 +12,8 @@ Efficient interface for for retrieving pre-built datasets. An ease-of-use wrappe
 Useful links:
 \itemize{
   \item \url{https://mikuo0628.github.io/phrdwRdata/}
+  \item \url{https://github.com/mikuo0628/phrdwRdata}
+  \item Report bugs at \url{https://github.com/mikuo0628/phrdwRdata/issues}
 }
 
 }
