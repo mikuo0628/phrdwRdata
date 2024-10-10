@@ -6,6 +6,8 @@
 #'
 #' @return A `data.frame` object.
 #'
+#' @noRd
+#'
 executeMD <- function(olapCnn, mdx_qry) {
 
   stopifnot(is.OlapConnection(olapCnn))

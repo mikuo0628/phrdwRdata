@@ -41,6 +41,8 @@
 #' )
 #' }
 #'
+#' @noRd
+#'
 mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
 
   if (is.null(names(columns))) columns <- rlang::set_names(columns, 'Measures')
@@ -202,6 +204,8 @@ mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
 #' )
 #' }
 #'
+#' @noRd
+#'
 mdx_filter <- function(discrete  = NULL,
                        range     = NULL,
                        ...,
@@ -347,6 +351,8 @@ mdx_filter <- function(discrete  = NULL,
 #' )
 #' }
 #'
+#' @noRd
+#'
 mdx_from <- function(cube_name, ...) {
 
   dots <- rlang::list2(...)
@@ -420,6 +426,8 @@ mdx_from <- function(cube_name, ...) {
 #'     )
 #' )
 #' }
+#'
+#' @noRd
 #'
 mdx_build <- function(
     cube_name,

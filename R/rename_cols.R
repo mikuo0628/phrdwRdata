@@ -4,6 +4,8 @@
 #'
 #' @return Same as input `obj`.
 #'
+#' @noRd
+#'
 rename_cols <- function(obj) {
 
   if (is.data.frame(obj)) list_names <- names(obj) else list_names <- obj

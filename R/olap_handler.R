@@ -7,6 +7,8 @@
 #' @return Depending on user input, `tibble`, MDX string, or print dataset
 #'   metadata.
 #'
+#' @noRd
+#'
 olap_handler <- function() {
 
   list_check_values <-
@@ -216,12 +218,12 @@ olap_handler <- function() {
 
           df_temp <- .
 
-          #' In user_params and default_params, there can be some user
-          #' inputs for filtering. This selects for them, match them up to
-          #' respective dim-hierarchy by hierarchy names or arg names,
-          #' rearranges into data frame of columns `dim` for dimension,
-          #' `attr` for attribute hierarchy, and `memb` for the user input
-          #' part to select for, formatted for mdx_builder.
+          # In user_params and default_params, there can be some user
+          # inputs for filtering. This selects for them, match them up to
+          # respective dim-hierarchy by hierarchy names or arg names,
+          # rearranges into data frame of columns `dim` for dimension,
+          # `attr` for attribute hierarchy, and `memb` for the user input
+          # part to select for, formatted for mdx_builder.
           purrr::imap(
             c('attr_hier'  = 'user_params',
               'param_name' = 'default_params'),

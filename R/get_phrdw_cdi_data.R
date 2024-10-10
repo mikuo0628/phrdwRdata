@@ -30,6 +30,8 @@
 #'
 #' @return A data frame with the dataset retrieved from the specified PHRDW data mart.
 #'
+#' @noRd
+#'
 get_phrdw_cdi_data <- function(
     phrdw_datamart_connection,
     phrdw_datamart,

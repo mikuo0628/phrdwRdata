@@ -154,4 +154,6 @@ explore <- function(
 #'
 #' @return A character vector.
 #'
+#' @noRd
+#'
 invisible_Call <- function(...) { capture.output(invisible(.Call(...))) }

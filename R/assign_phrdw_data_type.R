@@ -19,6 +19,8 @@
 #'
 #' @return A data frame with numeric fields assigned.
 #'
+#' @noRd
+#'
 assign_phrdw_data_type <- function(phrdw_dataset, phrdw_datamart)
 {
 

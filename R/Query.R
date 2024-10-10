@@ -8,6 +8,8 @@
 #'
 #' @param validate
 #'
+#' @noRd
+#'
 Query <- function(validate = F) {
 
   if (!is.logical(validate)) {
