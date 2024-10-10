@@ -81,6 +81,7 @@ where completed, a `LEFT JOIN` back to the `Investigation` dataset is required.
 ```{r}
 #| title: non-tb-datasets
 #| eval:  true
+#| echo:  false
 
 phrdwRdata:::list_query_info$sql %>% 
   dplyr::mutate(dataset_name = forcats::fct_inorder(dataset_name)) %>% 
@@ -139,6 +140,7 @@ phrdwRdata:::list_query_info$sql %>%
 ```{r}
 #| title: tb-datasets
 #| eval:  true
+#| echo:  false
 
 phrdwRdata:::list_query_info$sql %>% 
   dplyr::mutate(dataset_name = forcats::fct_inorder(dataset_name)) %>% 
