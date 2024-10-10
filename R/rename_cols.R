@@ -2,7 +2,7 @@
 #'
 #' @param obj A `data.frame` or character vector of names.
 #'
-#' @return Same as input `obj.
+#' @return Same as input `obj`.
 #'
 rename_cols <- function(obj) {
 

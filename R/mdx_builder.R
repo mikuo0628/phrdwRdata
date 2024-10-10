@@ -14,7 +14,7 @@
 #'
 #' @return A `sql`/`character` object.
 #'
-#' @details
+#' @examples
 #' mdx_select(
 #'   'Case Count',
 #'   set_names(
@@ -172,7 +172,7 @@ mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
 #'
 #' @return Character vector.
 #'
-#' @details
+#' @examples
 #' mdx_filter(
 #'   discrete =
 #'     tibble(
@@ -311,7 +311,7 @@ mdx_filter <- function(discrete  = NULL,
 #'
 #' @return A `sql`/`character` object.
 #'
-#' @details
+#' @examples
 #' mdx_from(
 #'   'StibbiDM',
 #'   mdx_filter(
@@ -374,7 +374,7 @@ mdx_from <- function(cube_name, ...) {
 #' @inheritParams mdx_filter
 #' @inherit mdx_select return
 #'
-#' @details
+#' @examples
 #' phrdwRdata::mdx_build(
 #'   cube_name = 'StibbiDM',
 #'   columns = 'Case Count',

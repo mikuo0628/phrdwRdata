@@ -2,12 +2,13 @@
 % Please edit documentation in R/olap_handler.R
 \name{olap_handler}
 \alias{olap_handler}
-\title{Helper function to process dataset instructions into appropriate output.}
+\title{Helper function for handling and building MDX queries.}
 \usage{
 olap_handler()
 }
 \value{
-MDX query.
+Depending on user input, \code{tibble}, MDX string, or print dataset
+metadata.
 
 In user_params and default_params, there can be some user
 inputs for filtering. This selects for them, match them up to
@@ -17,6 +18,6 @@ rearranges into data frame of columns \code{dim} for dimension,
 part to select for, formatted for mdx_builder.
 }
 \description{
-Takes arguments in \code{get_phrdw_data} and returns MDX query to be executed
-in \code{execute2D}, and execute if required by user.
+Takes arguments from \code{\link[=get_phrdw_data]{get_phrdw_data()}} and processes with
+\code{phrdwRdata:::list_query_info$olap} to produce MDX query accordingly
 }

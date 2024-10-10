@@ -1,3 +1,13 @@
+#' Helper function for handling and building SQL queries.
+#'
+#' @description
+#' Takes arguments from [phrdwRdata::get_phrdw_data()] and processes with
+#' `phrdwRdata:::list_query_info$sql` leverging `dbplyr` and NSE to produce
+#' SQL query accordingly.
+#'
+#' @return Depending on user input, `tibble`, SQL string, or print dataset
+#' metadata.
+#'
 sql_handler <- function() {
 
   schema <-
@@ -355,12 +365,12 @@ sql_handler <- function() {
 
               .join_by <- dplyr::join_by(!!!join_keys$col[[row_n]])
 
-              #' default dplyr/dbplyr joins do not keep keys (for good reasons),
-              #' and some keys are needed/SELECT.
-              #' the `keep` param in join functions will determine whether
-              #' keys are kept. For keys that are part of SELECT: T... this is
-              #' done by checking to see if it's needed in `SELECT` clause or
-              #' if it does not already exists in df_1
+              # default dplyr/dbplyr joins do not keep keys (for good reasons),
+              # and some keys are needed/SELECT.
+              # the `keep` param in join functions will determine whether
+              # keys are kept. For keys that are part of SELECT: T... this is
+              # done by checking to see if it's needed in `SELECT` clause or
+              # if it does not already exists in df_1
               cols_to_check <- unique(unlist(.join_by[c('x', 'y')]))
               select_cols   <- subset(.query_info, sql_func == 'select')$col
               .keep         <-

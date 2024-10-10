@@ -18,23 +18,24 @@ A \code{sql}/\code{character} object.
 \description{
 MDX Builder: builds the \code{FROM} clause, and incorporate any filters if needed.
 }
-\details{
+\examples{
 mdx_from(
-'StibbiDM',
-mdx_filter(
-discrete =
-tibble(
-dim = 'LIS - Test',
-attr = 'Test Code',
-memb = c('TPE1', 'RPR')
-),
-range =
-tibble(
-dim = 'LIS - Date - Collection',
-attr = 'Date',
-memb = c('2019-01-01', '2019-02-02')
-),
-.as_lines = T
+  'StibbiDM',
+  mdx_filter(
+    discrete =
+      tibble(
+        dim = 'LIS - Test',
+        attr = 'Test Code',
+        memb = c('TPE1', 'RPR')
+      ),
+    range =
+      tibble(
+        dim = 'LIS - Date - Collection',
+        attr = 'Date',
+        memb = c('2019-01-01', '2019-02-02')
+      ),
+    .as_lines = T
+  )
 )
-)
+
 }

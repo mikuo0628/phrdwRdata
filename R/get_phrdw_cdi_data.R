@@ -1,6 +1,9 @@
 
 #' Get PHRDW CDI Data
 #'
+#' @description
+#' `r lifecycle::badge('superseded')`
+#'
 #' Function for querying and returning PHRDW CDI data
 #'
 #' @param phrdw_datamart_connection A PHRDW connection object.

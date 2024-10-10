@@ -2,8 +2,7 @@
 % Please edit documentation in R/OlapConnection.R
 \name{OlapConnection}
 \alias{OlapConnection}
-\title{Constructs an "OlapConnection" object: string of connection parameters that
-can be executed with MDX queries using C routines for efficiency.}
+\title{Constructs an "OlapConnection" object.}
 \usage{
 OlapConnection(conn_str = "Data Source=localhost; Provider=MSOLAP;")
 }
@@ -16,6 +15,8 @@ the name of the data mart, \verb{Data Source}, \code{Provider=MSOLAP}, and
 A character string with class \code{OLAP_Conn}.
 }
 \description{
+string of connection parameters that can be executed with MDX queries
+using C routines for efficiency.
 Checks if connection string contains all the necessary components to connect
 to OLAP.
 }

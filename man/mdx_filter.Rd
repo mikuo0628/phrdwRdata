@@ -32,20 +32,21 @@ Character vector.
 \description{
 MDX Builder: process filters, discrete or range, by date or other data types.
 }
-\details{
+\examples{
 mdx_filter(
-discrete =
-tibble(
-dim = 'LIS - Test',
-attr = 'Test Code',
-memb = c('TPE1', 'RPR')
-),
-range =
-tibble(
-dim = 'LIS - Date - Collection',
-attr = 'Date',
-memb = c('2019-01-01', '2019-02-02')
-),
-.as_lines = T
+  discrete =
+    tibble(
+      dim = 'LIS - Test',
+      attr = 'Test Code',
+      memb = c('TPE1', 'RPR')
+    ),
+  range =
+    tibble(
+      dim = 'LIS - Date - Collection',
+      attr = 'Date',
+      memb = c('2019-01-01', '2019-02-02')
+    ),
+  .as_lines = T
 )
+
 }

@@ -13,17 +13,19 @@ connect_to_phrdw(
 )
 }
 \arguments{
-\item{phrdw_datamart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} Legacy mart
-designations provided by previous package authors. This backward-
-compatibility is meant to minimize changes on the user end. The \code{stable}
-approach is to reference \code{mart} and \code{type}.}
+\item{phrdw_datamart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+Legacy mart designations provided by previous package authors.
+This backward-compatibility is meant to minimize changes on the user end.
+The \code{stable} approach is to reference \code{mart} and \code{type}.}
 
-\item{mart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Provide an appropriate mart
-name (non-case specific). Must be one of "CDI", "CD", "Respiratory",
-"Enteric", "STIBBI", and "VPD". Non case-sensitive.}
-
-\item{type}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Provide an appropriate mart type
-(non-case specific). Must be one of "prod" (default), "su", or "sa".
+\item{mart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+Provide an appropriate mart name (non-case specific).
+Must be one of "CDI", "CD", "Respiratory", "Enteric", "STIBBI", and "VPD".
+Non case-sensitive.
+#' @param type
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+Provide an appropriate mart type (non-case specific).
+Must be one of "prod" (default), "su", or "sa".
 Non case-sensitive. See \code{Details}.}
 
 \item{.conn_str}{Defaults to \code{NULL}. For advance usage or testing purposes:
@@ -50,8 +52,8 @@ For a detailed list of data marts and respective servers, please see
 \code{phrdwRdata:::servers}.
 }
 \details{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} List of values to supply \code{phrdw_datamart}.
-Case sensitive.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+List of values to supply \code{phrdw_datamart}. Case sensitive.
 \itemize{
 \item \code{CDI}: Chronic Disease & Injury; links data from Vital Statistics
 death records and census-based socio-economic data.
@@ -75,8 +77,9 @@ system at PHSA.
 \item \verb{VPD SU}: UAT server of VPD.
 }
 
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Using \code{mart} and \code{type} is preferred. They
-are not case-sensitive and more readable.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+Using \code{mart} and \code{type} is preferred. They are not case-sensitive and
+more readable.
 
 For now, PHRDW data architecture is either data warehouse/relational
 table or  data cubes, depending on which mart. Connection to data warehouse

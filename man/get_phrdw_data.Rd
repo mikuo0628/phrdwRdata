@@ -42,17 +42,18 @@ get_phrdw_data(
 )
 }
 \arguments{
-\item{phrdw_datamart_connection}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} Legacy
-function design: supply a connection object created by \link{connect_to_phrdw}.
-Recommend using \code{mart} and \code{type} instead for flexibility
-(see \link{connect_to_phrdw}). The function takes care of connecting
+\item{phrdw_datamart_connection}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+Legacy function design: supply a connection object created by
+\code{\link[=connect_to_phrdw]{connect_to_phrdw()}}. Recommend using \code{mart} and \code{type}
+instead for flexibility (see \code{\link[=connect_to_phrdw]{connect_to_phrdw()}}).
+The function takes care of connecting
 to the appropriate PHRDW database and disconnect after performing the
 requested data filtering and retrieving.}
 
-\item{phrdw_datamart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} Legacy mart
-designations provided by previous package authors. This backward-
-compatibility is meant to minimize changes on the user end. The \code{stable}
-approach is to reference \code{mart} and \code{type}.}
+\item{phrdw_datamart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+Legacy mart designations provided by previous package authors.
+This backward-compatibility is meant to minimize changes on the user end.
+The \code{stable} approach is to reference \code{mart} and \code{type}.}
 
 \item{dataset_name}{The name of the pre-built dataset to retrieve.}
 
@@ -129,22 +130,24 @@ Only for applicable CDI datasets.}
 Authorities associated with decedant's location of death.
 Only for applicable CDI datasets.}
 
-\item{mart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Provide an appropriate mart
-name (non-case specific). Must be one of "CDI", "CD", "Respiratory",
-"Enteric", "STIBBI", and "VPD". Non case-sensitive.}
-
-\item{type}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Provide an appropriate mart type
-(non-case specific). Must be one of "prod" (default), "su", or "sa".
+\item{mart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+Provide an appropriate mart name (non-case specific).
+Must be one of "CDI", "CD", "Respiratory", "Enteric", "STIBBI", and "VPD".
+Non case-sensitive.
+#' @param type
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+Provide an appropriate mart type (non-case specific).
+Must be one of "prod" (default), "su", or "sa".
 Non case-sensitive. See \code{Details}.}
 
-\item{.partial}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Takes a named list
-of single integer, where the name must be one of "head" or "tail". The
-appropriate \code{head} or \code{tail} function will be applied and the integer
-specifies number of rows to return. Only \code{head} works with OLAP queries,
-while both \code{head} and \code{tail} work with SQL queries.}
+\item{.partial}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+Takes a named list of single integer, where the name must be one of
+"head" or "tail". The appropriate \code{head} or \code{tail} function will be
+applied and the integer specifies number of rows to return. Only \code{head}
+works with OLAP queries, while both \code{head} and \code{tail} work with SQL queries.}
 
-\item{.check_params}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Can accept Boolean or
-character values.
+\item{.check_params}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+Can accept Boolean or character values.
 
 Boolean \code{TRUE} will return general info of the dataset:
 For MDX queries: dimensions, hierarchies, and levels if possible, and
@@ -163,9 +166,10 @@ return. Useful to check for typos, or available names to filter for.}
 \item{.clean_data}{Boolean value. Whether to attempt cleaning the dates in
 data or not.}
 
-\item{.query_info}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} A user supplied
-\code{data.frame} object similar to \code{phrdwRdata::list_query_info}, on which the
-appropriate operation will take place and retrieve specified data.}
+\item{.query_info}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+A user supplied \code{data.frame} object similar to
+\code{\link[=list_query_info]{list_query_info()}}, on which the appropriate operation will
+take place and retrieve specified data.}
 }
 \value{
 Depending on user input, a \code{data.frame} or \code{tibble} or character
@@ -189,8 +193,8 @@ avoids redundant inputs such as \code{phrdw_datamart} in both \code{connect_to_p
 and \code{get_phrdw_data}.
 }
 \details{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} List of values to supply \code{phrdw_datamart}.
-Case sensitive.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+List of values to supply \code{phrdw_datamart}. Case sensitive.
 \itemize{
 \item \code{CDI}: Chronic Disease & Injury; links data from Vital Statistics
 death records and census-based socio-economic data.
@@ -214,8 +218,9 @@ system at PHSA.
 \item \verb{VPD SU}: UAT server of VPD.
 }
 
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}} Using \code{mart} and \code{type} is preferred. They
-are not case-sensitive and more readable.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+Using \code{mart} and \code{type} is preferred. They are not case-sensitive and
+more readable.
 
 For now, PHRDW data architecture is either data warehouse/relational
 table or  data cubes, depending on which mart. Connection to data warehouse

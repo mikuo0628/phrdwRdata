@@ -28,25 +28,26 @@ A \code{sql}/\code{character} object.
 \description{
 MDX Builder: builds the SELECT statement on \code{columns} and \code{rows}.
 }
-\details{
+\examples{
 mdx_select(
-'Case Count',
-set_names(
-list(
-c(
-"Age Group",
-"Age Group 04",
-"Age Group 05",
-"Age Group 09",
-"Age Group 10",
-"Age Group 11",
-"Age Group 17",
-"Age Group 20",
-"Age Group 24",
-"Age Years"
+  'Case Count',
+  set_names(
+    list(
+      c(
+        "Age Group",
+        "Age Group 04",
+        "Age Group 05",
+        "Age Group 09",
+        "Age Group 10",
+        "Age Group 11",
+        "Age Group 17",
+        "Age Group 20",
+        "Age Group 24",
+        "Age Years"
+      )
+    ),
+    'Case - Age at Earliest Date'
+  )
 )
-),
-'Case - Age at Earliest Date'
-)
-)
+
 }

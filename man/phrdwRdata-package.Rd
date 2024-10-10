@@ -16,7 +16,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Michael Kuo \email{michael.kuo@bccdc.ca}
+\strong{Maintainer}:  Data & Informatics \email{das_di.kuo@bccdc.ca}
 
 Authors:
 \itemize{

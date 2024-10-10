@@ -50,32 +50,33 @@ A \code{sql}/\code{character} object.
 \description{
 MDX builder: takes all MDX functions and build query.
 }
-\details{
+\examples{
 phrdwRdata::mdx_build(
-cube_name = 'StibbiDM',
-columns = 'Case Count',
-rows =
-set_names(
-list(
-c(
-"Age Group 10",
-"Age Group 24",
-"Age Years"
+  cube_name = 'StibbiDM',
+  columns = 'Case Count',
+  rows =
+    set_names(
+      list(
+        c(
+          "Age Group 10",
+          "Age Group 24",
+          "Age Years"
+        )
+      ),
+      'Case - Age at Earliest Date'
+    ),
+  discrete =
+    tibble(
+      dim = 'LIS - Test',
+      attr = 'Test Code',
+      memb = c('TPE1', 'RPR')
+    ),
+  range =
+    tibble(
+      dim = 'LIS - Date - Collection',
+      attr = 'Date',
+      memb = c('2019-01-01', '2019-02-02')
+    )
 )
-),
-'Case - Age at Earliest Date'
-),
-discrete =
-tibble(
-dim = 'LIS - Test',
-attr = 'Test Code',
-memb = c('TPE1', 'RPR')
-),
-range =
-tibble(
-dim = 'LIS - Date - Collection',
-attr = 'Date',
-memb = c('2019-01-01', '2019-02-02')
-)
-)
+
 }

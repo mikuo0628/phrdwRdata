@@ -2,6 +2,7 @@
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
+#'
 #' Query` constructs a "Query" object. Set functions are used to build and
 #' modify the Query axes and cube name.
 #'

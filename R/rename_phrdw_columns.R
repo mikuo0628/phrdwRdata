@@ -2,6 +2,9 @@
 
 #' Rename PHRDW Columns
 #'
+#' @description
+#' `r lifecycle::badge('superseded')`
+#'
 #' Function renames the columns for queries executed against a PHRDW Datamart
 #' @param phrdw_dataset A data frame with columns from the PHRDW.
 #' @return A data frame with renamed columns from a PHRDW query

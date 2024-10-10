@@ -1,9 +1,11 @@
-#' Helper function to process dataset instructions into appropriate output.
+#' Helper function for handling and building MDX queries.
 #'
-#' Takes arguments in `get_phrdw_data` and returns MDX query to be executed
-#' in `execute2D`, and execute if required by user.
+#' @description
+#' Takes arguments from [phrdwRdata::get_phrdw_data()] and processes with
+#' `phrdwRdata:::list_query_info$olap` to produce MDX query accordingly
 #'
-#' @return MDX query.
+#' @return Depending on user input, `tibble`, MDX string, or print dataset
+#' metadata.
 #'
 olap_handler <- function() {
 

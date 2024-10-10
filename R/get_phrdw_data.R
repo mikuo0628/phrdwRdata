@@ -19,10 +19,12 @@
 #'
 #' @inherit connect_to_phrdw details
 #'
-#' @param phrdw_datamart_connection `r lifecycle::badge('superseded')` Legacy
-#' function design: supply a connection object created by [connect_to_phrdw].
-#' Recommend using `mart` and `type` instead for flexibility
-#' (see [connect_to_phrdw]). The function takes care of connecting
+#' @param phrdw_datamart_connection
+#' `r lifecycle::badge('superseded')`
+#' Legacy function design: supply a connection object created by
+#' [phrdwRdata::connect_to_phrdw()]. Recommend using `mart` and `type`
+#' instead for flexibility (see [phrdwRdata::connect_to_phrdw()]).
+#' The function takes care of connecting
 #' to the appropriate PHRDW database and disconnect after performing the
 #' requested data filtering and retrieving.
 #' @param dataset_name The name of the pre-built dataset to retrieve.
@@ -77,13 +79,15 @@
 #' @param death_location_ha Optional. Character vector of BC Health
 #' Authorities associated with decedant's location of death.
 #' Only for applicable CDI datasets.
-#' @param .partial `r lifecycle::badge('experimental')` Takes a named list
-#' of single integer, where the name must be one of "head" or "tail". The
-#' appropriate `head` or `tail` function will be applied and the integer
-#' specifies number of rows to return. Only `head` works with OLAP queries,
-#' while both `head` and `tail` work with SQL queries.
-#' @param .check_params `r lifecycle::badge('stable')` Can accept Boolean or
-#' character values.
+#' @param .partial
+#' `r lifecycle::badge('experimental')`
+#' Takes a named list of single integer, where the name must be one of
+#' "head" or "tail". The appropriate `head` or `tail` function will be
+#' applied and the integer specifies number of rows to return. Only `head`
+#' works with OLAP queries, while both `head` and `tail` work with SQL queries.
+#' @param .check_params
+#' `r lifecycle::badge('stable')`
+#' Can accept Boolean or character values.
 #'
 #' Boolean `TRUE` will return general info of the dataset:
 #' For MDX queries: dimensions, hierarchies, and levels if possible, and
@@ -98,9 +102,11 @@
 #' @param .return_data Boolean value. Whether to return data or not.
 #' @param .clean_data Boolean value. Whether to attempt cleaning the dates in
 #' data or not.
-#' @param .query_info `r lifecycle::badge('experimental')` A user supplied
-#' `data.frame` object similar to `phrdwRdata::list_query_info`, on which the
-#' appropriate operation will take place and retrieve specified data.
+#' @param .query_info
+#' `r lifecycle::badge('experimental')`
+#' A user supplied `data.frame` object similar to
+#' [phrdwRdata::list_query_info()], on which the appropriate operation will
+#' take place and retrieve specified data.
 #' @inheritParams connect_to_phrdw
 #'
 #' @return Depending on user input, a `data.frame` or `tibble` or character

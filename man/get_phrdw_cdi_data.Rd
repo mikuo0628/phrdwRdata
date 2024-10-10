@@ -39,5 +39,7 @@ get_phrdw_cdi_data(
 A data frame with the dataset retrieved from the specified PHRDW data mart.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
 Function for querying and returning PHRDW CDI data
 }
