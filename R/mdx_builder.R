@@ -18,6 +18,7 @@
 #' @return A `sql`/`character` object.
 #'
 #' @examples
+#' \dontrun{
 #' mdx_select(
 #'   'Case Count',
 #'   set_names(
@@ -38,6 +39,7 @@
 #'     'Case - Age at Earliest Date'
 #'   )
 #' )
+#' }
 #'
 mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
 
@@ -182,6 +184,7 @@ mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
 #' @return Character vector.
 #'
 #' @examples
+#' \dontrun{
 #' mdx_filter(
 #'   discrete =
 #'     tibble(
@@ -197,6 +200,7 @@ mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
 #'     ),
 #'   .as_lines = T
 #' )
+#' }
 #'
 mdx_filter <- function(discrete  = NULL,
                        range     = NULL,
@@ -322,6 +326,7 @@ mdx_filter <- function(discrete  = NULL,
 #' @return A `sql`/`character` object.
 #'
 #' @examples
+#' \dontrun{
 #' mdx_from(
 #'   'StibbiDM',
 #'   mdx_filter(
@@ -340,6 +345,7 @@ mdx_filter <- function(discrete  = NULL,
 #'     .as_lines = T
 #'   )
 #' )
+#' }
 #'
 mdx_from <- function(cube_name, ...) {
 
@@ -385,6 +391,7 @@ mdx_from <- function(cube_name, ...) {
 #' @inherit mdx_select return
 #'
 #' @examples
+#' \dontrun{
 #' phrdwRdata::mdx_build(
 #'   cube_name = 'StibbiDM',
 #'   columns = 'Case Count',
@@ -412,6 +419,7 @@ mdx_from <- function(cube_name, ...) {
 #'       memb = c('2019-01-01', '2019-02-02')
 #'     )
 #' )
+#' }
 #'
 mdx_build <- function(
     cube_name,

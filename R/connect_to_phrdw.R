@@ -161,7 +161,7 @@ connect_to_phrdw <- function(
 
     if (tolower(names(.conn_str)) == 'cube') {
 
-      conn <- try(phrdwRdata::OlapConnection(.conn_str$cube), silent = T)
+      conn <- try(OlapConnection(.conn_str$cube), silent = T)
 
     } else {
 
@@ -340,7 +340,7 @@ connect_to_phrdw <- function(
               collapse = ';'
             )
 
-          # conn_obj <- phrdwRdata::OlapConnection(conn_str)
+          # conn_obj <- OlapConnection(conn_str)
 
           return(conn_str)
 
@@ -349,7 +349,7 @@ connect_to_phrdw <- function(
 
     if (.return_conn_str) return(conn_str)
 
-    conn <- phrdwRdata::OlapConnection(conn_str)
+    conn <- OlapConnection(conn_str)
 
     if (length(conn) > 1) stop('--- Please check OLAP connection params ---\n')
 
