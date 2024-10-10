@@ -14,16 +14,19 @@ connect_to_phrdw(
 }
 \arguments{
 \item{phrdw_datamart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
 Legacy mart designations provided by previous package authors.
 This backward-compatibility is meant to minimize changes on the user end.
 The \code{stable} approach is to reference \code{mart} and \code{type}.}
 
 \item{mart}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+
 Provide an appropriate mart name (non-case specific).
 Must be one of "CDI", "CD", "Respiratory", "Enteric", "STIBBI", and "VPD".
-Non case-sensitive.
-#' @param type
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+Non case-sensitive.}
+
+\item{type}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+
 Provide an appropriate mart type (non-case specific).
 Must be one of "prod" (default), "su", or "sa".
 Non case-sensitive. See \code{Details}.}
@@ -33,16 +36,16 @@ if you are clear on the exact connection parameters,
 you can enter here as a named list, where name of
 element is \code{cube} or \code{sql}, which will determine the appropriate connection
 driver, and the element being the character string containing the specific
-parameters.
-See \code{Details}.}
+parameters. See \code{Details}.}
 
 \item{.return_conn_str:}{If \code{TRUE}, will return \code{character} vector instead
 of connection objects. For troubleshooting purposes. Defaults to \code{FALSE}.}
 }
 \value{
 By default, an \code{odbc} or \code{OLAP_Conn} connection object that can be
-executed with appropriate queries to retrieve views. If \code{.return_conn_str} is
-\code{TRUE}, will return \code{character} vector of connection parameters.
+executed with appropriate queries to retrieve views.
+If \code{.return_conn_str} is \code{TRUE}, will return \code{character} vector of
+connection parameters.
 }
 \description{
 Connect to PHRDW data marts. Depending on the mart, the appropriate driver
@@ -78,17 +81,20 @@ system at PHSA.
 }
 
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+
 Using \code{mart} and \code{type} is preferred. They are not case-sensitive and
 more readable.
 
 For now, PHRDW data architecture is either data warehouse/relational
-table or  data cubes, depending on which mart. Connection to data warehouse
-returns an \code{\link[odbc:dbConnect-OdbcDriver-method]{odbc::dbConnect()}} connection object, whereas connection to data
-cube returns an \code{OLAP_Conn} object, which is just a character string under
-the hood that will be executed by a back-end C routine.
+table or  data cubes, depending on which mart. Connection to data
+warehouse returns an \code{\link[odbc:dbConnect-OdbcDriver-method]{odbc::dbConnect()}} connection object, whereas
+connection to data cube returns an \code{OLAP_Conn} object, which is
+just a character string under the hood that will be executed by
+a back-end C routine.
 
 This means that connection to data warehouse allows for memory-efficient
-tools like \code{dbplyr} where data is read lazily rather than loaded into memory.
+tools like \code{dbplyr} where data is read lazily rather than loaded
+into memory.
 
 Users can supply their own connection string using \code{.conn_str}. To
 distinguish between the different architectures, this parameter needs to

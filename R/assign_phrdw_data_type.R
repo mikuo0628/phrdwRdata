@@ -7,16 +7,18 @@
 # Created: 2018-03-02
 #
 #####################################################################
-#' @title Assigns numeric datatype to datasets.
+#' Assigns numeric datatype to datasets.
+#'
 #' @description
 #' `r lifecycle::badge('superseded')`
 #'
-#' Assigns a data type to specific columns.
-#' This function will only assign a numeric datatype for fields ending
-#' with `_id` or `_key`
+#' Assigns a data type to specific columns. This function will only assign
+#'   a numeric datatype for fields ending with `_id` or `_key`
 #'
 #' @param phrdw_dataset A data frame with columns from the PHRDW.
+#'
 #' @return A data frame with numeric fields assigned.
+#'
 #' @export
 assign_phrdw_data_type <- function(phrdw_dataset, phrdw_datamart)
 {

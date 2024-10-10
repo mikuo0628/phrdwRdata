@@ -11,8 +11,8 @@ mdx_select(columns, rows, dim_props, .partial = NULL)
 name of the list. Name defaults to \code{Measures}.}
 
 \item{rows}{Accepts \code{data.frame} with columns \code{dim}, \code{attr_hier}, and
-\code{lvl_memb}, or character list of hierarchies, with name of dimension as the
-name of the list.}
+\code{lvl_memb}, or character list of hierarchies, with name of dimension as
+the name of the list.}
 
 \item{dim_props}{Must be \code{data.frame} with columns \code{dim}, \code{attr_hier}, and
 \code{lvl_memb}.}

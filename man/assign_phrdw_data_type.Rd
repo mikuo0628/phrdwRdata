@@ -15,7 +15,6 @@ A data frame with numeric fields assigned.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
-Assigns a data type to specific columns.
-This function will only assign a numeric datatype for fields ending
-with \verb{_id} or \verb{_key}
+Assigns a data type to specific columns. This function will only assign
+a numeric datatype for fields ending with \verb{_id} or \verb{_key}
 }

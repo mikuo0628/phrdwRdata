@@ -7,8 +7,9 @@
 #' patterns and apply respective `lubrdate` functions accordingly.
 #'
 #' @param dataset A `data.frame` or `tibble` object.
+#'
 #' @param date_col_pattern String pattern to detect column names. Common
-#' patterns can be 'date', or 'dt_tm'. Defaults to 'date'.
+#'   patterns can be 'date', or 'dt_tm'. Defaults to 'date'.
 #'
 #' @return A `data.frame` or `tibble` object.
 #'

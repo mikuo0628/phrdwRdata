@@ -5,7 +5,7 @@
 #' `phrdwRdata:::list_query_info$olap` to produce MDX query accordingly
 #'
 #' @return Depending on user input, `tibble`, MDX string, or print dataset
-#' metadata.
+#'   metadata.
 #'
 olap_handler <- function() {
 

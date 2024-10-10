@@ -9,7 +9,7 @@ explore(olapCnn, cube = NULL, dimension = NULL, hierarchy = NULL, level = NULL)
 }
 \arguments{
 \item{olapCnn}{Required. An OLAP connection string.
-Can be created with \code{connect_to_phrdw}.}
+Can be created with \code{\link[=connect_to_phrdw]{connect_to_phrdw()}}.}
 
 \item{cube}{Optional. Cube name.}
 

@@ -6,11 +6,15 @@
 #' `r lifecycle::badge('superseded')`
 #'
 #' Function renames the columns for queries executed against a PHRDW Datamart
+#'
 #' @param phrdw_dataset A data frame with columns from the PHRDW.
+#'
 #' @return A data frame with renamed columns from a PHRDW query
 #'
 #' @export
+#'
 #' @importFrom dplyr %>%
+#'
 rename_phrdw_columns <- function(phrdw_dataset)
 {
   # Get the column names from the phrdw dataset

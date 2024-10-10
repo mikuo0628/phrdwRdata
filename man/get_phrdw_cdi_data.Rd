@@ -27,13 +27,17 @@ get_phrdw_cdi_data(
 
 \item{query_end_date}{The end date of the data to retrieve.}
 
-\item{ucd_3char_code}{A character vector of UCD Codes to retrieve. Optional parameter.}
+\item{ucd_3char_code}{A character vector of UCD Codes to retrieve.
+Optional parameter.}
 
-\item{ccd_3char_code}{A character vector of CCD Codes to retrieve. Optional parameter.}
+\item{ccd_3char_code}{A character vector of CCD Codes to retrieve.
+Optional parameter.}
 
-\item{residential_location_ha}{A character vector of BC Health Authorities associated with decedent's usual residence. Optional parameter.}
+\item{residential_location_ha}{A character vector of BC Health Authorities
+associated with decedent's usual residence. Optional parameter.}
 
-\item{death_location_ha}{A character vector of BC Health Authorities associated with the location of death. Optional parameter.}
+\item{death_location_ha}{A character vector of BC Health Authorities
+associated with the location of death. Optional parameter.}
 }
 \value{
 A data frame with the dataset retrieved from the specified PHRDW data mart.

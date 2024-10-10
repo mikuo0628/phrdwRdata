@@ -8,15 +8,17 @@ mdx_filter(discrete = NULL, range = NULL, ..., .as_lines = T)
 }
 \arguments{
 \item{discrete}{A \code{data.frame} object with 3 columns: \code{dim}, \code{attr}, and
-\code{memb}, for "dimension", "attribute", and "member". The attribute must belong
-to dimension, and member must belong to the attribute hierarchy.
+\code{memb}, for "dimension", "attribute", and "member". The attribute must
+belong to dimension, and member must belong to the attribute hierarchy.
 Each member to filter for should have its own row in this \code{data.frame}.}
 
 \item{range}{A \code{data.frame} object with 3 columns: \code{dim}, \code{attr}, and
-\code{memb}, for "dimension", "attribute", and "member". The attribute must belong
-to dimension, and member must belong to the attribute hierarchy.
-Two rows must be provided here with two different member values as the \code{from}
-and \code{to}.
+\code{memb}, for "dimension", "attribute", and "member".
+The attribute must belong to dimension, and member must belong to the
+attribute hierarchy.
+Two rows must be provided here with two different member values as
+the \code{from} and \code{to}.
+
 If no bounds, use \code{NULL} or "null".}
 
 \item{...}{Reserved for future development.}

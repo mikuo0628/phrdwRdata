@@ -2,10 +2,10 @@
 #'
 #' @description
 #' Connect to PHRDW data marts. Depending on the mart, the appropriate driver
-#' and connection parameters will be selected automatically.
+#'   and connection parameters will be selected automatically.
 #'
 #' For a detailed list of data marts and respective servers, please see
-#' `phrdwRdata:::servers`.
+#'   `phrdwRdata:::servers`.
 #'
 #' @details
 #' `r lifecycle::badge('superseded')`
@@ -32,50 +32,57 @@
 #' * `VPD SU`: UAT server of VPD.
 #'
 #' `r lifecycle::badge('stable')`
+#'
 #' Using `mart` and `type` is preferred. They are not case-sensitive and
-#' more readable.
+#'   more readable.
 #'
 #' For now, PHRDW data architecture is either data warehouse/relational
-#' table or  data cubes, depending on which mart. Connection to data warehouse
-#' returns an [odbc::dbConnect()] connection object, whereas connection to data
-#' cube returns an `OLAP_Conn` object, which is just a character string under
-#' the hood that will be executed by a back-end C routine.
+#' table or  data cubes, depending on which mart. Connection to data
+#' warehouse returns an [odbc::dbConnect()] connection object, whereas
+#' connection to data cube returns an `OLAP_Conn` object, which is
+#' just a character string under the hood that will be executed by
+#' a back-end C routine.
 #'
 #' This means that connection to data warehouse allows for memory-efficient
-#' tools like `dbplyr` where data is read lazily rather than loaded into memory.
+#' tools like `dbplyr` where data is read lazily rather than loaded
+#' into memory.
 #'
 #' Users can supply their own connection string using `.conn_str`. To
 #' distinguish between the different architectures, this parameter needs to
 #' be named list, as either `sql` or `cube`. See `Examples`.
 #'
-#' @param phrdw_datamart
-#' `r lifecycle::badge('superseded')`
-#' Legacy mart designations provided by previous package authors.
-#' This backward-compatibility is meant to minimize changes on the user end.
-#' The `stable` approach is to reference `mart` and `type`.
-#' @param mart
-#' `r lifecycle::badge('stable')`
-#' Provide an appropriate mart name (non-case specific).
-#' Must be one of "CDI", "CD", "Respiratory", "Enteric", "STIBBI", and "VPD".
-#' Non case-sensitive.
-#' #' @param type
-#' `r lifecycle::badge('stable')`
-#' Provide an appropriate mart type (non-case specific).
-#' Must be one of "prod" (default), "su", or "sa".
-#' Non case-sensitive. See `Details`.
+#' @param phrdw_datamart `r lifecycle::badge('superseded')`
+#'
+#'   Legacy mart designations provided by previous package authors.
+#'   This backward-compatibility is meant to minimize changes on the user end.
+#'   The `stable` approach is to reference `mart` and `type`.
+#'
+#' @param mart `r lifecycle::badge('stable')`
+#'
+#'   Provide an appropriate mart name (non-case specific).
+#'   Must be one of "CDI", "CD", "Respiratory", "Enteric", "STIBBI", and "VPD".
+#'   Non case-sensitive.
+#'
+#' @param type `r lifecycle::badge('stable')`
+#'
+#'   Provide an appropriate mart type (non-case specific).
+#'   Must be one of "prod" (default), "su", or "sa".
+#'   Non case-sensitive. See `Details`.
+#'
 #' @param .conn_str Defaults to `NULL`. For advance usage or testing purposes:
-#'  if you are clear on the exact connection parameters,
-#'  you can enter here as a named list, where name of
-#' element is `cube` or `sql`, which will determine the appropriate connection
-#' driver, and the element being the character string containing the specific
-#' parameters.
-#' See `Details`.
+#'   if you are clear on the exact connection parameters,
+#'   you can enter here as a named list, where name of
+#'   element is `cube` or `sql`, which will determine the appropriate connection
+#'   driver, and the element being the character string containing the specific
+#'   parameters. See `Details`.
+#'
 #' @param .return_conn_str: If `TRUE`, will return `character` vector instead
-#' of connection objects. For troubleshooting purposes. Defaults to `FALSE`.
+#'   of connection objects. For troubleshooting purposes. Defaults to `FALSE`.
 #'
 #' @return By default, an `odbc` or `OLAP_Conn` connection object that can be
-#' executed with appropriate queries to retrieve views. If `.return_conn_str` is
-#' `TRUE`, will return `character` vector of connection parameters.
+#'   executed with appropriate queries to retrieve views.
+#'   If `.return_conn_str` is `TRUE`, will return `character` vector of
+#'   connection parameters.
 #'
 #' @export
 #'
