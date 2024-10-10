@@ -33,7 +33,7 @@ Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://mikuo0628.github.io/phrdwRdata/
 Authors@R: c(
-    person("", "Data & Informatics", , "das_di.kuo@bccdc.ca", role = "cre"),
+    person("", "Data & Informatics", , email = "das_di@bccdc.ca", role = "cre"),
     person("Darren", "Frizzell", role = "aut", comment = c('Original Author')),
     person(, "BCCDC", role = c("cph", "fnd"))
   )
