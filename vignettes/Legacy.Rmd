@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 library(phrdwRdata)
 library(dplyr)
-library(forcats)
+# library(forcats)
 library(tibble)
 ```
 
@@ -85,7 +85,8 @@ where completed, a `LEFT JOIN` back to the `Investigation` dataset is required.
 #| message: false
 
 phrdwRdata:::list_query_info$sql %>% 
-  dplyr::mutate(dataset_name = forcats::fct_inorder(dataset_name)) %>% 
+  # dplyr::mutate(dataset_name = forcats::fct_inorder(dataset_name)) %>% 
+  dplyr::mutate(dataset_name = as.factor(dataset_name)) %>%
   dplyr::filter(stringr::str_detect(dataset_name, '^TB', negate = T)) %>% 
   dplyr::group_by(dataset_name) %>% 
   dplyr::filter(
@@ -145,7 +146,8 @@ phrdwRdata:::list_query_info$sql %>%
 #| message: false
 
 phrdwRdata:::list_query_info$sql %>% 
-  dplyr::mutate(dataset_name = forcats::fct_inorder(dataset_name)) %>% 
+  # dplyr::mutate(dataset_name = forcats::fct_inorder(dataset_name)) %>% 
+  dplyr::mutate(dataset_name = as.factor(dataset_name)) %>%
   dplyr::filter(stringr::str_detect(dataset_name, '^TB')) %>% 
   dplyr::group_by(dataset_name) %>% 
   dplyr::filter(
