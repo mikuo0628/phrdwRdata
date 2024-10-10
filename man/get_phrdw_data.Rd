@@ -176,7 +176,7 @@ data or not.}
 \item{.query_info}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 A user supplied \code{data.frame} object similar to
-\code{\link[=list_query_info]{list_query_info()}}, on which the appropriate operation will
+'phrdwRdata:::list_query_info', on which the appropriate operation will
 take place and retrieve specified data.}
 }
 \value{

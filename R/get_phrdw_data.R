@@ -135,7 +135,7 @@
 #' @param .query_info `r lifecycle::badge('experimental')`
 #'
 #'   A user supplied `data.frame` object similar to
-#'   [phrdwRdata::list_query_info()], on which the appropriate operation will
+#'   'phrdwRdata:::list_query_info', on which the appropriate operation will
 #'   take place and retrieve specified data.
 #'
 #' @inheritParams connect_to_phrdw

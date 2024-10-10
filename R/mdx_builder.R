@@ -398,7 +398,7 @@ mdx_from <- function(cube_name, ...) {
 #'
 #' @examples
 #' \dontrun{
-#' phrdwRdata::mdx_build(
+#' mdx_build(
 #'   cube_name = 'StibbiDM',
 #'   columns = 'Case Count',
 #'   rows =
