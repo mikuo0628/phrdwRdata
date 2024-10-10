@@ -8,6 +8,8 @@
 #' @return Depending on user input, `tibble`, SQL string, or print dataset
 #'   metadata.
 #'
+#' @noRd
+#'
 sql_handler <- function() {
 
   schema <-

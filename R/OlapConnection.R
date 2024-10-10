@@ -12,6 +12,8 @@
 #'
 #' @return A character string with class `OLAP_Conn`.
 #'
+#' @noRd
+#'
 OlapConnection <- function(
     conn_str = "Data Source=localhost; Provider=MSOLAP;"
 ) {
@@ -46,6 +48,8 @@ OlapConnection <- function(
 #' Simple helper function to print `OLAP_conn` object.
 #'
 #' @param mdx_qry
+#'
+#' @noRd
 #'
 print.OlapConnection <- function(mdx_qry) { print(mdx_qry$cnn) }
 

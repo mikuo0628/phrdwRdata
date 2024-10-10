@@ -13,6 +13,8 @@
 #'
 #' @return A `data.frame` or `tibble` object.
 #'
+#' @noRd
+#'
 datatype_cols <- function(
     dataset,
     date_col_pattern = 'date'

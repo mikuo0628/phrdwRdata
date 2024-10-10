@@ -13,6 +13,8 @@
 #'
 #' @importFrom dplyr %>%
 #'
+#' @noRd
+#'
 rename_phrdw_columns <- function(phrdw_dataset)
 {
   # Get the column names from the phrdw dataset
