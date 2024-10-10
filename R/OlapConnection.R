@@ -12,8 +12,6 @@
 #'
 #' @return A character string with class `OLAP_Conn`.
 #'
-#' @export
-#'
 OlapConnection <- function(
     conn_str = "Data Source=localhost; Provider=MSOLAP;"
 ) {

@@ -11,8 +11,6 @@
 #'
 #' @return A data frame with renamed columns from a PHRDW query
 #'
-#' @export
-#'
 #' @importFrom dplyr %>%
 #'
 rename_phrdw_columns <- function(phrdw_dataset)
