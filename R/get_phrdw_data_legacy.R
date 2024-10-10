@@ -432,13 +432,16 @@ get_phrdw_data_legacy <- function(
 
   }
 
-
   if(class(phrdw_dataset) == "data.frame"){
     phrdw_dataset <- phrdw_dataset %>%
       dplyr::mutate_if(is.character, list(~dplyr::na_if(., "")))
   }
 
-  odbc::dbDisconnect(phrdw_datamart_connection)
+  if (inherits(phrdw_datamart_connection, 'odbc')) {
+
+    odbc::dbDisconnect(phrdw_datamart_connection)
+
+  }
 
   return(phrdw_dataset)
 
