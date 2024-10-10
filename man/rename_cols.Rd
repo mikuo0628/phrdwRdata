@@ -10,7 +10,7 @@ rename_cols(obj)
 \item{obj}{A \code{data.frame} or character vector of names.}
 }
 \value{
-Same as input `obj.
+Same as input \code{obj}.
 }
 \description{
 Renames data retrieved from Data cubes.

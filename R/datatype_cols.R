@@ -2,6 +2,7 @@
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
+#'
 #' Instead of heuristically prase dates, it detects date string by preset
 #' patterns and apply respective `lubrdate` functions accordingly.
 #'

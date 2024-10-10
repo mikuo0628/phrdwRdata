@@ -1,7 +1,8 @@
-#' Constructs an "OlapConnection" object: string of connection parameters that
-#' can be executed with MDX queries using C routines for efficiency.
+#' Constructs an "OlapConnection" object.
 #'
 #' @description
+#' string of connection parameters that can be executed with MDX queries
+#' using C routines for efficiency.
 #' Checks if connection string contains all the necessary components to connect
 #' to OLAP.
 #'

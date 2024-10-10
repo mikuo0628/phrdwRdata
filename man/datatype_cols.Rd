@@ -17,6 +17,7 @@ A \code{data.frame} or \code{tibble} object.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Instead of heuristically prase dates, it detects date string by preset
 patterns and apply respective \code{lubrdate} functions accordingly.
 }

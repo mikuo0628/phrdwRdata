@@ -2,20 +2,16 @@
 % Please edit documentation in R/sql_handler.R
 \name{sql_handler}
 \alias{sql_handler}
-\title{default dplyr/dbplyr joins do not keep keys (for good reasons),
-and some keys are needed/SELECT.
-the \code{keep} param in join functions will determine whether
-keys are kept. For keys that are part of SELECT: T... this is
-done by checking to see if it's needed in \code{SELECT} clause or
-if it does not already exists in df_1}
+\title{Helper function for handling and building SQL queries.}
 \usage{
 sql_handler()
 }
+\value{
+Depending on user input, \code{tibble}, SQL string, or print dataset
+metadata.
+}
 \description{
-default dplyr/dbplyr joins do not keep keys (for good reasons),
-and some keys are needed/SELECT.
-the \code{keep} param in join functions will determine whether
-keys are kept. For keys that are part of SELECT: T... this is
-done by checking to see if it's needed in \code{SELECT} clause or
-if it does not already exists in df_1
+Takes arguments from \code{\link[=get_phrdw_data]{get_phrdw_data()}} and processes with
+\code{phrdwRdata:::list_query_info$sql} leverging \code{dbplyr} and NSE to produce
+SQL query accordingly.
 }

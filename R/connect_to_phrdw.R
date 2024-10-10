@@ -8,8 +8,8 @@
 #' `phrdwRdata:::servers`.
 #'
 #' @details
-#' `r lifecycle::badge('superseded')` List of values to supply `phrdw_datamart`.
-#' Case sensitive.
+#' `r lifecycle::badge('superseded')`
+#' List of values to supply `phrdw_datamart`. Case sensitive.
 #' * `CDI`: Chronic Disease & Injury; links data from Vital Statistics
 #'   death records and census-based socio-economic data.
 #' * `CD`: Communicable Diseases; contains communicable disease public
@@ -31,8 +31,9 @@
 #' * `STIBBI SA`: PROD copy/Staging server of STIBBI.
 #' * `VPD SU`: UAT server of VPD.
 #'
-#' `r lifecycle::badge('stable')` Using `mart` and `type` is preferred. They
-#' are not case-sensitive and more readable.
+#' `r lifecycle::badge('stable')`
+#' Using `mart` and `type` is preferred. They are not case-sensitive and
+#' more readable.
 #'
 #' For now, PHRDW data architecture is either data warehouse/relational
 #' table or  data cubes, depending on which mart. Connection to data warehouse
@@ -47,15 +48,20 @@
 #' distinguish between the different architectures, this parameter needs to
 #' be named list, as either `sql` or `cube`. See `Examples`.
 #'
-#' @param phrdw_datamart `r lifecycle::badge('superseded')` Legacy mart
-#' designations provided by previous package authors. This backward-
-#' compatibility is meant to minimize changes on the user end. The `stable`
-#' approach is to reference `mart` and `type`.
-#' @param mart `r lifecycle::badge('stable')` Provide an appropriate mart
-#' name (non-case specific). Must be one of "CDI", "CD", "Respiratory",
-#' "Enteric", "STIBBI", and "VPD". Non case-sensitive.
-#' @param type `r lifecycle::badge('stable')` Provide an appropriate mart type
-#' (non-case specific). Must be one of "prod" (default), "su", or "sa".
+#' @param phrdw_datamart
+#' `r lifecycle::badge('superseded')`
+#' Legacy mart designations provided by previous package authors.
+#' This backward-compatibility is meant to minimize changes on the user end.
+#' The `stable` approach is to reference `mart` and `type`.
+#' @param mart
+#' `r lifecycle::badge('stable')`
+#' Provide an appropriate mart name (non-case specific).
+#' Must be one of "CDI", "CD", "Respiratory", "Enteric", "STIBBI", and "VPD".
+#' Non case-sensitive.
+#' #' @param type
+#' `r lifecycle::badge('stable')`
+#' Provide an appropriate mart type (non-case specific).
+#' Must be one of "prod" (default), "su", or "sa".
 #' Non case-sensitive. See `Details`.
 #' @param .conn_str Defaults to `NULL`. For advance usage or testing purposes:
 #'  if you are clear on the exact connection parameters,

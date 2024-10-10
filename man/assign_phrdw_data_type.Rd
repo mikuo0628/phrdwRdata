@@ -2,8 +2,7 @@
 % Please edit documentation in R/assign_phrdw_data_type.R
 \name{assign_phrdw_data_type}
 \alias{assign_phrdw_data_type}
-\title{Assigns a data type to specific columns. This function will only assign a numeric datatype for fields ending
-with _id or _key}
+\title{Assigns numeric datatype to datasets.}
 \usage{
 assign_phrdw_data_type(phrdw_dataset, phrdw_datamart)
 }
@@ -14,6 +13,9 @@ assign_phrdw_data_type(phrdw_dataset, phrdw_datamart)
 A data frame with numeric fields assigned.
 }
 \description{
-Assigns a data type to specific columns. This function will only assign a numeric datatype for fields ending
-with _id or _key
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+Assigns a data type to specific columns.
+This function will only assign a numeric datatype for fields ending
+with \verb{_id} or \verb{_key}
 }

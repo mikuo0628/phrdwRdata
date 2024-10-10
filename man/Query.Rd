@@ -11,6 +11,7 @@ Query(validate = F)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Query` constructs a "Query" object. Set functions are used to build and
 modify the Query axes and cube name.
 }

@@ -13,5 +13,7 @@ rename_phrdw_columns(phrdw_dataset)
 A data frame with renamed columns from a PHRDW query
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
 Function renames the columns for queries executed against a PHRDW Datamart
 }
