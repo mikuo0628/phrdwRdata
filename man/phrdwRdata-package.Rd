@@ -4,14 +4,28 @@
 \name{phrdwRdata-package}
 \alias{phrdwRdata}
 \alias{phrdwRdata-package}
-\title{phrdwRdata: What the Package Does (Title Case)}
+\title{phrdwRdata: Retrieve pre-built PHSA Datasets}
 \description{
-More about what it does (maybe more than one line) Use four spaces when indenting paragraphs within the Description.
+Efficient interface for for retrieving pre-built datasets. An ease-of-use wrapper that allows robust user defined filtering while abstracting away backend database connections, queries, complex joins, and dataset specific conditions.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://mikuo0628.github.io/phrdwRdata/}
+}
+
+}
+\author{
+\strong{Maintainer}: Michael Kuo \email{michael.kuo@bccdc.ca}
+
+Authors:
+\itemize{
+  \item Darren Frizzell (Original Author)
+}
+
+Other contributors:
+\itemize{
+  \item  BCCDC [copyright holder, funder]
 }
 
 }
