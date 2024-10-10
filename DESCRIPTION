@@ -1,11 +1,11 @@
 Package: phrdwRdata
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Retrieve pre-built PHSA Datasets
 Version: 1.0.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Efficient interface for for retrieving pre-built datasets.
+    An ease-of-use wrapper that allows robust user defined filtering while
+    abstracting away backend database connections, queries, complex joins, and
+    dataset specific conditions.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -23,13 +23,17 @@ Imports:
     stringr,
     tidyr,
     odbc,
-    glue,
     lubridate,
     lifecycle,
     janitor
 Depends: 
-    R (>= 2.10)
+    R (>= 4.00)
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://mikuo0628.github.io/phrdwRdata/
+Authors@R: c(
+    person("Michael", "Kuo", , "michael.kuo@bccdc.ca", role = "cre"),
+    person("Darren", "Frizzell", role = "aut", comment = c('Original Author')),
+    person(, "BCCDC", role = c("cph", "fnd"))
+  )
