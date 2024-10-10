@@ -81,7 +81,6 @@ system at PHSA.
 }
 
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
-
 Using \code{mart} and \code{type} is preferred. They are not case-sensitive and
 more readable.
 
