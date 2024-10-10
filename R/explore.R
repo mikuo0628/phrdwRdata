@@ -7,13 +7,18 @@
 #' information of the highest level.
 #'
 #' @param olapCnn Required. An OLAP connection string.
-#' Can be created with `connect_to_phrdw`.
+#'   Can be created with [connect_to_phrdw()].
+#'
 #' @param cube Optional. Cube name.
+#'
 #' @param dimension Optional. Dimension name.
+#'
 #' @param hierarchy Optional. Hierarchy name.
+#'
 #' @param level Optional. Level name.
 #'
 #' @return Character vector of cube(s) information.
+#'
 #' @export
 #'
 explore <- function(

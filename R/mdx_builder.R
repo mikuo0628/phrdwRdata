@@ -1,16 +1,19 @@
 #' MDX Builder: builds the SELECT statement on `columns` and `rows`.
 #'
 #' @param columns Character vector of measures, with name of dimension as the
-#' name of the list. Name defaults to `Measures`.
+#'   name of the list. Name defaults to `Measures`.
+#'
 #' @param rows Accepts `data.frame` with columns `dim`, `attr_hier`, and
-#' `lvl_memb`, or character list of hierarchies, with name of dimension as the
-#' name of the list.
+#'   `lvl_memb`, or character list of hierarchies, with name of dimension as
+#'   the name of the list.
+#'
 #' @param dim_props Must be `data.frame` with columns `dim`, `attr_hier`, and
-#' `lvl_memb`.
+#'   `lvl_memb`.
+#'
 #' @param .partial A named list of a single element, where name is either
-#' `head` or `tail`, and element is an integer. This will modify query to
-#' retrieve the first or last parts of data frame going by the default
-#' order.
+#'   `head` or `tail`, and element is an integer. This will modify query to
+#'   retrieve the first or last parts of data frame going by the default
+#'   order.
 #'
 #' @return A `sql`/`character` object.
 #'
@@ -155,20 +158,26 @@ mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
 #' MDX Builder: process filters, discrete or range, by date or other data types.
 #'
 #' @param discrete A `data.frame` object with 3 columns: `dim`, `attr`, and
-#' `memb`, for "dimension", "attribute", and "member". The attribute must belong
-#' to dimension, and member must belong to the attribute hierarchy.
-#' Each member to filter for should have its own row in this `data.frame`.
+#'   `memb`, for "dimension", "attribute", and "member". The attribute must
+#'   belong to dimension, and member must belong to the attribute hierarchy.
+#'   Each member to filter for should have its own row in this `data.frame`.
+#'
 #' @param range A `data.frame` object with 3 columns: `dim`, `attr`, and
-#' `memb`, for "dimension", "attribute", and "member". The attribute must belong
-#' to dimension, and member must belong to the attribute hierarchy.
-#' Two rows must be provided here with two different member values as the `from`
-#' and `to`.
-#' If no bounds, use `NULL` or "null".
+#'   `memb`, for "dimension", "attribute", and "member".
+#'   The attribute must belong to dimension, and member must belong to the
+#'   attribute hierarchy.
+
+#'   Two rows must be provided here with two different member values as
+#'   the `from` and `to`.
+#'
+#'   If no bounds, use `NULL` or "null".
+#'
 #' @param ... Reserved for future development.
+#'
 #' @param .as_lines Boolean value that if `TRUE` (default), returns a character
-#'  vector of properly spaced MDX filter clauses. This is needed as input to
-#'  `mdx_from` for formatting purposes. If `FALSE`, returns a single element
-#'  character vector, for printing purposes.
+#'   vector of properly spaced MDX filter clauses. This is needed as input to
+#'   `mdx_from` for formatting purposes. If `FALSE`, returns a single element
+#'   character vector, for printing purposes.
 #'
 #' @return Character vector.
 #'
@@ -306,8 +315,9 @@ mdx_filter <- function(discrete  = NULL,
 #' MDX Builder: builds the `FROM` clause, and incorporate any filters if needed.
 #'
 #' @param cube_name Cube name.
+#'
 #' @param ... Character vector of lines, which makes up the filter query
-#' build from `mdx_filters`.
+#'   build from `mdx_filters`.
 #'
 #' @return A `sql`/`character` object.
 #'

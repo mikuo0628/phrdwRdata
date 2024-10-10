@@ -1,9 +1,11 @@
 #' Executes an OLAP Cube connection and a multi-dimention MDX query
 #'
 #' @param olapCnn OLAP connection.
+#'
 #' @param mdx_qry MDX query.
 #'
 #' @return A `data.frame` object.
+#'
 #' @export
 #'
 executeMD <- function(olapCnn, mdx_qry) {

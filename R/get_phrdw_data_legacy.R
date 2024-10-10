@@ -7,28 +7,68 @@
 #' Function for querying and returning PHRDW data
 #'
 #' @param phrdw_datamart_connection A PHRDW connection object.
-#' @param phrdw_datamart The data mart to query.
-#' @param dataset_name The dataset to retrieve.
-#' @param query_start_date The start date of the data to retrieve.
-#' @param query_end_date The end date of the data to retrieve.
-#' @param include_patient_identifiers Sets whether to retrieve patient identifiers in a query. Only applicable to CD Data Mart. Default is FALSE.
-#' @param include_indigenous_identifiers Sets whether to retrieve patient identifiers in a query. Only applicable to CD Data Mart. Default is FALSE.
-#' @param retrieve_system_ids Sets whether to retrieve system ids in a query. Currenly Only applicable to Enteric Data Mart. Default is "Yes".
-#' @param disease A character vector of diseases to retrieve. Optional parameter.
-#' @param surveillance_condition A character vector of surveillance conditions to retrieve. Optional parameter.
-#' @param classification A character vector of classifications to retrieve. Optional parameter.
-#' @param surveillance_region_ha A character vector of Health Region Authorities to retrieve. Use this variable to pull data by where the Patient lived. Optional parameter.
-#' @param infection_group A character vector of infection groups to retrieve. Optional parameter.
-#' @param ordering_provider_ha A character vector of Health Region Authorities to retrieve. Use this variable to pull data by Ordering Provider Health Authorities. Optional parameter.
-#' @param lis_status A character vector of case level statuses about the LIS data in a Case. Optional parameter.
-#' @param episode_status A character vector of episode statuses from the LIS result processing and rule engine. Optional parameter.
-#' @param test_type A character vector of the types of tests to retrieve. Optional parameter.
-#' @param episode_testing_pattern A character vector of testing patterns to retrieve. Optional parameter.
-#' @param testing_region_ha A character vector of the testing regions to retrieve. Optional parameter.
-#' @param case_status A character vector of the case statuses to retrieve. Optional parameter.
-#' @param case_source A character vector of the case sources to retrieve. Optional parameter.
 #'
-#' @return A data frame with the dataset retrieved from the specified PHRDW data mart.
+#' @param phrdw_datamart The data mart to query.
+#'
+#' @param dataset_name The dataset to retrieve.
+#'
+#' @param query_start_date The start date of the data to retrieve.
+#'
+#' @param query_end_date The end date of the data to retrieve.
+#'
+#' @param include_patient_identifiers Sets whether to retrieve patient
+#'   identifiers in a query. Only applicable to CD Data Mart. Default is FALSE.
+#'
+#' @param include_indigenous_identifiers Sets whether to retrieve patient
+#'   identifiers in a query. Only applicable to CD Data Mart. Default is FALSE.
+#'
+#' @param retrieve_system_ids Sets whether to retrieve system ids in a query.
+#'   Currenly Only applicable to Enteric Data Mart. Default is "Yes".
+#'
+#' @param disease A character vector of diseases to retrieve.
+#'   Optional parameter.
+#'
+#' @param surveillance_condition A character vector of surveillance conditions
+#'   to retrieve. Optional parameter.
+#'
+#' @param classification A character vector of classifications to retrieve.
+#'   Optional parameter.
+#'
+#' @param surveillance_region_ha A character vector of Health Region
+#'   Authorities to retrieve. Use this variable to pull data by where the
+#'   Patient lived. Optional parameter.
+#'
+#' @param infection_group A character vector of infection groups to retrieve.
+#'   Optional parameter.
+#'
+#' @param ordering_provider_ha A character vector of Health Region
+#'   Authorities to retrieve. Use this variable to pull data by Ordering
+#'   Provider Health Authorities. Optional parameter.
+#'
+#' @param lis_status A character vector of case level statuses about the LIS
+#'   data in a Case. Optional parameter.
+#'
+#' @param episode_status A character vector of episode statuses from the LIS
+#'   result processing and rule engine. Optional parameter.
+#'
+#' @param test_type A character vector of the types of tests to retrieve.
+#'   Optional parameter.
+#'
+#' @param episode_testing_pattern A character vector of testing patterns to
+#'   retrieve. Optional parameter.
+#'
+#' @param testing_region_ha A character vector of the testing regions to
+#'   retrieve. Optional parameter.
+#'
+#' @param case_status A character vector of the case statuses to retrieve.
+#'   Optional parameter.
+#'
+#' @param case_source A character vector of the case sources to retrieve.
+#' Optional parameter.
+#'
+#' @return A data frame with the dataset retrieved from the specified PHRDW
+#'   data mart.
+#'
 get_phrdw_data_legacy <- function(
     phrdw_datamart_connection,
     phrdw_datamart,

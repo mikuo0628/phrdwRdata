@@ -7,14 +7,26 @@
 #' Function for querying and returning PHRDW CDI data
 #'
 #' @param phrdw_datamart_connection A PHRDW connection object.
+#'
 #' @param phrdw_datamart The data mart to query.
+#'
 #' @param dataset_name The dataset to retrieve.
+#'
 #' @param query_start_date The start date of the data to retrieve.
+#'
 #' @param query_end_date The end date of the data to retrieve.
-#' @param ucd_3char_code A character vector of UCD Codes to retrieve. Optional parameter.
-#' @param ccd_3char_code A character vector of CCD Codes to retrieve. Optional parameter.
-#' @param residential_location_ha A character vector of BC Health Authorities associated with decedent's usual residence. Optional parameter.
-#' @param death_location_ha A character vector of BC Health Authorities associated with the location of death. Optional parameter.
+#'
+#' @param ucd_3char_code A character vector of UCD Codes to retrieve.
+#'   Optional parameter.
+#'
+#' @param ccd_3char_code A character vector of CCD Codes to retrieve.
+#'   Optional parameter.
+#'
+#' @param residential_location_ha A character vector of BC Health Authorities
+#'   associated with decedent's usual residence. Optional parameter.
+#'
+#' @param death_location_ha A character vector of BC Health Authorities
+#'   associated with the location of death. Optional parameter.
 #'
 #' @return A data frame with the dataset retrieved from the specified PHRDW data mart.
 #'

@@ -7,10 +7,11 @@
 #' to OLAP.
 #'
 #' @param conn_str Connection string that requires `Initial Catalog`, which is
-#' the name of the data mart, `Data Source`, `Provider=MSOLAP`, and
-#' `Packet Size=32767` for PHRDW OLAP server.
+#'   the name of the data mart, `Data Source`, `Provider=MSOLAP`, and
+#'   `Packet Size=32767` for PHRDW OLAP server.
 #'
 #' @return A character string with class `OLAP_Conn`.
+#'
 #' @export
 #'
 OlapConnection <- function(

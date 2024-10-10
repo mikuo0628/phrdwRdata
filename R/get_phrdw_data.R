@@ -14,103 +14,134 @@
 #'
 #' The modern form, on the other hand, is invoked by a simple `mart` and/or
 #' `type`, which streamlines the process, allows additional features, and
-#' avoids redundant inputs such as `phrdw_datamart` in both `connect_to_phrdw`
-#' and `get_phrdw_data`.
+#' avoids redundant inputs such as `phrdw_datamart` in both
+#' [connect_to_phrdw()] and [get_phrdw_data()].
 #'
 #' @inherit connect_to_phrdw details
 #'
-#' @param phrdw_datamart_connection
-#' `r lifecycle::badge('superseded')`
-#' Legacy function design: supply a connection object created by
-#' [phrdwRdata::connect_to_phrdw()]. Recommend using `mart` and `type`
-#' instead for flexibility (see [phrdwRdata::connect_to_phrdw()]).
-#' The function takes care of connecting
-#' to the appropriate PHRDW database and disconnect after performing the
-#' requested data filtering and retrieving.
+#' @param phrdw_datamart_connection `r lifecycle::badge('superseded')`
+#'
+#'   Legacy function design: supply a connection object created by
+#'   [phrdwRdata::connect_to_phrdw()]. Recommend using `mart` and `type`
+#'   instead for flexibility (see [phrdwRdata::connect_to_phrdw()]).
+#'   The function takes care of connecting
+#'   to the appropriate PHRDW database and disconnect after performing the
+#'   requested data filtering and retrieving.
+#'
 #' @param dataset_name The name of the pre-built dataset to retrieve.
+#'
 #' @param query_start_date Start date of your dataset. Can accept character date.
-#' Defaults to `NULL`, which indicates no lower bound.
+#'   Defaults to `NULL`, which indicates no lower bound.
+#'
 #' @param query_end_date End date of your dataset. Can accept character date.
-#' Defaults to `NULL`, which indicates no upper bound.
+#'   Defaults to `NULL`, which indicates no upper bound.
+#'
 #' @param include_patient_identifiers Whether to include patient identifier
-#' information. Accepts Boolean values. Defaults to `FALSE`. Note: user needs
-#' to have access, otherwise data restriction may return unintended results.
+#'   information. Accepts Boolean values. Defaults to `FALSE`. Note: user needs
+#'   to have access, otherwise data restriction may return unintended results.
+#'
 #' @param include_indigenous_identifiers Whether to include indigenous
-#' identifier information. Accepts Boolean values. Defaults to `FALSE`. Note:
-#' user needs to have access, otherwise data restriction may return unintended
-#' results.
+#'   identifier information. Accepts Boolean values. Defaults to `FALSE`. Note:
+#'   user needs to have access, otherwise data restriction may return
+#'   unintended results.
+#'
 #' @param retrieve_system_ids Whether to include systems IDs in the dataset.
-#' Currently only applies to `Enteric` datamart. Defaults to legacy value "Yes",
-#' but can accept Boolean, and no longer case-specific.
+#'  Currently only applies to `Enteric` datamart. Defaults to legacy value "Yes",
+#'  but can accept Boolean, and no longer case-specific.
+#'
 #' @param disease Optional. Character vector of diseases. Only applicable to
-#' some datasets.
+#'   some datasets.
+#'
 #' @param surveillance_condition Optional. Character vector of surveillance
-#' conditions. Only for applicable datasets.
+#'   conditions. Only for applicable datasets.
+#'
 #' @param classification Optional. Character vector of classifications.
-#' Only for applicable datasets.
+#'   Only for applicable datasets.
+#'
 #' @param surveillance_region_ha Optional. Character vector of Health Region
-#' Authorities where the Patient lives/lived. Only for applicable datasets.
+#'   Authorities where the Patient lives/lived. Only for applicable datasets.
+#'
 #' @param infection_group Optional. Character vector of infection groups.
-#' Only for applicable datasets.
+#'   Only for applicable datasets.
+#'
 #' @param ordering_provider_ha Optional. Character vector of Health Region
-#' Authorities where the Ordering Provide resides.
-#' Only for applicable datasets.
+#'   Authorities where the Ordering Provide resides.
+#'   Only for applicable datasets.
+#'
 #' @param lis_status Optional. Character vector of case level statuses about
-#' the LIS data in a Case. Only for applicable datasets.
+#'   the LIS data in a Case. Only for applicable datasets.
+#'
 #' @param episode_status Optional. Character vector of episode statuses from the
-#' LIS result processing and rule engine. Only for applicable datasets.
+#'   LIS result processing and rule engine. Only for applicable datasets.
+#'
 #' @param test_type Optional. Character vector of the types of tests. Only for
-#' applicable datasets.
+#'   applicable datasets.
+#'
 #' @param episode_testing_pattern Optional. Character vector of testing patterns.
-#' Only for applicable datasets.
+#'   Only for applicable datasets.
+#'
 #' @param testing_region_ha Optional. Character vector of testing Health Region
-#' Authorities. Only for applicable datasets.
+#'   Authorities. Only for applicable datasets.
+#'
 #' @param case_status Optional. Character vector of case status. Only for
-#' applicable datasets.
+#'   applicable datasets.
+#'
 #' @param case_source Optional. Character vector of case status. Only for
-#' applicable datasets.
+#'   applicable datasets.
+#'
 #' @param ucd_3_char_code Optional. Character vector of UCD 3-character codes.
-#' Only for applicable CDI datasets.
+#'   Only for applicable CDI datasets.
+#'
 #' @param ccd_3_char_code Optional. Character vector of CCD 3-character codes.
-#' Only for applicable CDI datasets.
+#'   Only for applicable CDI datasets.
+#'
 #' @param residential_location_ha Optional. Character vector of BC Health
-#' Authorities associated with decedant's usual residence.
-#' Only for applicable CDI datasets.
+#'   Authorities associated with decedant's usual residence.
+#'   Only for applicable CDI datasets.
+#'
 #' @param death_location_ha Optional. Character vector of BC Health
-#' Authorities associated with decedant's location of death.
-#' Only for applicable CDI datasets.
-#' @param .partial
-#' `r lifecycle::badge('experimental')`
-#' Takes a named list of single integer, where the name must be one of
-#' "head" or "tail". The appropriate `head` or `tail` function will be
-#' applied and the integer specifies number of rows to return. Only `head`
-#' works with OLAP queries, while both `head` and `tail` work with SQL queries.
-#' @param .check_params
-#' `r lifecycle::badge('stable')`
-#' Can accept Boolean or character values.
+#'   Authorities associated with decedant's location of death.
+#'   Only for applicable CDI datasets.
 #'
-#' Boolean `TRUE` will return general info of the dataset:
-#' For MDX queries: dimensions, hierarchies, and levels if possible, and
-#' hierarchies for default filters.
-#' For SQL queries: column names as they are in the source tables, and what
-#' they are renamed to, and columns for default filters.
+#' @param .partial `r lifecycle::badge('experimental')`
 #'
-#' On the other hand, user can supply hierarchy or column names retrieved from
-#' the above as character vector, and a list of the cardinal levels will
-#' return. Useful to check for typos, or available names to filter for.
+#'   Takes a named list of single integer, where the name must be one of
+#'   "head" or "tail". The appropriate `head` or `tail` function will be
+#'   applied and the integer specifies number of rows to return. Only `head`
+#'   works with OLAP queries, while both `head` and `tail` work with
+#'   SQL queries.
+#'
+#' @param .check_params `r lifecycle::badge('stable')`
+#'
+#'   Can accept Boolean or character values.
+#'
+#'   Boolean `TRUE` will return general info of the dataset:
+#'   For MDX queries: dimensions, hierarchies, and levels if possible, and
+#'   hierarchies for default filters.
+#'   For SQL queries: column names as they are in the source tables, and what
+#'   they are renamed to, and columns for default filters.
+#'
+#'   On the other hand, user can supply hierarchy or column names retrieved from
+#'   the above as character vector, and a list of the cardinal levels will
+#'   return. Useful to check for typos, or available names to filter for.
+#'
 #' @param .return_query Boolean value. Whether to return query or not.
+#'
 #' @param .return_data Boolean value. Whether to return data or not.
+#'
 #' @param .clean_data Boolean value. Whether to attempt cleaning the dates in
-#' data or not.
-#' @param .query_info
-#' `r lifecycle::badge('experimental')`
-#' A user supplied `data.frame` object similar to
-#' [phrdwRdata::list_query_info()], on which the appropriate operation will
-#' take place and retrieve specified data.
+#'   data or not.
+#'
+#' @param .query_info `r lifecycle::badge('experimental')`
+#'
+#'   A user supplied `data.frame` object similar to
+#'   [phrdwRdata::list_query_info()], on which the appropriate operation will
+#'   take place and retrieve specified data.
+#'
 #' @inheritParams connect_to_phrdw
 #'
 #' @return Depending on user input, a `data.frame` or `tibble` or character
-#' string.
+#'   string.
 #'
 #' @examples
 #' \dontrun{

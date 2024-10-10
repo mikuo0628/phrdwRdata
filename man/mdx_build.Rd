@@ -21,8 +21,8 @@ mdx_build(
 name of the list. Name defaults to \code{Measures}.}
 
 \item{rows}{Accepts \code{data.frame} with columns \code{dim}, \code{attr_hier}, and
-\code{lvl_memb}, or character list of hierarchies, with name of dimension as the
-name of the list.}
+\code{lvl_memb}, or character list of hierarchies, with name of dimension as
+the name of the list.}
 
 \item{dim_props}{Must be \code{data.frame} with columns \code{dim}, \code{attr_hier}, and
 \code{lvl_memb}.}
@@ -33,15 +33,17 @@ retrieve the first or last parts of data frame going by the default
 order.}
 
 \item{discrete}{A \code{data.frame} object with 3 columns: \code{dim}, \code{attr}, and
-\code{memb}, for "dimension", "attribute", and "member". The attribute must belong
-to dimension, and member must belong to the attribute hierarchy.
+\code{memb}, for "dimension", "attribute", and "member". The attribute must
+belong to dimension, and member must belong to the attribute hierarchy.
 Each member to filter for should have its own row in this \code{data.frame}.}
 
 \item{range}{A \code{data.frame} object with 3 columns: \code{dim}, \code{attr}, and
-\code{memb}, for "dimension", "attribute", and "member". The attribute must belong
-to dimension, and member must belong to the attribute hierarchy.
-Two rows must be provided here with two different member values as the \code{from}
-and \code{to}.
+\code{memb}, for "dimension", "attribute", and "member".
+The attribute must belong to dimension, and member must belong to the
+attribute hierarchy.
+Two rows must be provided here with two different member values as
+the \code{from} and \code{to}.
+
 If no bounds, use \code{NULL} or "null".}
 }
 \value{

@@ -6,7 +6,7 @@
 #' SQL query accordingly.
 #'
 #' @return Depending on user input, `tibble`, SQL string, or print dataset
-#' metadata.
+#'   metadata.
 #'
 sql_handler <- function() {
 
