@@ -29,6 +29,7 @@ A \code{sql}/\code{character} object.
 MDX Builder: builds the SELECT statement on \code{columns} and \code{rows}.
 }
 \examples{
+\dontrun{
 mdx_select(
   'Case Count',
   set_names(
@@ -49,5 +50,6 @@ mdx_select(
     'Case - Age at Earliest Date'
   )
 )
+}
 
 }

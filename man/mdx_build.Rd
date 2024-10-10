@@ -53,6 +53,7 @@ A \code{sql}/\code{character} object.
 MDX builder: takes all MDX functions and build query.
 }
 \examples{
+\dontrun{
 phrdwRdata::mdx_build(
   cube_name = 'StibbiDM',
   columns = 'Case Count',
@@ -80,5 +81,6 @@ phrdwRdata::mdx_build(
       memb = c('2019-01-01', '2019-02-02')
     )
 )
+}
 
 }

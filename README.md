@@ -66,7 +66,7 @@ install.packages(
 
 ## Usages
 
-All legacy functionality is retained. Please read `vignette('Legacy')`
+All legacy functionality is retained. Please read `vignette('Legacy')`.
 
 ### What’s new?
 
@@ -147,7 +147,7 @@ phrdwRdata::get_phrdw_data(
 
   - Dates can be character strings, and handles open bounds gracefully.
 
-- Troubleshooting
+- Troubleshooting messages and tools.
 
   - Meaningful error messages for users to troubleshoot.
 
