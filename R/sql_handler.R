@@ -303,13 +303,17 @@ sql_handler <- function() {
                 ifelse(stringr::str_detect(.y, 'start'), '>=', '<='),
                 .x
               )
-            ) %>%
+            )
+
+          if (length(filter_date) == 0) return(NULL)
+
+          filter_date <-
+            filter_date %>%
             paste(col, .) %>%
             purrr::map(rlang::parse_expr)
 
           dfs_views[[alias]] <<-
             dfs_views[[alias]] %>% dplyr::filter(!!!filter_date)
-
 
         }
       )
