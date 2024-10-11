@@ -12,7 +12,7 @@
 #' List of values to supply `phrdw_datamart`. Case sensitive.
 #' * `CDI`: Chronic Disease & Injury; links data from Vital Statistics
 #'   death records and census-based socio-economic data.
-#' * `CD`: Communicable Diseases; contains communicable disease public
+#' * `CD Mart`: Communicable Diseases; contains communicable disease public
 #'   health investigation data from the Panorama public health system.
 #' * `Enteric`: Enteric; links data from the Panorama
 #'   public health system and the Sunquest laboratory information

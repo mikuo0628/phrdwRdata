@@ -60,7 +60,7 @@ List of values to supply \code{phrdw_datamart}. Case sensitive.
 \itemize{
 \item \code{CDI}: Chronic Disease & Injury; links data from Vital Statistics
 death records and census-based socio-economic data.
-\item \code{CD}: Communicable Diseases; contains communicable disease public
+\item \verb{CD Mart}: Communicable Diseases; contains communicable disease public
 health investigation data from the Panorama public health system.
 \item \code{Enteric}: Enteric; links data from the Panorama
 public health system and the Sunquest laboratory information
