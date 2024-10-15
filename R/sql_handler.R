@@ -132,13 +132,31 @@ sql_handler <- function() {
       if (is.character(.check_params)) {
 
         cat(paste0('===== Levels for `', .check_params, '` are:\n\n'))
-        dfs_views[[
-          .query_info %>%
-            dplyr::filter(.data$col == .check_params) %>%
-            dplyr::pull(alias)
-        ]] %>%
-          dplyr::count(!!rlang::sym(.check_params)) %>%
-          dplyr::pull(1) %>%
+        .query_info %>%
+          dplyr::filter(
+            .data$col == .check_params | .data$as == .check_params
+          ) %>%
+          dplyr::mutate(
+            .keep = 'none',
+            alias, col = dplyr::coalesce(as, col)
+          ) %>%
+          dplyr::distinct() %>%
+          dplyr::group_by(alias) %>%
+          dplyr::summarise(col = list(col)) %>%
+          purrr::pmap(
+            function(alias, col) {
+
+              dfs_views[[alias]] %>%
+                dplyr::select(
+                  tidyselect::matches(paste0('^', col, '$'))
+                )
+
+            }
+          ) %>%
+          purrr::map(~ dplyr::count(.x, !!rlang::sym(colnames(.x)))) %>%
+          purrr::map(dplyr::pull, 1) %>%
+          unlist() %>%
+          unique() %>%
           sort(na.last = T) %>%
           paste('  -', ., collapse = '\n') %>%
           cat

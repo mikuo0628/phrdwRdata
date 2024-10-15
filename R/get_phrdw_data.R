@@ -233,7 +233,7 @@ get_phrdw_data <- function(
     .partial                       = NULL,
     .check_params                  = F,
     .return_query                  = F,
-    .return_data                   = !(.return_query || isTRUE(.check_params)),
+    .return_data                   = !(.return_query || isTRUE(.check_params) || is.character(.check_params)),
     .clean_data                    = F,
     .query_info                    = NULL,
     .cte                           = F,
