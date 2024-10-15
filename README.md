@@ -115,9 +115,9 @@ All legacy functionality is retained. Please read `vignette('Legacy')`.
       user  system elapsed 
       1.54    0.45   10.09 
 
-- There is also an experimental `common table expression` (CTE)parameter
-  which will attempt to execute SQL queries as CTEs using `WITH` instead
-  as subqueries.
+- There is also an experimental `common table expression` (CTE)
+  parameter which will attempt to execute SQL queries as CTEs using
+  `WITH` instead as subqueries.
 
 - Using the function is now more streamlined with less repetition.
 
@@ -217,4 +217,5 @@ phrdwRdata::get_phrdw_data(
   - Examine dataset metadata.
 
 - Beyond the default built-in filters: users can leverage metadata info
-  and dynamic dots to query with additional filters.
+  and dynamic dots to query with additional filters. See Examples in
+  [phrdwRdata::get_phrdw_data()](https://mikuo0628.github.io/phrdwRdata/reference/get_phrdw_data.html).
