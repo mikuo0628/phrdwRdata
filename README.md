@@ -25,7 +25,7 @@ pipeline.
 The best way to install is via Github. This ensures up-to-date
 functionality and bug fixes.
 
-To install from Github, you will require additional packages, such as
+To install from Github, you may require additional packages, such as
 `devtools` or `renv`.
 
 ``` r
@@ -70,6 +70,13 @@ All legacy functionality is retained. Please read `vignette('Legacy')`.
 
 ### What’s new?
 
+- `phrdwRdata` can be used outside the Microsoft R client (ver 3.5.2),
+  in newer R versions, and does not require `olapR`.
+
+- Installation of this package is available and preferred, as opposed to
+  side-loading a pre-compiled version stored on the network drive, which
+  can lead to unexpected issues.
+
 - Datasets retrieved from SQL now leverages
   [`dbplyr`](https://dbplyr.tidyverse.org/).
 
@@ -107,6 +114,10 @@ All legacy functionality is retained. Please read `vignette('Legacy')`.
       # Stable
       user  system elapsed 
       1.54    0.45   10.09 
+
+- There is also an experimental `common table expression` (CTE)parameter
+  which will attempt to execute SQL queries as CTEs using `WITH` instead
+  as subqueries.
 
 - Using the function is now more streamlined with less repetition.
 

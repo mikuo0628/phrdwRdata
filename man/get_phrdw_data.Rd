@@ -35,9 +35,10 @@ get_phrdw_data(
   .partial = NULL,
   .check_params = F,
   .return_query = F,
-  .return_data = !.return_query,
+  .return_data = !(.return_query || isTRUE(.check_params) || is.character(.check_params)),
   .clean_data = F,
   .query_info = NULL,
+  .cte = F,
   ...
 )
 }
@@ -178,6 +179,16 @@ data or not.}
 A user supplied \code{data.frame} object similar to
 'phrdwRdata:::list_query_info', on which the appropriate operation will
 take place and retrieve specified data.}
+
+\item{.cte}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Experimental support for common table expressions (CTEs). Defaults to
+\code{FALSE}.
+This is the equivalent of \code{pipe}, which in essence allows writing
+subqueries in the order in which they are evaluated. Supported in
+\code{\link[dplyr:explain]{dplyr::show_query()}}, \code{\link[dplyr:compute]{dplyr::compute()}}, and \code{\link[dplyr:compute]{dplyr::collect()}}. This
+is one of the ways to optimize SQL execution: using CTEs \code{WITH} instead of
+subqueries.}
 }
 \value{
 Depending on user input, a \code{data.frame} or \code{tibble} or character
@@ -246,44 +257,6 @@ distinguish between the different architectures, this parameter needs to
 be named list, as either \code{sql} or \code{cube}. See \code{Examples}.
 }
 \examples{
-\dontrun{
-# Legacy ------------------------------------------------------------------
-
-# CD mart
-phrdw_datamart          <- 'CD Mart'
-dataset_name            <- 'Investigation'
-query_start_date        <- as.Date('2016-01-01')
-query_end_date          <- as.Date('2018-01-01')
-surveillance_conditions <- c('Legionella Infection')
-classifications         <- c('Confirmed', 'Confirmed Epi-Linked')
-surveillance_HAs        <- c('Interior', 'Fraser')
-
-investigation_dataset <-
-  get_phrdw_data(
-    phrdw_datamart_connection = connect_to_phrdw(phrdw_datamart),
-    phrdw_datamart            = phrdw_datamart,
-    dataset_name              = dataset_name,
-    query_start_date          = query_start_date,
-    query_end_date            = query_end_date,
-    surveillance_condition    = surveillance_conditions,
-    classification            = classifications,
-    surveillance_region_ha    = surveillance_HAs
-  )
-
-# Stable ------------------------------------------------------------------
-
-investigation_dataset <-
-  get_phrdw_data(
-    mart                      = 'CD',
-    dataset_name              = dataset_name,
-    query_start_date          = query_start_date,
-    query_end_date            = query_end_date,
-    surveillance_condition    = surveillance_conditions,
-    classification            = classifications,
-    surveillance_region_ha    = surveillance_HAs
-  )
-
-
-}
+examples/ex-get_phrdw_data.R
 
 }

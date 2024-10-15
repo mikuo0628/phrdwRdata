@@ -79,7 +79,7 @@ investigations where no Risk Factors, Signs & Symptoms or User Defined forms
 where completed, a `LEFT JOIN` back to the `Investigation` dataset is required.
 
 ```{r}
-#| title:   non-tb-datasets
+#| label:   non-tb-datasets
 #| eval:    true
 #| echo:    false
 #| message: false
@@ -140,7 +140,7 @@ phrdwRdata:::list_query_info$sql %>%
 ## Tuberculosis Datasets
 
 ```{r}
-#| title:   tb-datasets
+#| label:   tb-datasets
 #| eval:    true
 #| echo:    false
 #| message: false
