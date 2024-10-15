@@ -110,9 +110,10 @@ avoids redundant inputs such as <code>phrdw_datamart</code> in both
 <span>  .partial <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .check_params <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  .return_query <span class="op">=</span> <span class="cn">F</span>,</span>
-<span>  .return_data <span class="op">=</span> <span class="op">!</span><span class="va">.return_query</span>,</span>
+<span>  .return_data <span class="op">=</span> <span class="op">!</span><span class="op">(</span><span class="va">.return_query</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="va">.check_params</span><span class="op">)</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">is.character</a></span><span class="op">(</span><span class="va">.check_params</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  .clean_data <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  .query_info <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .cte <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -314,6 +315,17 @@ data or not.</p></dd>
 'phrdwRdata:::list_query_info', on which the appropriate operation will
 take place and retrieve specified data.</p></dd>
 
+
+<dt id="arg--cte">.cte<a class="anchor" aria-label="anchor" href="#arg--cte"></a></dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
+<p>Experimental support for common table expressions (CTEs). Defaults to
+<code>FALSE</code>.
+This is the equivalent of <code>pipe</code>, which in essence allows writing
+subqueries in the order in which they are evaluated. Supported in
+<code><a href="https://dplyr.tidyverse.org/reference/explain.html" class="external-link">dplyr::show_query()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">dplyr::compute()</a></code>, and <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">dplyr::collect()</a></code>. This
+is one of the ways to optimize SQL execution: using CTEs <code>WITH</code> instead of
+subqueries.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -362,45 +374,8 @@ be named list, as either <code>sql</code> or <code>cube</code>. See <code>Exampl
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># Legacy ------------------------------------------------------------------</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># CD mart</span></span></span>
-<span class="r-in"><span><span class="va">phrdw_datamart</span>          <span class="op">&lt;-</span> <span class="st">'CD Mart'</span></span></span>
-<span class="r-in"><span><span class="va">dataset_name</span>            <span class="op">&lt;-</span> <span class="st">'Investigation'</span></span></span>
-<span class="r-in"><span><span class="va">query_start_date</span>        <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">'2016-01-01'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">query_end_date</span>          <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">'2018-01-01'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">surveillance_conditions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Legionella Infection'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">classifications</span>         <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Confirmed'</span>, <span class="st">'Confirmed Epi-Linked'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">surveillance_HAs</span>        <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Interior'</span>, <span class="st">'Fraser'</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">investigation_dataset</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>  <span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    phrdw_datamart_connection <span class="op">=</span> <span class="fu"><a href="connect_to_phrdw.html">connect_to_phrdw</a></span><span class="op">(</span><span class="va">phrdw_datamart</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    phrdw_datamart            <span class="op">=</span> <span class="va">phrdw_datamart</span>,</span></span>
-<span class="r-in"><span>    dataset_name              <span class="op">=</span> <span class="va">dataset_name</span>,</span></span>
-<span class="r-in"><span>    query_start_date          <span class="op">=</span> <span class="va">query_start_date</span>,</span></span>
-<span class="r-in"><span>    query_end_date            <span class="op">=</span> <span class="va">query_end_date</span>,</span></span>
-<span class="r-in"><span>    surveillance_condition    <span class="op">=</span> <span class="va">surveillance_conditions</span>,</span></span>
-<span class="r-in"><span>    classification            <span class="op">=</span> <span class="va">classifications</span>,</span></span>
-<span class="r-in"><span>    surveillance_region_ha    <span class="op">=</span> <span class="va">surveillance_HAs</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Stable ------------------------------------------------------------------</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">investigation_dataset</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>  <span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    mart                      <span class="op">=</span> <span class="st">'CD'</span>,</span></span>
-<span class="r-in"><span>    dataset_name              <span class="op">=</span> <span class="va">dataset_name</span>,</span></span>
-<span class="r-in"><span>    query_start_date          <span class="op">=</span> <span class="va">query_start_date</span>,</span></span>
-<span class="r-in"><span>    query_end_date            <span class="op">=</span> <span class="va">query_end_date</span>,</span></span>
-<span class="r-in"><span>    surveillance_condition    <span class="op">=</span> <span class="va">surveillance_conditions</span>,</span></span>
-<span class="r-in"><span>    classification            <span class="op">=</span> <span class="va">classifications</span>,</span></span>
-<span class="r-in"><span>    surveillance_region_ha    <span class="op">=</span> <span class="va">surveillance_HAs</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">examples</span><span class="op">/</span><span class="va">ex</span><span class="op">-</span><span class="va">get_phrdw_data.R</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'examples' not found</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
