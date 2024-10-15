@@ -199,7 +199,7 @@ Helps users retrieve pre-built datasets from specific datamarts, with the
 capacity to supply values to some default filters, such as dates and
 diseases.
 In addition to retrieving data, user can perform preliminary
-self-diagnosis to troubleshoot issues, return query instead of data, and
+self-diagnostics to troubleshoot issues, return query instead of data, and
 even supply filters outside the predefined default filters.
 
 This function retains the legacy form, which can be invoked by providing
@@ -257,6 +257,7 @@ distinguish between the different architectures, this parameter needs to
 be named list, as either \code{sql} or \code{cube}. See \code{Examples}.
 }
 \examples{
+
 \dontrun{
 
 # The bare minimum required user inputs are `mart` and `dataset_name`.
