@@ -21,3 +21,4 @@
 * Possiblity to include new tools/helper functions:
   * SSRS interface with `httr2` and `keyring`.
   * Centralize place for other functions?
+* Hex logo?
