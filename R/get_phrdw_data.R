@@ -138,6 +138,16 @@
 #'   'phrdwRdata:::list_query_info', on which the appropriate operation will
 #'   take place and retrieve specified data.
 #'
+#' @param .cte `r lifecycle::badge('experimental')`
+#'
+#'   Experimental support for common table expressions (CTEs). Defaults to
+#'   `FALSE`.
+#'   This is the equivalent of `pipe`, which in essence allows writing
+#'   subqueries in the order in which they are evaluated. Supported in
+#'   [dplyr::show_query()], [dplyr::compute()], and [dplyr::collect()]. This
+#'   is one of the ways to optimize SQL execution: using CTEs `WITH` instead of
+#'   subqueries.
+#'
 #' @inheritParams connect_to_phrdw
 #'
 #' @return Depending on user input, a `data.frame` or `tibble` or character
@@ -226,6 +236,7 @@ get_phrdw_data <- function(
     .return_data                   = !(.return_query || isTRUE(.check_params)),
     .clean_data                    = F,
     .query_info                    = NULL,
+    .cte                           = F,
     ...
 ) {
 
