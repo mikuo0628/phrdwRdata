@@ -153,7 +153,7 @@
 #' @return Depending on user input, a `data.frame` or `tibble` or character
 #'   string.
 #'
-#' @examples examples/ex-get_phrdw_data.R
+#' @example examples/ex-get_phrdw_data.R
 #'
 #' @export
 #'
