@@ -148,6 +148,10 @@
 #'   is one of the ways to optimize SQL execution: using CTEs `WITH` instead of
 #'   subqueries.
 #'
+#' @param ... User can supply named vector: names being the column or
+#' hierarchy name, and elements of the vector being the value to filter for.
+#' See `Details`.
+#'
 #' @inheritParams connect_to_phrdw
 #'
 #' @return Depending on user input, a `data.frame` or `tibble` or character
