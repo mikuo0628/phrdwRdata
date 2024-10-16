@@ -75,7 +75,7 @@
 #'   driver, and the element being the character string containing the specific
 #'   parameters. See `Details`.
 #'
-#' @param .return_conn_str: If `TRUE`, will return `character` vector instead
+#' @param .return_conn_str If `TRUE`, will return `character` vector instead
 #'   of connection objects. For troubleshooting purposes. Defaults to `FALSE`.
 #'
 #' @return By default, an `odbc` or `OLAP_Conn` connection object that can be

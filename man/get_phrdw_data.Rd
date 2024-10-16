@@ -189,6 +189,10 @@ subqueries in the order in which they are evaluated. Supported in
 \code{\link[dplyr:explain]{dplyr::show_query()}}, \code{\link[dplyr:compute]{dplyr::compute()}}, and \code{\link[dplyr:compute]{dplyr::collect()}}. This
 is one of the ways to optimize SQL execution: using CTEs \code{WITH} instead of
 subqueries.}
+
+\item{...}{User can supply named vector: names being the column or
+hierarchy name, and elements of the vector being the value to filter for.
+See \code{Details}.}
 }
 \value{
 Depending on user input, a \code{data.frame} or \code{tibble} or character

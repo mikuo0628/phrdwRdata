@@ -38,7 +38,7 @@ element is \code{cube} or \code{sql}, which will determine the appropriate conne
 driver, and the element being the character string containing the specific
 parameters. See \code{Details}.}
 
-\item{.return_conn_str:}{If \code{TRUE}, will return \code{character} vector instead
+\item{.return_conn_str}{If \code{TRUE}, will return \code{character} vector instead
 of connection objects. For troubleshooting purposes. Defaults to \code{FALSE}.}
 }
 \value{
