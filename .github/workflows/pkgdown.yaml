@@ -34,7 +34,7 @@ jobs:
 
       - uses: r-lib/actions/setup-renv@v2
         with:
-          cache-version: 2
+          cache-version: 1
 
       # - uses: r-lib/actions/setup-r-dependencies@v2
       #   with:
@@ -42,7 +42,7 @@ jobs:
       #     needs: website
 
       - name: Build site
-        run: pkgdown::build_site_github_pages(new_process = F, devel = T)
+        run: pkgdown::build_site_github_pages(new_process = T, install = T)
         shell: Rscript {0}
 
       - name: Deploy to GitHub pages 🚀
