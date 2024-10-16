@@ -41,6 +41,9 @@ jobs:
       #     extra-packages: any::pkgdown, local::.
       #     needs: website
 
+      - name: Install phrwRdata
+        run: devtools::install_github('mikuo0628/phrdwRdata')
+
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = F, install = F)
         shell: Rscript {0}
