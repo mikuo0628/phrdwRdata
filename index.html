@@ -58,9 +58,9 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p><code>phrdwRdata</code> is a package designed specifically for BCCDC users to easily pull and query pre-built datasets by abstracting away server connections, handling data sources, writing specific MDX or SQL queries, and table joining, etc.</p>
+<p><a href="https://mikuo0628.github.io/phrdwRdata/"><code>phrdwRdata</code></a> is a package designed specifically for BCCDC users to easily query and pull pre-built datasets by abstracting away server connections, handling data sources, writing specific MDX or SQL queries, and joining different fact tables, etc.</p>
 <p>Users can consistently pull data without in-depth domain knowledge pertaining to specific data sources or flows, nor the need to explore backend tables first follow by testing and validations.</p>
-<p>Users just need to provide simple parameters, such as query dates, disease name, health regions, and various other built-in filters specific to each dataset, and be able to proceed with their analyses or pipeline.</p>
+<p>Users just need to provide parameters, if they wish, such as query dates, disease name, health regions, and various other built-in filters specific to each dataset, and be able to proceed with their analyses or pipeline.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -103,40 +103,42 @@
 <h3 id="whats-new">What’s new?<a class="anchor" aria-label="anchor" href="#whats-new"></a>
 </h3>
 <ul>
-<li><p><code>phrdwRdata</code> can be used outside the Microsoft R client (ver 3.5.2), in newer R versions, and does not require <code>olapR</code>.</p></li>
-<li><p>Installation of this package is available and preferred, as opposed to side-loading a pre-compiled version stored on the network drive, which can lead to unexpected issues.</p></li>
-<li><p>Datasets retrieved from SQL now leverages <a href="https://dbplyr.tidyverse.org/" class="external-link"><code>dbplyr</code></a>.</p></li>
 <li>
-<p>Datasets retrieved from SQL are pre-optimized by performing <code>WHERE</code> on the joining tables first before <code>JOIN</code>. This improves performance on the initial call (ie. before internal caching).</p>
+<code>phrdwRdata</code> can now be used outside the Microsoft R client (ver 3.5.2), in newer R versions, and some previously required but deprecated (and thus could no longer be found) packages are no longer needed (<code>olapR</code>, <code>RODBCext</code>, etc).</li>
+<li>
+<em>Installation</em> of this package is available and preferred, as opposed to “side-loading” a pre-compiled version stored on the network drive, which can lead to unexpected issues (because the package is not compiled for your specific architecture).</li>
+<li>Datasets retrieved from SQL now leverages <a href="https://dbplyr.tidyverse.org/" class="external-link"><code>dbplyr</code></a>.</li>
+<li>Datasets retrieved from SQL are pre-optimized by performing <code>WHERE</code> on the joining tables first before <code>JOIN</code>. This improves performance on the initial call (ie. before internal caching).</li>
+</ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Legacy</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
-<span>  <span class="fu">phrdwRdata</span><span class="fu">::</span><span class="fu"><a href="reference/get_phrdw_data.html">get_phrdw_data</a></span><span class="op">(</span></span>
-<span>    phrdw_datamart_connection <span class="op">=</span> <span class="fu"><a href="reference/connect_to_phrdw.html">connect_to_phrdw</a></span><span class="op">(</span><span class="st">'CD Mart'</span><span class="op">)</span>,</span>
-<span>    phrdw_datamart            <span class="op">=</span> <span class="st">'CD Mart'</span>,</span>
-<span>    dataset_name              <span class="op">=</span> <span class="st">'Investigation'</span>,</span>
-<span>    query_start_date          <span class="op">=</span> <span class="st">'2021-01-01'</span>,</span>
-<span>    query_end_date            <span class="op">=</span> <span class="st">'2022-01-01'</span></span>
-<span>  <span class="op">)</span></span>
+<span> <span class="fu">phrdwRdata</span><span class="fu">::</span><span class="fu"><a href="reference/get_phrdw_data.html">get_phrdw_data</a></span><span class="op">(</span></span>
+<span>   phrdw_datamart_connection <span class="op">=</span> <span class="fu"><a href="reference/connect_to_phrdw.html">connect_to_phrdw</a></span><span class="op">(</span><span class="st">'CD Mart'</span><span class="op">)</span>,</span>
+<span>   phrdw_datamart            <span class="op">=</span> <span class="st">'CD Mart'</span>,</span>
+<span>   dataset_name              <span class="op">=</span> <span class="st">'Investigation'</span>,</span>
+<span>   query_start_date          <span class="op">=</span> <span class="st">'2021-01-01'</span>,</span>
+<span>   query_end_date            <span class="op">=</span> <span class="st">'2022-01-01'</span></span>
+<span> <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Stable</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
-<span>  <span class="fu">phrdwRdata</span><span class="fu">::</span><span class="fu"><a href="reference/get_phrdw_data.html">get_phrdw_data</a></span><span class="op">(</span></span>
-<span>    mart             <span class="op">=</span> <span class="st">'CD'</span>,</span>
-<span>    dataset_name     <span class="op">=</span> <span class="st">'Investigation'</span>,</span>
-<span>    query_start_date <span class="op">=</span> <span class="st">'2021-01-01'</span>,</span>
-<span>    query_end_date   <span class="op">=</span> <span class="st">'2022-01-01'</span></span>
-<span>  <span class="op">)</span></span>
+<span> <span class="fu">phrdwRdata</span><span class="fu">::</span><span class="fu"><a href="reference/get_phrdw_data.html">get_phrdw_data</a></span><span class="op">(</span></span>
+<span>   mart             <span class="op">=</span> <span class="st">'CD'</span>,</span>
+<span>   dataset_name     <span class="op">=</span> <span class="st">'Investigation'</span>,</span>
+<span>   query_start_date <span class="op">=</span> <span class="st">'2021-01-01'</span>,</span>
+<span>   query_end_date   <span class="op">=</span> <span class="st">'2022-01-01'</span></span>
+<span> <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Legacy</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>user  system elapsed </span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fl">1.27</span>    <span class="fl">0.42</span>   <span class="fl">22.06</span> </span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>   user  system elapsed </span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>   <span class="fl">1.35</span>    <span class="fl">0.67</span>   <span class="fl">22.58</span> </span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>   </span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co"># Stable</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>user  system elapsed </span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fl">1.54</span>    <span class="fl">0.45</span>   <span class="fl">10.09</span> </span></code></pre></div>
-</li>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>   user  system elapsed </span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>   <span class="fl">1.84</span>    <span class="fl">0.56</span>   <span class="fl">10.86</span> </span></code></pre></div>
+<ul>
 <li><p>There is also an experimental <code>common table expression</code> (CTE) parameter which will attempt to execute SQL queries as CTEs using <code>WITH</code> instead as subqueries.</p></li>
 <li>
 <p>Using the function is now more streamlined with less repetition.</p>
