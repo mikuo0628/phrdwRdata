@@ -57,7 +57,7 @@ connect_to_phrdw() and get_phrdw_data()."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Retrieve pre-built datasets from specific datamarts.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mikuo0628/phrdwRdata/blob/HEAD/R/get_phrdw_data.R" class="external-link"><code>R/get_phrdw_data.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mikuo0628/phrdwRdata/blob/main/R/get_phrdw_data.R" class="external-link"><code>R/get_phrdw_data.R</code></a></small>
       <div class="d-none name"><code>get_phrdw_data.Rd</code></div>
     </div>
 
@@ -380,136 +380,135 @@ be named list, as either <code>sql</code> or <code>cube</code>. See <code>Exampl
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The bare minimum required user inputs are `mart` and `dataset_name`.</span></span></span>
-<span class="r-in"><span><span class="co"># User input is simpler and not case-sensitive.</span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mart <span class="op">=</span> <span class="st">'cd'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Unlike the legacy approach, which would require more user input.</span></span></span>
-<span class="r-in"><span><span class="co"># User need to be wary of spelling and case.</span></span></span>
-<span class="r-in"><span><span class="co"># User also need to provide dates, even if the intent is to retrieve</span></span></span>
-<span class="r-in"><span><span class="co"># the entire dataset. Without date boundaries, unexpected output may return.</span></span></span>
-<span class="r-in"><span><span class="co"># Dates would need to go beyond what exist in the database, but user would not</span></span></span>
-<span class="r-in"><span><span class="co"># have known this info.</span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  phrdw_datamart_connection <span class="op">=</span> <span class="fu"><a href="connect_to_phrdw.html">connect_to_phrdw</a></span><span class="op">(</span>phrdw_datamart <span class="op">=</span> <span class="st">'CD Mart'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  phrdw_datamart <span class="op">=</span> <span class="st">'CD Mart'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'Investigation'</span>,</span></span>
-<span class="r-in"><span>  query_start_date <span class="op">=</span> <span class="st">'1900-01-01'</span>,</span></span>
-<span class="r-in"><span>  query_end_date   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Incorrect spelling will generate helpful message to assist user.</span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mart <span class="op">=</span> <span class="st">'dc'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mart <span class="op">=</span> <span class="st">'stibbi'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'investigations'</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Filter</span></span></span>
-<span class="r-in"><span><span class="co">## Some arguments are reserved for filters. These remain unchanged from before.</span></span></span>
-<span class="r-in"><span><span class="co">## They are case- and spelling-sensitive.</span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mart <span class="op">=</span> <span class="st">'cd'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span></span>
-<span class="r-in"><span>  disease <span class="op">=</span> <span class="st">'Anthrax'</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  phrdw_datamart_connection <span class="op">=</span> <span class="fu"><a href="connect_to_phrdw.html">connect_to_phrdw</a></span><span class="op">(</span>phrdw_datamart <span class="op">=</span> <span class="st">'CD Mart'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  phrdw_datamart <span class="op">=</span> <span class="st">'CD Mart'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'Investigation'</span>,</span></span>
-<span class="r-in"><span>  query_start_date <span class="op">=</span> <span class="st">'1900-01-01'</span>,</span></span>
-<span class="r-in"><span>  query_end_date   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  disease <span class="op">=</span> <span class="st">'Anthrax'</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mart <span class="op">=</span> <span class="st">'stibbi'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span></span>
-<span class="r-in"><span>  disease <span class="op">=</span> <span class="st">'Chlamydia'</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  phrdw_datamart_connection <span class="op">=</span> <span class="fu"><a href="connect_to_phrdw.html">connect_to_phrdw</a></span><span class="op">(</span>phrdw_datamart <span class="op">=</span> <span class="st">'STIBBI'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  phrdw_datamart <span class="op">=</span> <span class="st">'STIBBI'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'Investigation'</span>,</span></span>
-<span class="r-in"><span>  query_start_date <span class="op">=</span> <span class="st">'1900-01-01'</span>,</span></span>
-<span class="r-in"><span>  query_end_date   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  disease <span class="op">=</span> <span class="st">'Chlamydia'</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Troubleshooting</span></span></span>
-<span class="r-in"><span><span class="co">## User can opt to return query instead of data.</span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mart <span class="op">=</span> <span class="st">'cd'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span></span>
-<span class="r-in"><span>  .return_query <span class="op">=</span> <span class="cn">T</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># User can use `.check_params` to examine basic dataset metainfo such as</span></span></span>
-<span class="r-in"><span><span class="co"># column names and what's being used to filter by default.</span></span></span>
-<span class="r-in"><span><span class="co"># Note: the output format may look different depending on data source being</span></span></span>
-<span class="r-in"><span><span class="co"># RDBMS or OLAP (ie. relational DB or data cube).</span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mart <span class="op">=</span> <span class="st">'cd'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span></span>
-<span class="r-in"><span>  .check_params <span class="op">=</span> <span class="cn">T</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mart <span class="op">=</span> <span class="st">'stibbi'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span></span>
-<span class="r-in"><span>  .check_params <span class="op">=</span> <span class="cn">T</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># When `.check_params` is supplied with the name of the column (or</span></span></span>
-<span class="r-in"><span><span class="co"># hierarchy), it will return (nominal) levels.</span></span></span>
-<span class="r-in"><span><span class="co"># Use with caution: it can return dates and street addresses and that would be</span></span></span>
-<span class="r-in"><span><span class="co"># a long list.</span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mart <span class="op">=</span> <span class="st">'cd'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span></span>
-<span class="r-in"><span>  .check_params <span class="op">=</span> <span class="st">'source_system'</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mart <span class="op">=</span> <span class="st">'stibbi'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span></span>
-<span class="r-in"><span>  .check_params <span class="op">=</span> <span class="st">'Source System'</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Customize filtering (only available in stable usage)</span></span></span>
-<span class="r-in"><span><span class="co">## Knowing columns and levels can be helpful, as these values can be passed</span></span></span>
-<span class="r-in"><span><span class="co">## into the function for customized filtering:</span></span></span>
-<span class="r-in"><span><span class="co">## 1. Enclose the column name with backticks.</span></span></span>
-<span class="r-in"><span><span class="co">## 2. Pass the value to filter.</span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mart <span class="op">=</span> <span class="st">'cd'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span></span>
-<span class="r-in"><span>  `source_system` <span class="op">=</span> <span class="st">'EMR'</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">get_phrdw_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mart <span class="op">=</span> <span class="st">'stibbi'</span>,</span></span>
-<span class="r-in"><span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span></span>
-<span class="r-in"><span>  `Source System` <span class="op">=</span> <span class="st">'EMR'</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-</code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span>
+<span></span>
+<span><span class="co"># The bare minimum required user inputs are `mart` and `dataset_name`.</span></span>
+<span><span class="co"># User input is simpler and not case-sensitive.</span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  mart <span class="op">=</span> <span class="st">'cd'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Unlike the legacy approach, which would require more user input.</span></span>
+<span><span class="co"># User need to be wary of spelling and case.</span></span>
+<span><span class="co"># User also need to provide dates, even if the intent is to retrieve</span></span>
+<span><span class="co"># the entire dataset. Without date boundaries, unexpected output may return.</span></span>
+<span><span class="co"># Dates would need to go beyond what exist in the database, but user would not</span></span>
+<span><span class="co"># have known this info.</span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  phrdw_datamart_connection <span class="op">=</span> <span class="fu"><a href="connect_to_phrdw.html">connect_to_phrdw</a></span><span class="op">(</span>phrdw_datamart <span class="op">=</span> <span class="st">'CD Mart'</span><span class="op">)</span>,</span>
+<span>  phrdw_datamart <span class="op">=</span> <span class="st">'CD Mart'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'Investigation'</span>,</span>
+<span>  query_start_date <span class="op">=</span> <span class="st">'1900-01-01'</span>,</span>
+<span>  query_end_date   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Incorrect spelling will generate helpful message to assist user.</span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  mart <span class="op">=</span> <span class="st">'dc'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  mart <span class="op">=</span> <span class="st">'stibbi'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'investigations'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Filter</span></span>
+<span><span class="co">## Some arguments are reserved for filters. These remain unchanged from before.</span></span>
+<span><span class="co">## They are case- and spelling-sensitive.</span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  mart <span class="op">=</span> <span class="st">'cd'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span>
+<span>  disease <span class="op">=</span> <span class="st">'Anthrax'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  phrdw_datamart_connection <span class="op">=</span> <span class="fu"><a href="connect_to_phrdw.html">connect_to_phrdw</a></span><span class="op">(</span>phrdw_datamart <span class="op">=</span> <span class="st">'CD Mart'</span><span class="op">)</span>,</span>
+<span>  phrdw_datamart <span class="op">=</span> <span class="st">'CD Mart'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'Investigation'</span>,</span>
+<span>  query_start_date <span class="op">=</span> <span class="st">'1900-01-01'</span>,</span>
+<span>  query_end_date   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  disease <span class="op">=</span> <span class="st">'Anthrax'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  mart <span class="op">=</span> <span class="st">'stibbi'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span>
+<span>  disease <span class="op">=</span> <span class="st">'Chlamydia'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  phrdw_datamart_connection <span class="op">=</span> <span class="fu"><a href="connect_to_phrdw.html">connect_to_phrdw</a></span><span class="op">(</span>phrdw_datamart <span class="op">=</span> <span class="st">'STIBBI'</span><span class="op">)</span>,</span>
+<span>  phrdw_datamart <span class="op">=</span> <span class="st">'STIBBI'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'Investigation'</span>,</span>
+<span>  query_start_date <span class="op">=</span> <span class="st">'1900-01-01'</span>,</span>
+<span>  query_end_date   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  disease <span class="op">=</span> <span class="st">'Chlamydia'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Troubleshooting</span></span>
+<span><span class="co">## User can opt to return query instead of data.</span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  mart <span class="op">=</span> <span class="st">'cd'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span>
+<span>  .return_query <span class="op">=</span> <span class="cn">T</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># User can use `.check_params` to examine basic dataset metainfo such as</span></span>
+<span><span class="co"># column names and what's being used to filter by default.</span></span>
+<span><span class="co"># Note: the output format may look different depending on data source being</span></span>
+<span><span class="co"># RDBMS or OLAP (ie. relational DB or data cube).</span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  mart <span class="op">=</span> <span class="st">'cd'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span>
+<span>  .check_params <span class="op">=</span> <span class="cn">T</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  mart <span class="op">=</span> <span class="st">'stibbi'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span>
+<span>  .check_params <span class="op">=</span> <span class="cn">T</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># When `.check_params` is supplied with the name of the column (or</span></span>
+<span><span class="co"># hierarchy), it will return (nominal) levels.</span></span>
+<span><span class="co"># Use with caution: it can return dates and street addresses and that would be</span></span>
+<span><span class="co"># a long list.</span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  mart <span class="op">=</span> <span class="st">'cd'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span>
+<span>  .check_params <span class="op">=</span> <span class="st">'source_system'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  mart <span class="op">=</span> <span class="st">'stibbi'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span>
+<span>  .check_params <span class="op">=</span> <span class="st">'Source System'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Customize filtering (only available in stable usage)</span></span>
+<span><span class="co">## Knowing columns and levels can be helpful, as these values can be passed</span></span>
+<span><span class="co">## into the function for customized filtering:</span></span>
+<span><span class="co">## 1. Enclose the column name with backticks.</span></span>
+<span><span class="co">## 2. Pass the value to filter.</span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  mart <span class="op">=</span> <span class="st">'cd'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span>
+<span>  `source_system` <span class="op">=</span> <span class="st">'EMR'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_phrdw_data</span><span class="op">(</span></span>
+<span>  mart <span class="op">=</span> <span class="st">'stibbi'</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">'investigation'</span>,</span>
+<span>  `Source System` <span class="op">=</span> <span class="st">'EMR'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">}</span> <span class="co"># }</span></span>
+<span></span>
+<span></span>
+<span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
