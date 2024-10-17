@@ -14,10 +14,10 @@ knitr::opts_chunk$set(
   eval     = FALSE
 )
 
-library(phrdwRdata)
-library(dplyr)
+# library(phrdwRdata)
+# library(dplyr)
 # library(forcats)
-library(tibble)
+# library(tibble)
 ```
 
 # Introduction
@@ -80,9 +80,10 @@ where completed, a `LEFT JOIN` back to the `Investigation` dataset is required.
 
 ```{r}
 #| label:   non-tb-datasets
-#| eval:    true
+#| eval:    false
 #| echo:    false
 #| message: false
+#| include: false
 
 phrdwRdata:::list_query_info$sql %>% 
   # dplyr::mutate(dataset_name = forcats::fct_inorder(dataset_name)) %>% 
@@ -137,11 +138,25 @@ phrdwRdata:::list_query_info$sql %>%
   
 ```
 
+|Dataset Name        |Linkable Key                                                                                |Description                                                                                                                                                             |
+|:-------------------|:-------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Client              |client_id                                                                                   |Retrieves patients data with an option to include identifiers.                                                                                                          |
+|Complication        |investigation_id, encounter_id                                                              |Retrieves complication data                                                                                                                                             |
+|Contacts            |client_id, disease_event_id, contact_disease_event_id                                       |Retrieves Investigations based on the `Is A Contact Investigation` or `Ever A Contact Client` flags. Includes an option to retrieve patient and aboriginal identifiers. |
+|Investigation       |client_id, investigation_id, outbreak_id                                                    |Retrieves Investigation and de-identified patient data.                                                                                                                 |
+|Lab                 |client_id, investigation_id, encounter_id, requisition_id, test_id, requisition_specimen_id |Retrieves Public Health System Laboratory data.                                                                                                                         |
+|Observation         |disease_event_id                                                                            |Retrieves the Observations from the Signs and Symptoms data.                                                                                                            |
+|Outbreaks           |investigation_id                                                                            |                                                                                                                                                                        |
+|Risk Factor         |disease_event_id, risk_factor_id                                                            |Retrieves Risk Factors that are marked Pertinent to an Investigation.                                                                                                   |
+|Symptom             |disease_event_id                                                                            |Retrieves Signs and Symptoms data.                                                                                                                                      |
+|Transmission Events |disease_event_id                                                                            |Retrieves Transmission Events based on the source Investigation.                                                                                                        |
+|UDF                 |disease_event_id, form_instance_disease_event_id                                            |Retrieves User Defined Forms data.                                                                                                                                      |
+
 ## Tuberculosis Datasets
 
 ```{r}
 #| label:   tb-datasets
-#| eval:    true
+#| eval:    false
 #| echo:    false
 #| message: false
 
@@ -197,6 +212,16 @@ phrdwRdata:::list_query_info$sql %>%
   knitr::kable()
   
 ```
+
+|Dataset Name           |Linkable Key                                                                                           |Description                                                                                                                                                                   |
+|:----------------------|:------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|TB Client              |client_id                                                                                              |Retrieves TB specific patients data with an option to include identifiers.                                                                                                    |
+|TB Contacts            |client_id, disease_event_id, contact_disease_event_id                                                  |Retrieves Investigations based on the `Is A Contact Investigation` or `Ever A Contact Client` flags. Includes an option to retrieve patient identifiers and aboriginal fields |
+|TB Investigation       |client_id, disease_event_id                                                                            |Retrieves TB specific investigation data. Includes an option to retrieve aboriginal fields if authorized.                                                                     |
+|TB Lab                 |client_id, investigation_id, encounter_id, requisition_id, test_id, result_id, requisition_specimen_id |Retrieves TB specific laboratory data.                                                                                                                                        |
+|TB Transmission Events |disease_event_id                                                                                       |Retrieves Transmission Events based on the source Investigation.                                                                                                              |
+|TB TST Client          |client_id, encounter_id                                                                                |Retrieves all TST data for a client, regardless of if the TST is associated with an Investigation.                                                                            |
+|TB TST Investigation   |client_id, investigation_id, encounter_id                                                              |Retrieves TST data that is associated with an Investigation.                                                                                                                  |
 
 ## Script set up
 
