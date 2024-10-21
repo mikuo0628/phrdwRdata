@@ -138,9 +138,7 @@ olap_handler <- function() {
           .,
           stringr::str_detect(.data$field_type, 'filter')
         ) %>%
-          dplyr::select(dim, attr_hier) %>%
-          dplyr::group_by(dim) %>%
-          dplyr::summarise(hier = list(attr_hier)) %>%
+          dplyr::select(dim, attr_hier, param_name) %>%
           purrr::pwalk(
             function(...) {
 
@@ -150,7 +148,9 @@ olap_handler <- function() {
                 paste(stringr::str_pad('* Dimension:',  15, 'right', ' '),
                       dots$dim, '\n'),
                 paste(stringr::str_pad('** Hierarchy:', 15, 'right', ' '),
-                      dots$hier, '\n'),
+                      dots$attr_hier, '\n'),
+                paste(stringr::str_pad('** Arg name:', 15, 'right', ' '),
+                      paste0('`', dots$param_name, '`'), '\n'),
                 '\n',
                 sep = ''
               )
