@@ -234,7 +234,7 @@ information system at PHSA, STIIS, HAISYS, and legacy laboratory systems.
 \item \code{VPD}: Vaccine Preventable Disease; links data from the
 Panorama public health system and the Sunquest laboratory information
 system at PHSA.
-\code{TAT}: TBD.
+\item \code{TAT}: TBD.
 \item \verb{Enteric SU}: UAT server of Enteric.
 \item \verb{STIBBI SU}: UAT server of STIBBI.
 \item \verb{STIBBI SA}: PROD copy/Staging server of STIBBI.
