@@ -4,12 +4,15 @@
 
   dyn.load(
     system.file(
-      paste0('libs', Sys.getenv('R_ARCH'), '/phrdwRdata.dll'),
-      # paste0('libs', '/x64', '/phrdwRdata.dll'),
-      # paste0('libs', '/i386', '/phrdwRdata.dll'),
-      # 'libs/phrdwRdata.dll',
+      file.path(
+        'libs',
+        .Platform$r_arch,
+        paste0('phrdwRdata', .Platform$dynlib.ext)
+      ),
+      # file.path('libs', paste0('phrdwRdata', .Platform$dynlib.ext)),
       package = 'phrdwRdata'
     )
   )
 
 }
+
