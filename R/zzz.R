@@ -6,10 +6,9 @@
     system.file(
       file.path(
         'libs',
-        .Platform$r_arch,
-        paste0('phrdwRdata', .Platform$dynlib.ext)
+        ifelse(nchar(.Platform$r_arch) == 0, 'x64', .Platform$r_arch),
+        paste0('phrdwRdata', '.dll')
       ),
-      # file.path('libs', paste0('phrdwRdata', .Platform$dynlib.ext)),
       package = 'phrdwRdata'
     )
   )
