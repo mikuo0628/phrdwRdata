@@ -33,9 +33,9 @@ in mind:
 2.  Did it work before?
 3.  Do you still have access?
 4.  Do you have an error message?
-5.  Can you reproduce the error? Can other reproduce *your* error?
+5.  Can you reproduce the error? Can others reproduce *your* error?
 6.  Have you read [reprex](https://reprex.tidyverse.org/)?
-7.  Have you provide `sessionInfo()`?
+7.  Have you provided `sessionInfo()`?
 8.  If this is a question that someone else came to you with, is there anything
     you would ask them about? Because you *will* be asked, so might as well
     provide them preemptively.
@@ -51,11 +51,12 @@ data cubes/OLAP data sources.
 
 1.  Missing provider/driver.
 
--   Error code: `800a0e7a`.
--   Full description: `Provider cannot be found. It may not be properly installed`
--   **Solution**: Install the latest MSOLAP client libraries [here][msolap]. 
-    Make sure architecture aligns with your R version. (`amd64` for 64-bit;
-    `x86` for 32-bit).
+    -   Error code: `800a0e7a`.
+    -   Full description: `Provider cannot be found. It may not be properly
+        installed`
+    -   **Solution**: Install the latest MSOLAP client libraries [here][msolap]. 
+        Make sure architecture aligns with your R version. (`amd64` for 64-bit;
+        `x86` for 32-bit).
 
 
 [gh_issues]: https://github.com/mikuo0628/phrdwRdata/issues
