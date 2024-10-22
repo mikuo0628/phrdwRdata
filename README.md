@@ -27,25 +27,26 @@ pipeline.
 
 1.  PHSA network: `PHSABC.EHCNET.CA`
 
-This can be checked with `Sys.getenv('USERDNSDOMAIN')`.
+    - This can be checked with `Sys.getenv('USERDNSDOMAIN')`.
 
 2.  Access approval
 
-Users would need to submit access
-[here](https://healthbc.sharepoint.com/sites/panda/SitePages/PANDA-User-Request.aspx)
-and be approved by the mart-designated data stewards.
+    - Users would need to submit access
+      [here](https://healthbc.sharepoint.com/sites/panda/SitePages/PANDA-User-Request.aspx)
+      and be approved by the mart-designated data stewards.
 
 3.  R, version 4+
 
-For Windows, see [here](https://cran.r-project.org/bin/windows/base/).
+    - For Windows, see
+      [here](https://cran.r-project.org/bin/windows/base/).
 
 4.  Necessary ODBC drivers that match installed R’s architecture (32- or
     64-bit)
 
-Check `Drivers` tab by running one of the following:
+    - Check `Drivers` tab by running one of the following:
 
-- 32-bit: `%windir%\syswow64\odbcad32.exe`
-- 64-bit: `%windir%\system32\odbcad32.exe`
+      - 32-bit: `%windir%\syswow64\odbcad32.exe`
+      - 64-bit: `%windir%\system32\odbcad32.exe`
 
 ## Installation
 
