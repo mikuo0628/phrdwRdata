@@ -21,9 +21,35 @@ dates, disease name, health regions, and various other built-in filters
 specific to each dataset, and be able to proceed with their analyses or
 pipeline.
 
+## Prerequisites
+
+0.  `Windows` operating system (only required if accessing data cubes)
+
+1.  PHSA network: `PHSABC.EHCNET.CA`
+
+This can be checked with `Sys.getenv('USERDNSDOMAIN')`.
+
+2.  Access approval
+
+Users would need to submit access
+[here](https://healthbc.sharepoint.com/sites/panda/SitePages/PANDA-User-Request.aspx)
+and be approved by the mart-designated data stewards.
+
+3.  R, version 4+
+
+For Windows, see [here](https://cran.r-project.org/bin/windows/base/).
+
+4.  Necessary ODBC drivers that match installed R’s architecture (32- or
+    64-bit)
+
+Check `Drivers` tab by running one of the following:
+
+- 32-bit: `%windir%\syswow64\odbcad32.exe`
+- 64-bit: `%windir%\system32\odbcad32.exe`
+
 ## Installation
 
-The best way to install is via Github. This ensures up-to-date
+The **best** way to install is via Github. This ensures up-to-date
 functionality and bug fixes.
 
 To install from Github, you may require additional packages, such as
@@ -31,14 +57,16 @@ To install from Github, you may require additional packages, such as
 
 ``` r
 # with devtools
-library(devtools)
+install.packages('devtools')
 devtools::install_github(
   'mikuo0628/phrdwRdata',
+  # if installation runs into issue with test load
+  # INSTALL_opts = '--no-test-load',
   dependencies = T
 )
 
 # with renv
-library(renv)
+install.packages('renv')
 renv::install(
   'mikuo0628/phrdwRdata',
   rebuild = T,
@@ -220,3 +248,7 @@ phrdwRdata::get_phrdw_data(
 - Beyond the default built-in filters: users can leverage metadata info
   and dynamic dots to query with additional filters. See Examples in
   [phrdwRdata::get_phrdw_data()](https://mikuo0628.github.io/phrdwRdata/reference/get_phrdw_data.html).
+
+## Troubleshooting
+
+Please see `vignette('FAQ')`.
