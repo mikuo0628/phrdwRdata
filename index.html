@@ -67,20 +67,28 @@
 </h2>
 <ol start="0" style="list-style-type: decimal">
 <li><p><code>Windows</code> operating system (only required if accessing data cubes)</p></li>
-<li><p>PHSA network: <code>PHSABC.EHCNET.CA</code></p></li>
-</ol>
-<p>This can be checked with <code>Sys.getenv('USERDNSDOMAIN')</code>.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Access approval</li>
-</ol>
-<p>Users would need to submit access <a href="https://healthbc.sharepoint.com/sites/panda/SitePages/PANDA-User-Request.aspx" class="external-link">here</a> and be approved by the mart-designated data stewards.</p>
-<ol start="3" style="list-style-type: decimal">
-<li>R, version 4+</li>
-</ol>
-<p>For Windows, see <a href="https://cran.r-project.org/bin/windows/base/" class="external-link">here</a>.</p>
-<ol start="4" style="list-style-type: decimal">
-<li>Necessary ODBC drivers that match installed R’s architecture (32- or 64-bit)</li>
-</ol>
+<li>
+<p>PHSA network: <code>PHSABC.EHCNET.CA</code></p>
+<ul>
+<li>This can be checked with <code>Sys.getenv('USERDNSDOMAIN')</code>.</li>
+</ul>
+</li>
+<li>
+<p>Access approval</p>
+<ul>
+<li>Users would need to submit access <a href="https://healthbc.sharepoint.com/sites/panda/SitePages/PANDA-User-Request.aspx" class="external-link">here</a> and be approved by the mart-designated data stewards.</li>
+</ul>
+</li>
+<li>
+<p>R, version 4+</p>
+<ul>
+<li>For Windows, see <a href="https://cran.r-project.org/bin/windows/base/" class="external-link">here</a>.</li>
+</ul>
+</li>
+<li>
+<p>Necessary ODBC drivers that match installed R’s architecture (32- or 64-bit)</p>
+<ul>
+<li>
 <p>Check <code>Drivers</code> tab by running one of the following:</p>
 <ul>
 <li>32-bit: <code>%windir%\syswow64\odbcad32.exe</code>
@@ -88,6 +96,10 @@
 <li>64-bit: <code>%windir%\system32\odbcad32.exe</code>
 </li>
 </ul>
+</li>
+</ul>
+</li>
+</ol>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>

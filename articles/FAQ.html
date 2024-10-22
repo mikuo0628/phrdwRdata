@@ -85,10 +85,10 @@ following in mind:</p>
 <li>Did it work before?</li>
 <li>Do you still have access?</li>
 <li>Do you have an error message?</li>
-<li>Can you reproduce the error? Can other reproduce <em>your</em>
+<li>Can you reproduce the error? Can others reproduce <em>your</em>
 error?</li>
 <li>Have you read <a href="https://reprex.tidyverse.org/" class="external-link">reprex</a>?</li>
-<li>Have you provide <code><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo()</a></code>?</li>
+<li>Have you provided <code><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo()</a></code>?</li>
 <li>If this is a question that someone else came to you with, is there
 anything you would ask them about? Because you <em>will</em> be asked,
 so might as well provide them preemptively.</li>
@@ -105,12 +105,12 @@ closed-source packages, users may need to perform their own
 troubleshooting, especially when accessing data cubes/OLAP data
 sources.</p>
 <ol style="list-style-type: decimal">
-<li>Missing provider/driver.</li>
-</ol>
+<li>
+<p>Missing provider/driver.</p>
 <ul>
 <li>Error code: <code>800a0e7a</code>.</li>
 <li>Full description:
-<code>Provider cannot be found. It may not be properly installed</code>
+<code>Provider cannot be found. It may not be properly     installed</code>
 </li>
 <li>
 <strong>Solution</strong>: Install the latest MSOLAP client
@@ -118,6 +118,8 @@ libraries <a href="https://learn.microsoft.com/en-us/analysis-services/client-li
 Make sure architecture aligns with your R version. (<code>amd64</code>
 for 64-bit; <code>x86</code> for 32-bit).</li>
 </ul>
+</li>
+</ol>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
