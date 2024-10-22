@@ -25,7 +25,7 @@
 #' * `VPD`: Vaccine Preventable Disease; links data from the
 #'   Panorama public health system and the Sunquest laboratory information
 #'   system at PHSA.
-#'   `TAT`: TBD.
+#' * `TAT`: TBD.
 #' * `Enteric SU`: UAT server of Enteric.
 #' * `STIBBI SU`: UAT server of STIBBI.
 #' * `STIBBI SA`: PROD copy/Staging server of STIBBI.
