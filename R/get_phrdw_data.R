@@ -431,7 +431,7 @@ get_phrdw_data <- function(
         dplyr::ungroup() %>%
         dplyr::mutate(
           dplyr::across(
-            dplyr::where(is.list),
+            tidyselect::where(is.list),
             ~ purrr::map(.x, unlist) %>%
               purrr::map_chr(paste, collapse = '|')
           )
