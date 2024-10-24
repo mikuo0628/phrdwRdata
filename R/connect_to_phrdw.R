@@ -363,7 +363,7 @@ connect_to_phrdw <- function(
   # using mart and type should be encouraged
   if (all(is.null(server_params$mart))) {
 
-    stop('--- Please enter the approrpiate datamart name (and type) ---\n')
+    stop('--- Please enter the appropriate datamart name (and type) ---\n')
 
   }
 
