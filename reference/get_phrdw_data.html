@@ -108,7 +108,7 @@ avoids redundant inputs such as <code>phrdw_datamart</code> in both
 <span>  death_location_ha <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  mart <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"prod"</span>, <span class="st">"su"</span>, <span class="st">"sa"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span>  .partial <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .head <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .check_params <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  .return_query <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  .return_data <span class="op">=</span> <span class="op">!</span><span class="op">(</span><span class="va">.return_query</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="va">.check_params</span><span class="op">)</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">is.character</a></span><span class="op">(</span><span class="va">.check_params</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -275,13 +275,10 @@ Must be one of "prod" (default), "su", or "sa".
 Non case-sensitive. See <code>Details</code>.</p></dd>
 
 
-<dt id="arg--partial">.partial<a class="anchor" aria-label="anchor" href="#arg--partial"></a></dt>
+<dt id="arg--head">.head<a class="anchor" aria-label="anchor" href="#arg--head"></a></dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
-<p>Takes a named list of single integer, where the name must be one of
-"head" or "tail". The appropriate <code>head</code> or <code>tail</code> function will be
-applied and the integer specifies number of rows to return. Only <code>head</code>
-works with OLAP queries, while both <code>head</code> and <code>tail</code> work with
-SQL queries.</p></dd>
+<p>Optional. Single integer vector to indicate how many rows from the top
+to return. Note: <code>tail</code> is not supported on database backends.</p></dd>
 
 
 <dt id="arg--check-params">.check_params<a class="anchor" aria-label="anchor" href="#arg--check-params"></a></dt>
