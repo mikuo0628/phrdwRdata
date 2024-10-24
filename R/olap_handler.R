@@ -234,7 +234,7 @@ olap_handler <- function() {
                 purrr::map_lgl(memb, is.character)
               ) %>%
               tidyr::unnest(
-                dplyr::where(is.list), ptype = as.character()
+                tidyselect::where(is.list), ptype = as.character()
               ) %>%
               dplyr::mutate(
                 dplyr::across(dplyr::everything(), as.character)
