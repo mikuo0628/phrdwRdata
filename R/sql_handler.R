@@ -446,6 +446,8 @@ sql_handler <- function() {
           )
         )
 
+      if (is.numeric(.head)) df_join <- df_join %>% head(round(.head))
+
       if (isTRUE(.return_query)) {
 
         sql_opts <- dbplyr::sql_options(cte = .cte)

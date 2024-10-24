@@ -103,13 +103,10 @@
 #'   Authorities associated with decedant's location of death.
 #'   Only for applicable CDI datasets.
 #'
-#' @param .partial `r lifecycle::badge('experimental')`
+#' @param .head `r lifecycle::badge('experimental')`
 #'
-#'   Takes a named list of single integer, where the name must be one of
-#'   "head" or "tail". The appropriate `head` or `tail` function will be
-#'   applied and the integer specifies number of rows to return. Only `head`
-#'   works with OLAP queries, while both `head` and `tail` work with
-#'   SQL queries.
+#'  Optional. Single integer vector to indicate how many rows from the top
+#'  to return. Note: `tail` is not supported on database backends.
 #'
 #' @param .check_params `r lifecycle::badge('stable')`
 #'
@@ -195,7 +192,7 @@ get_phrdw_data <- function(
     mart                           = NULL,
     type                           = c('prod', 'su', 'sa')[1],
     # user options
-    .partial                       = NULL,
+    .head                          = NULL,
     .check_params                  = F,
     .return_query                  = F,
     .return_data                   = !(.return_query || isTRUE(.check_params) || is.character(.check_params)),
