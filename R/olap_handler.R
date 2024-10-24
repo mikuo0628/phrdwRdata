@@ -237,7 +237,7 @@ olap_handler <- function() {
                 tidyselect::where(is.list), ptype = as.character()
               ) %>%
               dplyr::mutate(
-                dplyr::across(dplyr::everything(), as.character)
+                dplyr::across(tidyselect::everything(), as.character)
               ) %>%
               dplyr::filter(
                 stringr::str_detect(
