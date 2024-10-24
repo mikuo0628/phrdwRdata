@@ -10,10 +10,10 @@
 #' @param dim_props Must be `data.frame` with columns `dim`, `attr_hier`, and
 #'   `lvl_memb`.
 #'
-#' @param .partial A named list of a single element, where name is either
-#'   `head` or `tail`, and element is an integer. This will modify query to
-#'   retrieve the first or last parts of data frame going by the default
-#'   order.
+#' @param .head `r lifecycle::badge('experimental')`
+#'
+#'  Optional. Single integer vector to indicate how many rows from the top
+#'  to return. Note: `tail` is not supported on database backends.
 #'
 #' @return A `sql`/`character` object.
 #'
@@ -43,19 +43,10 @@
 #'
 #' @noRd
 #'
-mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
+mdx_select <- function(columns, rows, dim_props, .head = NULL) {
 
   if (is.null(names(columns))) columns <- rlang::set_names(columns, 'Measures')
   if (is.null(names(rows))) stop('Please provide dimension for rows as name.')
-  if (!is.null(.partial)) {
-
-    if (!tolower(names(.partial)) %in% c('head', 'tail')) {
-
-      stop('Please only provide `head` or `tail`.')
-
-    }
-
-  }
 
   if (inherits(rows, 'list')) {
 
@@ -101,7 +92,12 @@ mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
     paste(
       ' ',
       c(
-        'NON EMPTY {',
+        paste(
+          # i'm a little concern of removing NON EMPTY if .head is used
+          # count == NA will be included
+          ifelse(is.null(.head), 'NON EMPTY', ''),
+          '{'
+        ),
         paste(
           '  ',
           unlist(purrr::imap(columns, ~ stringr::str_glue('[{.y}].[{.x}]'))),
@@ -116,7 +112,7 @@ mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
       ' ',
       c(
         paste(
-          ifelse(is.null(.partial), 'NON EMPTY', toupper(names(.partial))),
+          ifelse(is.null(.head), 'NON EMPTY', 'HEAD'),
           '('
         ),
         paste(
@@ -132,7 +128,7 @@ mdx_select <- function(columns, rows, dim_props, .partial = NULL) {
             '}'
           )
         ),
-        ifelse(is.null(.partial), '', paste(',', .partial)),
+        ifelse(is.null(.head), '', paste(',', .head)),
         ')',
 
         if (!is.null(dim_props)) {
@@ -434,13 +430,13 @@ mdx_build <- function(
     columns,
     rows,
     dim_props,
-    .partial,
+    .head,
     discrete = NULL,
     range    = NULL
 ) {
 
   paste(
-    mdx_select(columns, rows, dim_props, .partial),
+    mdx_select(columns, rows, dim_props, .head),
     mdx_from(
       cube_name,
       mdx_filter(

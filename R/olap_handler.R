@@ -298,7 +298,7 @@ olap_handler <- function() {
         columns   = columns,
         rows      = rows,
         dim_props = dim_props,
-        .partial  = .partial,
+        .head     = .head,
         discrete  = filters_discrete,
         range     = filter_date
       )
