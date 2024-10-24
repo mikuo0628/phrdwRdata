@@ -92,10 +92,10 @@ mdx_select <- function(columns, rows, dim_props, .head = NULL) {
     paste(
       ' ',
       c(
-        paste(
+        paste0(
           # i'm a little concern of removing NON EMPTY if .head is used
           # count == NA will be included
-          ifelse(is.null(.head), 'NON EMPTY', ''),
+          if (is.null(.head)) 'NON EMPTY ' else NULL,
           '{'
         ),
         paste(
