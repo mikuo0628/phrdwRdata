@@ -32,7 +32,7 @@ get_phrdw_data(
   death_location_ha = NULL,
   mart = NULL,
   type = c("prod", "su", "sa")[1],
-  .partial = NULL,
+  .head = NULL,
   .check_params = F,
   .return_query = F,
   .return_data = !(.return_query || isTRUE(.check_params) || is.character(.check_params)),
@@ -145,13 +145,10 @@ Provide an appropriate mart type (non-case specific).
 Must be one of "prod" (default), "su", or "sa".
 Non case-sensitive. See \code{Details}.}
 
-\item{.partial}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+\item{.head}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-Takes a named list of single integer, where the name must be one of
-"head" or "tail". The appropriate \code{head} or \code{tail} function will be
-applied and the integer specifies number of rows to return. Only \code{head}
-works with OLAP queries, while both \code{head} and \code{tail} work with
-SQL queries.}
+Optional. Single integer vector to indicate how many rows from the top
+to return. Note: \code{tail} is not supported on database backends.}
 
 \item{.check_params}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
