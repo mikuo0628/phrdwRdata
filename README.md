@@ -63,7 +63,10 @@ devtools::install_github(
   'mikuo0628/phrdwRdata',
   # if installation runs into issue with test load
   # INSTALL_opts = '--no-test-load',
-  dependencies = T
+  # to upgrade dependencies: use if dependencies out of date
+  # upgrade = 'ask',
+  dependencies = T,
+  force = T
 )
 
 # with renv
