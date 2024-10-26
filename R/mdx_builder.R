@@ -60,7 +60,7 @@ mdx_select <- function(columns, rows, dim_props, .head = NULL) {
         function(...) {
 
           dots <- rlang::list2(...)
-          purrr::discard_at(dots, 'all_memb') %>%
+          purrr::discard(dots, names(dots) == 'all_memb') %>%
             purrr::discard(is.na) %>%
             purrr::map(~ paste0('[', .x, ']')) %>%
             append(dots['all_memb']) %>%
