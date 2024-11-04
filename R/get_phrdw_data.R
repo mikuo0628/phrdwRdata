@@ -135,6 +135,11 @@
 #'   'phrdwRdata:::list_query_info', on which the appropriate operation will
 #'   take place and retrieve specified data.
 #'
+#' @param .query_str `r lifecycle::badge('experimental')`
+#'
+#'  Single character vector of query. User is responsible for syntax validity
+#'  and compatibility (ie. OLAP or SQL, appropriate access, etc) of the query.
+#'
 #' @param .cte `r lifecycle::badge('experimental')`
 #'
 #'   Experimental support for common table expressions (CTEs). Defaults to
@@ -198,6 +203,7 @@ get_phrdw_data <- function(
     .return_data                   = !(.return_query || isTRUE(.check_params) || is.character(.check_params)),
     .clean_data                    = F,
     .query_info                    = NULL,
+    .query_str                     = NULL,
     .cte                           = F,
     ...
 ) {
@@ -298,6 +304,31 @@ get_phrdw_data <- function(
 
     } %>%
     tolower()
+
+  # user supplied query str
+  if (!is.null(.query_str)) {
+
+    if (data_source == 'sql') {
+
+      query_output <-
+        odbc::dbGetQuery(
+          connect_to_phrdw(mart = mart, type = type),
+          .query_str
+        )
+
+    } else if (data_source == 'olap') {
+
+      query_output <-
+        execute2D(
+          connect_to_phrdw(mart = mart, type = type),
+          .query_str
+        )
+
+    }
+
+    return(query_output)
+
+  }
 
   if (!is.null(dataset_name)) {
 

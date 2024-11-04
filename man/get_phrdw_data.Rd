@@ -38,6 +38,7 @@ get_phrdw_data(
   .return_data = !(.return_query || isTRUE(.check_params) || is.character(.check_params)),
   .clean_data = F,
   .query_info = NULL,
+  .query_str = NULL,
   .cte = F,
   ...
 )
@@ -176,6 +177,11 @@ data or not.}
 A user supplied \code{data.frame} object similar to
 'phrdwRdata:::list_query_info', on which the appropriate operation will
 take place and retrieve specified data.}
+
+\item{.query_str}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Single character vector of query. User is responsible for syntax validity
+and compatibility (ie. OLAP or SQL, appropriate access, etc) of the query.}
 
 \item{.cte}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
