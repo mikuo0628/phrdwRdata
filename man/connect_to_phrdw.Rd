@@ -51,8 +51,6 @@ connection parameters.
 Connect to PHRDW data marts. Depending on the mart, the appropriate driver
 and connection parameters will be selected automatically.
 
-\emph{A typo for Nelson to fix}
-
 For a detailed list of data marts and respective servers, please see
 \code{phrdwRdata:::servers}.
 }
