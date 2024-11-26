@@ -4,6 +4,8 @@
 #' Connect to PHRDW data marts. Depending on the mart, the appropriate driver
 #'   and connection parameters will be selected automatically.
 #'
+#'  *A typo for Nelson to fix*
+#'
 #' For a detailed list of data marts and respective servers, please see
 #'   `phrdwRdata:::servers`.
 #'
