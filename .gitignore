@@ -10,5 +10,6 @@ docs
 .httr-oauth
 .DS_Store
 .quarto
+*.csv
 
 .Rprofile
