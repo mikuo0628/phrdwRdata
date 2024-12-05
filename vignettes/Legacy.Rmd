@@ -122,6 +122,7 @@ phrdwRdata:::list_query_info$sql %>%
     )
   ) %>% 
   tidyr::replace_na(list(Description = '')) %>% 
+  print
   dplyr::group_by(dataset_name) %>% 
   dplyr::mutate(
     dataset_name =
@@ -300,6 +301,92 @@ udf_dataset  <-
     surveillance_region_ha    = surveillance_region_ha_vector
   )
 ```
+
+## Arguments for identifiers and filters
+
+```{r}
+#| label:   args
+#| eval:    false
+#| echo:    false
+#| message: false
+
+require(tidyverse)
+
+special_args_by_datasets <- 
+  phrdwRdata:::list_query_info$sql %>% 
+  filter(str_detect(check, 'id|user')) %>% 
+  split(.$check)
+
+special_args_by_datasets[c('indigenous_id', 'patient_id')] %>% 
+  map(select, check, dataset_name) %>% 
+  map_dfr(distinct) %>% 
+  mutate(
+    .keep = 'none',
+    Argument =
+      case_when(
+        check == 'indigenous_id' ~ 'include_indigenous_identifiers',
+        check == 'patient_id'    ~ 'include_patient_identifiers',
+      ),
+    Dataset = dataset_name
+  ) %>% 
+  group_by(Argument) %>% 
+  mutate(
+    Argument = 
+      case_when(
+        .default = Argument,
+        row_number() > 1 ~ ''
+      ),
+    # Dataset = paste('-', Dataset)
+  ) %>% 
+  bind_rows(
+  ) %>% 
+  knitr::kable()
+special_args_by_datasets$user %>% 
+  drop_na(param_name) %>% 
+  select(param_name, dataset_name) %>% 
+  distinct %>% 
+  arrange(param_name) %>% 
+  group_by(param_name) %>% 
+  summarise(
+    dataset_name =
+  )
+
+  # summarise(dataset_name = list(dataset_name)) %>% 
+  mutate(
+    .keep = 'none',
+    Argument = 
+      case_when(
+        .default = param_name,
+        param_name == 'query_date' ~ 'query_(start|end)_date'
+      ),
+    Dataset = 
+      map_chr(
+        dataset_name, \(x) {
+          n_check <- 
+            length(unique(phrdwRdata:::list_query_info$sql$dataset_name))
+          if (length(x) != n_check)
+        }
+      )
+  ) 
+
+
+```
+
+|Argument                       |Dataset          |
+|:------------------------------|:----------------|
+|include_indigenous_identifiers |Contacts         |
+|                               |TB Contacts      |
+|                               |TB Investigation |
+|include_patient_identifiers    |Investigation    |
+|                               |Client           |
+|                               |Contacts         |
+|                               |TB Contacts      |
+|                               |TB Client        |
+|classification                 |All              |
+|disease                        |All              |
+|query_(start&#124;end)_date    |All              |
+|surveillance_condition         |All              |
+|surveillance_region_ha         |All              |
 
 # Access to Data Cubes
 
