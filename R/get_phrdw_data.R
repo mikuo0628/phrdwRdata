@@ -131,12 +131,14 @@
 #'
 #' @param .query_info `r lifecycle::badge('experimental')`
 #'
+#'   TODO
 #'   A user supplied `data.frame` object similar to
 #'   'phrdwRdata:::list_query_info', on which the appropriate operation will
 #'   take place and retrieve specified data.
 #'
 #' @param .query_str `r lifecycle::badge('experimental')`
 #'
+#'  TODO
 #'  Single character vector of query. User is responsible for syntax validity
 #'  and compatibility (ie. OLAP or SQL, appropriate access, etc) of the query.
 #'
@@ -202,7 +204,7 @@ get_phrdw_data <- function(
     .return_query                  = F,
     .return_data                   = !(.return_query || isTRUE(.check_params) || is.character(.check_params)),
     .clean_data                    = F,
-    .query_info                    = NULL,
+    .query_df                    = NULL,
     .query_str                     = NULL,
     .cte                           = F,
     ...
@@ -225,6 +227,7 @@ get_phrdw_data <- function(
   default_params <- as.list(environment())
   user_params    <- rlang::list2(...)
 
+  # Check if input datamart exists
   if (!is.null(phrdw_datamart)) {
 
     phrdw_datamarts <-
@@ -256,6 +259,7 @@ get_phrdw_data <- function(
 
   marts <- unique(unlist(purrr::map(servers, purrr::pluck, 'mart')))
 
+  # Check if input mart exists
   if (!is.null(default_params$mart)) {
 
     if (!tolower(default_params$mart) %in% tolower(marts)) {
@@ -335,6 +339,7 @@ get_phrdw_data <- function(
 
   }
 
+  # If input dataset_name, check spelling against existing dataset_names,
   if (!is.null(dataset_name)) {
 
     prebuilt_datasets <-
