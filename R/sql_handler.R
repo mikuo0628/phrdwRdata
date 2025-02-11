@@ -128,8 +128,8 @@ sql_handler <- function() {
                 dplyr::tbl(conn, dbplyr::in_schema(schema, view)) %>%
                   dplyr::select(
                     tidyselect::all_of(
-                      # col
-                      rlang::set_names(col, as) # rename cols
+                      col
+                      # rlang::set_names(col, as) # rename cols
                     )
                   )
 
@@ -181,9 +181,9 @@ sql_handler <- function() {
       # WHEREs for each lzy_df before join
       ## Discrete
 
-      # going forward, new col names will be used
-      .query_info <-
-        .query_info %>% dplyr::mutate(col = dplyr::coalesce(as, col))
+      # TODO: going forward, new col names will be used
+      # .query_info <-
+      #   .query_info %>% dplyr::mutate(col = dplyr::coalesce(as, col))
 
       filters <-
         purrr::map2(
