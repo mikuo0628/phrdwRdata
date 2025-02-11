@@ -1,0 +1,132 @@
+#' Retrieve full mapping of views and columns using *sys.schema*.
+#'
+#' @param conn
+#' @param catalog
+#' @param schema
+#' @param tbl_vw_dependencies
+#'
+#' @return
+#'
+#' @examples
+map_sql_view <-
+  function(
+    conn    = NULL,
+    catalog = NULL,
+    schema  = NULL,
+    tbl_vw_dependencies = F
+  ) {
+
+    require(withr)
+    require(magrittr)
+    require(dplyr)
+    require(odbc)
+    require(janitor)
+    require(tidyr)
+    require(purrr)
+
+    if (is.null(conn)) {
+
+      conn <-
+        # withr::local_connection(con = connect_to_phrdw(mart = 'cd'))
+        connect_to_phrdw(mart = 'cd')
+
+    }
+
+    dfs_sql_meta <-
+      c(
+        'schemas',
+        # 'tables',
+        # 'type',
+        # 'indexes',
+        # 'partitions',
+        # 'allocation_units',
+        # 'sql_modules',
+        'views',
+        'columns'
+      ) %>%
+      rlang::set_names() %>%
+      purrr::map(
+        ~ odbc::dbGetQuery(
+          conn,
+          sprintf('SELECT * FROM sys.%s', .x)
+        ) %>%
+          tibble::as_tibble() %>%
+          janitor::clean_names()
+      ) %>%
+      purrr::imap(
+        ~ dplyr::rename_with(
+          .x,
+          .cols = tidyselect::matches('^(name|type)$|date'),
+          .fn   =
+            \(names, type = .y) {
+
+              type <-
+                ifelse(
+                  type == 'indexes', 'index', stringr::str_sub(type, 1, -2)
+                )
+
+              if (rlang::is_empty(names)) return(names)
+
+              return(paste0(type, '_', names))
+
+            }
+        )
+      )
+
+    dfs_sql_meta <-
+      dfs_sql_meta %>%
+      purrr::imap(
+        ~ dplyr::select(
+          .x,
+          tidyselect::matches('object_id'),
+          tidyselect::matches('^(schema|table|view|column|type)_.*(date|id|name)'),
+          tidyselect::matches('^(max_length|precision)$'),
+          tidyselect::matches('user_type_id'),
+          tidyselect::matches('parent|correlation|encryption|default|rule'),
+        )
+      )
+
+    list_output <-
+      list(
+        map =
+          dplyr::inner_join(
+            dfs_sql_meta$views,
+            dfs_sql_meta$columns,
+            by = 'object_id'
+          ) %>%
+          dplyr::left_join(dfs_sql_meta$schemas, by = 'schema_id') %>%
+          dplyr::select(
+            tidyselect::matches('schema'),
+            tidyselect::matches('name$'),
+            tidyselect::matches('date$'),
+            -tidyselect::matches('ids$'),
+          )
+
+      )
+
+    if (tbl_vw_dependencies) {
+
+      df_dep <-
+        odbc::dbGetQuery(
+          conn,
+          sprintf('SELECT * FROM INFORMATION_SCHEMA.VIEW_TABLE_USAGE')
+        ) %>%
+        tibble::as_tibble() %>%
+        janitor::clean_names()
+
+      list_output <-
+        list_output %>%
+        append(list(df_dep = df_dep))
+
+    }
+
+    if (!is.null(schema)) {
+
+      list_output$map <- dplyr::filter(list_output$map, schema_name == schema)
+
+    }
+
+    odbc::dbDisconnect(conn)
+    return(list_output)
+
+  }
