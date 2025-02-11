@@ -129,18 +129,20 @@
 #' @param .clean_data Boolean value. Whether to attempt cleaning the dates in
 #'   data or not.
 #'
-#' @param .query_info `r lifecycle::badge('experimental')`
+#' @param .query_df `r lifecycle::badge('experimental')`
 #'
-#'   TODO
-#'   A user supplied `data.frame` object similar to
-#'   'phrdwRdata:::list_query_info', on which the appropriate operation will
-#'   take place and retrieve specified data.
+#'   Accepts a named list of a single element, where names can either
+#'   be `sql` or `olap`, and the element is a `data.frame` object similar
+#'   in structure to `phrdwRdata:::list_query_info$olap`.
+#'   User is responsible for syntax validity and compatibility
+#'   (ie. OLAP or SQL, appropriate access, etc) of the query.
 #'
 #' @param .query_str `r lifecycle::badge('experimental')`
 #'
-#'  TODO
-#'  Single character vector of query. User is responsible for syntax validity
-#'  and compatibility (ie. OLAP or SQL, appropriate access, etc) of the query.
+#'   Accepts a named list of a single element, where names can either
+#'   be `sql` or `olap`, and the element is a `character` vector of query.
+#'   User is responsible for syntax validity and compatibility
+#'   (ie. OLAP or SQL, appropriate access, etc) of the query.
 #'
 #' @param .cte `r lifecycle::badge('experimental')`
 #'

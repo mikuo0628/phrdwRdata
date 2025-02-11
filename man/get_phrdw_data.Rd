@@ -172,11 +172,20 @@ return. Useful to check for typos, or available names to filter for.}
 \item{.clean_data}{Boolean value. Whether to attempt cleaning the dates in
 data or not.}
 
+\item{.query_df}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Accepts a named list of a single element, where names can either
+be \code{sql} or \code{olap}, and the element is a \code{data.frame} object similar
+in structure to \code{phrdwRdata:::list_query_info$olap}.
+User is responsible for syntax validity and compatibility
+(ie. OLAP or SQL, appropriate access, etc) of the query.}
+
 \item{.query_str}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-TODO
-Single character vector of query. User is responsible for syntax validity
-and compatibility (ie. OLAP or SQL, appropriate access, etc) of the query.}
+Accepts a named list of a single element, where names can either
+be \code{sql} or \code{olap}, and the element is a \code{character} vector of query.
+User is responsible for syntax validity and compatibility
+(ie. OLAP or SQL, appropriate access, etc) of the query.}
 
 \item{.cte}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
@@ -191,13 +200,6 @@ subqueries.}
 \item{...}{User can supply named vector: names being the column or
 hierarchy name, and elements of the vector being the value to filter for.
 See \code{Details}.}
-
-\item{.query_info}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
-TODO
-A user supplied \code{data.frame} object similar to
-'phrdwRdata:::list_query_info', on which the appropriate operation will
-take place and retrieve specified data.}
 }
 \value{
 Depending on user input, a \code{data.frame} or \code{tibble} or character
