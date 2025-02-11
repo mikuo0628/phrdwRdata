@@ -359,10 +359,7 @@ get_phrdw_data <- function(
 
   }
 
-  .query_info <- if (is.null(.query_info)) list_query_info[[data_source]]
-
   # Legacy method: requires phrdw_datamart_connection ----
-
   if (!is.null(phrdw_datamart_connection)) {
 
     if (is.null(phrdw_datamart)) stop('Please supply `phrdw_datamart`.')
@@ -402,35 +399,56 @@ get_phrdw_data <- function(
 
   # New method: use `mart` and `type` instead ----
   # no need phrdw_datamart_connection
+  if (!is.null(dataset_name)) {
 
-  available_datasets <-
-    .query_info %>%
-    dplyr::select(mart, dataset_name) %>%
-    dplyr::distinct() %>%
-    dplyr::group_by(mart) %>%
-    dplyr::summarise(dataset_name = list(dataset_name)) %>%
-    { rlang::set_names(.$dataset_name, .$mart) }
+    .query_info <-
+      list_query_info[[data_source]] %>%
+      dplyr::filter(
+        tolower(.data$mart)         == tolower(.env$mart),
+        tolower(.data$dataset_name) == tolower(.env$dataset_name),
+      )
 
-  if (
-    !tolower(dataset_name) %in%
-    tolower(available_datasets[[names(mart)]])
-  ) {
+  } else {
 
-    stop(
-      paste0(
-        'Please check `dataset_name` spelling.\n',
-        'It should be one of the following ',
-        '(non case-sensitive):\n\n',
-        paste(
-          '  -',
-          available_datasets[[names(mart)]],
-          collapse = '\n'
-        )
-      ),
-      call. = F
-    )
+    .query_info <- .query_df[[data_source]]
 
   }
+  # if (is.null(.query_info)) {
+  #
+  #   if (is.null(dataset_name)) stop('Please supply `dataset_name`.')
+  #
+  #   .query_info <- list_query_info[[data_source]]
+  #
+  #   available_datasets <-
+  #     .query_info %>%
+  #     dplyr::select(mart, dataset_name) %>%
+  #     dplyr::distinct() %>%
+  #     dplyr::group_by(mart) %>%
+  #     dplyr::summarise(dataset_name = list(dataset_name)) %>%
+  #     { rlang::set_names(.$dataset_name, .$mart) }
+  #
+  #   if (
+  #     !tolower(dataset_name) %in%
+  #     tolower(available_datasets[[names(mart)]])
+  #   ) {
+  #
+  #     stop(
+  #       paste0(
+  #         'Please check `dataset_name` spelling.\n',
+  #         'It should be one of the following ',
+  #         '(non case-sensitive):\n\n',
+  #         paste(
+  #           '  -',
+  #           available_datasets[[names(mart)]],
+  #           collapse = '\n'
+  #         )
+  #       ),
+  #       call. = F
+  #     )
+  #
+  #   }
+  #
+  # }
 
   if (data_source == 'sql') {
 
