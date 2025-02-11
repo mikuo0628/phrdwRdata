@@ -209,8 +209,6 @@ get_phrdw_data <- function(
 ) {
 
   # Basic checks and deriving some useful vars ----
-
-  if (is.null(dataset_name)) stop('Please supply `dataset_name`.')
   if (is.null(c(phrdw_datamart, mart))) {
 
     stop(
