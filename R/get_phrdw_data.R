@@ -298,6 +298,13 @@ get_phrdw_data <- function(
           purrr::discard(isFALSE) %>%
           names()
 
+      } else {
+
+        list(.query_str, .query_df) %>%
+          map(names) %>%
+          discard(is.null) %>%
+          unlist
+
       }
 
     } %>%
