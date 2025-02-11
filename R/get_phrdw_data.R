@@ -468,6 +468,47 @@ get_phrdw_data <- function(
   if (isFALSE(.return_data)) return()
 
   # Post data-retrieval processing, if needed.
+  if (data_source == 'sql') {
+
+    if (tolower(dataset_name) == 'sti') {
+
+      age_breaks <-
+        sort(unique(c(1, seq.int(0, 30, 5), seq.int(30, 60, 10), Inf))) %>%
+        rlang::set_names(
+          paste(., dplyr::lead(.) - 1, sep = '-') %>%
+            dplyr::case_match(
+              .x = .,
+              .default = .,
+              '0-0'    ~ '<1',
+              '60-Inf' ~ '60+'
+            ) %>%
+            paste('Years')
+        )
+
+      query_output <-
+        query_output %>%
+        dplyr::mutate(
+          birth_year_phs =
+            as.integer(
+              lubridate::year(lubridate::ymd(birth_year_phs))
+            ),
+        ) %>%
+        dplyr::mutate(
+          # .keep = 'used',
+          .before = 'age_atoc_phs',
+          age_grp_10_atoc_phs =
+            cut(
+              age_atoc_phs,
+              breaks = age_breaks,
+              labels = names(age_breaks)[-length(age_breaks)],
+              right  = F,
+              ordered_result = T
+            )
+        )
+
+    }
+
+  }
   if (data_source == 'olap') {
 
     query_output <- rename_cols(query_output)
