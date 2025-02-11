@@ -82,13 +82,18 @@ olap_handler <- function() {
     dplyr::ungroup() %>%
     {
 
+      # measure(s)
       columns <- dplyr::filter(., .data$field_type == 'columns')$attr_hier
 
+      # dimension(s)
       rows    <-
         dplyr::filter(., .data$field_type == 'rows') %>%
         dplyr::filter(.data$check %in% checks) %>%
         dplyr::select(dim, attr_hier, lvl_memb, all_memb)
 
+      # dimension properties member caption
+      # basically, a dimension listed above, but all the properties/members
+      # to include
       dim_props <-
         dplyr::filter(., .data$field_type == 'dim_prop') %>%
         dplyr::filter(., .data$check %in% checks) %>%
