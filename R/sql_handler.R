@@ -29,9 +29,21 @@ sql_handler <- function() {
     purrr::keep(isTRUE) %>%
     names
 
+  # .query_info at this point should be ready to go without needing to filter
+  # for dataset_name or anything
   .query_info <-
     .query_info %>%
-    dplyr::filter(tolower(.data$dataset_name) == tolower(.env$dataset_name)) %>%
+    # {
+    #
+    #   if (!is.null(dataset_name)) {
+    #
+    #     dplyr::filter(
+    #       ., tolower(.data$dataset_name) == tolower(.env$dataset_name)
+    #     )
+    #
+    #   } else { . }
+    #
+    # } %>%
     dplyr::filter(.data$check %in% checks)
 
   if (isTRUE(.check_params)) {
