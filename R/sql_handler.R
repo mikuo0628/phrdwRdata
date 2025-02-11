@@ -192,117 +192,37 @@ sql_handler <- function() {
             subset(.query_info, sql_func == 'where')$param_name,
             subset(.query_info, sql_func == 'select')$col
           ),
-          ~ purrr::keep_at(.x, .y) %>% purrr::discard(is.null)
-        )
+          ~ purrr::keep_at(.x, .y)
+        ) %>%
+        purrr::map(purrr::discard, is.null)
 
-      if (!all(purrr::map_lgl(filters, ~ length(.x) == 0))) {
+      # if (!all(purrr::map_lgl(filters, ~ length(.x) == 0))) {
 
-        filters %>%
-          purrr::map(names) %>%
-          purrr::imap_dfr(
-            ~ .query_info %>%
-              dplyr::filter(
-                !!rlang::sym(.y) %in% .x |
-                  .data$sql_func == 'where' & .data$check == 'default'
-              )
-          ) %>%
-          dplyr::select(
-            logic, order, alias, view, col, default_val, param_name
-          ) %>%
-          dplyr::left_join(
-            filters %>%
-              purrr::imap_dfr(
-                ~ {
+      filters %>%
+        purrr::map(names) %>%
+        purrr::imap_dfr(
+          ~ .query_info %>%
+            dplyr::filter(
+              !!rlang::sym(.y) %in% .x |
+                .data$sql_func == 'where' & .data$check == 'default'
+            )
+        ) %>%
+        dplyr::select(
+          logic, order, alias, view, col, default_val, param_name
+        ) %>%
+        {
 
-                  purrr::imap_dfr(
-                    .x,
-                    ~ tibble::tibble(col = .y, user_val = .x)
-                  )
+          if (!all(purrr::map_lgl(filters, ~ length(.x) == 0))) {
 
-                }
-              )
-          ) %>%
-          dplyr::mutate(
-            .keep = 'none',
-            logic, order, alias, view, col,
-            use_val = dplyr::coalesce(default_val, user_val)
-          ) %>%
-          dplyr::distinct() %>%
-          dplyr::group_by(
-            !!!rlang::syms(stringr::str_subset(names(.), 'val$', negate = T))
-          ) %>%
-          dplyr::summarise(val = list(use_val)) %>%
-          split(.$alias) %>%
-          purrr::walk(
-            ~ {
+            dplyr::left_join(
+              .,
+              filters %>%
+                purrr::imap_dfr(
+                  ~ {
 
-              df_filter <- tidyr::replace_na(.x, list(logic = 'and'))
-
-              filter_clause <-
-                df_filter %>%
-                dplyr::group_by(order) %>%
-                purrr::pmap(
-                  function(logic, order, alias, view, col, val) {
-
-                    paste(
-                      col,
-                      '%in%',
-                      paste0(
-                        "c(",
-                        paste0("'", val, "'", collapse = ', '),
-                        ")"
-                      )
-                    )
-
-                  }
-                ) %>%
-                tibble::tibble(expr = .) %>%
-                dplyr::bind_cols(df_filter, .) %>%
-                dplyr::group_by(order, alias) %>%
-                dplyr::summarise(
-                  .groups = 'drop',
-                  expr = list(expr),
-                  logic = list(logic)
-                ) %>%
-
-                # process by sub order first
-                purrr::pmap(
-                  function(order, alias, expr, logic) {
-
-                    logic[1] <- ''
-                    paste(
-                      purrr::modify(
-                        logic,
-                        function(x) {
-
-                          if (!x %in% c('and', 'or')) return('')
-                          dplyr::if_else(x == 'and', '&', '|')
-
-                        }
-                      ),
-                      expr
-                    ) %>%
-                      stringr::str_trim() %>%
-                      paste(collapse = ' ') %>%
-                      { if (length(expr) > 1) paste0('(', ., ')') else { . } }
-
-                  }
-                ) %>%
-
-                # handle by order
-                purrr::reduce2(
-                  .x = .,
-                  .y =
-                    df_filter %>%
-                    dplyr::group_by(order) %>%
-                    dplyr::slice(1) %>%
-                    dplyr::pull(logic) %>%
-                    .[-1],
-                  .f = function(clause_1, clause_2, operator) {
-
-                    paste(
-                      clause_1, clause_2,
-                      sep = ifelse(operator == 'and', ' &\n  ', ' |\n  ')
+                    purrr::imap_dfr(
+                      .x,
+                      ~ tibble::tibble(col = .y, user_val = .x)
                     )
 
                   }
