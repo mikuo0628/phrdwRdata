@@ -394,6 +394,7 @@ sql_handler <- function() {
               col   = list(col),
               alias = list(alias)
             ) %>%
+            dplyr::arrange(order) %>%
             dplyr::mutate(
               col =
                 purrr::map2(
@@ -414,6 +415,20 @@ sql_handler <- function() {
           #     col = list(col),
           #     as  = list(as)
           #   )
+
+          dfs_views <-
+            dfs_views %>%
+            purrr::imap(
+              ~ dplyr::select(
+                .x,
+                tidyselect::all_of(
+                  rlang::set_names(
+                    subset(.query_info, alias == .y)$col,
+                    subset(.query_info, alias == .y)$as
+                  )
+                )
+              )
+            )
 
           purrr::reduce2(
             .init = dfs_views[[.$alias[[1]]]],
