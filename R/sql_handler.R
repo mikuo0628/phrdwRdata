@@ -33,17 +33,6 @@ sql_handler <- function() {
   # for dataset_name or anything
   .query_info <-
     .query_info %>%
-    # {
-    #
-    #   if (!is.null(dataset_name)) {
-    #
-    #     dplyr::filter(
-    #       ., tolower(.data$dataset_name) == tolower(.env$dataset_name)
-    #     )
-    #
-    #   } else { . }
-    #
-    # } %>%
     dplyr::filter(.data$check %in% checks)
 
   if (isTRUE(.check_params)) {
@@ -180,11 +169,6 @@ sql_handler <- function() {
 
       # WHEREs for each lzy_df before join
       ## Discrete
-
-      # TODO: going forward, new col names will be used
-      # .query_info <-
-      #   .query_info %>% dplyr::mutate(col = dplyr::coalesce(as, col))
-
       filters <-
         purrr::map2(
           list(param_name = default_params, col = user_params),
@@ -195,8 +179,6 @@ sql_handler <- function() {
           ~ purrr::keep_at(.x, .y)
         ) %>%
         purrr::map(purrr::discard, is.null)
-
-      # if (!all(purrr::map_lgl(filters, ~ length(.x) == 0))) {
 
       filters %>%
         purrr::map(names) %>%
@@ -344,8 +326,6 @@ sql_handler <- function() {
           }
         )
 
-      # }
-
       ## Date
       purrr::pwalk(
         subset(.query_info, param_name == 'query_date', select = c(alias, col)),
@@ -408,14 +388,7 @@ sql_handler <- function() {
             ) %>%
             dplyr::mutate(col = purrr::map(col, purrr::map, rlang::parse_expr))
 
-          # df_renames <-
-          #   subset(., sql_func == 'select') %>%
-          #   dplyr::group_by(alias) %>%
-          #   dplyr::summarise(
-          #     col = list(col),
-          #     as  = list(as)
-          #   )
-
+          # rename cols per AS
           dfs_views <-
             dfs_views %>%
             purrr::imap(
@@ -435,13 +408,6 @@ sql_handler <- function() {
             .x    = dfs_views[purrr::map_chr(join_keys$alias, 2)],
             .y    = join_keys$order,
             .f    = function(df_1, df_2, row_n) {
-
-              # df_renames %>%
-              #   dplyr::mutate(
-              #     alias = factor(alias, unlist(join_keys[row_n, ]$alias))
-              #   ) %>%
-              #   tidyr::drop_na(alias) %>%
-              #   dplyr::arrange(alias)
 
               .join_by <- dplyr::join_by(!!!join_keys$col[[row_n]])
 

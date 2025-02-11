@@ -229,7 +229,7 @@ get_phrdw_data <- function(
   default_params <- as.list(environment())
   user_params    <- rlang::list2(...)
 
-  # Check if input datamart exists
+  # Check if input datamart exists ----
   if (!is.null(phrdw_datamart)) {
 
     phrdw_datamarts <-
@@ -261,7 +261,7 @@ get_phrdw_data <- function(
 
   marts <- unique(unlist(purrr::map(servers, purrr::pluck, 'mart')))
 
-  # Check if input mart exists
+  # Check if input mart exists ----
   if (!is.null(default_params$mart)) {
 
     if (!tolower(default_params$mart) %in% tolower(marts)) {
@@ -280,7 +280,7 @@ get_phrdw_data <- function(
 
   }
 
-  # name of mart: proper, to reference; element of mart: user input
+  # Name of mart: proper, to reference; element of mart: user input
   mart <-
     rlang::set_names(
       mart,
@@ -316,7 +316,7 @@ get_phrdw_data <- function(
     } %>%
     tolower()
 
-  # user supplied query str
+  # Handle user supplied query str ----
   if (!is.null(.query_str)) {
 
     if (data_source == 'sql') {
@@ -341,7 +341,7 @@ get_phrdw_data <- function(
 
   }
 
-  # If input dataset_name, check spelling against existing dataset_names,
+  # Check if supplied dataset_name exists ----
   if (!is.null(dataset_name)) {
 
     prebuilt_datasets <-
@@ -420,42 +420,6 @@ get_phrdw_data <- function(
     .query_info <- .query_df[[data_source]]
 
   }
-  # if (is.null(.query_info)) {
-  #
-  #   if (is.null(dataset_name)) stop('Please supply `dataset_name`.')
-  #
-  #   .query_info <- list_query_info[[data_source]]
-  #
-  #   available_datasets <-
-  #     .query_info %>%
-  #     dplyr::select(mart, dataset_name) %>%
-  #     dplyr::distinct() %>%
-  #     dplyr::group_by(mart) %>%
-  #     dplyr::summarise(dataset_name = list(dataset_name)) %>%
-  #     { rlang::set_names(.$dataset_name, .$mart) }
-  #
-  #   if (
-  #     !tolower(dataset_name) %in%
-  #     tolower(available_datasets[[names(mart)]])
-  #   ) {
-  #
-  #     stop(
-  #       paste0(
-  #         'Please check `dataset_name` spelling.\n',
-  #         'It should be one of the following ',
-  #         '(non case-sensitive):\n\n',
-  #         paste(
-  #           '  -',
-  #           available_datasets[[names(mart)]],
-  #           collapse = '\n'
-  #         )
-  #       ),
-  #       call. = F
-  #     )
-  #
-  #   }
-  #
-  # }
 
   if (data_source == 'sql') {
 
@@ -474,7 +438,7 @@ get_phrdw_data <- function(
   if (isTRUE(.return_query)) return(query_output)
   if (isFALSE(.return_data)) return()
 
-  # Post data-retrieval processing, if needed.
+  # Post data-retrieval processing, if needed ----
   if (data_source == 'sql') {
 
     if (tolower(dataset_name) == 'sti') {
