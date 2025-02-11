@@ -113,7 +113,7 @@ avoids redundant inputs such as <code>phrdw_datamart</code> in both
 <span>  .return_query <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  .return_data <span class="op">=</span> <span class="op">!</span><span class="op">(</span><span class="va">.return_query</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="va">.check_params</span><span class="op">)</span> <span class="op">||</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">is.character</a></span><span class="op">(</span><span class="va">.check_params</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  .clean_data <span class="op">=</span> <span class="cn">F</span>,</span>
-<span>  .query_info <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .query_df <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .query_str <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .cte <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -308,16 +308,10 @@ return. Useful to check for typos, or available names to filter for.</p></dd>
 data or not.</p></dd>
 
 
-<dt id="arg--query-info">.query_info<a class="anchor" aria-label="anchor" href="#arg--query-info"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
-<p>A user supplied <code>data.frame</code> object similar to
-'phrdwRdata:::list_query_info', on which the appropriate operation will
-take place and retrieve specified data.</p></dd>
-
-
 <dt id="arg--query-str">.query_str<a class="anchor" aria-label="anchor" href="#arg--query-str"></a></dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
-<p>Single character vector of query. User is responsible for syntax validity
+<p>TODO
+Single character vector of query. User is responsible for syntax validity
 and compatibility (ie. OLAP or SQL, appropriate access, etc) of the query.</p></dd>
 
 
@@ -336,6 +330,14 @@ subqueries.</p></dd>
 <dd><p>User can supply named vector: names being the column or
 hierarchy name, and elements of the vector being the value to filter for.
 See <code>Details</code>.</p></dd>
+
+
+<dt id="arg--query-info">.query_info<a class="anchor" aria-label="anchor" href="#arg--query-info"></a></dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
+<p>TODO
+A user supplied <code>data.frame</code> object similar to
+'phrdwRdata:::list_query_info', on which the appropriate operation will
+take place and retrieve specified data.</p></dd>
 
 </dl></div>
     <div class="section level2">
