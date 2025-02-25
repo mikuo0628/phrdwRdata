@@ -120,7 +120,8 @@ sql_handler <- function() {
                       col
                       # rlang::set_names(col, as) # rename cols
                     )
-                  )
+                  ) %>%
+                  dplyr::distinct()
 
               }
 

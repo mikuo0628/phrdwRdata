@@ -443,6 +443,29 @@ get_phrdw_data <- function(
 
     if (tolower(dataset_name) == 'sti') {
 
+      # query_output <-
+      #   query_output %>%
+      #   mutate(
+      #     question_keyword_common =
+      #       case_match(
+      #         question_keyword_common,
+      #         'currently_pregnant'    ~ 'currently_pregnant_udf',
+      #         'weeks_pregnant'        ~ 'weeks_pregnant',
+      #         'edd'                   ~ 'EDD',
+      #         'prep'                  ~ 'phs_flag_on_HIV_PrEP',
+      #         # 'ct_not_treated'        ~ 'Treatment',
+      #         # 'gc_not_treated'        ~ 'Treatment',
+      #         # 'ct_tx_initiated_date'  ~ 'Date_treatment_initiated',
+      #         # 'gc_tx_initiated_date'  ~ 'Date_treatment_initiated',
+      #         # 'lgv_tx_initiated_date' ~ 'Date_treatment_initiated',
+      #       )
+      #   ) %>%
+      #   pivot_wider(
+      #     names_from = question_keyword_common,
+      #     values_from = answer_value
+      #   ) %>%
+      #   select(form_instance_id:`NA`)
+
       age_breaks <-
         sort(unique(c(1, seq.int(0, 30, 5), seq.int(30, 60, 10), Inf))) %>%
         rlang::set_names(
@@ -476,6 +499,7 @@ get_phrdw_data <- function(
               ordered_result = T
             )
         )
+
 
     }
 
