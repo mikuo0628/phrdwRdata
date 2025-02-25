@@ -5,11 +5,13 @@
 
 *sandbox.R
 inst/doc
+data-raw/*
 docs
 .Rdata
 .httr-oauth
 .DS_Store
 .quarto
 *.csv
+*.xls*
 
 .Rprofile
