@@ -58,7 +58,7 @@ map_sql_view <-
           .x,
           .cols = tidyselect::matches('^(name|type)$|date'),
           .fn   =
-            \(names, type = .y) {
+            function(names, type = .y) {
 
               type <-
                 ifelse(
