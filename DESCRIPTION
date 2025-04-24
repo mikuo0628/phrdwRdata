@@ -25,7 +25,9 @@ Imports:
     odbc,
     lubridate,
     lifecycle,
-    janitor
+    janitor,
+    httr2,
+    keyring
 Depends: 
     R (>= 4.00)
 Roxygen: list(markdown = TRUE)
