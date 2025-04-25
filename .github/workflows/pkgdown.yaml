@@ -58,10 +58,11 @@ jobs:
 
       - name: cache dependencies
         if: runner.os != 'Windows'
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ env.R_LIBS_USER }}
-          key:  ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
+          # key:  ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('DESCRIPTION') }}
+          key:  r-${{ hashFiles('DESCRIPTION') }}
 
       - name: Build site
         run: pkgdown::build_site_github_pages(install = T, examples = F)
