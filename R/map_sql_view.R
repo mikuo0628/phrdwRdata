@@ -126,7 +126,6 @@ map_sql_view <-
 
     }
 
-    odbc::dbDisconnect(conn)
     return(list_output)
 
   }
