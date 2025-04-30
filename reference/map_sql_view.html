@@ -56,10 +56,24 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-tbl-vw-dependencies">tbl_vw_dependencies<a class="anchor" aria-label="anchor" href="#arg-tbl-vw-dependencies"></a></dt>
+<dl><dt id="arg-conn">conn<a class="anchor" aria-label="anchor" href="#arg-conn"></a></dt>
+<dd><p>An <code>odbc</code> connection object. Defaults to <code>NULL</code>.
+If <code>NULL</code>, will connect to <code>CD mart</code>.</p></dd>
+
+
+<dt id="arg-catalog">catalog<a class="anchor" aria-label="anchor" href="#arg-catalog"></a></dt>
+<dd><p>Catalog name if known. Default to <code>NULL</code>.</p></dd>
+
+
+<dt id="arg-tbl-vw-dependencies">tbl_vw_dependencies<a class="anchor" aria-label="anchor" href="#arg-tbl-vw-dependencies"></a></dt>
 <dd></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A named list: <code>map</code> is a <code>data.frame</code> of SQL schema, view, and
+columns; <code>dep</code> is <code>data.frame</code> of dependencies.</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
