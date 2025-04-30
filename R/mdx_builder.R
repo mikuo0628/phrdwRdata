@@ -41,7 +41,7 @@
 #' )
 #' }
 #'
-#' @noRd
+#' @keywords internal
 #'
 mdx_select <- function(columns, rows, dim_props, .head = NULL) {
 
@@ -200,7 +200,7 @@ mdx_select <- function(columns, rows, dim_props, .head = NULL) {
 #' )
 #' }
 #'
-#' @noRd
+#' @keywords internal
 #'
 mdx_filter <- function(discrete  = NULL,
                        range     = NULL,
@@ -347,7 +347,7 @@ mdx_filter <- function(discrete  = NULL,
 #' )
 #' }
 #'
-#' @noRd
+#' @keywords internal
 #'
 mdx_from <- function(cube_name, ...) {
 
@@ -423,7 +423,7 @@ mdx_from <- function(cube_name, ...) {
 #' )
 #' }
 #'
-#' @noRd
+#' @keywords internal
 #'
 mdx_build <- function(
     cube_name,

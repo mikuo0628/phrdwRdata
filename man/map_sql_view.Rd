@@ -12,7 +12,16 @@ map_sql_view(
 )
 }
 \arguments{
+\item{conn}{An \code{odbc} connection object. Defaults to \code{NULL}.
+If \code{NULL}, will connect to \verb{CD mart}.}
+
+\item{catalog}{Catalog name if known. Default to \code{NULL}.}
+
 \item{tbl_vw_dependencies}{}
+}
+\value{
+A named list: \code{map} is a \code{data.frame} of SQL schema, view, and
+columns; \code{dep} is \code{data.frame} of dependencies.
 }
 \description{
 Retrieve full mapping of views and columns using \emph{sys.schema}.

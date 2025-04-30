@@ -1,11 +1,13 @@
 #' Retrieve full mapping of views and columns using *sys.schema*.
 #'
-#' @param conn
-#' @param catalog
+#' @param conn An `odbc` connection object. Defaults to `NULL`.
+#'   If `NULL`, will connect to `CD mart`.
+#' @param catalog Catalog name if known. Default to `NULL`.
 #' @param schema
 #' @param tbl_vw_dependencies
 #'
-#' @return
+#' @return A named list: `map` is a `data.frame` of SQL schema, view, and
+#'   columns; `dep` is `data.frame` of dependencies.
 #'
 #' @examples
 map_sql_view <-
@@ -115,7 +117,7 @@ map_sql_view <-
 
       list_output <-
         list_output %>%
-        append(list(df_dep = df_dep))
+        append(list(dep = df_dep))
 
     }
 
