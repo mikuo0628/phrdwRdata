@@ -27,8 +27,7 @@ map_sql_view <-
     if (is.null(conn)) {
 
       conn <-
-        # withr::local_connection(con = connect_to_phrdw(mart = 'cd'))
-        connect_to_phrdw(mart = 'cd')
+        withr::local_db_connection(con = connect_to_phrdw(mart = 'cd'))
 
     }
 
