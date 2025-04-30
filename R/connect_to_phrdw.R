@@ -198,12 +198,12 @@ connect_to_phrdw <- function(
 
   if (!exists('server') || is.null(server)) { server <- servers }
 
-  # handling CD ie SQL tables
+  # handling CD and PAWS ie SQL tables
   if (
     any(
       stringr::str_detect(
         c(select_phrdw_datamart, server_params$mart),
-        stringr::regex('^CD($| Mart)', ignore_case = T)
+        stringr::regex('^CD($| Mart)|PAWS', ignore_case = T)
       )
     )
   ) {
