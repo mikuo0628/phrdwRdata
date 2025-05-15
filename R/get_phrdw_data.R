@@ -466,8 +466,11 @@ get_phrdw_data <- function(
       #   ) %>%
       #   select(form_instance_id:`NA`)
 
+      # follow data dict here
+      # https://healthbc.sharepoint.com/sites/panda/BCCDC/Lists/Data%20Dictionary/DispForm.aspx?ID=381&e=Idi91b&xsdata=MDV8MDJ8fGVmYWQ4MTJiYzg3OTRjOTYyNWFjMDhkZDQ5ZjJkM2ZkfDMxZjY2MGE1MTkyYTRkYjM5MmJhY2E0MjRmMWIyNTllfDB8MHw2Mzg3NDgwMjk0NDM5NzQ1NzJ8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazkwYUdWeUlpd2lWMVFpT2pFeGZRPT18MXxMMk5vWVhSekx6RTVPbVptWWpReE1HRXlOalUxWlRSallUVmlPVFZqTmpjMFpEYzVZVEV5TnpVMFFIUm9jbVZoWkM1Mk1pOXRaWE56WVdkbGN5OHhOek01TWpBMk1UTXpOakUzfGVkYzViYTI5Y2QzMTQwZDJjMmZhMDhkZDQ5ZjJkM2ZhfGU2ZDgxOTM2ODA3YzQzZjliZjJmM2RmYTNhNzQ2NDVl&sdata=ekUzMTU0cHpzT05UcEpxcWNxOUIrQmdrNDB6QmVOazlBdlJyckI1emE2QT0%3D&ovuser=31f660a5-192a-4db3-92ba-ca424f1b259e%2Cmichael.kuo%40bccdc.ca&OR=Teams-HL&CT=1747348058686&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNTA0MTcxOTMwOSIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D
       age_breaks <-
         sort(unique(c(1, seq.int(0, 30, 5), seq.int(30, 60, 10), Inf))) %>%
+        purrr::discard(. == 50) %>%
         rlang::set_names(
           paste(., dplyr::lead(.) - 1, sep = '-') %>%
             dplyr::case_match(
@@ -476,7 +479,8 @@ get_phrdw_data <- function(
               '0-0'    ~ '<1',
               '60-Inf' ~ '60+'
             ) %>%
-            paste('Years')
+            paste('Years') %>%
+            stringr::str_replace('<1 Years', '<1 Year')
         )
 
       query_output <-
