@@ -69,16 +69,26 @@
 #'   data frame. If in your first run you noted there are lines above the
 #'   headers, you can enter number of lines to skip here.
 #'
+#' @param .in_memory
+#'
+#'  If the body of the response is too large for your environment, you will
+#'  run into `curl::curl_fetch_memory()` error. In this case, set this
+#'  parameter to `FALSE`, and a `tempfile` will be created for you to
+#'  temporarily store the response body while being parsed into a csv.
+#'  Alternatively, provide a full path with file name to explicitly direct
+#'  the `tempfile` to.
+#'
 #' @returns `tibble` object.
 #' @export
 #'
 read_ssrs <- function(
-    url = '',
+    url        = '',
     ...,
     username,
-    format = c('CSV')[1],
-    .explore = F,
-    .skip = 0
+    format     = c('CSV')[1],
+    .explore   = F,
+    .skip      = 0,
+    .in_memory = T
 ) {
 
   if (!exists('read_ssrs_skip_warning', envir = the)) {
@@ -220,14 +230,34 @@ read_ssrs <- function(
     do.call(
       httr2::req_url_query,
       append(
-        list(.req = req),
+        list(
+          .req = req,
+          .multi = 'explode'
+        ),
         user_params
       )
     )
 
   req_with_query$url <- gsub('%3Frs%3A', '&rs:', req_with_query$url)
 
-  please <- req_with_query %>% httr2::req_perform()
+  please <-
+    req_with_query %>%
+    {
+
+      if (isTRUE(.in_memory)) {
+
+        httr2::req_perform(.)
+
+      } else {
+
+        if (isFALSE(.in_memory)) { .in_memory <- tempfile() }
+
+        httr2::req_perform(., path = .in_memory)
+        on.exit(unlink(.in_memory, force = T), add = T)
+
+      }
+
+    }
 
   csv_output <-
     readr::read_csv(
@@ -240,6 +270,7 @@ read_ssrs <- function(
         dplyr::where(is.character), rlang::chr_unserialise_unicode
       )
     )
+
 
   return(csv_output)
 
