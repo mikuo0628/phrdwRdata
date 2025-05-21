@@ -53,7 +53,8 @@ way for users to retrieve public health data containing identifiers.</p>
 <span>  <span class="va">username</span>,</span>
 <span>  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CSV"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>  .explore <span class="op">=</span> <span class="cn">F</span>,</span>
-<span>  .skip <span class="op">=</span> <span class="fl">0</span></span>
+<span>  .skip <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  .in_memory <span class="op">=</span> <span class="cn">T</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -90,10 +91,19 @@ default values will be printed in the console.</p></dd>
 data frame. If in your first run you noted there are lines above the
 headers, you can enter number of lines to skip here.</p></dd>
 
+
+<dt id="arg--in-memory">.in_memory<a class="anchor" aria-label="anchor" href="#arg--in-memory"></a></dt>
+<dd><p>If the body of the response is too large for your environment, you will
+run into <code><a href="https://jeroen.r-universe.dev/curl/reference/curl_fetch.html" class="external-link">curl::curl_fetch_memory()</a></code> error. In this case, set this
+parameter to <code>FALSE</code>, and a <code>tempfile</code> will be created for you to
+temporarily store the response body while being parsed into a csv.
+Alternatively, provide a full path with file name to explicitly direct
+the <code>tempfile</code> to.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>tibble</code> object.</p>
+    <p>A <code>tibble</code> object.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
