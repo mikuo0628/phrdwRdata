@@ -10,7 +10,8 @@ read_ssrs(
   username,
   format = c("CSV")[1],
   .explore = F,
-  .skip = 0
+  .skip = 0,
+  .in_memory = T
 )
 }
 \arguments{
@@ -31,9 +32,16 @@ default values will be printed in the console.}
 (meta info, descriptions, etc). You may not wish to have this in your
 data frame. If in your first run you noted there are lines above the
 headers, you can enter number of lines to skip here.}
+
+\item{.in_memory}{If the body of the response is too large for your environment, you will
+run into \code{curl::curl_fetch_memory()} error. In this case, set this
+parameter to \code{FALSE}, and a \code{tempfile} will be created for you to
+temporarily store the response body while being parsed into a csv.
+Alternatively, provide a full path with file name to explicitly direct
+the \code{tempfile} to.}
 }
 \value{
-\code{tibble} object.
+A \code{tibble} object.
 }
 \description{
 SQL Server Reporting Services (SSRS) built by PHSA enables an alternative

@@ -78,7 +78,7 @@
 #'  Alternatively, provide a full path with file name to explicitly direct
 #'  the `tempfile` to.
 #'
-#' @returns `tibble` object.
+#' @returns A `tibble` object.
 #' @export
 #'
 read_ssrs <- function(
@@ -246,14 +246,14 @@ read_ssrs <- function(
 
       if (isTRUE(.in_memory)) {
 
-        httr2::req_perform(.)
+        httr2::resp_body_string(httr2::req_perform(.))
 
       } else {
 
         if (isFALSE(.in_memory)) { .in_memory <- tempfile() }
 
         httr2::req_perform(., path = .in_memory)
-        on.exit(unlink(.in_memory, force = T), add = T)
+        .in_memory
 
       }
 
@@ -261,7 +261,7 @@ read_ssrs <- function(
 
   csv_output <-
     readr::read_csv(
-      httr2::resp_body_string(please),
+      please,
       col_types = readr::cols(.default = 'character'),
       skip = .skip
     ) %>%
@@ -271,6 +271,7 @@ read_ssrs <- function(
       )
     )
 
+  if (is.character(please)) on.exit(unlink(please, force = T), add = T)
 
   return(csv_output)
 
