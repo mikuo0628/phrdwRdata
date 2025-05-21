@@ -242,6 +242,8 @@ read_ssrs <- function(
 #'
 #' @returns
 #'
+#' @noRd
+#'
 req_auth_negotiate <- function(req, user, reset_pw = F) {
 
   if (reset_pw) try(keyring::key_delete(user), silent = T)
@@ -284,7 +286,8 @@ req_auth_negotiate <- function(req, user, reset_pw = F) {
 #'
 #' @returns
 #'
-#' @examples
+#' @noRd
+#'
 handle_disclaimer <- function(url, user) {
 
   url <-
@@ -313,7 +316,8 @@ handle_disclaimer <- function(url, user) {
 #'
 #' @returns
 #'
-#' @examples
+#' @noRd
+#'
 catalog_items <- function(user) {
 
   # require(jsonlite)

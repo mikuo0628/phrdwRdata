@@ -2,6 +2,7 @@
 
 * Added `read_ssrs` function to support user's R pipeline retrieving data
   from SSRS reports.
+* Added new datasets for various service lines.
 * Minor bug fixes in SQL joins when there are duplicate columns from both sides.
 
 # phrdwRdata 1.0.0
