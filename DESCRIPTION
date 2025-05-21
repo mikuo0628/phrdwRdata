@@ -1,7 +1,7 @@
 Package: phrdwRdata
 Type: Package
 Title: Retrieve pre-built PHSA Datasets
-Version: 1.0.0
+Version: 1.1.0
 Description: Efficient interface for for retrieving pre-built datasets.
     An ease-of-use wrapper that allows robust user defined filtering while
     abstracting away backend database connections, queries, complex joins, and

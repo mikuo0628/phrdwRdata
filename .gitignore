@@ -13,5 +13,8 @@ docs
 .quarto
 *.csv
 *.xls*
+*.txt
+*.png
+*Thumbs.db
 
 .Rprofile
