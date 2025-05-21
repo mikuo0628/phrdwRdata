@@ -164,13 +164,25 @@ read_ssrs <- function(
         tidyr::pivot_wider, names_from = 'ind', values_from = 'values'
       ) %>%
       dplyr::group_by(id) %>%
-      tidyr::fill(`data-parametername`, value, .direction = 'updown') %>%
+      {
+
+        if ('value' %in% names(.)) {
+
+          tidyr::fill(., `data-parametername`, value, .direction = 'updown')
+
+        } else {
+
+          dplyr::mutate(., value = NA_character_)
+
+        }
+
+      } %>%
       dplyr::ungroup() %>%
       dplyr::distinct()
 
     input_id %>%
       tidyr::replace_na(
-        list(value = 'No input detected; possibly checkbox?')
+        list(value = 'No input found; (possibly checkbox?)')
       ) %>%
       {
 
@@ -228,6 +240,8 @@ read_ssrs <- function(
         dplyr::where(is.character), rlang::chr_unserialise_unicode
       )
     )
+
+  return(csv_output)
 
 }
 
