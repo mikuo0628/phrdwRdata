@@ -41,16 +41,25 @@
 #' )
 #' ```
 #'
-#' Your user credential is managed by `keyring` package. This prevents you
-#'   from entering your credentials in the console or saving it in the script,
-#'   which are both not ideal practices for security.
+#' Your user credential, if provided, is managed by `keyring` package.
+#'   This prevents you from entering your credentials in the console or
+#'   saving it in the script, which are both not ideal practices for security.
 #'
 #' `keyring` will leverage your operating system's credential manager to
 #'   handle your saved credential.
 #'
+#' @author [Brendan Bakos](mailto:brendan.bakos@vch.ca) contributed the
+#'   implementation of the crucial authentication/negotiation,
+#'   and is instrumental in the design of the API handling.
+#'
 #' @param url SSRS url.
 #' @param ... SSRS reports' built-in filters. See `Details`.
-#' @param username User ID (without email domain). See `Details`.
+#' @param username
+#'
+#'   User ID (without email domain). Not required if you are on PHSA network.
+#'   However, providing one allows one to set up batch jobs for scheduled
+#'   runs. See `Details`.
+#'
 #' @param format
 #'
 #'   Some SSRS reports offer multiple formats to download. Currently only
@@ -58,9 +67,15 @@
 #'
 #' @param .explore
 #'
-#'   If you are unsure what filters you could use for your SSRS report,
-#'   set this to `TRUE` and a list of currently supported filters and their
-#'   default values will be printed in the console.
+#'   Defaults to `FALSE`. If you are unsure what filters you could use for
+#'   your SSRS report, set this to `TRUE` and a list of currently supported
+#'   filters and their default values (if available; no values will be
+#'   shown if dependent on other values, ie. query-based) will be
+#'   printed in the console.
+#'
+#'   Additionally, set to `verbose` will instead of printing to console,
+#'   return a `data.frame` of detailed parameter information, which can be used
+#'   to assist users to design their scripts.
 #'
 #' @param .skip
 #'
@@ -78,17 +93,20 @@
 #'  Alternatively, provide a full path with file name to explicitly direct
 #'  the `tempfile` to.
 #'
+#' @param .return_url For developer troubleshooting.
+#'
 #' @returns A `tibble` object.
 #' @export
 #'
 read_ssrs <- function(
-    url        = '',
+    url          = '',
     ...,
-    username,
-    format     = c('CSV')[1],
-    .explore   = F,
-    .skip      = 0,
-    .in_memory = T
+    username     = NULL,
+    format       = c('CSV')[1],
+    .explore     = list(F, 'verbose')[[1]],
+    .skip        = 0,
+    .in_memory   = T,
+    .return_url  = F
 ) {
 
   if (!exists('read_ssrs_skip_warning', envir = the)) {
@@ -117,6 +135,7 @@ read_ssrs <- function(
       'Chrome/133.0.0.0 Safari/537.36'
     )
 
+  # browser()
   url_mod <-
     sub(
       x = url,
@@ -138,94 +157,159 @@ read_ssrs <- function(
     httr2::request(url_mod) %>%
     req_auth_negotiate(user = username)
 
-  if (.explore) {
+  if (isTRUE(.explore) || tolower(.explore) == 'verbose') {
 
-    resp <-
-      req %>%
-      httr2::req_perform()
+    report_path <-
+      sub(
+        x = url,
+        pattern = '.*reports/report',
+        replacement = ''
+      )
+
+    url_params <-
+      sprintf(
+        file.path(
+          "https://reports.phsa.ca/Reports",
+          "api/v2.0/Reports(Path='%s')",
+          "ParameterDefinitions"
+        ),
+        report_path
+      )
+
+    req_params <-
+      httr2::request(url_params) %>%
+      req_auth_negotiate(user = username)
+
+    resp_params <-
+      httr2::req_perform(req_params)
 
     input_id <-
-      resp %>%
-      httr2::resp_body_html() %>%
-      xml2::xml_find_all(
-        # this xpath pulls `data-parameternames`, which are the parameters
-        # users can choose, and their default values, if any
-        paste(
-          "//div[@data-parametername]",
-          paste(
-            "//input[contains(@id, 'ReportViewerControl')",
-            "contains(@type, 'text')",
-            "@value]",
-            sep = ' and '
-          ),
-          sep = ' | '
-        )
-      ) %>%
-      xml2::xml_attrs() %>%
-      purrr::map(stack) %>%
-      purrr::map(
-        dplyr::filter, ind %in% c('id', 'value', 'data-parametername')
-      ) %>%
-      purrr::map(
-        dplyr::mutate,
-        values = stringr::str_remove(values, '_txtValue$')
-      ) %>%
-      purrr::map_dfr(
-        tidyr::pivot_wider, names_from = 'ind', values_from = 'values'
-      ) %>%
-      dplyr::group_by(id) %>%
-      {
+      resp_params %>%
+      httr2::resp_body_string() %>%
+      jsonlite::fromJSON() %>%
+      .$value %>%
+      tibble::as_tibble()
 
-        if ('value' %in% names(.)) {
+    if (tolower(.explore) == 'verbose') {
 
-          tidyr::fill(., `data-parametername`, value, .direction = 'updown')
+      return(tidyr::unnest(input_id, ValidValues))
 
-        } else {
-
-          dplyr::mutate(., value = NA_character_)
-
-        }
-
-      } %>%
-      dplyr::ungroup() %>%
-      dplyr::distinct()
+    }
 
     input_id %>%
+      dplyr::filter(PromptUser == T) %>%
+      dplyr::select(Name, DefaultValues) %>%
+      dplyr::mutate(
+        DefaultValues = purrr::map_chr(DefaultValues, ~ unlist(.x)[1]),
+      ) %>%
       tidyr::replace_na(
-        list(value = 'No input found; (possibly checkbox?)')
+        list(DefaultValues = '')
       ) %>%
       {
 
-        pad <- max(nchar(.[['data-parametername']]))
+        param_names <- .$Name
+        pad_name <- max(nchar(param_names), na.rm = T)
 
         sprintf(
-          '   %s: %s',
-          stringr::str_pad(.[['data-parametername']], width = pad, 'right'),
-          sprintf('%s', .[['value']])
-        )
+          "   %s : %s",
+          stringr::str_pad(param_names, width = pad_name, 'right'),
+          sprintf("%s", .$DefaultValues)
+        ) %>%
+          paste(collapse = '\n') %>%
+          message(
+            'Default User Input:\n\n', .
+          )
 
-      } %>%
-      paste(collapse = '\n') %>%
-      message(
-        'Default User Input:\n\n', .
-      )
+      }
+
+    # Uses xpath to extrapolate parametername
+    # resp <-
+    #   req %>%
+    #   httr2::req_perform()
+    #
+    # input_id <-
+    #   resp %>%
+    #   httr2::resp_body_html() %>%
+    #   xml2::xml_find_all(
+    #     # this xpath pulls `data-parameternames`, which are the parameters
+    #     # users can choose, and their default values, if any
+    #     paste(
+    #       "//div[@data-parametername]",
+    #       paste(
+    #         "//input[contains(@id, 'ReportViewerControl')",
+    #         "contains(@type, 'text')",
+    #         "@value]",
+    #         sep = ' and '
+    #       ),
+    #       sep = ' | '
+    #     )
+    #   ) %>%
+    #   xml2::xml_attrs() %>%
+    #   purrr::map(stack) %>%
+    #   purrr::map(
+    #     dplyr::filter, ind %in% c('id', 'value', 'data-parametername')
+    #   ) %>%
+    #   purrr::map(
+    #     dplyr::mutate,
+    #     values = stringr::str_remove(values, '_txtValue$')
+    #   ) %>%
+    #   purrr::map_dfr(
+    #     tidyr::pivot_wider, names_from = 'ind', values_from = 'values'
+    #   ) %>%
+    #   dplyr::group_by(id) %>%
+    #   {
+    #
+    #     if ('value' %in% names(.)) {
+    #
+    #       tidyr::fill(., `data-parametername`, value, .direction = 'updown')
+    #
+    #     } else {
+    #
+    #       dplyr::mutate(., value = NA_character_)
+    #
+    #     }
+    #
+    #   } %>%
+    #   dplyr::ungroup() %>%
+    #   dplyr::distinct()
+    #
+    # input_id %>%
+    #   tidyr::replace_na(
+    #     list(value = 'No input found; (possibly checkbox?)')
+    #   ) %>%
+    #   {
+    #
+    #     pad <- max(nchar(.[['data-parametername']]))
+    #
+    #     sprintf(
+    #       '   %s: %s',
+    #       stringr::str_pad(.[['data-parametername']], width = pad, 'right'),
+    #       sprintf('%s', .[['value']])
+    #     )
+    #
+    #   } %>%
+    #   paste(collapse = '\n') %>%
+    #   message(
+    #     'Default User Input:\n\n', .
+    #   )
 
     # resp %>%
     #   httr2::resp_body_html() %>%
     #   xml2::xml_find_all(
-    #     "//*[@id[contains(., 'ctl04_ctl03')]]"
+    #     # "//*[@id[contains(., 'ctl04_ctl03')]]/*"
+    #     "//*[@id[contains(., 'ctl04_ctl17')]]"
     #   ) %>%
     #   xml2::xml_attrs() %>%
-    #   purrr::map(stack)
-    #
-    #   dplyr::select(-id) %>%
-    #   tidyr::replace_na(list(value = 'No default value')) %>%
-    #   knitr::kable()
+    #   purrr::map(stack) %>%
+    #   purrr::map(tibble::as_tibble)
 
   }
 
+  if (isFALSE(.return_data)) return(NULL)
+
   req$url <- paste0(req$url, format)
 
+  # browser()
   req_with_query <-
     do.call(
       httr2::req_url_query,
@@ -239,6 +323,8 @@ read_ssrs <- function(
     )
 
   req_with_query$url <- gsub('%3Frs%3A', '&rs:', req_with_query$url)
+
+  if (.return_url) return(req_with_query$url)
 
   please <-
     req_with_query %>%
@@ -288,40 +374,55 @@ read_ssrs <- function(
 #'
 #' @returns
 #'
+#' @author [Brendan Bakos](mailto:brendan.bakos@vch.ca) provided this
+#'   implementation.
+#'
 #' @noRd
 #'
-req_auth_negotiate <- function(req, user, reset_pw = F) {
+req_auth_negotiate <- function(req, user = NULL, reset_pw = F) {
 
-  if (reset_pw) try(keyring::key_delete(user), silent = T)
+  if (!is.null(user)) {
 
-  if (inherits(try(keyring::key_get(user), silent = T), 'try-error')) {
+    if (reset_pw) try(keyring::key_delete(user), silent = T)
 
-    warning(
-      "A password associated with `user` param is not found.\n",
-      call. = F,
-      immediate. = T
-    )
+    if (inherits(try(keyring::key_get(user), silent = T), 'try-error')) {
 
-    message(
-      paste(
-        "Setting up your password with `keyring` package.",
-        "This is done with `keyring::key_set()`, and",
-        "will save it in your OS's respective Credential Store.\n",
-        "In Windows, see `Control Panel\\User Accounts\\Credential Manager`.\n",
-        "For more info, see https://keyring.r-lib.org/\n",
-        sep = '\n'
+      warning(
+        "A password associated with `user` param is not found.\n",
+        call. = F,
+        immediate. = T
       )
+
+      message(
+        paste(
+          "Setting up your password with `keyring` package.",
+          "This is done with `keyring::key_set()`, and",
+          "will save it in your OS's respective Credential Store.\n",
+          "In Windows, see `Control Panel\\User Accounts\\Credential Manager`.\n",
+          "For more info, see https://keyring.r-lib.org/\n",
+          sep = '\n'
+        )
+      )
+
+      keyring::key_set(user)
+
+    }
+
+    httr2::req_options(
+      .req     = req,
+      httpauth = 4L,
+      userpwd  = sprintf('%s:%s', user, keyring::key_get(user))
     )
 
-    keyring::key_set(user)
+  } else {
+
+    httr2::req_options(
+      .req     = req,
+      httpauth = 4L,
+      userpwd  = ':::'
+    )
 
   }
-
-  httr2::req_options(
-    .req     = req,
-    httpauth = 4L,
-    userpwd  = ':::'
-  )
 
 }
 

@@ -7,11 +7,12 @@
 read_ssrs(
   url = "",
   ...,
-  username,
+  username = NULL,
   format = c("CSV")[1],
-  .explore = F,
+  .explore = list(F, "verbose")[[1]],
   .skip = 0,
-  .in_memory = T
+  .in_memory = T,
+  .return_url = F
 )
 }
 \arguments{
@@ -19,14 +20,22 @@ read_ssrs(
 
 \item{...}{SSRS reports' built-in filters. See \code{Details}.}
 
-\item{username}{User ID (without email domain). See \code{Details}.}
+\item{username}{User ID (without email domain). Not required if you are on PHSA network.
+However, providing one allows one to set up batch jobs for scheduled
+runs. See \code{Details}.}
 
 \item{format}{Some SSRS reports offer multiple formats to download. Currently only
 csv is supported and is the default value. May be extended in the future.}
 
-\item{.explore}{If you are unsure what filters you could use for your SSRS report,
-set this to \code{TRUE} and a list of currently supported filters and their
-default values will be printed in the console.}
+\item{.explore}{Defaults to \code{FALSE}. If you are unsure what filters you could use for
+your SSRS report, set this to \code{TRUE} and a list of currently supported
+filters and their default values (if available; no values will be
+shown if dependent on other values, ie. query-based) will be
+printed in the console.
+
+Additionally, set to \code{verbose} will instead of printing to console,
+return a \code{data.frame} of detailed parameter information, which can be used
+to assist users to design their scripts.}
 
 \item{.skip}{SSRS reports in csv format may contain lines above the headers
 (meta info, descriptions, etc). You may not wish to have this in your
@@ -39,6 +48,8 @@ parameter to \code{FALSE}, and a \code{tempfile} will be created for you to
 temporarily store the response body while being parsed into a csv.
 Alternatively, provide a full path with file name to explicitly direct
 the \code{tempfile} to.}
+
+\item{.return_url}{For developer troubleshooting.}
 }
 \value{
 A \code{tibble} object.
@@ -84,10 +95,15 @@ add them as part of the function:
 )
 }\if{html}{\out{</div>}}
 
-Your user credential is managed by \code{keyring} package. This prevents you
-from entering your credentials in the console or saving it in the script,
-which are both not ideal practices for security.
+Your user credential, if provided, is managed by \code{keyring} package.
+This prevents you from entering your credentials in the console or
+saving it in the script, which are both not ideal practices for security.
 
 \code{keyring} will leverage your operating system's credential manager to
 handle your saved credential.
+}
+\author{
+\href{mailto:brendan.bakos@vch.ca}{Brendan Bakos} contributed the
+implementation of the crucial authentication/negotiation,
+and is instrumental in the design of the API handling.
 }
