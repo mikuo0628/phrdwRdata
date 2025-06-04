@@ -50,11 +50,12 @@ way for users to retrieve public health data containing identifiers.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_ssrs</span><span class="op">(</span></span>
 <span>  url <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  <span class="va">...</span>,</span>
-<span>  <span class="va">username</span>,</span>
+<span>  username <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CSV"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span>  .explore <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  .explore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">F</span>, <span class="st">"verbose"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
 <span>  .skip <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  .in_memory <span class="op">=</span> <span class="cn">T</span></span>
+<span>  .in_memory <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  .return_url <span class="op">=</span> <span class="cn">F</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -71,7 +72,9 @@ way for users to retrieve public health data containing identifiers.</p>
 
 
 <dt id="arg-username">username<a class="anchor" aria-label="anchor" href="#arg-username"></a></dt>
-<dd><p>User ID (without email domain). See <code>Details</code>.</p></dd>
+<dd><p>User ID (without email domain). Not required if you are on PHSA network.
+However, providing one allows one to set up batch jobs for scheduled
+runs. See <code>Details</code>.</p></dd>
 
 
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
@@ -80,9 +83,14 @@ csv is supported and is the default value. May be extended in the future.</p></d
 
 
 <dt id="arg--explore">.explore<a class="anchor" aria-label="anchor" href="#arg--explore"></a></dt>
-<dd><p>If you are unsure what filters you could use for your SSRS report,
-set this to <code>TRUE</code> and a list of currently supported filters and their
-default values will be printed in the console.</p></dd>
+<dd><p>Defaults to <code>FALSE</code>. If you are unsure what filters you could use for
+your SSRS report, set this to <code>TRUE</code> and a list of currently supported
+filters and their default values (if available; no values will be
+shown if dependent on other values, ie. query-based) will be
+printed in the console.</p>
+<p>Additionally, set to <code>verbose</code> will instead of printing to console,
+return a <code>data.frame</code> of detailed parameter information, which can be used
+to assist users to design their scripts.</p></dd>
 
 
 <dt id="arg--skip">.skip<a class="anchor" aria-label="anchor" href="#arg--skip"></a></dt>
@@ -99,6 +107,10 @@ parameter to <code>FALSE</code>, and a <code>tempfile</code> will be created for
 temporarily store the response body while being parsed into a csv.
 Alternatively, provide a full path with file name to explicitly direct
 the <code>tempfile</code> to.</p></dd>
+
+
+<dt id="arg--return-url">.return_url<a class="anchor" aria-label="anchor" href="#arg--return-url"></a></dt>
+<dd><p>For developer troubleshooting.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -132,11 +144,17 @@ add them as part of the function:</p>
 <span>  death_date_from <span class="op">=</span> <span class="st">'1/1/2015'</span>,</span>
 <span>  death_date_to   <span class="op">=</span> <span class="st">'5/20/2025'</span></span>
 <span><span class="op">)</span></span></code></pre><p></p></div>
-<p>Your user credential is managed by <code>keyring</code> package. This prevents you
-from entering your credentials in the console or saving it in the script,
-which are both not ideal practices for security.</p>
+<p>Your user credential, if provided, is managed by <code>keyring</code> package.
+This prevents you from entering your credentials in the console or
+saving it in the script, which are both not ideal practices for security.</p>
 <p><code>keyring</code> will leverage your operating system's credential manager to
 handle your saved credential.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
+    <p><a href="mailto:brendan.bakos@vch.ca">Brendan Bakos</a> contributed the
+implementation of the crucial authentication/negotiation,
+and is instrumental in the design of the API handling.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
