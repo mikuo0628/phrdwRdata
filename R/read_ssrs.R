@@ -305,8 +305,6 @@ read_ssrs <- function(
 
   }
 
-  if (isFALSE(.return_data)) return(NULL)
-
   req$url <- paste0(req$url, format)
 
   # browser()
