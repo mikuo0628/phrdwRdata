@@ -225,7 +225,8 @@ sql_handler <- function() {
               .keep = 'none',
               logic, order, alias, view, col,
               use_val = default_val
-            )
+            ) %>%
+              dplyr::arrange(order, col)
 
           }
 
