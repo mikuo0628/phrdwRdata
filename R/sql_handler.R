@@ -88,7 +88,6 @@ sql_handler <- function() {
 
   }
 
-
   withr::with_db_connection(
     list(conn = connect_to_phrdw(mart = mart, type = type)),
     {
@@ -114,6 +113,8 @@ sql_handler <- function() {
               .,
               function(alias, view, col, as) {
 
+                # for each view used, select the columns listed in
+                # list_query_info
                 dplyr::tbl(conn, dbplyr::in_schema(schema, view)) %>%
                   dplyr::select(
                     tidyselect::all_of(
@@ -365,10 +366,19 @@ sql_handler <- function() {
         dplyr::select(
           sql_func, order, tidyselect::matches('^(alias|view|logic|col|as)$')
         ) %>%
+        # clean .query_info the proper renaming of columns is consistent
+        # for cols across various sql_funcs
+        dplyr::group_by(alias, view, col) %>%
+        dplyr::mutate(as = stats::na.omit(as)[1]) %>%
+        dplyr::ungroup() %>%
         {
 
+          curr_query_info <- .
+
           join_keys <-
-            dplyr::filter(., stringr::str_detect(.data$sql_func, 'join')) %>%
+            # handles the new col names
+            dplyr::mutate(curr_query_info, col = dplyr::coalesce(as, col)) %>%
+            dplyr::filter(stringr::str_detect(.data$sql_func, 'join')) %>%
             dplyr::group_by(sql_func, order, logic) %>%
             dplyr::summarise(
               .groups = 'drop',
@@ -389,16 +399,27 @@ sql_handler <- function() {
             ) %>%
             dplyr::mutate(col = purrr::map(col, purrr::map, rlang::parse_expr))
 
-          # rename cols per AS
+          # rename the columns accordingly
+          # this prepares it for joining and addresses the following scenarios:
+          # 1. a renamed column is used as key
+          # 2. a renamed column is used as key and also kept by SELECT
           dfs_views <-
             dfs_views %>%
             purrr::imap(
               ~ dplyr::select(
                 .x,
                 tidyselect::all_of(
-                  rlang::set_names(
-                    subset(.query_info, alias == .y)$col,
-                    subset(.query_info, alias == .y)$as
+                  do.call(
+                    rlang::set_names,
+                    unname(
+                      as.list(
+                        subset(
+                          curr_query_info,
+                          alias == .y,
+                          c(col, as)
+                        )
+                      )
+                    )
                   )
                 )
               )
@@ -454,20 +475,19 @@ sql_handler <- function() {
           )
 
         }
+          # SELECTs (and rename with AS if needed)
+          # TODO: is this necessary?
+          df_temp %>%
+            dplyr::select(
+              tidyselect::all_of(
+                dplyr::mutate(
+                  subset(curr_query_info, sql_func == 'select'),
+                  .keep = 'none',
+                  col = dplyr::coalesce(as, col)
+                )$col
+              )
+            )
 
-      # SELECTs (and rename with AS if needed)
-      df_join <-
-        df_join %>%
-        dplyr::select(
-          tidyselect::all_of(
-            .query_info %>%
-              dplyr::filter(.data$sql_func == 'select') %>%
-              dplyr::select(col, as) %>%
-              dplyr::mutate(new_col = dplyr::coalesce(as, col)) %>%
-              # { rlang::set_names(.$col, .$new_col) }
-              dplyr::pull(new_col)
-          )
-        )
 
       if (is.numeric(.head)) df_join <- df_join %>% head(round(.head))
 
