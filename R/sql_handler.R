@@ -426,56 +426,94 @@ sql_handler <- function() {
               )
             )
 
-          purrr::reduce2(
-            .init = dfs_views[[.$alias[[1]]]],
-            .x    = dfs_views[purrr::map_chr(join_keys$alias, 2)],
-            .y    = join_keys$order,
-            .f    = function(df_1, df_2, row_n) {
+          df_temp <-
+            purrr::reduce2(
+              .init = dfs_views[[purrr::map_chr(join_keys$alias, 1)[1]]],
+              .x    = dfs_views[ purrr::map_chr(join_keys$alias, 2) ],
+              .y    = join_keys$order,
+              .f    = function(cur_df, to_join_df, row_n) {
 
-              .join_by <- dplyr::join_by(!!!join_keys$col[[row_n]])
+                .join_by <- dplyr::join_by(!!!join_keys$col[[row_n]])
 
-              # default dplyr/dbplyr joins do not keep keys (for good reasons),
-              # and some keys are needed/SELECT.
-              # the `keep` param in join functions will determine whether
-              # keys are kept. For keys that are part of SELECT: T... this is
-              # done by checking to see if it's needed in `SELECT` clause or
-              # if it does not already exists in df_1
-              cols_to_check <- unique(unlist(.join_by[c('x', 'y')]))
-              select_cols   <- subset(.query_info, sql_func == 'select')$col
-              .keep         <-
-                if (
-                  all(
-                    any(cols_to_check %in% select_cols),
-                    any(!cols_to_check %in% colnames(df_1))
-                  )
-                ) T
+                # default dplyr/dbplyr joins do not keep keys (for good reasons),
+                # and some keys are needed/SELECT.
+                # the `keep` param in join functions will determine whether
+                # keys are kept. For keys that are part of SELECT: T... this is
+                # done by checking to see if it's needed in `SELECT` clause or
+                # if it does not already exists in cur_df
+                # however, this is hard to capture if a row of join_key contains
+                # multiple OR...
+                cols_to_check <- unique(unlist(.join_by[c('x', 'y')]))
+                select_cols   <- subset(.query_info, sql_func == 'select')$col
+                .keep         <-
+                  if (
+                    all(
+                      any(cols_to_check %in% select_cols),
+                      any(!cols_to_check %in% colnames(cur_df))
+                    )
+                  ) T
 
-              try_join <-
-                try(
-                  do.call(
-                    what =
-                      getFromNamespace(join_keys$sql_func[row_n], 'dplyr'),
-                    args =
-                      append(
-                        list(df_1, df_2),
-                        list(
-                          by   = .join_by,
-                          keep = .keep
+                try_join <-
+                  try(
+                    do.call(
+                      what =
+                        getFromNamespace(join_keys$sql_func[row_n], 'dplyr'),
+                      args =
+                        append(
+                          list(cur_df, to_join_df),
+                          list(
+                            by   = .join_by,
+                            keep = .keep
+                          )
                         )
-                      )
+                    )
                   )
-                )
 
-              if (inherits(try_join, 'try-error')) browser()
+                if (inherits(try_join, 'try-error')) browser()
 
-              if (any(stringr::str_detect(colnames(try_join), '\\.x$'))) browser()
+                if (any(stringr::str_detect(colnames(try_join), '\\.x$'))) {
 
-              return(try_join)
+                  # if key is kept, and happens to duplicately named as
+                  # another column joined or selected upstream, then
+                  # the prior is kept and the latter is discarded
+                  warning(
+                    do.call(
+                      sprintf,
+                      list(
+                        paste(
+                          "The `%s` has created naming conflict for column(s):\n",
+                          "%s"
+                        ),
+                        toupper(gsub('_', ' ', join_keys[row_n, 'sql_func'][[1]]))
+                      ) %>%
+                        append(
+                          paste(
+                            '  -',
+                            stringr::str_subset(colnames(try_join), '\\.(x|y)') %>%
+                              gsub('\\.(x|y)', '', .) %>%
+                              unique()
+                          )
+                        )
+                    )
+                  )
 
-            }
-          )
+                  try_join <-
+                    try_join %>%
+                    dplyr::select(
+                      -tidyselect::matches('\\.y$')
+                    ) %>%
+                    dplyr::rename_with(
+                      .cols = tidyselect::matches('\\.x$'),
+                      .fn   = \(x) gsub('\\.x$', '', x)
+                    )
 
-        }
+                }
+
+                return(try_join)
+
+              }
+            )
+
           # SELECTs (and rename with AS if needed)
           # TODO: is this necessary?
           df_temp %>%
@@ -489,6 +527,7 @@ sql_handler <- function() {
               )
             )
 
+        }
 
       if (is.numeric(.head)) df_join <- df_join %>% head(round(.head))
 
