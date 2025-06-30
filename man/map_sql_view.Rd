@@ -8,6 +8,7 @@ map_sql_view(
   conn = NULL,
   catalog = NULL,
   schema = NULL,
+  include_datatype = F,
   tbl_vw_dependencies = F
 )
 }
@@ -17,7 +18,8 @@ If \code{NULL}, will connect to \verb{CD mart}.}
 
 \item{catalog}{Catalog name if known. Default to \code{NULL}.}
 
-\item{tbl_vw_dependencies}{}
+\item{include_datatype}{If \code{TRUE}, will make an additional join with \code{types}
+in \strong{sys} schema. Defaults to \code{FALSE}.}
 }
 \value{
 A named list: \code{map} is a \code{data.frame} of SQL schema, view, and

@@ -5,6 +5,8 @@
 #' @param catalog Catalog name if known. Default to `NULL`.
 #' @param schema
 #' @param tbl_vw_dependencies
+#' @param include_datatype If `TRUE`, will make an additional join with `types`
+#'   in **sys** schema. Defaults to `FALSE`.
 #'
 #' @return A named list: `map` is a `data.frame` of SQL schema, view, and
 #'   columns; `dep` is `data.frame` of dependencies.
@@ -15,6 +17,7 @@ map_sql_view <-
     conn    = NULL,
     catalog = NULL,
     schema  = NULL,
+    include_datatype = F,
     tbl_vw_dependencies = F
   ) {
 
@@ -37,7 +40,7 @@ map_sql_view <-
       c(
         'schemas',
         # 'tables',
-        # 'type',
+        'types',
         # 'indexes',
         # 'partitions',
         # 'allocation_units',
@@ -84,6 +87,7 @@ map_sql_view <-
           tidyselect::matches('^(max_length|precision)$'),
           tidyselect::matches('user_type_id'),
           tidyselect::matches('parent|correlation|encryption|default|rule'),
+          tidyselect::matches('system_type_id|type_name'),
         )
       )
 
@@ -100,10 +104,28 @@ map_sql_view <-
             tidyselect::matches('schema'),
             tidyselect::matches('name$'),
             tidyselect::matches('date$'),
-            -tidyselect::matches('ids$'),
+            tidyselect::matches('id$'),
           )
 
       )
+
+    if (include_datatype) {
+
+      list_output <-
+        list_output %>%
+        purrr::map(
+          ~ dplyr::left_join(
+            .x,
+            dplyr::select(
+              dfs_sql_meta$types,
+              system_type_id, type_name
+            ),
+            by = 'system_type_id',
+            relationship = 'many-to-many'
+          )
+        )
+
+    }
 
     if (tbl_vw_dependencies) {
 
@@ -126,6 +148,8 @@ map_sql_view <-
       list_output$map <- dplyr::filter(list_output$map, schema_name == schema)
 
     }
+
+    list_output$map <- dplyr::select(list_output$map, -tidyselect::matches('id$'))
 
     return(list_output)
 
