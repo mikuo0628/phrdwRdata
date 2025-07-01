@@ -48,6 +48,7 @@
 <span>  conn <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  catalog <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  schema <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  include_datatype <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  tbl_vw_dependencies <span class="op">=</span> <span class="cn">F</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -65,8 +66,9 @@ If <code>NULL</code>, will connect to <code>CD mart</code>.</p></dd>
 <dd><p>Catalog name if known. Default to <code>NULL</code>.</p></dd>
 
 
-<dt id="arg-tbl-vw-dependencies">tbl_vw_dependencies<a class="anchor" aria-label="anchor" href="#arg-tbl-vw-dependencies"></a></dt>
-<dd></dd>
+<dt id="arg-include-datatype">include_datatype<a class="anchor" aria-label="anchor" href="#arg-include-datatype"></a></dt>
+<dd><p>If <code>TRUE</code>, will make an additional join with <code>types</code>
+in <strong>sys</strong> schema. Defaults to <code>FALSE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
