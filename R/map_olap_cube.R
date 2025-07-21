@@ -60,7 +60,7 @@ map_olap_cube <- function(conn, cube = NULL, is_visible = F) {
             .sep = '\n'
           ) %>%
             phrdwRdata:::execute2D(conn, .) %>%
-            tibble::as_tibble
+            tibble::as_tibble()
         )
 
       }
