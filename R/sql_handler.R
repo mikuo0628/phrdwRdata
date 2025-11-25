@@ -210,7 +210,8 @@ sql_handler <- function() {
                     )
 
                   }
-                )
+                ),
+              by = c('param_name' = 'col')
             ) %>%
               dplyr::mutate(
                 .keep = 'none',

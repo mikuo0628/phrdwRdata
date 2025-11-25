@@ -508,6 +508,7 @@ get_phrdw_data <- function(
     }
 
   }
+
   if (data_source == 'olap') {
 
     query_output <- rename_cols(query_output)
