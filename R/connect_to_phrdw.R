@@ -245,14 +245,13 @@ connect_to_phrdw <- function(
 
         }
 
+        # TODO: consider remove `driver` in `servers`
         server <- dplyr::filter(., driver %in% avail_drivers)
-        conn   <- NULL
-        i      <- 1
 
-        # goes thru all available drivers to get a viable connection
-        while (inherits(conn, c('try-error', 'NULL')) & i <= nrow(server)) {
+        # goes thru all usable drivers to get a viable connection
+        for (i in seq_len(nrow(server))) {
 
-          cat(sprintf('\n=== Using driver: %s\n', server[i, 'driver']))
+          cat(sprintf('\n=== Current driver: %s\n', server[i, 'driver']))
 
           conn_str <-
             paste(
@@ -295,7 +294,7 @@ connect_to_phrdw <- function(
               )
             )
 
-          i <- i + 1
+          if (!inherits(conn, 'try-error')) break
 
         }
 
