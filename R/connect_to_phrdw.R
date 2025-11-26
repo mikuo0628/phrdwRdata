@@ -234,12 +234,25 @@ connect_to_phrdw <- function(
       } %>%
       {
 
-        server <- .
+        avail_drivers <- unique(odbc::odbcListDrivers()$name)
 
-        conn <- NULL
-        i    <- 1
+        if (length(intersect(.$driver, avail_drivers)) == 0) {
 
+          cat('--- CD Mart connection failed ---\n')
+          cat('Currently installed SQL drivers are:\n')
+          cat(sprintf('  - %s\n', avail_drivers), sep = '')
+          stop('--- Required SQL driver not found ---\n')
+
+        }
+
+        server <- dplyr::filter(., driver %in% avail_drivers)
+        conn   <- NULL
+        i      <- 1
+
+        # goes thru all available drivers to get a viable connection
         while (inherits(conn, c('try-error', 'NULL')) & i <= nrow(server)) {
+
+          cat(sprintf('\n=== Using driver: %s\n', server[i, 'driver']))
 
           conn_str <-
             paste(
@@ -255,20 +268,34 @@ connect_to_phrdw <- function(
               )
             )
 
-          i <- i + 1
-
           # option 1: RODBC
           # conn <- RODBC::odbcDriverConnect(connection = conn_str)
 
           # option 2: odbc
           conn <-
+            # try(
+            #   odbc::dbConnect(
+            #     drv = odbc::odbc(),
+            #     .connection_string = conn_str
+            #   ),
+            #   silent = T
+            # )
             try(
-              odbc::dbConnect(
-                drv = odbc::odbc(),
-                .connection_string = conn_str
-              ),
-              silent = T
+              silent = T,
+              do.call(
+                what = odbc::dbConnect,
+                args =
+                  append(
+                    list(drv = odbc::odbc()),
+                    unlist(
+                      server[i, c('server', 'database', 'driver')],
+                      recursive = F
+                    )
+                  )
+              )
             )
+
+          i <- i + 1
 
         }
 
@@ -282,8 +309,8 @@ connect_to_phrdw <- function(
     if (inherits(conn_objs$conn, 'try-error')) {
 
       cat('--- CD Mart connection failed ---\n')
-      cat('Check connection:\n')
-      cat(conn_objs$conn_str, '\n')
+      cat('\nCheck connection:\n')
+      cat(gsub(';', '\n', gsub('=', ' = ', conn_objs$conn_str)), '\n')
       stop(conn_objs$conn, call. = F)
 
     }
