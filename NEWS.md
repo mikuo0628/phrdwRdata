@@ -1,3 +1,12 @@
+# phrdwRdata 1.1.1
+
+* Fixed bug due to mis-join of `surveillance_region_ha` vs `health_authority`.
+  * This reconciles "col" and "param_name".
+* Fixed bug when pulling identifiers.
+* Included a more verbose connection check message, indicating which SQL
+  driver is being attempted. 
+* Added `year_arrived_in_canada` to `TB Client`.
+
 # phrdwRdata 1.1.0
 
 * Added `read_ssrs` function to support user's R pipeline retrieving data
