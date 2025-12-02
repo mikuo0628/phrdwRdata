@@ -368,11 +368,12 @@ sql_handler <- function() {
         dplyr::select(
           sql_func, order, tidyselect::matches('^(alias|view|logic|col|as)$')
         ) %>%
+        dplyr::mutate(as = dplyr::coalesce(as, col)) %>%
         # clean .query_info the proper renaming of columns is consistent
         # for cols across various sql_funcs
-        dplyr::group_by(alias, view, col) %>%
-        dplyr::mutate(as = stats::na.omit(as)[1]) %>%
-        dplyr::ungroup() %>%
+        # dplyr::group_by(alias, view, col) %>%
+        # dplyr::mutate(as = stats::na.omit(as)[1]) #%>%
+        # dplyr::ungroup() %>%
         {
 
           curr_query_info <- .
