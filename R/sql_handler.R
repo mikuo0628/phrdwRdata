@@ -406,32 +406,70 @@ sql_handler <- function() {
           # this prepares it for joining and addresses the following scenarios:
           # 1. a renamed column is used as key
           # 2. a renamed column is used as key and also kept by SELECT
-          dfs_views <-
-            dfs_views %>%
-            purrr::imap(
-              ~ dplyr::select(
-                .x,
-                tidyselect::all_of(
-                  do.call(
-                    rlang::set_names,
-                    unname(
-                      as.list(
-                        subset(
-                          curr_query_info,
-                          alias == .y,
-                          c(col, as)
+
+          dfs_views_renamed <-
+            map(
+              rlang::set_names(unique(curr_query_info$alias)),
+              ~ {
+
+                dplyr::select(
+                  dfs_views[[.x]],
+                  tidyselect::all_of(
+                    do.call(
+                      rlang::set_names,
+                      unname(
+                        as.list(
+                          distinct(
+                            subset(
+                              curr_query_info,
+                              alias == .x,
+                              c(col, as)
+                            )
+                          )
                         )
                       )
                     )
                   )
+
                 )
-              )
+
+              }
             )
+
+
+          # dfs_views <-
+          #   dfs_views %>%
+          #   purrr::imap(
+          #     ~ {
+          #
+          #       browser()
+          #       dplyr::select(
+          #         .x,
+          #         tidyselect::all_of(
+          #           do.call(
+          #             rlang::set_names,
+          #             unname(
+          #               as.list(
+          #                 distinct(
+          #                   subset(
+          #                     curr_query_info,
+          #                     alias == .y,
+          #                     c(col, as)
+          #                   )
+          #                 )
+          #               )
+          #             )
+          #           )
+          #         )
+          #       )
+          #
+          #     }
+          #   )
 
           df_temp <-
             purrr::reduce2(
-              .init = dfs_views[[purrr::map_chr(join_keys$alias, 1)[1]]],
-              .x    = dfs_views[ purrr::map_chr(join_keys$alias, 2) ],
+              .init = dfs_views_renamed[[purrr::map_chr(join_keys$alias, 1)[1]]],
+              .x    = dfs_views_renamed[ purrr::map_chr(join_keys$alias, 2) ],
               .y    = join_keys$order,
               .f    = function(cur_df, to_join_df, row_n) {
 
