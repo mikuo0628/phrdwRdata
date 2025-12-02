@@ -368,11 +368,12 @@ sql_handler <- function() {
         dplyr::select(
           sql_func, order, tidyselect::matches('^(alias|view|logic|col|as)$')
         ) %>%
+        dplyr::mutate(as = dplyr::coalesce(as, col)) %>%
         # clean .query_info the proper renaming of columns is consistent
         # for cols across various sql_funcs
-        dplyr::group_by(alias, view, col) %>%
-        dplyr::mutate(as = stats::na.omit(as)[1]) %>%
-        dplyr::ungroup() %>%
+        # dplyr::group_by(alias, view, col) %>%
+        # dplyr::mutate(as = stats::na.omit(as)[1]) #%>%
+        # dplyr::ungroup() %>%
         {
 
           curr_query_info <- .
@@ -405,32 +406,70 @@ sql_handler <- function() {
           # this prepares it for joining and addresses the following scenarios:
           # 1. a renamed column is used as key
           # 2. a renamed column is used as key and also kept by SELECT
-          dfs_views <-
-            dfs_views %>%
-            purrr::imap(
-              ~ dplyr::select(
-                .x,
-                tidyselect::all_of(
-                  do.call(
-                    rlang::set_names,
-                    unname(
-                      as.list(
-                        subset(
-                          curr_query_info,
-                          alias == .y,
-                          c(col, as)
+
+          dfs_views_renamed <-
+            map(
+              rlang::set_names(unique(curr_query_info$alias)),
+              ~ {
+
+                dplyr::select(
+                  dfs_views[[.x]],
+                  tidyselect::all_of(
+                    do.call(
+                      rlang::set_names,
+                      unname(
+                        as.list(
+                          distinct(
+                            subset(
+                              curr_query_info,
+                              alias == .x,
+                              c(col, as)
+                            )
+                          )
                         )
                       )
                     )
                   )
+
                 )
-              )
+
+              }
             )
+
+
+          # dfs_views <-
+          #   dfs_views %>%
+          #   purrr::imap(
+          #     ~ {
+          #
+          #       browser()
+          #       dplyr::select(
+          #         .x,
+          #         tidyselect::all_of(
+          #           do.call(
+          #             rlang::set_names,
+          #             unname(
+          #               as.list(
+          #                 distinct(
+          #                   subset(
+          #                     curr_query_info,
+          #                     alias == .y,
+          #                     c(col, as)
+          #                   )
+          #                 )
+          #               )
+          #             )
+          #           )
+          #         )
+          #       )
+          #
+          #     }
+          #   )
 
           df_temp <-
             purrr::reduce2(
-              .init = dfs_views[[purrr::map_chr(join_keys$alias, 1)[1]]],
-              .x    = dfs_views[ purrr::map_chr(join_keys$alias, 2) ],
+              .init = dfs_views_renamed[[purrr::map_chr(join_keys$alias, 1)[1]]],
+              .x    = dfs_views_renamed[ purrr::map_chr(join_keys$alias, 2) ],
               .y    = join_keys$order,
               .f    = function(cur_df, to_join_df, row_n) {
 
@@ -481,18 +520,26 @@ sql_handler <- function() {
                     do.call(
                       sprintf,
                       list(
-                        paste(
-                          "The `%s` has created naming conflict for column(s):\n",
+                        paste0(
+                          "The `%s` has created naming conflict",
+                          "for column(s):\n",
                           "%s"
                         ),
                         toupper(gsub('_', ' ', join_keys[row_n, 'sql_func'][[1]]))
                       ) %>%
                         append(
-                          paste(
-                            '  -',
-                            stringr::str_subset(colnames(try_join), '\\.(x|y)') %>%
-                              gsub('\\.(x|y)', '', .) %>%
-                              unique()
+                          list(
+                            paste(
+                              '  - ',
+                              stringr::str_subset(
+                                colnames(try_join), '\\.(x|y)'
+                              ) %>%
+                                gsub('\\.(x|y)', '', .) %>%
+                                unique(),
+                              collapse = '\n',
+                              sep = ''
+                            )
+
                           )
                         )
                     )

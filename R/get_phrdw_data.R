@@ -486,6 +486,11 @@ get_phrdw_data <- function(
       query_output <-
         query_output %>%
         dplyr::mutate(
+          dplyr::across(
+            tidyselect::matches('birth_date'), lubridate::ymd
+          )
+        ) %>%
+        dplyr::mutate(
           birth_year_phs =
             as.integer(
               lubridate::year(lubridate::ymd(birth_year_phs))
