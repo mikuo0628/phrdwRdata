@@ -520,18 +520,26 @@ sql_handler <- function() {
                     do.call(
                       sprintf,
                       list(
-                        paste(
-                          "The `%s` has created naming conflict for column(s):\n",
+                        paste0(
+                          "The `%s` has created naming conflict",
+                          "for column(s):\n",
                           "%s"
                         ),
                         toupper(gsub('_', ' ', join_keys[row_n, 'sql_func'][[1]]))
                       ) %>%
                         append(
-                          paste(
-                            '  -',
-                            stringr::str_subset(colnames(try_join), '\\.(x|y)') %>%
-                              gsub('\\.(x|y)', '', .) %>%
-                              unique()
+                          list(
+                            paste(
+                              '  - ',
+                              stringr::str_subset(
+                                colnames(try_join), '\\.(x|y)'
+                              ) %>%
+                                gsub('\\.(x|y)', '', .) %>%
+                                unique(),
+                              collapse = '\n',
+                              sep = ''
+                            )
+
                           )
                         )
                     )
