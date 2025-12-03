@@ -1,3 +1,7 @@
+# phrdwRdata 1.2.0
+
+* New feature: create Powershell commands for batch scripting.
+
 # phrdwRdata 1.1.1
 
 * Fixed bug due to mis-join of `surveillance_region_ha` vs `health_authority`.
