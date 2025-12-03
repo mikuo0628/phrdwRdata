@@ -89,7 +89,7 @@ create_r_batch_script <- function(
 
   if (!is.null(path_std_log)) {
 
-    path_proj_dir <- gsub(path_proj_dir, '%DIR_PROJ%', path_std_log)
+    path_std_log <- gsub(path_proj_dir, '%DIR_PROJ%', path_std_log)
 
   }
 
