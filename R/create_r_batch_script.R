@@ -42,7 +42,7 @@ create_r_batch_script <- function(
     path_std_log    = NULL,
     .check_o_dirve  = F,
     .set_pandoc     = F,
-    .load_renv      = F,
+    .load_renv      = T,
     .renv_run       = F,
     ...
 ) {
@@ -63,10 +63,11 @@ create_r_batch_script <- function(
   if (is.na(path_proj_dir)) path_proj_dir <- getwd()
   if (is.null(path_std_log)) {
 
+    # TODO: clean this with PS var syntax
     path_std_log <-
       file.path(
-        getwd(), 'log',
-        paste0(basename(path_r_exe), '_run.log')
+        path_proj_dir, 'log',
+        paste0(basename(path_proj_dir), '_run.log')
       )
 
     cat(sprintf('Default STD log output to:\n%s\n\n', path_std_log))
@@ -85,6 +86,12 @@ create_r_batch_script <- function(
     }
 
   } else if (isFALSE(path_std_log)) { path_std_log <- NULL }
+
+  if (!is.null(path_std_log)) {
+
+    path_proj_dir <- gsub(path_proj_dir, '%DIR_PROJ%', path_std_log)
+
+  }
 
   if (!file.exists(path_r_exe)) stop('Cannot find `Rscript.exe`')
   if (is.na(path_run_script)) stop('Must supply valid run script path')
