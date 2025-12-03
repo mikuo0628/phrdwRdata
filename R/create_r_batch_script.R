@@ -141,7 +141,7 @@ create_r_batch_script <- function(
             ),
             "}"
           ),
-          load_renv = sprintf("renv::load('%s')", path_proj_dir)
+          load_renv = "renv::load('%DIR_PROJ%'); setwd(renv::project())"
         )
       )
 
