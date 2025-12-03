@@ -206,7 +206,7 @@ create_r_batch_script <- function(
 
     } %>%
     paste0('SET "run_script=', ., '"') %>%
-    set_names('run_script')
+    rlang::set_names('run_script')
 
   if (length(r_cmds) != 0) {
 
