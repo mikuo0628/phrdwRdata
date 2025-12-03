@@ -2,9 +2,11 @@
 
 export("%>%")
 export(connect_to_phrdw)
+export(create_r_batch_script)
 export(explore)
 export(get_phrdw_data)
 export(read_ssrs)
 importFrom(dplyr,"%>%")
 importFrom(lifecycle,deprecated)
 importFrom(magrittr,"%>%")
+importFrom(rmarkdown,find_pandoc)
