@@ -47,7 +47,7 @@ create_r_batch_script <- function(
     ...
 ) {
 
-  ps_cmds <- 'ECHO OFF'
+  ps_cmds <- '@ECHO OFF'
   r_cmds  <- list()
 
   if (is.na(path_r_exe)) {
@@ -264,7 +264,7 @@ create_r_batch_script <- function(
     paste(collapse = '\n') %>%
     paste0(
       '\n\n',
-      '%R_EXE% -e "%final_execute%" > "%LOG_FILE%" 2>&1'
+      '"%R_EXE%" -e "%final_execute%" > "%LOG_FILE%" 2>&1'
     )
 
 }
