@@ -408,7 +408,7 @@ sql_handler <- function() {
           # 2. a renamed column is used as key and also kept by SELECT
 
           dfs_views_renamed <-
-            map(
+            purrr::map(
               rlang::set_names(unique(curr_query_info$alias)),
               ~ {
 
@@ -419,7 +419,7 @@ sql_handler <- function() {
                       rlang::set_names,
                       unname(
                         as.list(
-                          distinct(
+                          dplyr::distinct(
                             subset(
                               curr_query_info,
                               alias == .x,
