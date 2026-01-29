@@ -94,6 +94,9 @@
 #'  the `tempfile` to.
 #'
 #' @param .return_url For developer troubleshooting.
+#' @param .req_options
+#'
+#'   Name-value list of valid curl option, as found in [curl::curl_options()].
 #'
 #' @returns A `tibble` object.
 #' @export
@@ -106,7 +109,8 @@ read_ssrs <- function(
     .explore     = list(F, 'verbose')[[1]],
     .skip        = 0,
     .in_memory   = T,
-    .return_url  = F
+    .return_url  = F,
+    .req_options = list()
 ) {
 
   if (!exists('read_ssrs_skip_warning', envir = the)) {
@@ -135,7 +139,6 @@ read_ssrs <- function(
       'Chrome/133.0.0.0 Safari/537.36'
     )
 
-  # browser()
   url_mod <-
     sub(
       x = url,
@@ -157,6 +160,22 @@ read_ssrs <- function(
     httr2::request(url_mod) %>%
     req_auth_negotiate(user = username)
 
+  if (length(.req_options) > 0) {
+
+    req <-
+      do.call(
+        what = httr2::req_options(),
+        args =
+          append(
+            list(
+              .req = req
+            ),
+            .req_options
+          )
+      )
+
+  }
+
   if (isTRUE(.explore) || tolower(.explore) == 'verbose') {
 
     report_path <-
@@ -166,6 +185,7 @@ read_ssrs <- function(
         replacement = ''
       )
 
+    browser()
     url_params <-
       sprintf(
         file.path(
@@ -190,11 +210,36 @@ read_ssrs <- function(
       .$value %>%
       tibble::as_tibble()
 
-    if (tolower(.explore) == 'verbose') {
+    params <-
+      input_id %>%
+      # dplyr::filter(ParameterVisibility == 'Visible') %>%
+      # tidyr::unnest(Dependencies, keep_empty = F) %>%
+      dplyr::pull(Dependencies) %>%
+      dplyr::intersect(names(user_params)) %>%
+      map(~ list(Name = .x, Values = list(user_params[[.x]])))
 
-      return(tidyr::unnest(input_id, ValidValues))
+    resp_params <-
+      httr2::request(
+        sub('ParameterDefinitions', 'Parameters', url_params)
+        # file.path(
+        #   "https://reports.phsa.ca/Reports",
+        #   "api/v2.0/ReportExecution",
+        #   "Parameters"
+        # )
+      ) %>%
+        httr2::req_method('POST') %>%
+        req_auth_negotiate(user = username) %>%
+        httr2::req_body_json(
+          list(
+            # ReportPath = report_path,
+            Parameters = params
+          )
+        ) %>%
+        httr2::req_perform()
 
-    }
+    # keep columns nested to retain structure
+    # let user decide how to handle
+    if (tolower(.explore) == 'verbose') return(input_id)
 
     input_id %>%
       dplyr::filter(PromptUser == T) %>%
