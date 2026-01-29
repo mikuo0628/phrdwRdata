@@ -9,7 +9,7 @@ way for users to retrieve public health data containing identifiers."></head><bo
 
     <a class="navbar-brand me-2" href="../index.html">phrdwRdata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,8 @@ way for users to retrieve public health data containing identifiers.</p>
 <span>  .explore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">F</span>, <span class="st">"verbose"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
 <span>  .skip <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  .in_memory <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>  .return_url <span class="op">=</span> <span class="cn">F</span></span>
+<span>  .return_url <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  .req_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -111,6 +112,10 @@ the <code>tempfile</code> to.</p></dd>
 
 <dt id="arg--return-url">.return_url<a class="anchor" aria-label="anchor" href="#arg--return-url"></a></dt>
 <dd><p>For developer troubleshooting.</p></dd>
+
+
+<dt id="arg--req-options">.req_options<a class="anchor" aria-label="anchor" href="#arg--req-options"></a></dt>
+<dd><p>Name-value list of valid curl option, as found in <code><a href="https://jeroen.r-universe.dev/curl/reference/curl_options.html" class="external-link">curl::curl_options()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
