@@ -164,7 +164,7 @@ read_ssrs <- function(
 
     req <-
       do.call(
-        what = httr2::req_options(),
+        what = httr2::req_options,
         args =
           append(
             list(
