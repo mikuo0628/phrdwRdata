@@ -11,7 +11,7 @@ create_r_batch_script(
   path_std_log = NULL,
   .check_o_dirve = F,
   .set_pandoc = F,
-  .load_renv = F,
+  .load_renv = T,
   .renv_run = F,
   ...
 )

@@ -1,3 +1,7 @@
+# phrdwRdata 1.3.0
+
+* Added flexibility in `read_ssrs` for user-specified curl options.
+
 # phrdwRdata 1.2.1
 
 # phrdwRdata 1.2.0

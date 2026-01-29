@@ -12,7 +12,8 @@ read_ssrs(
   .explore = list(F, "verbose")[[1]],
   .skip = 0,
   .in_memory = T,
-  .return_url = F
+  .return_url = F,
+  .req_options = list()
 )
 }
 \arguments{
@@ -50,6 +51,8 @@ Alternatively, provide a full path with file name to explicitly direct
 the \code{tempfile} to.}
 
 \item{.return_url}{For developer troubleshooting.}
+
+\item{.req_options}{Name-value list of valid curl option, as found in \code{\link[curl:curl_options]{curl::curl_options()}}.}
 }
 \value{
 A \code{tibble} object.
