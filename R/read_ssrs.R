@@ -386,6 +386,124 @@ read_ssrs <- function(
 
 # Helpers -----------------------------------------------------------------
 
+resolve_dependents <- function(
+    report_host,
+    report_base,
+    report_id,
+    username,
+    user_params
+) {
+
+  url_deps <-
+    sprintf(
+      paste0(
+        report_host, report_base["api"],
+        "Reports(%s)/Model.GetParameters"
+      ),
+      report_id
+    )
+
+  payload <- create_payload(user_params, "dependents")
+
+  req <-
+    httr2::request(url_deps) %>%
+    httr2::req_method("POST") %>%
+    req_auth_negotiate(user = username) %>%
+    httr2::req_body_json(payload)
+
+  resp <-
+    req %>%
+    httr2::req_perform()
+
+  report_dependents <-
+    httr2::resp_body_string(resp) %>%
+    jsonlite::fromJSON() %>%
+    .$value %>%
+    tibble::as_tibble()
+
+  return(report_dependents)
+
+}
+
+create_payload <- function(user_params, type = c("dependents", "download")[1]) {
+
+  if (length(user_params) == 0) return(NULL)
+
+  payload <-
+    if (type == "dependents") {
+
+      list(
+        ParameterValues =
+          unname(
+            purrr::imap(
+              user_params,
+              ~ {
+
+                if (length(.x) > 1) {
+
+                  return(
+                    tibble::tibble(Name = .y, Value = .x) %>%
+                      purrr::pmap(
+                        \(Name, Value) list(Name = Name, Value = Value)
+                      )
+                  )
+
+                }
+
+                return(list(list(Name = .y, Value = .x)))
+
+              }
+            ) %>%
+              unname() %>%
+              purrr::reduce(append)
+          )
+      )
+
+    } else if (type == "download") {
+
+      purrr::imap(
+        user_params,
+        ~ {
+
+          tibble::tibble(name = .y, value = .x) %>%
+            purrr::pmap(\(name, value) setNames(list(value), name)) %>%
+            unlist(F)
+
+        }
+      ) %>%
+        purrr::reduce(append)
+
+    }
+
+  return(payload)
+
+}
+
+get_report_inputs <- function(report_host, report_base, report_id, username) {
+
+  url_defs <-
+    sprintf(
+      paste0(
+        report_host, report_base["api"],
+        "Reports(%s)/ParameterDefinitions"
+      ),
+      report_id
+    )
+
+  report_inputs <-
+    httr2::request(url_defs) %>%
+    req_auth_negotiate(user = username) %>%
+    httr2::req_perform() %>%
+    httr2::resp_body_string() %>%
+    jsonlite::fromJSON() %>%
+    { .$value } %>%
+    tibble::as_tibble()
+
+  return(report_inputs)
+
+}
+
+
 #' Title
 #'
 #' @param req
@@ -485,7 +603,7 @@ handle_disclaimer <- function(url, user) {
 #'
 #' @noRd
 #'
-catalog_items <- function(user) {
+get_object_model <- function(user) {
 
   # require(jsonlite)
   # require(httr2)
@@ -499,13 +617,41 @@ catalog_items <- function(user) {
       'Chrome/133.0.0.0 Safari/537.36'
     )
 
+  c(
+    CatalogItems     = "CatalogItems",
+    Extensions       = "Extensions",
+    DataSources      = "DataSources",
+    Resources        = "Resources",
+    Subscriptions    = "Subscriptions",
+    CacheRefreshPlan = "CacheRefreshPlan"
+  )
+
   file.path(
-    "https://reports.phsa.ca/reports/api/v2.0",
-    "CatalogItems"
-  ) %>%
+    "https://reports.phsa.ca/reports/api/v2.0"
+  )
+
+  df_cat <-
+    file.path(
+      "https://reports.phsa.ca/reports/api/v2.0",
+      "CatalogItems"
+    ) %>%
     httr2::request() %>%
     httr2::req_user_agent(ua) %>%
     req_auth_negotiate(user) %>%
+    httr2::req_perform() %>%
+    httr2::resp_body_string() %>%
+    jsonlite::fromJSON() %>%
+    .$value %>%
+    tibble::as_tibble()
+
+  df_exts <-
+    file.path(
+      "https://reports.phsa.ca/reports/api/v2.0",
+      "Extensions"
+    ) %>%
+    httr2::request() %>%
+    req_auth_negotiate(user) %>%
+    httr2::req_error(is_error = \(resp) FALSE) %>%
     httr2::req_perform() %>%
     httr2::resp_body_string() %>%
     jsonlite::fromJSON() %>%
