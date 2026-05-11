@@ -10,10 +10,11 @@ read_ssrs(
   username = NULL,
   format = c("CSV")[1],
   .explore = list(F, "default", "valid")[[1]],
+  .check_params = T,
   .resolve_dependents = F,
   .skip = 0L,
   .in_memory = T,
-  .return_url = F,
+  .col_types = NULL,
   .req_options = list()
 )
 }
@@ -34,6 +35,12 @@ If NULL, uses current Windows session credentials via NTLM/Negotiate.}
 \item{.explore}{Logical. If \code{TRUE}, will print useful information for
 user input, and return invisibly a \code{data.frame} of the full detail.}
 
+\item{.check_params}{Logical. In SSRS UI, the prompt is meant for user
+readability (ie. The values in the parameters may not reflect the actual
+values to be filtered in the backend). If \code{TRUE}, user can supply
+values seen in the UI, and the function will convert them to the backend-
+appropriate values.}
+
 \item{.resolve_dependents}{Logical. If \code{TRUE}, the function will
 query the server to resolve cascading dependencies.
 This is necessary when one filter (e.g., Health Authority)
@@ -46,8 +53,19 @@ restricts the valid values of another (e.g., Community).}
 in RAM. If \code{FALSE} or a file path, streams the download to disk
 to handle large datasets.}
 
-\item{.return_url}{Logical. If \code{TRUE}, returns the constructed
-ReportServer URL instead of data.}
+\item{.col_types}{One of \code{NULL},
+a \code{\link[readr:cols]{readr::cols()}} specification,
+or a string. Controls how the downloaded columns are parsed.
+\itemize{
+\item If \code{NULL} (default), column types are guessed based on the
+first 1,000 rows.
+\item To keep all columns as character data (recommended for manual
+cleaning), use \code{readr::cols(.default = "c")}.
+\item See \code{\link[readr:read_csv]{readr::read_csv()}} for full
+details on supported formats.
+}
+It is highly recommended that users read data as \code{character} type
+and perform explicit cleaning actions instead of relying on heuristics.}
 
 \item{.req_options}{List. Additional curl options passed to
 \code{httr2::req_options}.}
