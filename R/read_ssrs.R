@@ -104,13 +104,14 @@
 read_ssrs <- function(
     url          = '',
     ...,
-    username     = NULL,
-    format       = c('CSV')[1],
-    .explore     = list(F, 'verbose')[[1]],
-    .skip        = 0,
-    .in_memory   = T,
-    .return_url  = F,
-    .req_options = list()
+    username            = NULL,
+    format              = c('CSV')[1],
+    .explore            = list(F, "default", "valid")[[1]],
+    .resolve_dependents = F,
+    .skip               = 0L,
+    .in_memory          = T,
+    .return_url         = F,
+    .req_options        = list()
 ) {
 
   if (!exists('read_ssrs_skip_warning', envir = the)) {
@@ -128,39 +129,48 @@ read_ssrs <- function(
 
   }
 
+  # handle/create some base info
   user_params <- rlang::list2(...)
-
-  format <- sprintf('?rs:Format=%s', format)
-
-  ua <-
-    paste(
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-      'AppleWebKit/537.36 (KHTML, like Gecko)',
-      'Chrome/133.0.0.0 Safari/537.36'
+  url_comp    <- httr2::url_parse(url)
+  report_host <- paste0(url_comp$scheme, "://", url_comp$hostname)
+  report_path <- gsub("%20", " ", sub(".*reports/report", "", url_comp$path))
+  report_name <- basename(url)
+  report_base <-
+    c(
+      # API Base for GUIDs and Parameters
+      api    = "/Reports/api/v2.0/",
+      # For downloading the actual data
+      render = "/ReportServer?"
     )
 
-  url_mod <-
-    sub(
-      x = url,
-      pattern = 'reports/report',
-      replacement = 'ReportServer/Pages/ReportViewer.aspx?'
-    )
-    # httr2::url_parse(url) %>%
-    # httr2::url_modify(
-    #   path =
-    #     stringr::str_replace(
-    #       .$path,
-    #       'reports/report',
-    #       'ReportServer/Pages/ReportViewer.aspx?'
-    #     )
-    # ) %>%
-    # httr2::url_build()
+  # 1) GUID
+  report_meta <-
+    httr2::request(
+      sprintf(
+        paste0(
+          report_host,
+          report_base['api'],
+          "Reports(Path='%s')"
+        ),
+        URLencode(report_path, reserved = T)
+      )
+    ) %>%
+    req_auth_negotiate(user = username) %>%
+    httr2::req_perform() %>%
+    httr2::resp_body_json()
 
-  req <-
-    httr2::request(url_mod) %>%
+  req_download <-
+    httr2::request(
+      paste0(
+        report_host,
+        report_base["render"],
+        URLencode(report_path)
+      )
+    ) %>%
+    httr2::req_method("POST") %>%
     req_auth_negotiate(user = username)
 
-  if (length(.req_options) > 0) {
+  if (length(.req_options) != 0) {
 
     req <-
       do.call(
@@ -176,201 +186,168 @@ read_ssrs <- function(
 
   }
 
-  if (isTRUE(.explore) || tolower(.explore) == 'verbose') {
+  if (
+    !isFALSE(.explore) ||
+    length(user_params) > 0 ||
+    isTRUE(.resolve_dependents)
+  ) {
 
-    report_path <-
-      sub(
-        x = url,
-        pattern = '.*reports/report',
-        replacement = ''
+    # 2) get report inputs. Needed for:
+    ## - explore param names
+    ## - resolve dependencies
+    ## - clean user params
+    report_inputs <-
+      get_report_inputs(
+        report_host,
+        report_base,
+        report_meta$Id,
+        username
       )
 
-    browser()
-    url_params <-
-      sprintf(
-        file.path(
-          "https://reports.phsa.ca/Reports",
-          "api/v2.0/Reports(Path='%s')",
-          "ParameterDefinitions"
-        ),
-        report_path
-      )
+    if (!isFALSE(.explore)) {
 
-    req_params <-
-      httr2::request(url_params) %>%
-      req_auth_negotiate(user = username)
-
-    resp_params <-
-      httr2::req_perform(req_params)
-
-    input_id <-
-      resp_params %>%
-      httr2::resp_body_string() %>%
-      jsonlite::fromJSON() %>%
-      .$value %>%
-      tibble::as_tibble()
-
-    params <-
-      input_id %>%
-      # dplyr::filter(ParameterVisibility == 'Visible') %>%
-      # tidyr::unnest(Dependencies, keep_empty = F) %>%
-      dplyr::pull(Dependencies) %>%
-      dplyr::intersect(names(user_params)) %>%
-      map(~ list(Name = .x, Values = list(user_params[[.x]])))
-
-    resp_params <-
-      httr2::request(
-        sub('ParameterDefinitions', 'Parameters', url_params)
-        # file.path(
-        #   "https://reports.phsa.ca/Reports",
-        #   "api/v2.0/ReportExecution",
-        #   "Parameters"
-        # )
-      ) %>%
-        httr2::req_method('POST') %>%
-        req_auth_negotiate(user = username) %>%
-        httr2::req_body_json(
-          list(
-            # ReportPath = report_path,
-            Parameters = params
-          )
+      print_info <-
+        report_inputs %>%
+        dplyr::filter(
+          ParameterVisibility == "Visible",
+          Nullable == FALSE,
+          # DefaultValuesIsNull == TRUE
         ) %>%
-        httr2::req_perform()
+        dplyr::mutate(
+          DefaultValues = purrr::map(DefaultValues, ~ head(.x, 1)),
+        ) %>%
+        tidyr::unnest(DefaultValues, keep_empty = TRUE) %>%
+        tidyr::replace_na(list(DefaultValues = ""))
 
-    # keep columns nested to retain structure
-    # let user decide how to handle
-    if (tolower(.explore) == 'verbose') return(input_id)
-
-    input_id %>%
-      dplyr::filter(PromptUser == T) %>%
-      dplyr::select(Name, DefaultValues) %>%
-      dplyr::mutate(
-        DefaultValues = purrr::map_chr(DefaultValues, ~ unlist(.x)[1]),
-      ) %>%
-      tidyr::replace_na(
-        list(DefaultValues = '')
-      ) %>%
-      {
-
-        param_names <- .$Name
-        pad_name <- max(nchar(param_names), na.rm = T)
-
+      message(
         sprintf(
-          "   %s : %s",
-          stringr::str_pad(param_names, width = pad_name, 'right'),
-          sprintf("%s", .$DefaultValues)
+          paste(
+            collapse = "\n",
+            sep = "\n",
+            "Report name: %s",
+            "Report path: %s"
+          ),
+          report_meta$Name,
+          report_meta$Path
+        )
+      )
+
+      df_valid_values <- tidyr::unnest(dplyr::select(print_info, ValidValues))
+
+      dplyr::select(
+        print_info,
+        name = Name, Value = DefaultValues
+      ) %>%
+        {
+
+          if (nrow(df_valid_values) > 0) {
+
+            dplyr::left_join(.,  df_valid_values, by = "Value") %>%
+              dplyr::mutate(Value = dplyr::coalesce(Label, Value))
+
+
+          } else { . }
+
+        } %>%
+        dplyr::select(name, Value) %>%
+        {
+
+          param_names <- .$name
+          pad_name <- max(nchar(param_names), na.rm = T)
+
+          sprintf(
+            "   %s : %s",
+            stringr::str_pad(param_names, width = pad_name, 'right'),
+            sprintf("%s", .$Value)
+          ) %>%
+            paste(collapse = '\n') %>%
+            message(
+              'Default User Input (showing only 1):\n\n', .
+            )
+
+        }
+
+    }
+
+    if (length(user_params) > 0) {
+
+      # 3) ensure user_params consistent with ValidValues
+      user_params <-
+        user_params %>%
+        purrr::imap(
+          ~ {
+
+            df_valid_values <-
+              report_inputs %>%
+              dplyr::filter(Name == .y) %>%
+              dplyr::select(Name, ValidValues) %>%
+              tidyr::unnest(ValidValues)
+            if (nrow(df_valid_values) == 0) {
+              return(.x)
+            }
+
+            df_valid_values %>%
+              dplyr::filter(Label %in% .x) %>%
+              dplyr::pull(Value)
+
+          }
+        )
+
+    }
+
+    if (isTRUE(.resolve_dependents)) {
+
+      report_inputs <-
+        resolve_dependents(
+          report_host = report_host,
+          report_base = report_base,
+          report_id   = report_meta$Id,
+          username    = username,
+          user_params = user_params
+        )
+
+      user_params <-
+        report_inputs %>%
+        dplyr::filter(DefaultValuesIsNull == FALSE) %>%
+        dplyr::select(Name, DefaultValues) %>%
+        purrr::pmap(
+          \(Name, DefaultValues) setNames(list(DefaultValues), Name)
         ) %>%
-          paste(collapse = '\n') %>%
-          message(
-            'Default User Input:\n\n', .
-          )
+        unlist(F)
 
-      }
+    }
 
-    # Uses xpath to extrapolate parametername
-    # resp <-
-    #   req %>%
-    #   httr2::req_perform()
-    #
-    # input_id <-
-    #   resp %>%
-    #   httr2::resp_body_html() %>%
-    #   xml2::xml_find_all(
-    #     # this xpath pulls `data-parameternames`, which are the parameters
-    #     # users can choose, and their default values, if any
-    #     paste(
-    #       "//div[@data-parametername]",
-    #       paste(
-    #         "//input[contains(@id, 'ReportViewerControl')",
-    #         "contains(@type, 'text')",
-    #         "@value]",
-    #         sep = ' and '
-    #       ),
-    #       sep = ' | '
-    #     )
-    #   ) %>%
-    #   xml2::xml_attrs() %>%
-    #   purrr::map(stack) %>%
-    #   purrr::map(
-    #     dplyr::filter, ind %in% c('id', 'value', 'data-parametername')
-    #   ) %>%
-    #   purrr::map(
-    #     dplyr::mutate,
-    #     values = stringr::str_remove(values, '_txtValue$')
-    #   ) %>%
-    #   purrr::map_dfr(
-    #     tidyr::pivot_wider, names_from = 'ind', values_from = 'values'
-    #   ) %>%
-    #   dplyr::group_by(id) %>%
-    #   {
-    #
-    #     if ('value' %in% names(.)) {
-    #
-    #       tidyr::fill(., `data-parametername`, value, .direction = 'updown')
-    #
-    #     } else {
-    #
-    #       dplyr::mutate(., value = NA_character_)
-    #
-    #     }
-    #
-    #   } %>%
-    #   dplyr::ungroup() %>%
-    #   dplyr::distinct()
-    #
-    # input_id %>%
-    #   tidyr::replace_na(
-    #     list(value = 'No input found; (possibly checkbox?)')
-    #   ) %>%
-    #   {
-    #
-    #     pad <- max(nchar(.[['data-parametername']]))
-    #
-    #     sprintf(
-    #       '   %s: %s',
-    #       stringr::str_pad(.[['data-parametername']], width = pad, 'right'),
-    #       sprintf('%s', .[['value']])
-    #     )
-    #
-    #   } %>%
-    #   paste(collapse = '\n') %>%
-    #   message(
-    #     'Default User Input:\n\n', .
-    #   )
-
-    # resp %>%
-    #   httr2::resp_body_html() %>%
-    #   xml2::xml_find_all(
-    #     # "//*[@id[contains(., 'ctl04_ctl03')]]/*"
-    #     "//*[@id[contains(., 'ctl04_ctl17')]]"
-    #   ) %>%
-    #   xml2::xml_attrs() %>%
-    #   purrr::map(stack) %>%
-    #   purrr::map(tibble::as_tibble)
+    if (!isFALSE(.explore)) return(invisible(report_inputs))
 
   }
 
-  req$url <- paste0(req$url, format)
-
-  # browser()
-  req_with_query <-
-    do.call(
-      httr2::req_url_query,
-      append(
-        list(
-          .req = req,
-          .multi = 'explode'
-        ),
-        user_params
-      )
+  payload <-
+    append(
+      list(
+        `rs:Command` = "Render",
+        `rs:Format`  = format
+      ),
+      create_payload(user_params, "download")
     )
 
-  req_with_query$url <- gsub('%3Frs%3A', '&rs:', req_with_query$url)
+  req_download <- httr2::req_body_form(req_download, !!!payload)
 
-  if (.return_url) return(req_with_query$url)
+  # req_download <-
+  #   req_download %>%
+  #   httr2::req_error(is_error = \(resp) F) %>%
+  #   httr2::req_perform()
+
+  # ua <-
+  #   paste(
+  #     'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+  #     'AppleWebKit/537.36 (KHTML, like Gecko)',
+  #     'Chrome/133.0.0.0 Safari/537.36'
+  #   )
+
+  if (.return_url) return(req_download$url)
 
   please <-
-    req_with_query %>%
+    req_download %>%
     {
 
       if (isTRUE(.in_memory)) {
