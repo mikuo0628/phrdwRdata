@@ -49,6 +49,7 @@ jobs:
 
       - uses: r-lib/actions/setup-renv@v2
         with:
+          r-version: '4.4' # Pin to stable version
           cache-version: 1
 
       # - uses: r-lib/actions/setup-r-dependencies@v2
