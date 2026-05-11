@@ -1,11 +1,27 @@
 #' Retrieves data from SSRS URLs.
 #'
 #' @description
-#' SQL Server Reporting Services (SSRS) built by PHSA enables an alternative
-#'   way for users to retrieve public health data containing identifiers.
+#' `read_ssrs` provides a high-level interface to SQL Server Reporting Services
+#'   (SSRS). It handles the complex lifecycle of an SSRS request: discovering
+#'   report metadata via GUID, resolving cascading (dependent) parameters,
+#'   and rendering the final output via the ReportServer engine.
 #'
 #' @details
-#' This function provides an interface to pull data into R environment by
+#' The function operates in three primary phases:
+#' \enumerate{
+#'   \item \bold{Discovery}: Converts the human-readable portal URL into a
+#'   unique System GUID using the SSRS REST API.
+#'   \item \bold{Resolution}: If `.resolve_dependents = TRUE`, it calls the
+#'   `Model.GetParameters` bound action. This server-side logic ensures that if
+#'   you select a "Disease", the "Serotypes" are automatically filtered and
+#'   filled in the background.
+#'   \item \bold{Execution}: Sends the final payload as
+#'   `application/x-www-form-urlencoded` via a POST request to the
+#'   ReportServer. This avoids the "URL too long" errors
+#'   common with large MDX parameter sets.
+#' }
+#'
+#' It provides an interface to pull data into R environment by
 #'   leveraging the following packages/tools:
 #'   -  `keyring`: handles user credential elegantly.
 #'   -  `httr2`: handles HTTP requests and responses following Microsoft
@@ -22,11 +38,12 @@
 #'   console:
 #'
 #' ```
-#'   Default User Input:
+#' Report name: XYZ
+#' Report path: /bccdc/XYZ
+#' Default User Input (showing only 1):
 #'
-#'     health_authority: No input detected; possibly checkbox?
-#'     death_date_from : 1/1/2015
-#'     death_date_to   : 5/20/2025
+#'   SurveillanceReportedStartDate : 2026-05-04T00:00:00.0000000
+#'   SurveillanceReportedEndDate   : 2026-05-11T00:00:00.0000000
 #'
 #' ```
 #'
@@ -36,8 +53,8 @@
 #' ```r
 #' read_ssrs(
 #'   url             = YOUR_SSRS_URL,
-#'   death_date_from = '1/1/2015',
-#'   death_date_to   = '5/20/2025'
+#'   SurveillanceReportedStartDate = "1/1/2025",
+#'   SurveillanceReportedEndDate   = "2/1/2025"
 #' )
 #' ```
 #'
@@ -52,53 +69,34 @@
 #'   implementation of the crucial authentication/negotiation,
 #'   and is instrumental in the design of the API handling.
 #'
-#' @param url SSRS url.
-#' @param ... SSRS reports' built-in filters. See `Details`.
-#' @param username
+#' @param url Character.
+#'   The full SSRS portal URL
+#'   (e.g., \code{https://reports.phsa.ca/reports/report/...}).
+#' @param ... SSRS report filters. You can use the human-readable labels
+#'   found in the web UI; the function will automatically map these to
+#'   the technical MDX strings required by the back end.
+#' @param username Character. Your PHSA/Network user ID.
+#'   If NULL, uses current Windows session credentials via NTLM/Negotiate.
+#' @param format Character. The output format. Defaults to "CSV".
+#' @param .explore Logical. If \code{TRUE}, will print useful information for
+#'   user input, and return invisibly a \code{data.frame} of the full detail.
+#' @param .resolve_dependents Logical. If \code{TRUE}, the function will
+#'   query the server to resolve cascading dependencies.
+#'   This is necessary when one filter (e.g., Health Authority)
+#'   restricts the valid values of another (e.g., Community).
+#' @param .skip Integer. Number of lines to skip at the top of the CSV
+#'   (e.g., for reports with headers/metadata).
+#' @param .in_memory Logical or Character. If \code{TRUE}, processes data
+#'   in RAM. If \code{FALSE} or a file path, streams the download to disk
+#'   to handle large datasets.
+#' @param .return_url Logical. If \code{TRUE}, returns the constructed
+#'   ReportServer URL instead of data.
+#' @param .req_options List. Additional curl options passed to
+#'   \code{httr2::req_options}.
 #'
-#'   User ID (without email domain). Not required if you are on PHSA network.
-#'   However, providing one allows one to set up batch jobs for scheduled
-#'   runs. See `Details`.
 #'
-#' @param format
-#'
-#'   Some SSRS reports offer multiple formats to download. Currently only
-#'   csv is supported and is the default value. May be extended in the future.
-#'
-#' @param .explore
-#'
-#'   Defaults to `FALSE`. If you are unsure what filters you could use for
-#'   your SSRS report, set this to `TRUE` and a list of currently supported
-#'   filters and their default values (if available; no values will be
-#'   shown if dependent on other values, ie. query-based) will be
-#'   printed in the console.
-#'
-#'   Additionally, set to `verbose` will instead of printing to console,
-#'   return a `data.frame` of detailed parameter information, which can be used
-#'   to assist users to design their scripts.
-#'
-#' @param .skip
-#'
-#'   SSRS reports in csv format may contain lines above the headers
-#'   (meta info, descriptions, etc). You may not wish to have this in your
-#'   data frame. If in your first run you noted there are lines above the
-#'   headers, you can enter number of lines to skip here.
-#'
-#' @param .in_memory
-#'
-#'  If the body of the response is too large for your environment, you will
-#'  run into `curl::curl_fetch_memory()` error. In this case, set this
-#'  parameter to `FALSE`, and a `tempfile` will be created for you to
-#'  temporarily store the response body while being parsed into a csv.
-#'  Alternatively, provide a full path with file name to explicitly direct
-#'  the `tempfile` to.
-#'
-#' @param .return_url For developer troubleshooting.
-#' @param .req_options
-#'
-#'   Name-value list of valid curl option, as found in [curl::curl_options()].
-#'
-#' @returns A `tibble` object.
+#' @return A \code{tibble} containing the report data, or
+#'   a metadata \code{data.frame} if \code{.explore} is active.
 #' @export
 #'
 read_ssrs <- function(
@@ -386,6 +384,22 @@ read_ssrs <- function(
 
 # Helpers -----------------------------------------------------------------
 
+#' Resolve Cascading Parameters via SSRS Bound Action
+#'
+#' @description
+#' Formally invokes the \code{Model.GetParameters} POST action. This is the
+#' "Logic Engine" of the function, ensuring that dependent parameters are
+#' recalculated based on the current \code{user_params} state.
+#'
+#' @param report_host The base scheme and domain.
+#' @param report_base Named vector containing API and Render paths.
+#' @param report_id The GUID of the report.
+#' @param username Optional credential string.
+#' @param user_params The current list of parameter selections.
+#'
+#' @return A tibble of updated \code{ParameterDefinitions}.
+#' @keywords internal
+#' @noRd
 resolve_dependents <- function(
     report_host,
     report_base,
@@ -425,6 +439,25 @@ resolve_dependents <- function(
 
 }
 
+#' Create Multi-Part or Form Payloads
+#'
+#' @description
+#' A specialized flattener that transforms R lists into the specific structures
+#' required by different SSRS endpoints.
+#'
+#' @param user_params A named list of parameters.
+#' @param type Character. Either \code{"dependents"} (outputs a nested JSON-ready
+#'   list of Name/Value objects) or \code{"download"} (outputs a flat list with
+#'   duplicate names for Form encoding).
+#'
+#' @details
+#' For \code{"download"}, this function ensures that multi-value parameters
+#' are "exploded" into separate list elements so that \code{httr2::req_body_form}
+#' produces repeated keys (e.g., \code{&id=1&id=2}).
+#'
+#' @return A list formatted for \code{req_body_json} or \code{req_body_form}.
+#' @keywords internal
+#' @noRd
 create_payload <- function(user_params, type = c("dependents", "download")[1]) {
 
   if (length(user_params) == 0) return(NULL)
@@ -479,6 +512,14 @@ create_payload <- function(user_params, type = c("dependents", "download")[1]) {
 
 }
 
+#' Fetch Raw Parameter Metadata
+#'
+#' @description
+#' Hits the \code{ParameterDefinitions} REST endpoint to retrieve the
+#' structural requirements of the report (types, nullability, valid values).
+#'
+#' @keywords internal
+#' @noRd
 get_report_inputs <- function(report_host, report_base, report_id, username) {
 
   url_defs <-
@@ -504,19 +545,17 @@ get_report_inputs <- function(report_host, report_base, report_id, username) {
 }
 
 
-#' Title
+#' Handle NTLM/Negotiate Authentication
 #'
-#' @param req
-#' @param user
-#' @param reset_pw
-#'
-#' @returns
+#' @description
+#' Manages the \code{userpwd} and \code{httpauth} options for \code{httr2}.
+#' Integrates with \code{keyring} for secure local credential storage.
 #'
 #' @author [Brendan Bakos](mailto:brendan.bakos@vch.ca) provided this
 #'   implementation.
 #'
+#' @keywords internal
 #' @noRd
-#'
 req_auth_negotiate <- function(req, user = NULL, reset_pw = F) {
 
   if (!is.null(user)) {
@@ -572,7 +611,6 @@ req_auth_negotiate <- function(req, user = NULL, reset_pw = F) {
 #' @returns
 #'
 #' @noRd
-#'
 handle_disclaimer <- function(url, user) {
 
   url <-
@@ -602,7 +640,6 @@ handle_disclaimer <- function(url, user) {
 #' @returns
 #'
 #' @noRd
-#'
 get_object_model <- function(user) {
 
   # require(jsonlite)

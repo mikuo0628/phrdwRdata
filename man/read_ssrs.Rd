@@ -9,60 +9,75 @@ read_ssrs(
   ...,
   username = NULL,
   format = c("CSV")[1],
-  .explore = list(F, "verbose")[[1]],
-  .skip = 0,
+  .explore = list(F, "default", "valid")[[1]],
+  .resolve_dependents = F,
+  .skip = 0L,
   .in_memory = T,
   .return_url = F,
   .req_options = list()
 )
 }
 \arguments{
-\item{url}{SSRS url.}
+\item{url}{Character.
+The full SSRS portal URL
+(e.g., \code{https://reports.phsa.ca/reports/report/...}).}
 
-\item{...}{SSRS reports' built-in filters. See \code{Details}.}
+\item{...}{SSRS report filters. You can use the human-readable labels
+found in the web UI; the function will automatically map these to
+the technical MDX strings required by the back end.}
 
-\item{username}{User ID (without email domain). Not required if you are on PHSA network.
-However, providing one allows one to set up batch jobs for scheduled
-runs. See \code{Details}.}
+\item{username}{Character. Your PHSA/Network user ID.
+If NULL, uses current Windows session credentials via NTLM/Negotiate.}
 
-\item{format}{Some SSRS reports offer multiple formats to download. Currently only
-csv is supported and is the default value. May be extended in the future.}
+\item{format}{Character. The output format. Defaults to "CSV".}
 
-\item{.explore}{Defaults to \code{FALSE}. If you are unsure what filters you could use for
-your SSRS report, set this to \code{TRUE} and a list of currently supported
-filters and their default values (if available; no values will be
-shown if dependent on other values, ie. query-based) will be
-printed in the console.
+\item{.explore}{Logical. If \code{TRUE}, will print useful information for
+user input, and return invisibly a \code{data.frame} of the full detail.}
 
-Additionally, set to \code{verbose} will instead of printing to console,
-return a \code{data.frame} of detailed parameter information, which can be used
-to assist users to design their scripts.}
+\item{.resolve_dependents}{Logical. If \code{TRUE}, the function will
+query the server to resolve cascading dependencies.
+This is necessary when one filter (e.g., Health Authority)
+restricts the valid values of another (e.g., Community).}
 
-\item{.skip}{SSRS reports in csv format may contain lines above the headers
-(meta info, descriptions, etc). You may not wish to have this in your
-data frame. If in your first run you noted there are lines above the
-headers, you can enter number of lines to skip here.}
+\item{.skip}{Integer. Number of lines to skip at the top of the CSV
+(e.g., for reports with headers/metadata).}
 
-\item{.in_memory}{If the body of the response is too large for your environment, you will
-run into \code{curl::curl_fetch_memory()} error. In this case, set this
-parameter to \code{FALSE}, and a \code{tempfile} will be created for you to
-temporarily store the response body while being parsed into a csv.
-Alternatively, provide a full path with file name to explicitly direct
-the \code{tempfile} to.}
+\item{.in_memory}{Logical or Character. If \code{TRUE}, processes data
+in RAM. If \code{FALSE} or a file path, streams the download to disk
+to handle large datasets.}
 
-\item{.return_url}{For developer troubleshooting.}
+\item{.return_url}{Logical. If \code{TRUE}, returns the constructed
+ReportServer URL instead of data.}
 
-\item{.req_options}{Name-value list of valid curl option, as found in \code{\link[curl:curl_options]{curl::curl_options()}}.}
+\item{.req_options}{List. Additional curl options passed to
+\code{httr2::req_options}.}
 }
 \value{
-A \code{tibble} object.
+A \code{tibble} containing the report data, or
+a metadata \code{data.frame} if \code{.explore} is active.
 }
 \description{
-SQL Server Reporting Services (SSRS) built by PHSA enables an alternative
-way for users to retrieve public health data containing identifiers.
+\code{read_ssrs} provides a high-level interface to SQL Server Reporting Services
+(SSRS). It handles the complex lifecycle of an SSRS request: discovering
+report metadata via GUID, resolving cascading (dependent) parameters,
+and rendering the final output via the ReportServer engine.
 }
 \details{
-This function provides an interface to pull data into R environment by
+The function operates in three primary phases:
+\enumerate{
+\item \bold{Discovery}: Converts the human-readable portal URL into a
+unique System GUID using the SSRS REST API.
+\item \bold{Resolution}: If \code{.resolve_dependents = TRUE}, it calls the
+\code{Model.GetParameters} bound action. This server-side logic ensures that if
+you select a "Disease", the "Serotypes" are automatically filtered and
+filled in the background.
+\item \bold{Execution}: Sends the final payload as
+\code{application/x-www-form-urlencoded} via a POST request to the
+ReportServer. This avoids the "URL too long" errors
+common with large MDX parameter sets.
+}
+
+It provides an interface to pull data into R environment by
 leveraging the following packages/tools:
 \itemize{
 \item \code{keyring}: handles user credential elegantly.
@@ -80,11 +95,12 @@ The helper to determine filters is \code{.explore}. If you set it to \code{TRUE}
 you may get something similar to the following message printed in your
 console:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{  Default User Input:
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Report name: XYZ
+Report path: /bccdc/XYZ
+Default User Input (showing only 1):
 
-    health_authority: No input detected; possibly checkbox?
-    death_date_from : 1/1/2015
-    death_date_to   : 5/20/2025
+  SurveillanceReportedStartDate : 2026-05-04T00:00:00.0000000
+  SurveillanceReportedEndDate   : 2026-05-11T00:00:00.0000000
 
 }\if{html}{\out{</div>}}
 
@@ -93,8 +109,8 @@ add them as part of the function:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{read_ssrs(
   url             = YOUR_SSRS_URL,
-  death_date_from = '1/1/2015',
-  death_date_to   = '5/20/2025'
+  SurveillanceReportedStartDate = "1/1/2025",
+  SurveillanceReportedEndDate   = "2/1/2025"
 )
 }\if{html}{\out{</div>}}
 
