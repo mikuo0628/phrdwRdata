@@ -185,9 +185,7 @@ read_ssrs <- function(
   }
 
   if (
-    !isFALSE(.explore) ||
-    length(user_params) > 0 ||
-    isTRUE(.resolve_dependents)
+    !isFALSE(.explore) || isTRUE(.check_params) || isTRUE(.resolve_dependents)
   ) {
 
     # 2) get report inputs. Needed for:
@@ -202,72 +200,7 @@ read_ssrs <- function(
         username
       )
 
-    if (!isFALSE(.explore)) {
-
-      print_info <-
-        report_inputs %>%
-        dplyr::filter(
-          ParameterVisibility == "Visible",
-          Nullable == FALSE,
-          # DefaultValuesIsNull == TRUE
-        ) %>%
-        dplyr::mutate(
-          DefaultValues = purrr::map(DefaultValues, ~ head(.x, 1)),
-        ) %>%
-        tidyr::unnest(DefaultValues, keep_empty = TRUE) %>%
-        tidyr::replace_na(list(DefaultValues = ""))
-
-      message(
-        sprintf(
-          paste(
-            collapse = "\n",
-            sep = "\n",
-            "Report name: %s",
-            "Report path: %s"
-          ),
-          report_meta$Name,
-          report_meta$Path
-        )
-      )
-
-      df_valid_values <- tidyr::unnest(dplyr::select(print_info, ValidValues))
-
-      dplyr::select(
-        print_info,
-        name = Name, Value = DefaultValues
-      ) %>%
-        {
-
-          if (nrow(df_valid_values) > 0) {
-
-            dplyr::left_join(.,  df_valid_values, by = "Value") %>%
-              dplyr::mutate(Value = dplyr::coalesce(Label, Value))
-
-
-          } else { . }
-
-        } %>%
-        dplyr::select(name, Value) %>%
-        {
-
-          param_names <- .$name
-          pad_name <- max(nchar(param_names), na.rm = T)
-
-          sprintf(
-            "   %s : %s",
-            stringr::str_pad(param_names, width = pad_name, 'right'),
-            sprintf("%s", .$Value)
-          ) %>%
-            paste(collapse = '\n') %>%
-            message(
-              'Default User Input (showing only 1):\n\n', .
-            )
-
-        }
-
-    }
-
-    if (length(user_params) > 0) {
+    if (length(user_params) > 0 & isTRUE(.check_params)) {
 
       # 3) ensure user_params consistent with ValidValues
       user_params <-
@@ -280,9 +213,8 @@ read_ssrs <- function(
               dplyr::filter(Name == .y) %>%
               dplyr::select(Name, ValidValues) %>%
               tidyr::unnest(ValidValues)
-            if (nrow(df_valid_values) == 0) {
-              return(.x)
-            }
+
+            if (nrow(df_valid_values) == 0) return(.x)
 
             df_valid_values %>%
               dplyr::filter(Label %in% .x) %>%
@@ -315,7 +247,74 @@ read_ssrs <- function(
 
     }
 
-    if (!isFALSE(.explore)) return(invisible(report_inputs))
+    if (!isFALSE(.explore)) {
+
+      print_info <-
+        report_inputs %>%
+        dplyr::filter(
+          ParameterVisibility == "Visible",
+          Nullable == FALSE,
+          # DefaultValuesIsNull == TRUE
+        ) %>%
+        dplyr::mutate(
+          DefaultValues = purrr::map(DefaultValues, ~ head(.x, 1)),
+        ) %>%
+        tidyr::unnest(DefaultValues, keep_empty = TRUE) %>%
+        tidyr::replace_na(list(DefaultValues = ""))
+
+      message(
+        sprintf(
+          paste(
+            collapse = "\n",
+            sep = "\n",
+            "Report name: %s",
+            "Report path: %s"
+          ),
+          report_meta$Name,
+          report_meta$Path
+        )
+      )
+
+      df_valid_values <-
+        tidyr::unnest(dplyr::select(print_info, Name, ValidValues))
+
+      dplyr::select(
+        print_info,
+        Name,
+        Value = DefaultValues
+      ) %>%
+        {
+
+          if (nrow(df_valid_values) > 0) {
+
+            dplyr::left_join(.,  df_valid_values, by = c("Name", "Value")) %>%
+              dplyr::mutate(Value = dplyr::coalesce(Label, Value))
+
+
+          } else { . }
+
+        } %>%
+        dplyr::select(Name, Value) %>%
+        {
+
+          param_names <- .$Name
+          pad_name <- max(nchar(param_names), na.rm = T)
+
+          sprintf(
+            "   %s : %s",
+            stringr::str_pad(param_names, width = pad_name, 'right'),
+            sprintf("%s", .$Value)
+          ) %>%
+            paste(collapse = '\n') %>%
+            message(
+              'Default User Input (showing only 1):\n\n', .
+            )
+
+        }
+
+      return(invisible(report_inputs))
+
+    }
 
   }
 
@@ -425,9 +424,7 @@ resolve_dependents <- function(
     req_auth_negotiate(user = username) %>%
     httr2::req_body_json(payload)
 
-  resp <-
-    req %>%
-    httr2::req_perform()
+  resp <- httr2::req_perform(req)
 
   report_dependents <-
     httr2::resp_body_string(resp) %>%
