@@ -1,0 +1,49 @@
+# Frequently Asked Questions
+
+## Purpose
+
+This vignette documents solutions to common issues in using this
+package.
+
+Users are encouraged to submit issues on
+[GitHub](https://github.com/mikuo0628/phrdwRdata/issues) if not
+addressed here. This will be the most effective way to hail developers’
+attention, to promote discussion, and to track and log issues.
+
+Additionally, once a solution is developed, users are more than
+encouraged to submit a pull request, adding to this list of solutions.
+
+To avoid haphazard stream of issue submissions, users should keep the
+following in mind:
+
+1.  Did anything change, and if so, what? If not, are you sure? *Really*
+    sure?
+2.  Did it work before?
+3.  Do you still have access?
+4.  Do you have an error message?
+5.  Can you reproduce the error? Can others reproduce *your* error?
+6.  Have you read [reprex](https://reprex.tidyverse.org/)?
+7.  Have you provided
+    [`sessionInfo()`](https://rdrr.io/r/utils/sessionInfo.html)?
+8.  If this is a question that someone else came to you with, is there
+    anything you would ask them about? Because you *will* be asked, so
+    might as well provide them preemptively.
+
+At the end of the day, you are the MVP who is most qualified to help us
+help you.
+
+## `get_phrdw_data()`: making it work
+
+Due to the legacy nature and integration with deprecated closed-source
+packages, users may need to perform their own troubleshooting,
+especially when accessing data cubes/OLAP data sources.
+
+1.  Missing provider/driver.
+
+    - Error code: `800a0e7a`.
+    - Full description:
+      `Provider cannot be found. It may not be properly installed`
+    - **Solution**: Install the latest MSOLAP client libraries
+      [here](https://learn.microsoft.com/en-us/analysis-services/client-libraries?view=asallproducts-allversions).
+      Make sure architecture aligns with your R version. (`amd64` for
+      64-bit; `x86` for 32-bit).

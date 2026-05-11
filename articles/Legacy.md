@@ -1,0 +1,200 @@
+# Legacy Usage of \`get_phrdw_data()\`
+
+## Introduction
+
+[`phrdwRdata::get_phrdw_data()`](https://mikuo0628.github.io/phrdwRdata/reference/get_phrdw_data.md)
+function is designed to pull data for users in an easy and efficient
+manner by abstracting away the nuances of database connection,
+complexity of querying for OLAP (ie. data cubes) and relational database
+(ie. SQL), and easy handling of some common filters, such as Health
+Authority Regions, etc.
+
+The redesign of `phrdwRdata` package removes the restriction to work in
+the Microsoft Client of R (ver 3.5.2), but respects *legacy* scripts by
+retaining the order of arguments, and only updating the functions that
+are deprecated in R version 4+.
+
+**This is an assurance to the users that they do not need to refactor
+their** **scripts, and that their old scripts will continue to work.**
+
+That said, it is *highly* recommended for users to update or upgrade
+their workflow to meet modern coding standards.
+
+This vignette collects and revises (only if necessary) past `phrdwRdata`
+tutorials and presents them all in one place.
+
+## Prerequisites for legacy `phrdwRdata` package
+
+The BCCDC Analytics Platform (Citrix) is running the required Microsoft
+R Client (ver 3.5.2) that comes with `olapR` package and OLE DB
+connection files to drive OLAP (data cube) operations. No further action
+needed if using Citrix.
+
+Users who are not using Citrix and want R installed locally will need to
+ensure the following are met.
+
+1.  Local PC is running 64-bit Windows.
+
+2.  [Microsoft R Client
+    3.5.2](https://docs.microsoft.com/en-us/machine-learning-server/r-client/install-on-windows).
+
+    - Alternatively, [CRAN R client
+      3.5.2](https://cran-archive.r-project.org/bin/windows/base/old/3.5.2),
+      but will require side- loading (ie. loading packages you did not
+      install) `olapR` package which can be potentially problematic.
+
+## CD Mart
+
+Here’s a table of all `CD Mart` datasets, keys used for joining, and a
+brief description if available.
+
+### Non Tuberculosis Datasets
+
+The `Investigation` dataset will retrieve non-identifiable client
+attributes such as age and gender, along with Panorama data such as
+region, date, etiologic agent and stage.
+
+There are also support to retrieve linked datasets for `Risk Factor`s,
+Signs, `Symptom`s, and `UDF`s. At this time, only `Classification Group`
+== `Case` can be pulled through the CD Mart datasets (what does this
+mean? is this true??? i don’t see this in the code for CD).
+
+**Note:** Only completed data is returned in the linked datasets. To see
+investigations where no Risk Factors, Signs & Symptoms or User Defined
+forms where completed, a `LEFT JOIN` back to the `Investigation` dataset
+is required.
+
+| Dataset Name | Linkable Key | Description |
+|:---|:---|:---|
+| Client | client_id | Retrieves patients data with an option to include identifiers. |
+| Complication | investigation_id, encounter_id | Retrieves complication data |
+| Contacts | client_id, disease_event_id, contact_disease_event_id | Retrieves Investigations based on the `Is A Contact Investigation` or `Ever A Contact Client` flags. Includes an option to retrieve patient and aboriginal identifiers. |
+| Investigation | client_id, investigation_id, outbreak_id | Retrieves Investigation and de-identified patient data. |
+| Lab | client_id, investigation_id, encounter_id, requisition_id, test_id, requisition_specimen_id | Retrieves Public Health System Laboratory data. |
+| Observation | disease_event_id | Retrieves the Observations from the Signs and Symptoms data. |
+| Outbreaks | investigation_id |  |
+| Risk Factor | disease_event_id, risk_factor_id | Retrieves Risk Factors that are marked Pertinent to an Investigation. |
+| Symptom | disease_event_id | Retrieves Signs and Symptoms data. |
+| Transmission Events | disease_event_id | Retrieves Transmission Events based on the source Investigation. |
+| UDF | disease_event_id, form_instance_disease_event_id | Retrieves User Defined Forms data. |
+
+### Tuberculosis Datasets
+
+| Dataset Name | Linkable Key | Description |
+|:---|:---|:---|
+| TB Client | client_id | Retrieves TB specific patients data with an option to include identifiers. |
+| TB Contacts | client_id, disease_event_id, contact_disease_event_id | Retrieves Investigations based on the `Is A Contact Investigation` or `Ever A Contact Client` flags. Includes an option to retrieve patient identifiers and aboriginal fields |
+| TB Investigation | client_id, disease_event_id | Retrieves TB specific investigation data. Includes an option to retrieve aboriginal fields if authorized. |
+| TB Lab | client_id, investigation_id, encounter_id, requisition_id, test_id, result_id, requisition_specimen_id | Retrieves TB specific laboratory data. |
+| TB Transmission Events | disease_event_id | Retrieves Transmission Events based on the source Investigation. |
+| TB TST Client | client_id, encounter_id | Retrieves all TST data for a client, regardless of if the TST is associated with an Investigation. |
+| TB TST Investigation | client_id, investigation_id, encounter_id | Retrieves TST data that is associated with an Investigation. |
+
+### Script set up
+
+1.  You will need to load or side-load the following:
+
+``` r
+
+# Dependencies for `phrdwRdata`
+library(dplyr)
+library(digest)  
+library(stringr)
+library(RODBC)
+library(RODBCext)
+
+lib_loc <- "//Phsabc/root/BCCDC/Groups/Analytics_Resources/Coding/R/Library"
+library(olapR,      lib.loc = log_loc) # if not using MS R Client
+library(phrdwRdata, lib.loc = log_loc)
+```
+
+2.  Create a connection object
+
+``` r
+
+phrdw_datamart <- 'CD Mart'
+phrdw_datamart_connection <- phrdwRdata::connect_to_phrdw(phrdw_datamart)
+```
+
+3.  Set the start and end dates of your query
+
+``` r
+
+query_start_date <- as.Date('2016-01-01')
+query_end_date   <- as.Date('2018-01-01')
+```
+
+4.  Additional optional parameters
+
+- `disease`
+- `classification`
+- `surveillance_condition`
+- `surveillance_region_ha`
+
+``` r
+
+surveillance_condition <- c("Legionella Infection")
+classification         <- c("Confirmed",
+                            "Confirmed Epi-Linked",
+                            "Clinical",
+                            "Probable")
+surveillance_region_ha <- c("Interior",
+                            "Fraser",
+                            "Northern",
+                            "Vancouver Coastal",
+                            "Vancouver Island")
+```
+
+5.  Supply the above parameters in
+    [`get_phrdw_data()`](https://mikuo0628.github.io/phrdwRdata/reference/get_phrdw_data.md)
+
+``` r
+
+dataset_name <- "Investigation"
+investigation_dataset  <- 
+  get_phrdw_data(
+    phrdw_datamart_connection = phrdw_datamart_connection,
+    phrdw_datamart            = phrdw_datamart, 
+    dataset_name              = dataset_name, 
+    query_start_date          = query_start_date, 
+    query_end_date            = query_end_date,
+    surveillance_condition    = surveillance_condition_vector,
+    classification            = classification_vector,
+    surveillance_region_ha    = surveillance_region_ha_vector
+  )
+
+dataset_name <- "UDF"
+udf_dataset  <- 
+  get_phrdw_data(
+    phrdw_datamart_connection = phrdw_datamart_connection,
+    phrdw_datamart            = phrdw_datamart, 
+    dataset_name              = dataset_name, 
+    query_start_date          = query_start_date, 
+    query_end_date            = query_end_date,
+    surveillance_condition    = surveillance_condition_vector,
+    classification            = classification_vector,
+    surveillance_region_ha    = surveillance_region_ha_vector
+  )
+```
+
+### Arguments for identifiers and filters
+
+| Argument                       | Dataset          |
+|:-------------------------------|:-----------------|
+| include_indigenous_identifiers | Contacts         |
+|                                | TB Contacts      |
+|                                | TB Investigation |
+| include_patient_identifiers    | Investigation    |
+|                                | Client           |
+|                                | Contacts         |
+|                                | TB Contacts      |
+|                                | TB Client        |
+| classification                 | All              |
+| disease                        | All              |
+| query\_(start\|end)\_date      | All              |
+| surveillance_condition         | All              |
+| surveillance_region_ha         | All              |
+
+## Access to Data Cubes
+
+### CDI Mart
