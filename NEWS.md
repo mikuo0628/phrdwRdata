@@ -1,3 +1,7 @@
+# phrdwRdata 1.4.0
+
+* Fully functional `read_ssrs()` that can resolve cascading dependents.
+
 # phrdwRdata 1.3.1
 
 * Corrected `do.call` usage. 
