@@ -1,3 +1,9 @@
+# phrdwRdata 1.5.0
+
+* Update `TB Client` dataset to use new correct field
+  `immigration_arrival_date_accurate_partial_code` replacing
+  `year_arrive_in_canada` (rename to `date_arrival_partial_code`).
+
 # phrdwRdata 1.4.0
 
 * Fully functional `read_ssrs()` that can resolve cascading dependents.
