@@ -229,7 +229,7 @@ read_ssrs <- function(
               report_inputs %>%
               dplyr::filter(Name == .y) %>%
               dplyr::select(Name, ValidValues) %>%
-              tidyr::unnest(ValidValues)
+              tidyr::unnest(cols = c(ValidValues))
 
             if (nrow(df_valid_values) == 0) return(.x)
 
@@ -276,7 +276,7 @@ read_ssrs <- function(
         dplyr::mutate(
           DefaultValues = purrr::map(DefaultValues, ~ head(.x, 1)),
         ) %>%
-        tidyr::unnest(DefaultValues, keep_empty = TRUE) %>%
+        tidyr::unnest(cols = c(DefaultValues), keep_empty = TRUE) %>%
         tidyr::replace_na(list(DefaultValues = ""))
 
       message(
@@ -293,7 +293,10 @@ read_ssrs <- function(
       )
 
       df_valid_values <-
-        tidyr::unnest(dplyr::select(print_info, Name, ValidValues))
+        tidyr::unnest(
+          dplyr::select(print_info, Name, ValidValues),
+          cols = c(ValidValues)
+        )
 
       dplyr::select(
         print_info,
@@ -600,7 +603,8 @@ req_auth_negotiate <- function(req, user = NULL, reset_pw = F) {
 
     httr2::req_options(
       .req     = req,
-      httpauth = 4L,
+      # httpauth = 4L,
+      httpauth = 31L, # CURLAUTH_ANY; will Kerberos, NTLM, and others
       userpwd  = sprintf('%s:%s', user, keyring::key_get(user))
     )
 
@@ -608,7 +612,8 @@ req_auth_negotiate <- function(req, user = NULL, reset_pw = F) {
 
     httr2::req_options(
       .req     = req,
-      httpauth = 4L,
+      # httpauth = 4L,
+      httpauth = 31L,
       userpwd  = ':::'
     )
 
