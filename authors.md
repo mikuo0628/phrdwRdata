@@ -15,13 +15,13 @@ Source:
 [`DESCRIPTION`](https://github.com/mikuo0628/phrdwRdata/blob/main/DESCRIPTION)
 
 Frizzell D (2026). *phrdwRdata: Retrieve pre-built PHSA Datasets*. R
-package version 1.5.0, https://github.com/mikuo0628/phrdwRdata,
+package version 1.5.1, https://github.com/mikuo0628/phrdwRdata,
 <https://mikuo0628.github.io/phrdwRdata/>.
 
     @Manual{,
       title = {phrdwRdata: Retrieve pre-built PHSA Datasets},
       author = {Darren Frizzell},
       year = {2026},
-      note = {R package version 1.5.0, https://github.com/mikuo0628/phrdwRdata},
+      note = {R package version 1.5.1, https://github.com/mikuo0628/phrdwRdata},
       url = {https://mikuo0628.github.io/phrdwRdata/},
     }
