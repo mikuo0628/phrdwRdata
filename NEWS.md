@@ -1,3 +1,11 @@
+# phrdwRdata 1.5.1
+
+* Replace HTTP authentication CURLAUTH_NTLM with CURLAUTH_ANY for more robust
+  handshake selection.
+  * No longer need to pre-load browser.
+  * Automation possible.
+* Fix on.exit action: delete only if a tempfile is used.
+
 # phrdwRdata 1.5.0
 
 * Update `TB Client` dataset to use new correct field
