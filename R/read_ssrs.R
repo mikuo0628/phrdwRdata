@@ -393,7 +393,7 @@ read_ssrs <- function(
       )
     )
 
-  if (is.character(please)) on.exit(unlink(please, force = T), add = T)
+  if (file.exists(please)) on.exit(unlink(please, force = T), add = T)
 
   return(csv_output)
 
