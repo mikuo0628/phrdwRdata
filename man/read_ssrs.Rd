@@ -8,12 +8,13 @@ read_ssrs(
   url = "",
   ...,
   username = NULL,
+  reset_pw = FALSE,
   format = c("CSV")[1],
   .explore = list(F, "default", "valid")[[1]],
-  .check_params = T,
-  .resolve_dependents = F,
+  .check_params = TRUE,
+  .resolve_dependents = FALSE,
   .skip = 0L,
-  .in_memory = T,
+  .in_memory = TRUE,
   .col_types = NULL,
   .req_options = list()
 )
@@ -30,21 +31,31 @@ the technical MDX strings required by the back end.}
 \item{username}{Character. Your PHSA/Network user ID.
 If NULL, uses current Windows session credentials via NTLM/Negotiate.}
 
-\item{format}{Character. The output format. Defaults to "CSV".}
+\item{reset_pw}{Logical. If \code{TRUE}, will invoke
+\code{\link[keyring::key_delete]} and attempt to delete password associated
+with \code{username}.}
+
+\item{format}{Character. The output format. Defaults to "CSV". For possible
+future expansion.}
 
 \item{.explore}{Logical. If \code{TRUE}, will print useful information for
 user input, and return invisibly a \code{data.frame} of the full detail.}
 
 \item{.check_params}{Logical. In SSRS UI, the prompt is meant for user
 readability (ie. The values in the parameters may not reflect the actual
-values to be filtered in the backend). If \code{TRUE}, user can supply
-values seen in the UI, and the function will convert them to the backend-
-appropriate values.}
+values to be filtered in the backend). Defaults to \code{TRUE}, where user
+can supply values seen in the UI, and the function will convert them to
+the backend-appropriate values.
+Note: this makes an extra call to the system to retrieve value mapping
+table.}
 
 \item{.resolve_dependents}{Logical. If \code{TRUE}, the function will
 query the server to resolve cascading dependencies.
 This is necessary when one filter (e.g., Health Authority)
-restricts the valid values of another (e.g., Community).}
+restricts the valid values of another (e.g., Community).
+Note: this makes two extra calls to the system to retrieve value mapping
+table -- once to retrieve the default mapping table, and second to retrieve
+the mapping table in accordance to user input.}
 
 \item{.skip}{Integer. Number of lines to skip at the top of the CSV
 (e.g., for reports with headers/metadata).}

@@ -77,18 +77,27 @@
 #'   the technical MDX strings required by the back end.
 #' @param username Character. Your PHSA/Network user ID.
 #'   If NULL, uses current Windows session credentials via NTLM/Negotiate.
-#' @param format Character. The output format. Defaults to "CSV".
+#' @param reset_pw Logical. If \code{TRUE}, will invoke
+#'   \code{\link[keyring::key_delete]} and attempt to delete password associated
+#'   with \code{username}.
+#' @param format Character. The output format. Defaults to "CSV". For possible
+#'   future expansion.
 #' @param .explore Logical. If \code{TRUE}, will print useful information for
 #'   user input, and return invisibly a \code{data.frame} of the full detail.
 #' @param .check_params Logical. In SSRS UI, the prompt is meant for user
 #'   readability (ie. The values in the parameters may not reflect the actual
-#'   values to be filtered in the backend). If \code{TRUE}, user can supply
-#'   values seen in the UI, and the function will convert them to the backend-
-#'   appropriate values.
+#'   values to be filtered in the backend). Defaults to \code{TRUE}, where user
+#'   can supply values seen in the UI, and the function will convert them to
+#'   the backend-appropriate values.
+#'   Note: this makes an extra call to the system to retrieve value mapping
+#'   table.
 #' @param .resolve_dependents Logical. If \code{TRUE}, the function will
 #'   query the server to resolve cascading dependencies.
 #'   This is necessary when one filter (e.g., Health Authority)
 #'   restricts the valid values of another (e.g., Community).
+#'   Note: this makes two extra calls to the system to retrieve value mapping
+#'   table -- once to retrieve the default mapping table, and second to retrieve
+#'   the mapping table in accordance to user input.
 #' @param .skip Integer. Number of lines to skip at the top of the CSV
 #'   (e.g., for reports with headers/metadata).
 #' @param .in_memory Logical or Character. If \code{TRUE}, processes data
@@ -119,15 +128,18 @@ read_ssrs <- function(
     url          = '',
     ...,
     username            = NULL,
+    reset_pw            = FALSE,
     format              = c('CSV')[1],
     .explore            = list(F, "default", "valid")[[1]],
-    .check_params       = T,
-    .resolve_dependents = F,
+    .check_params       = TRUE,
+    .resolve_dependents = FALSE,
     .skip               = 0L,
-    .in_memory          = T,
+    .in_memory          = TRUE,
     .col_types          = NULL,
     .req_options        = list()
 ) {
+
+  if (reset_pw) try(keyring::key_delete(username), silent = T)
 
   if (!exists('read_ssrs_skip_warning', envir = the)) {
 
@@ -572,11 +584,9 @@ get_report_inputs <- function(report_host, report_base, report_id, username) {
 #'
 #' @keywords internal
 #' @noRd
-req_auth_negotiate <- function(req, user = NULL, reset_pw = F) {
+req_auth_negotiate <- function(req, user = NULL) {
 
   if (!is.null(user)) {
-
-    if (reset_pw) try(keyring::key_delete(user), silent = T)
 
     if (inherits(try(keyring::key_get(user), silent = T), 'try-error')) {
 
