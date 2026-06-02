@@ -81,7 +81,7 @@ create_r_batch_script <- function(
         )
       )
 
-      dir.create(path_std_log, recursive = T)
+      file.create(path_std_log, recursive = T)
 
     }
 
