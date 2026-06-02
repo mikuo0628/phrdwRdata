@@ -12,12 +12,13 @@ read_ssrs(
   url = "",
   ...,
   username = NULL,
+  reset_pw = FALSE,
   format = c("CSV")[1],
   .explore = list(F, "default", "valid")[[1]],
-  .check_params = T,
-  .resolve_dependents = F,
+  .check_params = TRUE,
+  .resolve_dependents = FALSE,
   .skip = 0L,
-  .in_memory = T,
+  .in_memory = TRUE,
   .col_types = NULL,
   .req_options = list()
 )
@@ -41,9 +42,15 @@ read_ssrs(
   Character. Your PHSA/Network user ID. If NULL, uses current Windows
   session credentials via NTLM/Negotiate.
 
+- reset_pw:
+
+  Logical. If `TRUE`, will invoke and attempt to delete password
+  associated with `username`.
+
 - format:
 
-  Character. The output format. Defaults to "CSV".
+  Character. The output format. Defaults to "CSV". For possible future
+  expansion.
 
 - .explore:
 
@@ -54,16 +61,19 @@ read_ssrs(
 
   Logical. In SSRS UI, the prompt is meant for user readability (ie. The
   values in the parameters may not reflect the actual values to be
-  filtered in the backend). If `TRUE`, user can supply values seen in
-  the UI, and the function will convert them to the backend- appropriate
-  values.
+  filtered in the backend). Defaults to `TRUE`, where user can supply
+  values seen in the UI, and the function will convert them to the
+  backend-appropriate values. Note: this makes an extra call to the
+  system to retrieve value mapping table.
 
 - .resolve_dependents:
 
   Logical. If `TRUE`, the function will query the server to resolve
   cascading dependencies. This is necessary when one filter (e.g.,
   Health Authority) restricts the valid values of another (e.g.,
-  Community).
+  Community). Note: this makes two extra calls to the system to retrieve
+  value mapping table – once to retrieve the default mapping table, and
+  second to retrieve the mapping table in accordance to user input.
 
 - .skip:
 

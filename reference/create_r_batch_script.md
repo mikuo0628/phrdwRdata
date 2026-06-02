@@ -61,16 +61,13 @@ create_r_batch_script(
 
   boolean value. Defaults to `False`. If `True`, adds line to check if
   `renv` is installed, and will install if not. This will also
-  explicitly load project with
-  [`renv::load()`](https://rstudio.github.io/renv/reference/load.html).
+  explicitly load project with `renv::load()`.
 
 - .renv_run:
 
   boolean value. Defaults to `False`, and uses
   [`source()`](https://rdrr.io/r/base/source.html) to run script. If
-  `True`, will use
-  [`renv::run()`](https://rstudio.github.io/renv/reference/run.html) to
-  run script.
+  `True`, will use `renv::run()` to run script.
 
 - ...:
 
