@@ -288,7 +288,9 @@ read_ssrs <- function(
         dplyr::mutate(
           DefaultValues = purrr::map(DefaultValues, ~ head(.x, 1)),
         ) %>%
-        tidyr::unnest(cols = c(DefaultValues), keep_empty = TRUE) %>%
+        # tidyr::unnest(cols = c(DefaultValues), keep_empty = TRUE) %>%
+        tidyr::unnest_longer(DefaultValues, keep_empty = TRUE) %>%
+        dplyr::mutate(DefaultValues = as.character(DefaultValues)) %>%
         tidyr::replace_na(list(DefaultValues = ""))
 
       message(
