@@ -1,5 +1,12 @@
 # Changelog
 
+## phrdwRdata 1.5.2
+
+- Fix
+  [`read_ssrs()`](https://mikuo0628.github.io/phrdwRdata/reference/read_ssrs.md)’s
+  exploration pathway when there are no default values for report’s
+  parameters.
+
 ## phrdwRdata 1.5.1
 
 - Replace HTTP authentication CURLAUTH_NTLM with CURLAUTH_ANY for more
