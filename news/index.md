@@ -1,5 +1,13 @@
 # Changelog
 
+## phrdwRdata 1.6.0
+
+- For
+  [`read_ssrs()`](https://mikuo0628.github.io/phrdwRdata/reference/read_ssrs.md),
+  if user does not provide a parameter, the backend default value(s)
+  will be used. If no backend default value(s) is found, ALL backend
+  valid value(s) will be used.
+
 ## phrdwRdata 1.5.2
 
 - Fix

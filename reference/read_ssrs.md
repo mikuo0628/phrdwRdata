@@ -35,7 +35,9 @@ read_ssrs(
 
   SSRS report filters. You can use the human-readable labels found in
   the web UI; the function will automatically map these to the technical
-  MDX strings required by the back end.
+  MDX strings required by the backend. If user does not provide a value,
+  the backend default value(s) will be used. And when such is not found,
+  assume ALL backend valid value(s) needed, and will be used.
 
 - username:
 
