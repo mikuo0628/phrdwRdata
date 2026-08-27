@@ -1,3 +1,8 @@
+# phrdwRdata 1.6.0
+* For `read_ssrs()`, if user does not provide a parameter, the backend default 
+  value(s) will be used. If no backend default value(s) is found,
+  ALL backend valid value(s) will be used.
+
 # phrdwRdata 1.5.2
 
 * Fix `read_ssrs()`'s exploration pathway when there are no default values 
