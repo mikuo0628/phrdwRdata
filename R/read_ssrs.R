@@ -74,7 +74,10 @@
 #'   (e.g., \code{https://reports.phsa.ca/reports/report/...}).
 #' @param ... SSRS report filters. You can use the human-readable labels
 #'   found in the web UI; the function will automatically map these to
-#'   the technical MDX strings required by the back end.
+#'   the technical MDX strings required by the backend.
+#'   If user does not provide a value, the backend default value(s) will be
+#'   used. And when such is not found, assume ALL backend valid value(s) needed,
+#'   and will be used.
 #' @param username Character. Your PHSA/Network user ID.
 #'   If NULL, uses current Windows session credentials via NTLM/Negotiate.
 #' @param reset_pw Logical. If \code{TRUE}, will invoke
@@ -120,7 +123,7 @@
 #'   \code{httr2::req_options}.
 #'
 #'
-#' @return A \code{tibble} containing the report data, or
+#' @returns A \code{tibble} containing the report data, or
 #'   a metadata \code{data.frame} if \code{.explore} is active.
 #' @export
 #'
@@ -232,25 +235,7 @@ read_ssrs <- function(
     if (length(user_params) > 0 & isTRUE(.check_params)) {
 
       # 3) ensure user_params consistent with ValidValues
-      user_params <-
-        user_params %>%
-        purrr::imap(
-          ~ {
-
-            df_valid_values <-
-              report_inputs %>%
-              dplyr::filter(Name == .y) %>%
-              dplyr::select(Name, ValidValues) %>%
-              tidyr::unnest(cols = c(ValidValues))
-
-            if (nrow(df_valid_values) == 0) return(.x)
-
-            df_valid_values %>%
-              dplyr::filter(Label %in% .x) %>%
-              dplyr::pull(Value)
-
-          }
-        )
+      user_params <- validate_user_params(user_params, report_inputs)
 
     }
 
@@ -265,14 +250,14 @@ read_ssrs <- function(
           user_params = user_params
         )
 
-      user_params <-
-        report_inputs %>%
-        dplyr::filter(DefaultValuesIsNull == FALSE) %>%
-        dplyr::select(Name, DefaultValues) %>%
-        purrr::pmap(
-          \(Name, DefaultValues) setNames(list(DefaultValues), Name)
-        ) %>%
-        unlist(F)
+      user_params <- validate_user_params(user_params, report_inputs)
+      #   report_inputs %>%
+      #   dplyr::filter(DefaultValuesIsNull == FALSE) %>%
+      #   dplyr::select(Name, DefaultValues) %>%
+      #   purrr::pmap(
+      #     \(Name, DefaultValues) setNames(list(DefaultValues), Name)
+      #   ) %>%
+      #   unlist(F)
 
     }
 
@@ -416,6 +401,72 @@ read_ssrs <- function(
 
 # Helpers -----------------------------------------------------------------
 
+#' Validate user parameters
+#'
+#' @description
+#' User may or may not provide inputs for filtering.
+#' If they don't, assume they want to use the default, and if
+#' default not available, use ALL valid values.
+#' If they do, perform valid-value-lookup to retrieve appropriate value.
+#' If no valid values available, just return what user submitted.
+#'
+#' @param user_params user-submitted parameters.
+#' @param report_inputs dataframe of available appropriate values. May depend
+#'   on .resolve_dependents.
+#'
+#' @returns updated list of `user_params`.
+#' @keywords internal
+#' @noRd
+validate_user_params <- function(user_params, report_inputs) {
+
+  purrr::imap(
+    purrr::set_names(report_inputs$Name),
+    ~ {
+
+      # get current available valid values (may differ due to cascading)
+      df_values <-
+        report_inputs %>%
+        dplyr::filter(Name == .y) %>%
+        dplyr::select(Name, DefaultValues, ValidValues)
+
+      default_values <- df_values$DefaultValues[[1]]
+      valid_values   <- df_values$ValidValues[[1]]
+
+      # if user does not submit value,
+      # check default, if found, return,
+      # else check valid, if found, return all
+      # else return user value
+      if (is.null(user_params[[.y]])) {
+
+        if (length(default_values) != 0) return(default_values)
+        if (nrow(valid_values) != 0)     return(valid_values$Value)
+
+        return(user_params[[.y]])
+
+      }
+
+      # if user does submit value, but no valid value available due to
+      # cascading not yet resolved, just return user value
+      if (nrow(valid_values) == 0) return(user_params[[.y]])
+
+      # if user does submit value, make sure that value is correct by
+      # valid-value lookup
+      replace_value <-
+        valid_values %>%
+        dplyr::filter(Label %in% user_params[[.y]]) %>%
+        dplyr::pull(Value)
+
+      # if no value after look up, use existing user param
+      if (length(replace_value) == 0) return(user_params[[.y]])
+
+      # if values found, use these new values
+      return(replace_value)
+
+    }
+  )
+
+}
+
 #' Resolve Cascading Parameters via SSRS Bound Action
 #'
 #' @description
@@ -429,7 +480,7 @@ read_ssrs <- function(
 #' @param username Optional credential string.
 #' @param user_params The current list of parameter selections.
 #'
-#' @return A tibble of updated \code{ParameterDefinitions}.
+#' @returns A tibble of updated \code{ParameterDefinitions}.
 #' @keywords internal
 #' @noRd
 resolve_dependents <- function(
